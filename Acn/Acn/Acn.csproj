@@ -172,11 +172,6 @@
     <Compile Include="TFtp\TFTPServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="slp.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Rdm\Packets\Configuration\" />
     <Folder Include="Rdm\Packets\Display\" />
     <Folder Include="Rdm\Packets\Power\" />
