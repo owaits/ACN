@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Acn</RootNamespace>
+    <AssemblyName>Acn</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcnPdu.cs" />
+    <Compile Include="AcnRootLayer.cs" />
+    <Compile Include="AcnPacket.cs" />
+    <Compile Include="Helpers\DmxStreamer.cs" />
+    <Compile Include="Helpers\DmxUniverse.cs" />
+    <Compile Include="InvalidPacketException.cs" />
+    <Compile Include="IProtocolFilter.cs" />
+    <Compile Include="Packets\Dmp\DmpGetProperty.cs" />
+    <Compile Include="Packets\Dmp\DmpGetPropertyReply.cs" />
+    <Compile Include="Packets\Dmp\DmpMessages.cs" />
+    <Compile Include="Packets\Dmp\DmpSetProperty.cs" />
+    <Compile Include="IO\AcnBinaryReader.cs" />
+    <Compile Include="IO\AcnBinaryWriter.cs" />
+    <Compile Include="Packets\sAcn\DmxPacket.cs" />
+    <Compile Include="Packets\sAcn\FramingPdu.cs" />
+    <Compile Include="Packets\sAcn\RdmNetPacket.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AcnPacketFactory.cs" />
+    <Compile Include="ProtocolIds.cs" />
+    <Compile Include="Rdm\Broker\RdmMessageAttribute.cs" />
+    <Compile Include="Rdm\DmxStartCodes.cs" />
+    <Compile Include="Rdm\Packets\Control\CapturePreset.cs" />
+    <Compile Include="Rdm\Packets\Control\PresetPlayback.cs" />
+    <Compile Include="Rdm\Packets\Control\SelfTestDescription.cs" />
+    <Compile Include="Rdm\Packets\Control\PerformSelfTest.cs" />
+    <Compile Include="Rdm\Packets\Control\PowerState.cs" />
+    <Compile Include="Rdm\Packets\Control\ResetDevice.cs" />
+    <Compile Include="Rdm\Packets\Control\IdentifyDevice.cs" />
+    <Compile Include="Rdm\Packets\Core\ParameterDescription.cs" />
+    <Compile Include="Rdm\Packets\Core\SupportedParameters.cs" />
+    <Compile Include="Rdm\Packets\DMX\DefaultSlotValue.cs" />
+    <Compile Include="Rdm\Packets\DMX\SlotDescription.cs" />
+    <Compile Include="Rdm\Packets\DMX\SlotInfo.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxPersonalityDescription.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxPersonality.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxStartAddress.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundDiscovery.cs" />
+    <Compile Include="Rdm\Packets\Net\BindingControlFields.cs" />
+    <Compile Include="Rdm\Packets\Net\InitiateDiscovery.cs" />
+    <Compile Include="Rdm\Packets\Net\PortFunction.cs" />
+    <Compile Include="Rdm\Packets\Net\PortLabel.cs" />
+    <Compile Include="Rdm\Packets\Net\PortTiming.cs" />
+    <Compile Include="Rdm\Packets\Net\PortTimingDescription.cs" />
+    <Compile Include="Rdm\Packets\Net\PortToUniverse.cs" />
+    <Compile Include="Rdm\Packets\Net\IdentifyPort.cs" />
+    <Compile Include="Rdm\Packets\Net\PortList.cs" />
+    <Compile Include="Rdm\Packets\Net\RdmTrafficEnable.cs" />
+    <Compile Include="Rdm\IO\RdmBinaryReader.cs" />
+    <Compile Include="Rdm\IO\RdmBinaryWriter.cs" />
+    <Compile Include="Rdm\Packets\Product\BootSoftwareVersionId.cs" />
+    <Compile Include="Rdm\Packets\Product\BootSoftwareVersionLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\Language.cs" />
+    <Compile Include="Rdm\Packets\Product\FactoryDefaults.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\SoftwareVersionLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\LanguageCapabilities.cs" />
+    <Compile Include="Rdm\Packets\Product\ManufacturerLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceModelDescription.cs" />
+    <Compile Include="Rdm\Packets\Product\ProductDetailIdList.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceInfo.cs" />
+    <Compile Include="Rdm\RdmCommands.cs" />
+    <Compile Include="Rdm\RdmHeader.cs" />
+    <Compile Include="Rdm\Broker\RdmMessageBroker.cs" />
+    <Compile Include="Rdm\RdmNackCodes.cs" />
+    <Compile Include="Rdm\RdmPacket.cs" />
+    <Compile Include="Rdm\RdmPacketFactory.cs" />
+    <Compile Include="Rdm\RdmParameters.cs" />
+    <Compile Include="Rdm\RdmRequestPacket.cs" />
+    <Compile Include="Rdm\RdmResponsePacket.cs" />
+    <Compile Include="Rdm\RdmResponseTypes.cs" />
+    <Compile Include="Rdm\UId.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnPacket.cs" />
+    <Compile Include="Slp\AuthenticationBlock.cs" />
+    <Compile Include="Slp\DirectoryAgentInformation.cs" />
+    <Compile Include="Slp\IO\SlpBinaryWriter.cs" />
+    <Compile Include="Slp\IO\SlpBinaryReader.cs" />
+    <Compile Include="Slp\Packets\ServiceDeregistrationPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceRegistrationPacket.cs" />
+    <Compile Include="Slp\Packets\DirectoryAgentAdvertPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceAcknowledgePacket.cs" />
+    <Compile Include="Slp\Packets\ServiceReplyPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceRequestPacket.cs" />
+    <Compile Include="Slp\Packets\SlpHeaderPacket.cs" />
+    <Compile Include="Slp\Packets\SlpPacket.cs" />
+    <Compile Include="Slp\UrlEntry.cs" />
+    <Compile Include="Slp\ServiceFoundEventArgs.cs" />
+    <Compile Include="Slp\SlpAgent.cs" />
+    <Compile Include="Slp\SlpDiscoveryAgent.cs" />
+    <Compile Include="Slp\SlpErrorCode.cs" />
+    <Compile Include="Slp\SlpException.cs" />
+    <Compile Include="Slp\SlpFunctionId.cs" />
+    <Compile Include="Slp\SlpServiceAgent.cs" />
+    <Compile Include="Slp\SlpUserAgent.cs" />
+    <Compile Include="Slp\Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Slp\Sockets\SlpSocket.cs" />
+    <Compile Include="Sockets\AcnSocket.cs" />
+    <Compile Include="Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Sockets\RdmSocket.cs" />
+    <Compile Include="Sockets\StreamingAcnSocket.cs" />
+    <Compile Include="TFtp\TFTPServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="slp.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Rdm\Packets\Configuration\" />
+    <Folder Include="Rdm\Packets\Display\" />
+    <Folder Include="Rdm\Packets\Power\" />
+    <Folder Include="Rdm\Packets\Sensors\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

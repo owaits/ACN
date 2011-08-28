@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Net;
+
+namespace Acn.Rdm
+{
+    public class RdmBinaryReader:BinaryReader
+    {
+        public RdmBinaryReader(Stream input)
+            : base(input)
+        {
+        }
+
+        public short ReadNetwork16()
+        {
+            return (short)IPAddress.NetworkToHostOrder(ReadInt16());
+        }
+
+        public int ReadNetwork32()
+        {
+            return (int)IPAddress.NetworkToHostOrder(ReadInt32());
+        }
+
+        public string ReadNetworkString(int length)
+        {
+            return Encoding.ASCII.GetString(ReadBytes(length));
+        }
+
+        public UId ReadUId()
+        {
+            return new UId((ushort)(int)ReadNetwork16(), (uint)ReadNetwork32());
+        }
+    }
+}

@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acn", "Acn\Acn.csproj", "{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlpDiscovery", "Samples\SlpDiscovery\SlpDiscovery.csproj", "{880E7426-7C34-47F3-A877-31776BC26AD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandboxAcnDevice", "Samples\SandboxAcnDevice\SandboxAcnDevice.csproj", "{076A8F39-C69F-4AF7-BB9A-45F9E87680E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcnNetworkMonitor", "Samples\RdmNetworkMonitor\AcnNetworkMonitor.csproj", "{D0EB7F18-3367-467F-B255-F57B04A489FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingAcn", "Samples\StreamingAcn\StreamingAcn.csproj", "{7C4D0221-6D36-4283-81C3-A43047E7EDFB}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Acn\\Acn.csproj
+		SccProjectName1 = Acn
+		SccLocalPath1 = Acn
+		SccProjectUniqueName2 = Samples\\RdmNetworkMonitor\\AcnNetworkMonitor.csproj
+		SccProjectTopLevelParentUniqueName2 = Acn.sln
+		SccProjectName2 = Samples/RdmNetworkMonitor
+		SccLocalPath2 = Samples\\RdmNetworkMonitor
+		SccProjectUniqueName3 = Samples\\SandboxAcnDevice\\SandboxAcnDevice.csproj
+		SccProjectTopLevelParentUniqueName3 = Acn.sln
+		SccProjectName3 = Samples/SandboxAcnDevice
+		SccLocalPath3 = Samples\\SandboxAcnDevice
+		SccProjectUniqueName4 = Samples\\SlpDiscovery\\SlpDiscovery.csproj
+		SccProjectTopLevelParentUniqueName4 = Acn.sln
+		SccProjectName4 = Samples/SlpDiscovery
+		SccLocalPath4 = Samples\\SlpDiscovery
+		SccProjectUniqueName5 = Samples\\StreamingAcn\\StreamingAcn.csproj
+		SccProjectTopLevelParentUniqueName5 = Acn.sln
+		SccProjectName5 = Samples/StreamingAcn
+		SccLocalPath5 = Samples\\StreamingAcn
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{880E7426-7C34-47F3-A877-31776BC26AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{880E7426-7C34-47F3-A877-31776BC26AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{880E7426-7C34-47F3-A877-31776BC26AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{880E7426-7C34-47F3-A877-31776BC26AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{076A8F39-C69F-4AF7-BB9A-45F9E87680E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{076A8F39-C69F-4AF7-BB9A-45F9E87680E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{076A8F39-C69F-4AF7-BB9A-45F9E87680E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{076A8F39-C69F-4AF7-BB9A-45F9E87680E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0EB7F18-3367-467F-B255-F57B04A489FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0EB7F18-3367-467F-B255-F57B04A489FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0EB7F18-3367-467F-B255-F57B04A489FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0EB7F18-3367-467F-B255-F57B04A489FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C4D0221-6D36-4283-81C3-A43047E7EDFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C4D0221-6D36-4283-81C3-A43047E7EDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C4D0221-6D36-4283-81C3-A43047E7EDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C4D0221-6D36-4283-81C3-A43047E7EDFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{880E7426-7C34-47F3-A877-31776BC26AD9} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+		{076A8F39-C69F-4AF7-BB9A-45F9E87680E5} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+		{D0EB7F18-3367-467F-B255-F57B04A489FE} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+		{7C4D0221-6D36-4283-81C3-A43047E7EDFB} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+	EndGlobalSection
+	GlobalSection(SharpSetup) = preSolution
+		Version = 1.2
+	EndGlobalSection
+EndGlobal
