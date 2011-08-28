@@ -42,13 +42,15 @@ namespace Acn.Rdm.Packets.Product
 
             public short DeviceModelId { get; set; }
 
-            public short ProductCategory { get; set; }
+            public ProductCategories ProductCategory { get; set; }
 
             public int SoftwareVersionId { get; set; }
 
             public short DmxFootprint { get; set; }
 
-            public short DmxPersonality { get; set; }
+            public byte DmxPersonality { get; set; }
+
+            public byte DmxPersonalityCount { get; set; }
 
             public short DmxStartAddress { get; set; }
 
@@ -62,10 +64,11 @@ namespace Acn.Rdm.Packets.Product
             {
                 RdmProtocolVersion = data.ReadNetwork16();
                 DeviceModelId = data.ReadNetwork16();
-                ProductCategory = data.ReadNetwork16();
+                ProductCategory = (ProductCategories) data.ReadNetwork16();
                 SoftwareVersionId = data.ReadNetwork32();
                 DmxFootprint = data.ReadNetwork16();
-                DmxPersonality = data.ReadNetwork16();
+                DmxPersonality = data.ReadByte();
+                DmxPersonalityCount = data.ReadByte();
                 DmxStartAddress = data.ReadNetwork16();
                 SubDeviceCount = data.ReadNetwork16();
                 SensorCount = data.ReadByte();
@@ -75,10 +78,11 @@ namespace Acn.Rdm.Packets.Product
             {
                 data.WriteNetwork(RdmProtocolVersion);
                 data.WriteNetwork(DeviceModelId);
-                data.WriteNetwork(ProductCategory);
+                data.WriteNetwork((short) ProductCategory);
                 data.WriteNetwork(SoftwareVersionId);
                 data.WriteNetwork(DmxFootprint);
                 data.WriteNetwork(DmxPersonality);
+                data.WriteNetwork(DmxPersonalityCount);
                 data.WriteNetwork(DmxStartAddress);
                 data.WriteNetwork(SubDeviceCount);
                 data.WriteNetwork(SensorCount);

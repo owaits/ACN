@@ -48,7 +48,7 @@ namespace Acn.Rdm
         DevicePowerCycles = 0x0405,
 
         //---- Display Settings ----
-        DisplayInvery = 0x0500,
+        DisplayInvert = 0x0500,
         DisplayLevel = 0x0501,
 
         //---- Configuration ----
