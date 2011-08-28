@@ -91,6 +91,10 @@
     <Compile Include="ProtocolIds.cs" />
     <Compile Include="Rdm\Broker\RdmMessageAttribute.cs" />
     <Compile Include="Rdm\DmxStartCodes.cs" />
+    <Compile Include="Rdm\Packets\Configuration\RealTimeClock.cs" />
+    <Compile Include="Rdm\Packets\Configuration\PanTiltSwap.cs" />
+    <Compile Include="Rdm\Packets\Configuration\TiltInvert.cs" />
+    <Compile Include="Rdm\Packets\Configuration\PanInvert.cs" />
     <Compile Include="Rdm\Packets\Control\CapturePreset.cs" />
     <Compile Include="Rdm\Packets\Control\PresetPlayback.cs" />
     <Compile Include="Rdm\Packets\Control\SelfTestDescription.cs" />
@@ -100,6 +104,8 @@
     <Compile Include="Rdm\Packets\Control\IdentifyDevice.cs" />
     <Compile Include="Rdm\Packets\Core\ParameterDescription.cs" />
     <Compile Include="Rdm\Packets\Core\SupportedParameters.cs" />
+    <Compile Include="Rdm\Packets\Display\DisplayLevel.cs" />
+    <Compile Include="Rdm\Packets\Display\DisplayInvert.cs" />
     <Compile Include="Rdm\Packets\DMX\DefaultSlotValue.cs" />
     <Compile Include="Rdm\Packets\DMX\SlotDescription.cs" />
     <Compile Include="Rdm\Packets\DMX\SlotInfo.cs" />
@@ -124,6 +130,7 @@
     <Compile Include="Rdm\Packets\Product\Language.cs" />
     <Compile Include="Rdm\Packets\Product\FactoryDefaults.cs" />
     <Compile Include="Rdm\Packets\Product\DeviceLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\ProductCategories.cs" />
     <Compile Include="Rdm\Packets\Product\SoftwareVersionLabel.cs" />
     <Compile Include="Rdm\Packets\Product\LanguageCapabilities.cs" />
     <Compile Include="Rdm\Packets\Product\ManufacturerLabel.cs" />
@@ -172,8 +179,6 @@
     <Compile Include="TFtp\TFTPServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Rdm\Packets\Configuration\" />
-    <Folder Include="Rdm\Packets\Display\" />
     <Folder Include="Rdm\Packets\Power\" />
     <Folder Include="Rdm\Packets\Sensors\" />
   </ItemGroup>
