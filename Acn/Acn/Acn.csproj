@@ -125,6 +125,12 @@
     <Compile Include="Rdm\Packets\Net\RdmTrafficEnable.cs" />
     <Compile Include="Rdm\IO\RdmBinaryReader.cs" />
     <Compile Include="Rdm\IO\RdmBinaryWriter.cs" />
+    <Compile Include="Rdm\Packets\Power\DevicePowerCycles.cs" />
+    <Compile Include="Rdm\Packets\Power\LampOnMode.cs" />
+    <Compile Include="Rdm\Packets\Power\LampState.cs" />
+    <Compile Include="Rdm\Packets\Power\LampStrikes.cs" />
+    <Compile Include="Rdm\Packets\Power\LampHours.cs" />
+    <Compile Include="Rdm\Packets\Power\DeviceHours.cs" />
     <Compile Include="Rdm\Packets\Product\BootSoftwareVersionId.cs" />
     <Compile Include="Rdm\Packets\Product\BootSoftwareVersionLabel.cs" />
     <Compile Include="Rdm\Packets\Product\Language.cs" />
@@ -137,6 +143,9 @@
     <Compile Include="Rdm\Packets\Product\DeviceModelDescription.cs" />
     <Compile Include="Rdm\Packets\Product\ProductDetailIdList.cs" />
     <Compile Include="Rdm\Packets\Product\DeviceInfo.cs" />
+    <Compile Include="Rdm\Packets\Sensors\RecordSensor.cs" />
+    <Compile Include="Rdm\Packets\Sensors\SensorValue.cs" />
+    <Compile Include="Rdm\Packets\Sensors\SensorDefinition.cs" />
     <Compile Include="Rdm\RdmCommands.cs" />
     <Compile Include="Rdm\RdmHeader.cs" />
     <Compile Include="Rdm\Broker\RdmMessageBroker.cs" />
@@ -178,10 +187,7 @@
     <Compile Include="Sockets\StreamingAcnSocket.cs" />
     <Compile Include="TFtp\TFTPServer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rdm\Packets\Power\" />
-    <Folder Include="Rdm\Packets\Sensors\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
