@@ -10,7 +10,7 @@ namespace Acn.Rdm.Packets.Sensors
         public class Get : RdmRequestPacket
         {
             public Get()
-                : base(RdmCommands.Get, RdmParameters.SensoreValue)
+                : base(RdmCommands.Get, RdmParameters.SensorValue)
             {
             }
 
@@ -34,7 +34,7 @@ namespace Acn.Rdm.Packets.Sensors
         public class GetReply : RdmResponsePacket
         {
             public GetReply()
-                : base(RdmCommands.GetResponse, RdmParameters.SensoreValue)
+                : base(RdmCommands.GetResponse, RdmParameters.SensorValue)
             {
             }
 
@@ -74,7 +74,7 @@ namespace Acn.Rdm.Packets.Sensors
         public class Set : RdmRequestPacket
         {
             public Set()
-                : base(RdmCommands.Set, RdmParameters.SensoreValue)
+                : base(RdmCommands.Set, RdmParameters.SensorValue)
             {
             }
 
@@ -98,7 +98,7 @@ namespace Acn.Rdm.Packets.Sensors
         public class SetReply : RdmResponsePacket
         {
             public SetReply()
-                : base(RdmCommands.SetResponse, RdmParameters.SensoreValue)
+                : base(RdmCommands.SetResponse, RdmParameters.SensorValue)
             {
             }
 

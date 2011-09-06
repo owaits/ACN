@@ -102,8 +102,8 @@
     <Compile Include="Rdm\Packets\Control\PowerState.cs" />
     <Compile Include="Rdm\Packets\Control\ResetDevice.cs" />
     <Compile Include="Rdm\Packets\Control\IdentifyDevice.cs" />
-    <Compile Include="Rdm\Packets\Core\ParameterDescription.cs" />
-    <Compile Include="Rdm\Packets\Core\SupportedParameters.cs" />
+    <Compile Include="Rdm\Packets\Parameters\ParameterDescription.cs" />
+    <Compile Include="Rdm\Packets\Parameters\SupportedParameters.cs" />
     <Compile Include="Rdm\Packets\Display\DisplayLevel.cs" />
     <Compile Include="Rdm\Packets\Display\DisplayInvert.cs" />
     <Compile Include="Rdm\Packets\DMX\DefaultSlotValue.cs" />
@@ -112,6 +112,9 @@
     <Compile Include="Rdm\Packets\DMX\DmxPersonalityDescription.cs" />
     <Compile Include="Rdm\Packets\DMX\DmxPersonality.cs" />
     <Compile Include="Rdm\Packets\DMX\DmxStartAddress.cs" />
+    <Compile Include="Rdm\Packets\Management\CommsStatus.cs" />
+    <Compile Include="Rdm\Packets\Management\ProxiedDeviceCount.cs" />
+    <Compile Include="Rdm\Packets\Management\ProxiedDevices.cs" />
     <Compile Include="Rdm\Packets\Net\BackgroundDiscovery.cs" />
     <Compile Include="Rdm\Packets\Net\BindingControlFields.cs" />
     <Compile Include="Rdm\Packets\Net\InitiateDiscovery.cs" />
@@ -146,6 +149,12 @@
     <Compile Include="Rdm\Packets\Sensors\RecordSensor.cs" />
     <Compile Include="Rdm\Packets\Sensors\SensorValue.cs" />
     <Compile Include="Rdm\Packets\Sensors\SensorDefinition.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusTypes.cs" />
+    <Compile Include="Rdm\Packets\Status\SubDeviceStatusReportThreshold.cs" />
+    <Compile Include="Rdm\Packets\Status\ClearStatusId.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusIdDescription.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusMessages.cs" />
+    <Compile Include="Rdm\Packets\Status\QueuedMessage.cs" />
     <Compile Include="Rdm\RdmCommands.cs" />
     <Compile Include="Rdm\RdmHeader.cs" />
     <Compile Include="Rdm\Broker\RdmMessageBroker.cs" />

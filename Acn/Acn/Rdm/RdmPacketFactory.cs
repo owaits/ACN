@@ -5,7 +5,7 @@ using System.Text;
 using Acn.Rdm.Packets.Net;
 using Acn.Rdm.Packets.DMX;
 using Acn.Rdm.Packets.Product;
-using Acn.Rdm.Packets.Core;
+using Acn.Rdm.Packets.Parameters;
 using Acn.Rdm.Packets.Control;
 
 namespace Acn.Rdm
