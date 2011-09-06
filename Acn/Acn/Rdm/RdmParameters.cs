@@ -9,6 +9,21 @@ namespace Acn.Rdm
     {
         None = 0,
 
+        //---- Network Management ----
+        DiscoveryUniqueBranch = 0x0001,
+        DiscoveryMute = 0x0002,
+        DiscoverUnMute = 0x0003,
+        ProxiedDevices = 0x0010,
+        ProxiedDeviceCount = 0x0011,
+        CommsStatus = 0x0015,
+
+        //---- Status ----
+        QueuedMessage = 0x020,
+        StatusMessage = 0x030,
+        StatusIdDescription = 0x031,
+        ClearStatusId = 0x032,
+        SubDeviceStatusReportThreshold = 0x033,
+
         //---- RDM ----
         SupportedParameters = 0x0050,
         ParameterDescription = 0x0051,
@@ -36,7 +51,7 @@ namespace Acn.Rdm
 
         //---- Sensors ----
         SensorDefinition = 0x0200,
-        SensoreValue = 0x0201,
+        SensorValue = 0x0201,
         RecordSensors = 0x0202,
         
         //---- Power/Lamp Settings ----
