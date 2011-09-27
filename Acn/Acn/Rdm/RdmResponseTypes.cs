@@ -7,7 +7,9 @@ namespace Acn.Rdm
 {
     public enum RdmResponseTypes
     {
-        Ack,
-        AchOverflow
+        Ack = 0x0,
+        AckTimer = 0x1,
+        NackReason = 0x2,
+        AchOverflow = 0x3
     }
 }

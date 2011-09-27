@@ -41,20 +41,20 @@ namespace Acn.Rdm.Packets.Parameters
             /// <summary>
             /// Controls whether background discovery is enabled within the RDM device.
             /// </summary>
-            public List<short> ParameterIds { get; set; }
+            public List<RdmParameters> ParameterIds { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
                 for (int n = 0; n < base.Header.ParameterDataLength / 2; n++)
                 {
-                    ParameterIds.Add(data.ReadNetwork16());
+                    ParameterIds.Add((RdmParameters) data.ReadNetwork16());
                 }
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                foreach (short parameterId in ParameterIds)
-                    data.Write(parameterId);
+                foreach (RdmParameters parameterId in ParameterIds)
+                    data.Write((short) parameterId);
             }
         }
     }

@@ -116,11 +116,11 @@ namespace Acn.Rdm.Packets.Status
 
                 foreach (Status item in StatusMessages)
                 {
-                    data.Write(item.SubDeviceId);
+                    data.WriteNetwork(item.SubDeviceId);
                     data.Write((byte) item.StatusType);
-                    data.Write(item.StatusMessageId);
-                    data.Write(item.DataValue1);
-                    data.Write(item.DataValue2);
+                    data.WriteNetwork(item.StatusMessageId);
+                    data.WriteNetwork(item.DataValue1);
+                    data.WriteNetwork(item.DataValue2);
                 }
             }
 

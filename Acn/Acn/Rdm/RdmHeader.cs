@@ -25,7 +25,7 @@ namespace Acn.Rdm
 
         public byte TransactionNumber { get; set; }
 
-        protected byte PortOrResponseType { get; set; }
+        public byte PortOrResponseType { get; set; }
 
         public byte MessageCount { get; set; }
 
@@ -55,7 +55,7 @@ namespace Acn.Rdm
             ParameterDataLength = data.ReadByte();
         }
 
-        private long messageLengthPosition = 0;
+        private long messageLengthPosition = -1;
         private long dataLengthPosition = 0;
 
         public void WriteData(RdmBinaryWriter data)
@@ -80,11 +80,11 @@ namespace Acn.Rdm
 
         public void WriteLength(RdmBinaryWriter data)
         {
-            if (messageLengthPosition <= 0 || messageLengthPosition <= 0)
+            if (messageLengthPosition < 0 || dataLengthPosition <= 0)
                 throw new InvalidOperationException("Packet data has not been written yet. You can not write the length until the body is written.");
 
-            MessageLength = (byte) (data.BaseStream.Length - messageLengthPosition + 2);
-            ParameterDataLength = (byte)(data.BaseStream.Length - dataLengthPosition + 2);
+            MessageLength = (byte)(data.BaseStream.Position - messageLengthPosition + 2);
+            ParameterDataLength = (byte)((data.BaseStream.Position - 1) - dataLengthPosition);
 
             //Write Message Length
             data.BaseStream.Seek(messageLengthPosition, System.IO.SeekOrigin.Begin);

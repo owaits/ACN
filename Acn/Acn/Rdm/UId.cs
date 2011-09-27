@@ -23,7 +23,7 @@ namespace Acn.Rdm
 
         private static UId broadcast = new UId(0xFFFF, 0xFFFFFFFF);
 
-        public UId Broadcast 
+        public static UId Broadcast 
         {
             get { return broadcast; }
         }
@@ -35,7 +35,7 @@ namespace Acn.Rdm
             get { return empty; }
         }
 
-        public UId ManfacturerBroadcast(ushort manufacturerId)
+        public static UId ManfacturerBroadcast(ushort manufacturerId)
         {
             return new UId(manufacturerId, 0xFFFFFFFF);
         }
@@ -47,7 +47,8 @@ namespace Acn.Rdm
 
         public static UId NewUId(ushort manufacturerId)
         {
-            return new UId(manufacturerId, 0);
+            Random randomId = new Random();
+            return new UId(manufacturerId, (uint) randomId.Next(1,0x7FFFFFFF));
         }
 
         public static UId Parse(string value)
@@ -75,7 +76,7 @@ namespace Acn.Rdm
         public override bool Equals(object obj)
         {
             UId id = obj as UId;
-            if (id != null)
+            if (!object.ReferenceEquals(id, null))
                 return id.ManufacturerId.Equals(ManufacturerId) && id.DeviceId.Equals(DeviceId);
 
             return base.Equals(obj);

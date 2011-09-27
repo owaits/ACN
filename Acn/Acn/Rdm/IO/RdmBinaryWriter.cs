@@ -14,6 +14,11 @@ namespace Acn.Rdm
         {
         }
 
+        public void WriteNetwork(byte value)
+        {
+            base.Write(IPAddress.HostToNetworkOrder(value));
+        }
+
         public void WriteNetwork(short value)
         {
             base.Write(IPAddress.HostToNetworkOrder(value));

@@ -102,6 +102,8 @@
     <Compile Include="Rdm\Packets\Control\PowerState.cs" />
     <Compile Include="Rdm\Packets\Control\ResetDevice.cs" />
     <Compile Include="Rdm\Packets\Control\IdentifyDevice.cs" />
+    <Compile Include="Rdm\Packets\Management\NackReason.cs" />
+    <Compile Include="Rdm\Packets\Management\RdmNack.cs" />
     <Compile Include="Rdm\Packets\Parameters\ParameterDescription.cs" />
     <Compile Include="Rdm\Packets\Parameters\SupportedParameters.cs" />
     <Compile Include="Rdm\Packets\Display\DisplayLevel.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Rdm\RdmResponseTypes.cs" />
     <Compile Include="Rdm\UId.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnPacket.cs" />
+    <Compile Include="Rdm\UnknownRdmPacketException.cs" />
     <Compile Include="Slp\AuthenticationBlock.cs" />
     <Compile Include="Slp\DirectoryAgentInformation.cs" />
     <Compile Include="Slp\IO\SlpBinaryWriter.cs" />
@@ -215,6 +218,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "D:\Projects\Acn\Acn\bin\Release\Acn.dll" "D:\Projects\ScreenMonkey\Trunk\Libraries\Acn.dll"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

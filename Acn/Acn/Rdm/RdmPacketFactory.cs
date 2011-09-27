@@ -7,6 +7,9 @@ using Acn.Rdm.Packets.DMX;
 using Acn.Rdm.Packets.Product;
 using Acn.Rdm.Packets.Parameters;
 using Acn.Rdm.Packets.Control;
+using Acn.Rdm.Packets.Status;
+using Acn.Rdm.Packets.Power;
+using Acn.Rdm.Packets.Management;
 
 namespace Acn.Rdm
 {
@@ -14,11 +17,27 @@ namespace Acn.Rdm
     {
         static RdmPacketFactory()
         {
+            RegisterStatusMessages();
             RegisterCoreMessages();
             RegisterRdmNetMessages();
             RegisterProductMessages();
             RegisterDmxMessages();
+            RegisterPowerMessages();
             RegisterControlMessages();
+        }
+
+        private static void RegisterStatusMessages()
+        {
+            //QueuedMessage
+            RegisterPacketType(RdmCommands.Get, RdmParameters.QueuedMessage, typeof(QueuedMessage.Get));
+
+            //StatusMessage
+            RegisterPacketType(RdmCommands.Get, RdmParameters.StatusMessage, typeof(StatusMessage.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.StatusMessage, typeof(StatusMessage.GetReply));
+
+            //ClearStatusId
+            RegisterPacketType(RdmCommands.Set, RdmParameters.ClearStatusId, typeof(ClearStatusId.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.ClearStatusId, typeof(ClearStatusId.SetReply));
         }
 
         private static void RegisterCoreMessages()
@@ -31,6 +50,8 @@ namespace Acn.Rdm
             RegisterPacketType(RdmCommands.Get, RdmParameters.ParameterDescription, typeof(ParameterDescription.Get));
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.ParameterDescription, typeof(ParameterDescription.GetReply));
         }
+
+
 
         private static void RegisterRdmNetMessages()
         {
@@ -96,6 +117,45 @@ namespace Acn.Rdm
             //SoftwareVersionLabel
             RegisterPacketType(RdmCommands.Get, RdmParameters.SoftwareVersionLabel, typeof(SoftwareVersionLabel.Get));
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.SoftwareVersionLabel, typeof(SoftwareVersionLabel.GetReply));
+        }
+
+        private static void RegisterPowerMessages()
+        {
+            //DeviceHours
+            RegisterPacketType(RdmCommands.Get, RdmParameters.DeviceHours, typeof(DeviceHours.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.DeviceHours, typeof(DeviceHours.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.DeviceHours, typeof(DeviceHours.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.DeviceHours, typeof(DeviceHours.SetReply));
+
+            //LampHours
+            RegisterPacketType(RdmCommands.Get, RdmParameters.LampHours, typeof(LampHours.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.LampHours, typeof(LampHours.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.LampHours, typeof(LampHours.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.LampHours, typeof(LampHours.SetReply));
+
+            //LampStrikes
+            RegisterPacketType(RdmCommands.Get, RdmParameters.LampStrikes, typeof(LampStrikes.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.LampStrikes, typeof(LampStrikes.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.LampStrikes, typeof(LampStrikes.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.LampStrikes, typeof(LampStrikes.SetReply));
+
+            //LampState
+            RegisterPacketType(RdmCommands.Get, RdmParameters.LampState, typeof(LampState.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.LampState, typeof(LampState.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.LampState, typeof(LampState.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.LampState, typeof(LampState.SetReply));
+
+            //LampOnMode
+            RegisterPacketType(RdmCommands.Get, RdmParameters.LampOnMode, typeof(LampOnMode.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.LampOnMode, typeof(LampOnMode.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.LampOnMode, typeof(LampOnMode.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.LampOnMode, typeof(LampOnMode.SetReply));
+
+            //DevicePowerCycles
+            RegisterPacketType(RdmCommands.Get, RdmParameters.DevicePowerCycles, typeof(DevicePowerCycles.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.DevicePowerCycles, typeof(DevicePowerCycles.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.DevicePowerCycles, typeof(DevicePowerCycles.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.DevicePowerCycles, typeof(DevicePowerCycles.SetReply));
         }
 
         private static void RegisterDmxMessages()
@@ -193,10 +253,32 @@ namespace Acn.Rdm
 
         public static RdmPacket Build(RdmHeader header)
         {
-            Type packetType;
-            if (packetStore.TryGetValue(new PacketKey(header.Command, header.ParameterId), out packetType))
+            if(header.PortOrResponseType != 0 && (header.Command == RdmCommands.GetResponse ||  header.Command == RdmCommands.SetResponse))
             {
-                return RdmPacket.Create(header, packetType);
+                //Error Response Packets
+                return BuildErrorResponse(header);
+            }
+            else
+            {
+                Type packetType;
+                if (packetStore.TryGetValue(new PacketKey(header.Command, header.ParameterId), out packetType))
+                {
+                    return RdmPacket.Create(header, packetType);
+                }
+            }
+
+            return null;
+        }
+
+        public static RdmPacket BuildErrorResponse(RdmHeader header)
+        {
+            if (header.PortOrResponseType != 0)
+            {
+                switch ((RdmResponseTypes)header.PortOrResponseType)
+                {
+                    case RdmResponseTypes.NackReason:
+                        return RdmPacket.Create(header, typeof(RdmNack));
+                }
             }
 
             return null;
