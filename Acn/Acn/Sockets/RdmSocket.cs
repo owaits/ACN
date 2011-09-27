@@ -92,7 +92,7 @@ namespace Acn.Sockets
             RdmPacket.WritePacket(packet,rdmWriter);
 
             //Write the checksum
-            rdmWriter.WriteNetwork((short) CalculateChecksum(rdmData.GetBuffer()));
+            rdmWriter.WriteNetwork((short) RdmPacket.CalculateChecksum(rdmData.GetBuffer()));
 
             //Create sACN Packet
             RdmNetPacket dmxPacket = new RdmNetPacket();
@@ -102,13 +102,7 @@ namespace Acn.Sockets
             SendPacket(dmxPacket, targetAddress);
         }
 
-        private ushort CalculateChecksum(byte[] data)
-        {
-            ushort checksum = 0;
-            foreach (byte item in data)
-                checksum += item;
-            return checksum;
-        }
+
 
         #region IProtocolFilter Members
 

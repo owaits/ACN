@@ -54,9 +54,25 @@ namespace Acn.Rdm
             if (rdmPacket != null)
             {
                 rdmPacket.ReadData(data);
+                return rdmPacket;
+             }
+
+            throw new UnknownRdmPacketException(header);            
+        }
+
+        public static bool TryReadPacket(RdmBinaryReader data,out RdmPacket rdmPacket)
+        {
+            RdmHeader header = new RdmHeader();
+            header.ReadData(data);
+
+            rdmPacket = RdmPacket.Create(header);
+            if (rdmPacket != null)
+            {
+                rdmPacket.ReadData(data);
+                return true;
             }
 
-            return rdmPacket;
+            return false;
         }
 
         public static void WritePacket(RdmPacket packet, RdmBinaryWriter data)
@@ -64,6 +80,22 @@ namespace Acn.Rdm
             packet.WriteHeader(data);
             packet.WriteData(data);
             packet.Header.WriteLength(data);        
+        }
+
+        public static ushort CalculateChecksum(byte[] data)
+        {
+            ushort checksum = 0;
+            foreach (byte item in data)
+                checksum += item;
+            return checksum;
+        }
+
+        public static ushort CalculateChecksum(byte[] data, int startIndex, int endIndex)
+        {
+            ushort checksum = 0;
+            for (int n=startIndex;n<endIndex;n++)
+                checksum += data[n];
+            return checksum;
         }
 
         #endregion

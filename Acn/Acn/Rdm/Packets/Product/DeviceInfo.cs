@@ -81,11 +81,11 @@ namespace Acn.Rdm.Packets.Product
                 data.WriteNetwork((short) ProductCategory);
                 data.WriteNetwork(SoftwareVersionId);
                 data.WriteNetwork(DmxFootprint);
-                data.WriteNetwork(DmxPersonality);
-                data.WriteNetwork(DmxPersonalityCount);
+                data.Write(DmxPersonality);
+                data.Write(DmxPersonalityCount);
                 data.WriteNetwork(DmxStartAddress);
                 data.WriteNetwork(SubDeviceCount);
-                data.WriteNetwork(SensorCount);
+                data.Write(SensorCount);
             }
 
             #endregion

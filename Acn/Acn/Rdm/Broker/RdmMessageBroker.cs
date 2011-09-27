@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Acn.Sockets;
 using System.Reflection;
+using Acn.Rdm.Packets.Status;
+using Acn.Rdm.Packets.Management;
+using Acn.Rdm.Packets.Parameters;
 
 namespace Acn.Rdm.Broker
 {
@@ -16,6 +19,27 @@ namespace Acn.Rdm.Broker
         private Dictionary<RdmParameters, ProcessPacketHandler> packetGetHandlers = new Dictionary<RdmParameters, ProcessPacketHandler>();
 
         private Dictionary<RdmParameters, ProcessPacketHandler> packetSetHandlers = new Dictionary<RdmParameters, ProcessPacketHandler>();
+
+        public RdmMessageBroker()
+        {
+            RegisterResponse(RdmParameters.StatusMessage, StatusReply);
+            RegisterHandler(RdmCommands.Get, RdmParameters.SupportedParameters, new ProcessPacketHandler(ProcessSupportedParameters));
+        }
+
+        private bool autoNack = false;
+
+        public bool AutoNack
+        {
+            get { return autoNack; }
+            set { autoNack = value; }
+        }
+
+        private StatusMessage.GetReply statusReply = new StatusMessage.GetReply();
+
+        public StatusMessage.GetReply StatusReply
+        {
+            get { return statusReply; }
+        }
 
         public void RegisterResponse(RdmParameters parameterId, RdmPacket responsePacket)
         {
@@ -71,18 +95,47 @@ namespace Acn.Rdm.Broker
                         if (packetGetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
                         {
                             responsePacket = handler(packet);
+
                         }
                     }
                     break;
                 case RdmCommands.Set:
-                    if (packetGetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
+                    if (packetSetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
                     {
                         responsePacket = handler(packet);
                     }
                     break;
             }
 
+            if (AutoNack && responsePacket == null)
+            {
+                //Automatically generate a Nack message for the unsupported packet.
+                responsePacket = new RdmNack((RdmCommands) (packet.Header.Command + 1), packet.Header.ParameterId);
+            }
+
+            if (responsePacket != null)
+                responsePacket.Header.TransactionNumber = packet.Header.TransactionNumber;
+
+
             return responsePacket;
+        }
+
+        public RdmPacket ProcessSupportedParameters(RdmPacket packet)
+        {
+            SupportedParameters.Get parameterRequest = packet as SupportedParameters.Get;
+            if (parameterRequest != null)
+            {
+                SupportedParameters.GetReply parameterReply = new SupportedParameters.GetReply();
+                
+                //Add the supported parameter Ids
+                parameterReply.ParameterIds.AddRange(responsePackets.Keys);
+                parameterReply.ParameterIds.AddRange(packetGetHandlers.Keys);
+                parameterReply.ParameterIds.AddRange(packetSetHandlers.Keys);
+
+                return parameterReply;
+            }
+
+            return null;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Acn.Rdm.Packets.Product
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                Description = Encoding.ASCII.GetString(data.ReadBytes(Header.ParameterDataLength - 2));
+                Description = Encoding.ASCII.GetString(data.ReadBytes(Header.ParameterDataLength));
             }
 
             protected override void WriteData(RdmBinaryWriter data)
