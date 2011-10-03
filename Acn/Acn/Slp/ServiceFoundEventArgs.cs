@@ -34,15 +34,15 @@ namespace Acn.Slp
 {
     public class ServiceFoundEventArgs: EventArgs
     {
-        public ServiceFoundEventArgs(List<UrlEntry> url, IPAddress ipAddress)
+        public ServiceFoundEventArgs(List<UrlEntry> url, IPEndPoint address)
         {
             Urls = url;
-            IPAddress = ipAddress;
+            Address = address;
         }
 
         public List<UrlEntry> Urls { get; set; }
 
-        public IPAddress IPAddress { get; set; }
+        public IPEndPoint Address { get; set; }
 
     }
 }
