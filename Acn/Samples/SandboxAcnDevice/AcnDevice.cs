@@ -60,7 +60,7 @@ namespace SandboxAcnDevice
 
         private void StartDevice()
         {
-            IPAddress localAddress = new IPAddress(new byte[] { 10, 0, 0, 2 });
+            IPAddress localAddress = new IPAddress(new byte[] { 10, 0, 10, 1 });
             
             socket.Open(localAddress);    
 
@@ -69,7 +69,7 @@ namespace SandboxAcnDevice
                 slpService.NetworkAdapter = localAddress;
                 slpService.Scope = "ACN-DEFAULT";
                 slpService.ServiceType = serviceTypeText.Text;
-                slpService.ServiceUrl = string.Format("{0}//192.168.2.30:5568/{1}", serviceTypeText.Text,uidText.Text);
+                slpService.ServiceUrl = string.Format("{0}://10.0.10.1:5568/{1}", serviceTypeText.Text,uidText.Text);
 
                 slpService.Open();
             }       

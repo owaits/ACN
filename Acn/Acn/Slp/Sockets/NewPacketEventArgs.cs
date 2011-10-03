@@ -14,9 +14,7 @@ namespace Acn.Slp.Sockets
             Packet = packet;
         }
 
-        public IPAddress SourceAddress { get; set; }
-
-        public int SourcePort { get; set; }
+        public IPEndPoint SourceEndPoint { get; set; }
 
         private SlpPacket packet;
 

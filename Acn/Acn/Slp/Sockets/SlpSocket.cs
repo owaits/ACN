@@ -58,10 +58,13 @@ namespace Acn.Slp.Sockets
 
         #region Traffic
 
-        public void Open(IPAddress adapterIPAddress)
+        public void Open(IPAddress ipAddress)
         {
-            IPEndPoint localEndPoint = new IPEndPoint(adapterIPAddress, Port);
+            Open(new IPEndPoint(ipAddress, Port));
+        }
 
+        public void Open(IPEndPoint localEndPoint)
+        {
             SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             Bind(localEndPoint);
             JoinMulticastGroup();
@@ -121,8 +124,7 @@ namespace Acn.Slp.Sockets
                             SlpPacket packet = SlpPacket.ReadPacket(dataReader);
 
                             NewPacketEventArgs args = new NewPacketEventArgs(packet);
-                            args.SourceAddress = ((IPEndPoint)remoteEndPoint).Address;
-                            args.SourcePort = ((IPEndPoint)remoteEndPoint).Port;
+                            args.SourceEndPoint = (IPEndPoint) remoteEndPoint;
 
                             NewPacket(this, args);
                         }
@@ -150,17 +152,17 @@ namespace Acn.Slp.Sockets
         public void Send(SlpPacket packet)
         {
             //packet.Header.Flags |= SlpHeaderFlags.RequestMulticast;
-            Send(MulticastGroup, packet);
+            Send(new IPEndPoint(MulticastGroup,Port), packet);
         }
 
-        public void Send(IPAddress target, SlpPacket packet)
+        public void Send(IPEndPoint target, SlpPacket packet)
         {
             MemoryStream data = new MemoryStream();
             SlpBinaryWriter writer = new SlpBinaryWriter(data);
 
             SlpPacket.WritePacket(packet, writer);
 
-            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, new IPEndPoint(target, Port), null, null);
+            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, target, null, null);
         }
 
         protected override void Dispose(bool disposing)
