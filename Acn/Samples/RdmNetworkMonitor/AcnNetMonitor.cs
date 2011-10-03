@@ -64,7 +64,7 @@ namespace RdmNetworkMonitor
             }
 
             foreach (UrlEntry url in e.Urls)
-                AddDevice(UId.ParseUrl(url.Url), e.IPAddress);
+                AddDevice(UId.ParseUrl(url.Url), e.Address.Address);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)

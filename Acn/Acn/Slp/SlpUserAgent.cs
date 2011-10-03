@@ -131,7 +131,7 @@ namespace Acn.Slp
             if (serviceReply.ErrorCode == SlpErrorCode.None)
             {
                 //Request the Attributes for this service
-                SendAttributeRequest(ipAddress, Scope);
+                //SendAttributeRequest(ipAddress, Scope);
 
                 if (ServiceFound != null)
                     ServiceFound(this, new ServiceFoundEventArgs(serviceReply.Urls, ipAddress));
