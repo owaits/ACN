@@ -96,6 +96,21 @@ namespace Acn.Slp.Packets
                 case SlpFunctionId.DirectoryAgentAdvert:
                     newPacket = new DirectoryAgentAdvertPacket();
                     break;
+                case SlpFunctionId.ServiceAgentAdvert:
+                    newPacket = new ServiceAgentAdvertPacket();
+                    break;
+                case SlpFunctionId.AttributeRequest:
+                    newPacket = new AttributeRequestPacket();
+                    break;
+                case SlpFunctionId.AttributeReply:
+                    newPacket = new AttributeReplyPacket();
+                    break;
+                case SlpFunctionId.ServiceTypeRequest:
+                    newPacket = new ServiceTypeRequestPacket();
+                    break;
+                case SlpFunctionId.ServiceTypeReply:
+                    newPacket = new ServiceTypeReplyPacket();
+                    break;
             }
 
             if (newPacket != null)
