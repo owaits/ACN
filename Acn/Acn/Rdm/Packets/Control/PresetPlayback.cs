@@ -46,14 +46,14 @@ namespace Acn.Rdm.Packets.Control
 
             public PlayMode Mode { get; set; }
 
-            public short SceneNumber { get; set; }
+            public ushort SceneNumber { get; set; }
 
             #region Read and Write
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                SceneNumber = data.ReadNetwork16();
-                if (SceneNumber > (short) PlayMode.Off || SceneNumber < (ushort) PlayMode.All)
+                SceneNumber = (ushort) data.ReadNetwork16();
+                if (SceneNumber > (ushort) PlayMode.Off || SceneNumber < (ushort) PlayMode.All)
                     Mode = PlayMode.Scene;
                 else
                     Mode = (PlayMode) SceneNumber;
@@ -62,7 +62,7 @@ namespace Acn.Rdm.Packets.Control
             protected override void WriteData(RdmBinaryWriter data)
             {
                 if (Mode == PlayMode.Scene)
-                    data.WriteNetwork(SceneNumber);
+                    data.WriteNetwork((short) SceneNumber);
                 else
                     data.WriteNetwork((short) Mode);
             }
@@ -79,7 +79,7 @@ namespace Acn.Rdm.Packets.Control
 
             public PlayMode Mode { get; set; }
 
-            public short SceneNumber { get; set; }
+            public ushort SceneNumber { get; set; }
 
             public byte Level { get; set; }
 
@@ -87,8 +87,8 @@ namespace Acn.Rdm.Packets.Control
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                SceneNumber = data.ReadNetwork16();
-                if (SceneNumber > (short)PlayMode.Off || SceneNumber < (ushort)PlayMode.All)
+                SceneNumber = (ushort) data.ReadNetwork16();
+                if (SceneNumber > (ushort)PlayMode.Off || SceneNumber < (ushort)PlayMode.All)
                     Mode = PlayMode.Scene;
                 else
                     Mode = (PlayMode)SceneNumber;

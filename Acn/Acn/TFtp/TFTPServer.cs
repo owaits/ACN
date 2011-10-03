@@ -168,7 +168,7 @@ namespace Acn.TFtp
                 if (m_CurrentReadStream != null)
                     m_CurrentReadStream.Close();
             }
-            catch (Exception err)
+            catch (Exception)
             {
                 //ExTrace.ShowException(err);
             }
@@ -217,7 +217,7 @@ namespace Acn.TFtp
 
                     }
                 }
-                catch (Exception err)
+                catch (Exception)
                 {
                     //ExTrace.ShowException(err);
                 }
@@ -355,7 +355,7 @@ namespace Acn.TFtp
                     if (ReadRequestDone != null)
                         ReadRequestDone(this, null);
                 }
-                catch (Exception err)
+                catch (Exception)
                 {
                     //ExTrace.ShowException(err);
                 }
@@ -367,7 +367,7 @@ namespace Acn.TFtp
                     if (ReadBlockSent != null)
                         ReadBlockSent(m_LastBlockLength - 4, null);
                 }
-                catch (Exception err)
+                catch (Exception)
                 {
                     //ExTrace.ShowException(err);
                 }

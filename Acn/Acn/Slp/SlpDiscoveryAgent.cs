@@ -34,8 +34,6 @@ namespace Acn.Slp
 {
     public class SlpDiscoveryAgent:SlpAgent
     {
-        SlpSocket socket = new SlpSocket();
-
         #region Setup and Initialisation
 
         public SlpDiscoveryAgent()
@@ -48,19 +46,6 @@ namespace Acn.Slp
 
         protected override void ProcessPacket(NewPacketEventArgs packetInfo)
         {
-        }
-
-        #endregion
-
-        #region IDispose
-
-        public override void Dispose()
-        {
-            if (socket != null)
-            {
-                socket.Close();
-                socket = null;
-            }
         }
 
         #endregion

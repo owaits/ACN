@@ -35,8 +35,6 @@ namespace Acn
 
         public static AcnPacket ReadPacket(AcnBinaryReader data)
         {
-            AcnPacket packet = null;
-
             AcnRootLayer rootLayer = new AcnRootLayer();
             rootLayer.ReadData(data);
 
