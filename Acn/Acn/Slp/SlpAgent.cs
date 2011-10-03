@@ -99,7 +99,11 @@ namespace Acn.Slp
             {
                 socket = new SlpSocket();
                 socket.NewPacket += new EventHandler<NewPacketEventArgs>(socket_NewPacket);
-                socket.Open(NetworkAdapter);
+
+                if(this is SlpUserAgent)
+                    socket.Open(new IPEndPoint(NetworkAdapter,0));
+                else
+                    socket.Open(NetworkAdapter);
             }
         }
 

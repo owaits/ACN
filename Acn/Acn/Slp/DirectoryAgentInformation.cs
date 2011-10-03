@@ -37,14 +37,14 @@ namespace Acn.Slp
         {
         }
 
-        public DirectoryAgentInformation(string url, IPAddress ipAddress)
+        public DirectoryAgentInformation(string url, IPEndPoint endPoint)
         {
             Url = url;
-            IPAddress = ipAddress;
+            EndPoint = endPoint;
         }
 
         public string Url { get; set; }
 
-        public IPAddress IPAddress { get; set; }
+        public IPEndPoint EndPoint { get; set; }
     }
 }

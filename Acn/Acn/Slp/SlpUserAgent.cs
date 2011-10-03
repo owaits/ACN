@@ -95,19 +95,19 @@ namespace Acn.Slp
                 socket.Send(request);
             else
                 //Request the services directly from the DA.
-                socket.Send(DirectoryAgent.IPAddress, request);
+                socket.Send(DirectoryAgent.EndPoint, request);
         }
 
         protected override void ProcessPacket(NewPacketEventArgs packetInfo)
         {
             DirectoryAgentAdvertPacket daAdvert = packetInfo.Packet as DirectoryAgentAdvertPacket;
- 	        if(daAdvert != null)
-                DirectoryAgent = new DirectoryAgentInformation(daAdvert.Url, packetInfo.SourceAddress);
+            if (daAdvert != null)
+                DirectoryAgent = new DirectoryAgentInformation(daAdvert.Url, packetInfo.SourceEndPoint);
 
 
             ServiceReplyPacket serviceReply = packetInfo.Packet as ServiceReplyPacket;
             if (serviceReply != null)
-                ProcessServiceReply(serviceReply, packetInfo.SourceAddress);
+                ProcessServiceReply(serviceReply, packetInfo.SourceEndPoint);
 
         }
 
@@ -117,7 +117,7 @@ namespace Acn.Slp
 
         public event EventHandler<ServiceFoundEventArgs> ServiceFound;
 
-        protected void ProcessServiceReply(ServiceReplyPacket serviceReply,IPAddress ipAddress)
+        protected void ProcessServiceReply(ServiceReplyPacket serviceReply,IPEndPoint ipAddress)
         {
             if (serviceReply.ErrorCode == SlpErrorCode.None)
             {

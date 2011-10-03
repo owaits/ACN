@@ -20,7 +20,6 @@ namespace SlpDiscovery
         {
             InitializeComponent();
 
-            slpUser.NetworkAdapter = new IPAddress(new byte[] { 192, 168, 0, 93 });
             slpUser.ServiceFound +=new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
         }
 
@@ -28,7 +27,8 @@ namespace SlpDiscovery
         {
             deviceList.Items.Clear();
 
-           // slpUser.NetworkAdapter = new IPAddress(new byte[] { 192, 168, 0, 93 });
+            //slpUser.NetworkAdapter = new IPAddress(new byte[] { 10, 0, 0, 1 });
+            slpUser.Scope = scopeSelect.Text;
             slpUser.Open();
             slpUser.Find(urlText.Text);
         }
@@ -48,6 +48,11 @@ namespace SlpDiscovery
         private void SlpDiscovery_FormClosing(object sender, FormClosingEventArgs e)
         {
             slpUser.Dispose();
+        }
+
+        private void scopeSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

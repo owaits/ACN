@@ -76,7 +76,7 @@ namespace Acn.Slp
 
         #region Service Agent
         
-        public void Open() 
+        public override void Open() 
         {
             if (Active)
                 throw new InvalidOperationException("The service agent is already active. Either close this agent or do not call Open while active.");
@@ -103,18 +103,18 @@ namespace Acn.Slp
         {
             DirectoryAgentAdvertPacket advert = packetInfo.Packet as DirectoryAgentAdvertPacket;
             if (advert != null)
-                ProcessDAAdvert(advert, packetInfo.SourceAddress);
+                ProcessDAAdvert(advert, packetInfo.SourceEndPoint);
 
             ServiceRequestPacket request = packetInfo.Packet as ServiceRequestPacket;
             if (IsReplyRequired(request))
-                SendServiceReply(packetInfo.SourceAddress, packetInfo.Packet.Header.XId);
+                SendServiceReply(packetInfo.SourceEndPoint, packetInfo.Packet.Header.XId);
 
             ServiceAcknowledgePacket acknowledge = packetInfo.Packet as ServiceAcknowledgePacket;
             if (acknowledge != null)
                 RaiseServiceRegistered();
         }
 
-        private void ProcessDAAdvert(DirectoryAgentAdvertPacket da, IPAddress source)
+        private void ProcessDAAdvert(DirectoryAgentAdvertPacket da, IPEndPoint source)
         {
             if(!DirectoryAgents.ContainsKey(da.Url))
             {
@@ -166,7 +166,7 @@ namespace Acn.Slp
             return true;
         }
 
-        private void SendServiceReply(IPAddress target, short transactionId)
+        private void SendServiceReply(IPEndPoint target, short transactionId)
         {
             ServiceReplyPacket reply = new ServiceReplyPacket();
             FillHeader(reply.Header, transactionId);
