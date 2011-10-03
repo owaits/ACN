@@ -98,6 +98,15 @@ namespace Acn.Slp
                 socket.Send(DirectoryAgent.EndPoint, request);
         }
 
+        private void SendAttributeRequest(IPEndPoint target,string scope)
+        {
+            AttributeRequestPacket request = new AttributeRequestPacket();
+            FillHeader(request.Header, NewTransactionId());
+            request.ScopeList = scope;
+
+            socket.Send(target, request);
+        }
+
         protected override void ProcessPacket(NewPacketEventArgs packetInfo)
         {
             DirectoryAgentAdvertPacket daAdvert = packetInfo.Packet as DirectoryAgentAdvertPacket;
@@ -121,8 +130,19 @@ namespace Acn.Slp
         {
             if (serviceReply.ErrorCode == SlpErrorCode.None)
             {
+                //Request the Attributes for this service
+                SendAttributeRequest(ipAddress, Scope);
+
                 if (ServiceFound != null)
                     ServiceFound(this, new ServiceFoundEventArgs(serviceReply.Urls, ipAddress));
+            }
+        }
+
+        protected void ProcessAttributeReply(AttributeReplyPacket attributeReply, IPEndPoint ipAddress)
+        {
+            if (attributeReply.ErrorCode == SlpErrorCode.None)
+            {
+
             }
         }
 

@@ -38,6 +38,7 @@ namespace Acn.Slp
         
         public SlpServiceAgent()
         {
+            Attributes = new Dictionary<string, string>();
         }
         
         #endregion
@@ -112,6 +113,10 @@ namespace Acn.Slp
             ServiceAcknowledgePacket acknowledge = packetInfo.Packet as ServiceAcknowledgePacket;
             if (acknowledge != null)
                 RaiseServiceRegistered();
+
+            AttributeRequestPacket attributeRequest = packetInfo.Packet as AttributeRequestPacket;
+            if (attributeRequest != null)
+                SendAttributeReply(packetInfo.SourceEndPoint, packetInfo.Packet.Header.XId);
         }
 
         private void ProcessDAAdvert(DirectoryAgentAdvertPacket da, IPEndPoint source)
@@ -171,6 +176,14 @@ namespace Acn.Slp
             ServiceReplyPacket reply = new ServiceReplyPacket();
             FillHeader(reply.Header, transactionId);
             reply.Urls.Add(new UrlEntry(ServiceUrl));
+            socket.Send(target, reply);
+        }
+
+        private void SendAttributeReply(IPEndPoint target, short transactionId)
+        {
+            AttributeReplyPacket reply = new AttributeReplyPacket();
+            FillHeader(reply.Header, transactionId);
+            reply.AttrList = AttributeString;
             socket.Send(target, reply);
         }
 
