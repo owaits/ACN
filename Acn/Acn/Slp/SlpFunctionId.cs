@@ -38,6 +38,12 @@ namespace Acn.Slp
         ServiceRegistration = 3,
         ServiceDeRegister = 4,
         ServiceAcknowledge = 5,
-        DirectoryAgentAdvert= 8
+        AttributeRequest = 6,
+        AttributeReply = 7,
+        DirectoryAgentAdvert= 8,
+        ServiceTypeRequest = 9,
+        ServiceTypeReply = 10,
+        ServiceAgentAdvert = 11
+
     }
 }

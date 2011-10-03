@@ -44,12 +44,23 @@ namespace Acn.Helpers
         {
             DmxData = dmxData;
             aliveTime = 3;
+
+            RaiseDmxDataChanged();
         }
 
         public void SetDmx(int address, byte value)
         {
             this.dmxData[address] = value;
             aliveTime = 3;
+
+            RaiseDmxDataChanged();
+        }
+
+        protected void RaiseDmxDataChanged()
+        {
+            if (DmxDataChanged != null)
+                DmxDataChanged(this, EventArgs.Empty);
+
         }
 
     }
