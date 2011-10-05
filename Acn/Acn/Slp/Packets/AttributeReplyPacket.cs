@@ -49,6 +49,13 @@ namespace Acn.Slp.Packets
 
         public string AttrList { get; set; }
 
+        private List<AuthenticationBlock> authorities = new List<AuthenticationBlock>();
+
+        public List<AuthenticationBlock> Authorities
+        {
+            get { return authorities; }
+        }
+
         #endregion
 
         #region Read and Write
@@ -63,6 +70,10 @@ namespace Acn.Slp.Packets
         {
             data.WriteNetwork((short) ErrorCode);
             data.WriteNetworkString(AttrList);
+
+            data.Write((byte)Authorities.Count);
+            foreach (AuthenticationBlock block in Authorities)
+                data.Write(block);
         }
 
         #endregion

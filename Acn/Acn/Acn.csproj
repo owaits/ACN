@@ -170,6 +170,7 @@
     <Compile Include="Rdm\UId.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnPacket.cs" />
     <Compile Include="Rdm\UnknownRdmPacketException.cs" />
+    <Compile Include="Slp\AttributeReplyEventArgs.cs" />
     <Compile Include="Slp\AuthenticationBlock.cs" />
     <Compile Include="Slp\DirectoryAgentInformation.cs" />
     <Compile Include="Slp\IO\SlpBinaryWriter.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Slp\Packets\ServiceRequestPacket.cs" />
     <Compile Include="Slp\Packets\SlpHeaderPacket.cs" />
     <Compile Include="Slp\Packets\SlpPacket.cs" />
+    <Compile Include="Slp\Packets\SlpRequestPacket.cs" />
     <Compile Include="Slp\UrlEntry.cs" />
     <Compile Include="Slp\ServiceFoundEventArgs.cs" />
     <Compile Include="Slp\SlpAgent.cs" />

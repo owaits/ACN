@@ -44,7 +44,7 @@
             this.urlText.Name = "urlText";
             this.urlText.Size = new System.Drawing.Size(221, 21);
             this.urlText.TabIndex = 0;
-            this.urlText.Text = "service:acn.esta";
+            this.urlText.Text = "service:e133.esta";
             // 
             // find
             // 
@@ -89,7 +89,7 @@
             this.deviceList.FormattingEnabled = true;
             this.deviceList.Location = new System.Drawing.Point(5, 31);
             this.deviceList.Name = "deviceList";
-            this.deviceList.Size = new System.Drawing.Size(412, 277);
+            this.deviceList.Size = new System.Drawing.Size(412, 282);
             this.deviceList.TabIndex = 3;
             // 
             // SlpDiscovery

@@ -10,6 +10,7 @@ using Acn.Slp;
 using System.Net;
 using Acn.Sockets;
 using Acn.Rdm;
+using System.Net.NetworkInformation;
 
 namespace SandboxAcnDevice
 {
@@ -60,7 +61,16 @@ namespace SandboxAcnDevice
 
         private void StartDevice()
         {
-            IPAddress localAddress = new IPAddress(new byte[] { 10, 0, 10, 1 });
+
+            //IPAddress localAddress = new IPAddress(new byte[] { 10, 0, 0, 101 });
+
+            // Grab an IP address - need to write a chooser for this
+            var localAddress = NetworkInterface.GetAllNetworkInterfaces()
+                .Where(i => i.OperationalStatus == OperationalStatus.Up)
+                .SelectMany(i => i.GetIPProperties().UnicastAddresses)
+                .Where(a => a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                .FirstOrDefault()
+                .Address;
             
             socket.Open(localAddress);    
 
@@ -68,8 +78,12 @@ namespace SandboxAcnDevice
             {
                 slpService.NetworkAdapter = localAddress;
                 slpService.Scope = "ACN-DEFAULT";
-                slpService.ServiceType = serviceTypeText.Text;
-                slpService.ServiceUrl = string.Format("{0}://10.0.10.1:5568/{1}", serviceTypeText.Text,uidText.Text);
+                slpService.ServiceUrl = string.Format("{0}://{1}:5568/{2}", serviceTypeText.Text, localAddress, uidText.Text);
+                // Attributes aren't part of the ACN spec but this is handy for testing SLP
+                slpService.Attributes["Foo"] = "Bar";
+                slpService.Attributes["Time"] = "Money";
+                slpService.Attributes["Knowledge"] = "Power";
+                slpService.Attributes["Tea"] = "Happiness";
 
                 slpService.Open();
             }       

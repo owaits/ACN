@@ -56,10 +56,30 @@ namespace Acn.Slp.IO
             Write((byte)value);           
         }
 
+        /// <summary>
+        /// Writes a string to the network.
+        /// </summary>
+        /// <param name="value">The value.</param>
         public void WriteNetworkString(string value)
         {
-            WriteNetwork((short)value.Length);
-            Write(Encoding.UTF8.GetBytes(value));
+            if (string.IsNullOrEmpty(value))
+            {
+                WriteNetwork((short)0);
+            }
+            else
+            {
+                WriteNetwork((short)value.Length);
+                Write(Encoding.UTF8.GetBytes(value));
+            }
+        }
+
+        /// <summary>
+        /// Writes a set of strings as a comma seperated list.
+        /// </summary>
+        /// <param name="values">The values.</param>
+        public void Write(IEnumerable<string> values)
+        {
+            WriteNetworkString(values == null ? string.Empty : string.Join(",", values.ToArray()));
         }
 
         public void Write(UrlEntry value)
