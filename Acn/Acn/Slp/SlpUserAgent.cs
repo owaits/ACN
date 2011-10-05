@@ -31,6 +31,7 @@ using System.Threading;
 using Acn.Slp.Packets;
 using Acn.Slp.Sockets;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Acn.Slp
 {      
@@ -71,19 +72,42 @@ namespace Acn.Slp
             SendDARequest();
         }
 
-        public void Find(string serviceType)
+        public int Find(string serviceType)
         {
             if (socket == null)
                 throw new InvalidOperationException("User agent not open. Please open the user agent first before calling Find.");
 
-            SendRequest(serviceType, Scope);
+           return SendRequest(serviceType, Scope);
+        }
+
+        /// <summary>
+        /// Sends an attribute request.
+        /// This can either be to a specific URL or a general service type.
+        /// Results will be returned via the AttributeReply event
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>
+        /// An id for this request which can be used to match it to the reply
+        /// </returns>
+        public int RequestAttributes(string url)
+        {
+            if (socket == null)
+                throw new InvalidOperationException("User agent not open. Please open the user agent first before calling.");
+
+            return SendAttributeRequest(Scope, url);
         }
 
         #endregion        
 
         #region Messaging
 
-        private void SendRequest(string serviceType, string scope)
+        /// <summary>
+        /// Sends a service request.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <param name="scope">The scope.</param>
+        /// <returns>The Id of the request</returns>
+        private int SendRequest(string serviceType, string scope)
         {
             ServiceRequestPacket request = new ServiceRequestPacket();
             FillHeader(request.Header, NewTransactionId());
@@ -96,15 +120,57 @@ namespace Acn.Slp
             else
                 //Request the services directly from the DA.
                 socket.Send(DirectoryAgent.EndPoint, request);
+
+            return request.Header.XId;
         }
 
-        private void SendAttributeRequest(IPEndPoint target,string scope)
+
+
+        /// <summary>
+        /// Sends an attribute request.
+        /// This can either be to a specific URL or a general service URL.
+        /// Results will be returned via the AttributeReply event
+        /// </summary>
+        /// <param name="scope">The scope.</param>
+        /// <param name="url">The URL.</param>
+        /// <returns>
+        /// An id for this request which can be used to mtch it to the reply
+        /// </returns>
+        private int SendAttributeRequest(string scope, string url)
+        {
+            AttributeRequestPacket request = PrepareAttributeRequest(scope, url);
+            socket.Send(request);
+            return request.Header.XId;
+        }
+
+        /// <summary>
+        /// Sends an attribute request.
+        /// This can either be to a specific URL or a general service URL.
+        /// Results will be returned via the AttributeReply event
+        /// </summary>
+        /// <param name="target">The target endpoint.</param>
+        /// <param name="scope">The scope.</param>
+        /// <param name="url">The URL.</param>
+        private void SendAttributeRequest(IPEndPoint target, string scope, string url)
+        {
+            AttributeRequestPacket request = PrepareAttributeRequest(scope, url);
+
+            socket.Send(target, request);
+        }
+
+        /// <summary>
+        /// Prepares the attribute request object.
+        /// </summary>
+        /// <param name="scope">The scope.</param>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
+        private AttributeRequestPacket PrepareAttributeRequest(string scope, string url)
         {
             AttributeRequestPacket request = new AttributeRequestPacket();
             FillHeader(request.Header, NewTransactionId());
             request.ScopeList = scope;
-
-            socket.Send(target, request);
+            request.Url = url;
+            return request;
         }
 
         protected override void ProcessPacket(NewPacketEventArgs packetInfo)
@@ -118,6 +184,12 @@ namespace Acn.Slp
             if (serviceReply != null)
                 ProcessServiceReply(serviceReply, packetInfo.SourceEndPoint);
 
+            AttributeReplyPacket attributeReply = packetInfo.Packet as AttributeReplyPacket;
+            if (attributeReply != null)
+            {
+                ProcessAttributeReply(attributeReply, packetInfo.SourceEndPoint);
+            }
+
         }
 
 	    #endregion
@@ -128,22 +200,61 @@ namespace Acn.Slp
 
         protected void ProcessServiceReply(ServiceReplyPacket serviceReply,IPEndPoint ipAddress)
         {
-            if (serviceReply.ErrorCode == SlpErrorCode.None)
+            if (serviceReply.ErrorCode == SlpErrorCode.None && serviceReply.Urls.Count > 0)
             {
-                //Request the Attributes for this service
-                //SendAttributeRequest(ipAddress, Scope);
-
                 if (ServiceFound != null)
                     ServiceFound(this, new ServiceFoundEventArgs(serviceReply.Urls, ipAddress));
             }
         }
 
+        /// <summary>
+        /// Occurs when a reply to an attribute request is recieved.
+        /// </summary>
+        public event EventHandler<AttributeReplyEventArgs> AttributeReply;
+
+        /// <summary>
+        /// Processes the attribute reply.
+        /// </summary>
+        /// <param name="attributeReply">The attribute reply packet.</param>
+        /// <param name="ipAddress">The ip address the reply originated from.</param>
         protected void ProcessAttributeReply(AttributeReplyPacket attributeReply, IPEndPoint ipAddress)
         {
             if (attributeReply.ErrorCode == SlpErrorCode.None)
             {
-
+                AttributeReplyEventArgs args = new AttributeReplyEventArgs() { Address = ipAddress};
+                args.Attributes = SplitAttributeList(attributeReply.AttrList);
+                if (AttributeReply != null)
+                {
+                    AttributeReply(this, args);
+                }
             }
+        }
+
+
+        // This regex matches a (key=value) string from the attribute list
+        // This is much simplified compared to what the RFC calls for but it should work for most common cases
+        static Regex attributePairMatch = new Regex(@"\(\s*([^\(\)\,\\\/\!\<\=\>\~]+)\s*=\s*([^\)]*)\s*\)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Splits a string attribute list into a dictionary of key value pairs.
+        /// Only supports (key=value) lists not tags.
+        /// </summary>
+        /// <param name="attributeList">The attribute list.</param>
+        /// <returns>A dictionary of string pairs</returns>
+        static protected Dictionary<string, string> SplitAttributeList(string attributeList)
+        {
+            Dictionary<string, string> attributes = new Dictionary<string, string>();
+
+            var pairs = attributeList.Split(',');
+            foreach (string pair in pairs)
+            {
+                Match match = attributePairMatch.Match(pair);
+                if (match.Success)
+                {
+                    attributes[match.Groups[1].Value] = string.IsNullOrEmpty(match.Groups[2].Value) ? string.Empty : match.Groups[2].Value;
+                }
+            }
+            return attributes;
         }
 
         #endregion

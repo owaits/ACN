@@ -80,5 +80,15 @@ namespace Acn.Slp.IO
             AuthenticationBlock block = new AuthenticationBlock();
             return block;
         }
+
+        /// <summary>
+        /// Reads a comma seperated string list from the network.
+        /// </summary>
+        /// <returns>An Enumerable of strings (commas are stripped out)</returns>
+        internal IEnumerable<string> ReadNetworkStringList()
+        {
+            string data = ReadNetworkString();
+            return data.Split(',');
+        }
     }
 }

@@ -1,7 +1,7 @@
-﻿#region Copyright © 2011 Oliver Waits
+﻿#region Copyright © 2011 Mark Daniel
 //______________________________________________________________________________________________________________
 // Service Location Protocol
-// Copyright © 2011 Oliver Waits
+// Copyright © 2011 Mark Daniel
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,57 +27,48 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
-using Acn.Slp.IO;
 
 namespace Acn.Slp.Packets
 {
-    public class ServiceRequestPacket:SlpRequestPacket
+    /// <summary>
+    /// Base class for request packets
+    /// </summary>
+    public abstract class SlpRequestPacket : SlpPacket
     {
-        #region Setup and Initialisation
-
-        public ServiceRequestPacket():base(SlpFunctionId.ServiceRequest)
+        public SlpRequestPacket(SlpFunctionId functionId)
+            : base(functionId)
         {
-            Predicate = string.Empty;
-            SlpSpi = string.Empty;
         }
 
-        #endregion
+        private List<string> prList = new List<string>();
 
-        #region Packet Contents
-
-
-
-        public string ServiceType { get; set; }
-
-        public string Predicate { get; set; }
-
-
-
-        #endregion
-
-        #region Read and Write
-
-        protected override void ReadData(SlpBinaryReader data)
+        /// <summary>
+        /// Gets or sets the Previous Responder List.
+        /// </summary>
+        /// <value>
+        /// The PR list.
+        /// </value>
+        public List<string> PRList
         {
-            PRList.AddRange(data.ReadNetworkStringList());
-            ServiceType = data.ReadNetworkString();
-            ScopeList = data.ReadNetworkString();
-            Predicate = data.ReadNetworkString();
-            SlpSpi = data.ReadNetworkString();            
+            get { return prList; }
+            protected set { prList = value; }
         }
 
-        protected override void WriteData(SlpBinaryWriter data)
-        {
-            data.Write(PRList);
-            data.WriteNetworkString(ServiceType);
-            data.WriteNetworkString(ScopeList);
-            data.WriteNetworkString(Predicate);
-            data.WriteNetworkString(SlpSpi);
-        }
-        
-        #endregion
+        /// <summary>
+        /// Gets or sets the scope list.
+        /// </summary>
+        /// <value>
+        /// The scope list.
+        /// </value>
+        public string ScopeList { get; set; }
 
-
+        /// <summary>
+        /// Gets or sets the SLP Security Parameter Index.
+        /// Used for authentication - current unsupported
+        /// </summary>
+        /// <value>
+        /// The SLP spi.
+        /// </value>
+        public string SlpSpi { get; set; }
     }
 }

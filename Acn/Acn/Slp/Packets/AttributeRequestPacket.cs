@@ -32,7 +32,7 @@ using Acn.Slp.IO;
 
 namespace Acn.Slp.Packets
 {
-    public class AttributeRequestPacket : SlpPacket
+    public class AttributeRequestPacket : SlpRequestPacket
     {
         #region Setup and Initialisation
 
@@ -45,15 +45,9 @@ namespace Acn.Slp.Packets
 
         #region Packet Contents
 
-        public string PRList { get; set; }
-
         public string Url { get; set; }
 
-        public string ScopeList { get; set; }
-
-        public string TagList { get; set; }
-
-        public string SlpSpi { get; set; }
+        public List<string> TagList { get; set; }
 
         #endregion
 
@@ -61,19 +55,19 @@ namespace Acn.Slp.Packets
 
         protected override void ReadData(SlpBinaryReader data)
         {
-            PRList = data.ReadNetworkString();
+            PRList = new List<string>(data.ReadNetworkStringList());
             Url = data.ReadNetworkString();
             ScopeList = data.ReadNetworkString();
-            TagList = data.ReadNetworkString();
+            TagList = new List<string>(data.ReadNetworkStringList());
             SlpSpi = data.ReadNetworkString();
         }
 
         protected override void WriteData(SlpBinaryWriter data)
         {
-            data.WriteNetworkString(PRList);
+            data.Write(PRList);
             data.WriteNetworkString(Url);
             data.WriteNetworkString(ScopeList);
-            data.WriteNetworkString(TagList);
+            data.Write(TagList);
             data.WriteNetworkString(SlpSpi);
         }
 
