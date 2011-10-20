@@ -97,6 +97,24 @@ namespace Acn.Slp
             return SendAttributeRequest(Scope, url);
         }
 
+        /// <summary>
+        /// Sends an attribute request.
+        /// This can either be to a specific URL or a general service type.
+        /// Results will be returned via the AttributeReply event
+        /// This version targets a specific IP which can cut down the noise on replies.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>
+        /// An id for this request which can be used to match it to the reply
+        /// </returns>
+        public int RequestAttributes(IPEndPoint target, string url)
+        {
+            if (socket == null)
+                throw new InvalidOperationException("User agent not open. Please open the user agent first before calling.");
+
+            return SendAttributeRequest(target, Scope, url);
+        }
+
         #endregion        
 
         #region Messaging
@@ -151,11 +169,13 @@ namespace Acn.Slp
         /// <param name="target">The target endpoint.</param>
         /// <param name="scope">The scope.</param>
         /// <param name="url">The URL.</param>
-        private void SendAttributeRequest(IPEndPoint target, string scope, string url)
+        private int SendAttributeRequest(IPEndPoint target, string scope, string url)
         {
             AttributeRequestPacket request = PrepareAttributeRequest(scope, url);
 
             socket.Send(target, request);
+
+            return request.Header.XId;
         }
 
         /// <summary>
@@ -203,7 +223,7 @@ namespace Acn.Slp
             if (serviceReply.ErrorCode == SlpErrorCode.None && serviceReply.Urls.Count > 0)
             {
                 if (ServiceFound != null)
-                    ServiceFound(this, new ServiceFoundEventArgs(serviceReply.Urls, ipAddress));
+                    ServiceFound(this, new ServiceFoundEventArgs(serviceReply.Urls, ipAddress) { RequestId = serviceReply.Header.XId });
             }
         }
 
@@ -221,7 +241,7 @@ namespace Acn.Slp
         {
             if (attributeReply.ErrorCode == SlpErrorCode.None)
             {
-                AttributeReplyEventArgs args = new AttributeReplyEventArgs() { Address = ipAddress};
+                AttributeReplyEventArgs args = new AttributeReplyEventArgs() { Address = ipAddress, RequestId = attributeReply.Header.XId};
                 args.Attributes = SplitAttributeList(attributeReply.AttrList);
                 if (AttributeReply != null)
                 {

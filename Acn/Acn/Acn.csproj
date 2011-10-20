@@ -75,6 +75,9 @@
     <Compile Include="AcnPacket.cs" />
     <Compile Include="Helpers\DmxStreamer.cs" />
     <Compile Include="Helpers\DmxUniverse.cs" />
+    <Compile Include="Helpers\SlpDeviceEventArgs.cs" />
+    <Compile Include="Helpers\SlpDeviceInformation.cs" />
+    <Compile Include="Helpers\SlpDeviceManager.cs" />
     <Compile Include="InvalidPacketException.cs" />
     <Compile Include="IProtocolFilter.cs" />
     <Compile Include="Packets\Dmp\DmpGetProperty.cs" />
