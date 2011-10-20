@@ -1,7 +1,7 @@
-﻿#region Copyright © 2011 Oliver Waits
+﻿#region Copyright © 2011 Mark Daniel
 //______________________________________________________________________________________________________________
 // Service Location Protocol
-// Copyright © 2011 Oliver Waits
+// Copyright © 2011 Mark Daniel
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,49 @@
 //______________________________________________________________________________________________________________
 #endregion
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Net;
-using Acn.Slp.Packets;
 
-namespace Acn.Slp
+namespace Acn.Helpers
 {
-    public class ServiceFoundEventArgs: EventArgs
+    /// <summary>
+    /// Event args for an Slp Device Manager event
+    /// </summary>
+    public class SlpDeviceEventArgs : EventArgs
     {
-        public ServiceFoundEventArgs(List<UrlEntry> url, IPEndPoint address)
-        {
-            Urls = url;
-            Address = address;
-        }
-
-        public List<UrlEntry> Urls { get; set; }
-
-        public IPEndPoint Address { get; set; }
-
         /// <summary>
-        /// Gets or sets the request id.
-        /// (Matches the one returned by Find)
+        /// Gets or sets the device.
         /// </summary>
         /// <value>
-        /// The request id.
+        /// The device.
         /// </value>
-        public int RequestId { get; set; }
+        public SlpDeviceInformation Device { get; set; }
+    }
 
+    /// <summary>
+    ///  Event args for an Slp Device Manager update event
+    /// </summary>
+    public class SlpUpdateEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Gets or sets the new list of devices.
+        /// </summary>
+        /// <value>
+        /// The devices.
+        /// </value>
+        public IEnumerable<SlpDeviceInformation> Devices { get; set; }
+
+        /// <summary>
+        /// Helper to get a list of devices filtered by state
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <returns></returns>
+        public IEnumerable<SlpDeviceInformation> GetDevices(SlpDeviceState state)
+        {
+            return Devices.Where(d => d.State == state);
+        }
     }
 }

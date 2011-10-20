@@ -172,15 +172,30 @@ namespace Acn.Slp
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (string aname in Attributes.Keys)
-                {
-                    if (sb.Length > 0)
-                        sb.Append(",");
-                    sb.AppendFormat("({0}={1})", aname, Attributes[aname]);
-                }
-                return sb.ToString();
+                return JoinAttributeString(Attributes);
             }
+        }
+
+        /// <summary>
+        /// Joins an attribute dictionary to a string of (a=b) tupples
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns></returns>
+        public static string JoinAttributeString(IDictionary<string, string> attributes)
+        {
+            if (attributes == null)
+            {
+                return string.Empty;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            foreach (string aname in attributes.Keys)
+            {
+                if (sb.Length > 0)
+                    sb.Append(",");
+                sb.AppendFormat("({0}={1})", aname, attributes[aname]);
+            }
+            return sb.ToString();
         }
 
         private Dictionary<string, DirectoryAgentInformation> directoryAgents = new Dictionary<string, DirectoryAgentInformation>();

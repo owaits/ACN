@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Net;
 using Acn.Slp;
 using Acn.Slp.Packets;
+using Acn.Helpers;
 
 namespace SlpDiscovery
 {
@@ -20,8 +21,11 @@ namespace SlpDiscovery
         {
             InitializeComponent();
 
-            slpUser.ServiceFound +=new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
+            slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
+            manager.DeviceUpdated += new EventHandler(manager_DevicesUpdated);
         }
+
+
 
         private void find_Click(object sender, EventArgs e)
         {
@@ -41,7 +45,7 @@ namespace SlpDiscovery
                 return;
             }
 
-            foreach(UrlEntry url in e.Urls)
+            foreach (UrlEntry url in e.Urls)
                 deviceList.Items.Add(url.Url);
         }
 
@@ -53,6 +57,69 @@ namespace SlpDiscovery
         private void scopeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private SlpDeviceManager manager = new SlpDeviceManager();
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (manager.Running)
+            {
+                manager.Stop();
+            }
+            else
+            {
+                manager.Scope = scopeSelect.Text;
+                manager.ServiceType = urlText.Text;
+                manager.Start();
+            }
+        }
+
+        private void update_Click(object sender, EventArgs e)
+        {
+            manager.Update();
+        }
+
+        void manager_DevicesUpdated(object sender, EventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new EventHandler(manager_DevicesUpdated));
+                return;
+            }
+            devicesGrid.Rows.Clear();
+            foreach (var device in manager.GetDevices())
+            {
+                devicesGrid.Rows.Add(
+                    device.Url,
+                    SlpServiceAgent.JoinAttributeString(device.Attributes),
+                    device.LastContact,
+                    device.State.ToString()
+                    );
+                Color backColour = Color.White;
+
+                switch (device.State)
+                {
+                    case SlpDeviceState.New:
+                        backColour = Color.LightGreen;
+                        break;
+
+                    case SlpDeviceState.MissedPoll:
+                        backColour = Color.Yellow;
+                        break;
+
+                    case SlpDeviceState.Disappeared:
+                        backColour = Color.Red;
+                        break;
+
+                    case SlpDeviceState.ReAppeared:
+                        backColour = Color.Green;
+                        break;
+                }
+
+                devicesGrid.Rows[devicesGrid.Rows.Count - 1].DefaultCellStyle.BackColor = backColour;
+
+            }
         }
 
     }
