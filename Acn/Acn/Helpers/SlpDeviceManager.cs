@@ -328,12 +328,17 @@ namespace Acn.Helpers
             }
         }
 
+        // Random source designed to stop lots of nodes on a network 
+        // polling in lock-step if they start at the same time.
+        // The seed is generated from a GUID which should be to some extent hardware dependent.
+        private Random randomSource = new Random(Guid.NewGuid().GetHashCode());
+
         /// <summary>
         /// Requests a poll callback after the poll interval.
         /// </summary>
         private void RequestPollCallback()
         {
-            pollTimer.Change(PollInterval, TimeSpan.FromMilliseconds(-1));
+            pollTimer.Change(PollInterval + TimeSpan.FromMilliseconds(randomSource.Next(1000)), TimeSpan.FromMilliseconds(-1));
         }
 
         /// <summary>
@@ -408,9 +413,58 @@ namespace Acn.Helpers
         }
 
         /// <summary>
+        /// Struct to hold a composite key for a alp attribtue request.
+        /// Holds the agent and the request id
+        /// </summary>
+        private struct UserAgentRequest
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="UserAgentRequest"/> struct.
+            /// </summary>
+            /// <param name="agent">The agent.</param>
+            /// <param name="request">The request.</param>
+            public UserAgentRequest(SlpUserAgent agent, int request)
+            {
+                Agent = agent;
+                RequestId = request;
+            }
+
+            SlpUserAgent Agent;
+            int RequestId;
+
+            /// <summary>
+            /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+            /// </summary>
+            /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+            /// <returns>
+            ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            /// </returns>
+            public override bool Equals(object obj)
+            {
+                if (obj is UserAgentRequest)
+                {
+                    UserAgentRequest request = (UserAgentRequest)obj;
+                    return request.Agent == Agent && request.RequestId == RequestId;
+                }
+                return base.Equals(obj);
+            }
+
+            /// <summary>
+            /// Returns a hash code for this instance.
+            /// </summary>
+            /// <returns>
+            /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            /// </returns>
+            public override int GetHashCode()
+            {
+                return Agent.GetHashCode() ^ RequestId;
+            }
+        }
+
+        /// <summary>
         /// Log of attribute request ids to the devices
         /// </summary>
-        private Dictionary<int, SlpDeviceInformation> attributeRequestLog = new Dictionary<int, SlpDeviceInformation>();
+        private Dictionary<UserAgentRequest, SlpDeviceInformation> attributeRequestLog = new Dictionary<UserAgentRequest, SlpDeviceInformation>();
 
         /// <summary>
         /// Requests the attributes for a device.
@@ -420,10 +474,11 @@ namespace Acn.Helpers
         {
             if (FetchAttributes && device.DiscoveryAgents.Count > 0)
             {
-                int requestId = device.DiscoveryAgents.First().RequestAttributes(device.Endpoint, device.Url);
+                SlpUserAgent agent = device.DiscoveryAgents.First();
+                int requestId = agent.RequestAttributes(device.Endpoint, device.Url);
                 lock (attributeRequestLog)
                 {
-                    attributeRequestLog[requestId] = device;
+                    attributeRequestLog[new UserAgentRequest(agent, requestId)] = device;
                 }
             }
         }
@@ -438,11 +493,12 @@ namespace Acn.Helpers
             SlpDeviceInformation device;
             lock (attributeRequestLog)
             {
-                if (attributeRequestLog.TryGetValue(e.RequestId, out device))
+                UserAgentRequest requestKey = new UserAgentRequest(sender as SlpUserAgent, e.RequestId);
+                if (attributeRequestLog.TryGetValue(requestKey, out device))
                 {
                     device.Attributes = e.Attributes;
                     device.LastContact = DateTime.Now;
-                    attributeRequestLog.Remove(e.RequestId);
+                    attributeRequestLog.Remove(requestKey);
                     OnDevicesUpdated();
                 }
             }
