@@ -93,6 +93,8 @@
     <Compile Include="AcnPacketFactory.cs" />
     <Compile Include="ProtocolIds.cs" />
     <Compile Include="Rdm\Broker\RdmMessageAttribute.cs" />
+    <Compile Include="Rdm\Broker\RdmPersonality.cs" />
+    <Compile Include="Rdm\Broker\RdmSlot.cs" />
     <Compile Include="Rdm\DmxStartCodes.cs" />
     <Compile Include="Rdm\Packets\Configuration\RealTimeClock.cs" />
     <Compile Include="Rdm\Packets\Configuration\PanTiltSwap.cs" />

@@ -31,6 +31,7 @@ namespace Acn.Rdm.Packets.Parameters
             public GetReply()
                 : base(RdmCommands.GetResponse, RdmParameters.BackgroundDiscovery)
             {
+                ParameterIds = new List<RdmParameters>();
             }
 
             /// <summary>

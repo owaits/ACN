@@ -61,7 +61,7 @@ namespace Acn.Rdm.Broker
 
         public void RegisterHandlers(object messageProvider)
         {
-            foreach(MethodInfo method in messageProvider.GetType().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance))
+            foreach(MethodInfo method in messageProvider.GetType().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
             {
                 foreach(object attribute in method.GetCustomAttributes(typeof(RdmMessageAttribute), true))
                 {
@@ -80,6 +80,11 @@ namespace Acn.Rdm.Broker
                     }
                 }
             }
+        }
+
+        public void RegisterPersonality(RdmPersonality personality)
+        {
+            RegisterHandlers(personality);
         }
 
         public RdmPacket ProcessPacket(RdmPacket packet)
@@ -105,6 +110,10 @@ namespace Acn.Rdm.Broker
                         responsePacket = handler(packet);
                     }
                     break;
+                case RdmCommands.GetResponse:
+                    return null;
+                case RdmCommands.SetResponse:
+                    return null;
             }
 
             if (AutoNack && responsePacket == null)

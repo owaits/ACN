@@ -13,6 +13,13 @@ namespace Acn.Rdm.Packets.DMX
     {
         public struct SlotValue
         {
+            public SlotValue(short offset, byte value)
+                : this()
+            {
+                Offset = offset;
+                Value = value;
+            }
+
             public short Offset { get; set; }
 
             public byte Value { get; set; }
