@@ -74,11 +74,32 @@ namespace Acn.Rdm.Packets.DMX
     {
         public struct SlotInformation
         {
+            public SlotInformation(short offset, SlotIds id):this()
+            {
+                this.Offset = offset;
+                this.Type = SlotTypes.Primary;
+                this.Id = id;
+            }
+
+            public SlotInformation(short offset, SlotTypes type, int slotLink)
+                : this()
+            {
+                this.Offset = offset;
+                this.Type = type;
+                this.SlotLink = slotLink;
+            }
+
             public short Offset { get; set; }
 
             public SlotTypes Type { get; set; }
 
-            public SlotIds Id { get; set; }           
+            public SlotIds Id
+            {
+                get { return (SlotIds)SlotLink; }
+                set { SlotLink = (int)value; }
+            }
+
+            public int SlotLink { get; set; }     
         }
 
         public class Get : RdmRequestPacket
@@ -121,7 +142,7 @@ namespace Acn.Rdm.Packets.DMX
                     SlotInformation slot = new SlotInformation();
                     slot.Offset = data.ReadNetwork16();
                     slot.Type = (SlotTypes) data.ReadByte();
-                    slot.Id = (SlotIds) data.ReadNetwork16();
+                    slot.SlotLink = (int)data.ReadNetwork16();
                     Slots.Add(slot);
                 }
             }
@@ -132,7 +153,7 @@ namespace Acn.Rdm.Packets.DMX
                 {
                     data.WriteNetwork(slot.Offset);
                     data.WriteNetwork((byte) slot.Type);
-                    data.WriteNetwork((byte) slot.Id);
+                    data.WriteNetwork((byte)slot.SlotLink);
                 }
             }
 
