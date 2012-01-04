@@ -196,7 +196,7 @@ namespace Acn.ArtNet.Sockets
             rdmPacket.SubStartCode = (byte)RdmVersions.SubMessage;
             rdmPacket.RdmData = rdmData.GetBuffer();
 
-            Send(rdmPacket);
+            Send(rdmPacket, targetAddress);
         }
 
         public void SendRdm(List<RdmPacket> packets, IPAddress targetAddress, UId targetId)
