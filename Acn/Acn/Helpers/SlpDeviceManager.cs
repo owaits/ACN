@@ -46,12 +46,26 @@ namespace Acn.Helpers
         {
             FetchAttributes = true;
 
+            NetworkChange.NetworkAddressChanged +=new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
+
             pollTimer = new System.Threading.Timer(new System.Threading.TimerCallback(pollTimerTick), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             CreateAgents();
         }
 
+        /// <summary>
+        /// Called when the network IP changes or a network is connected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void NetworkChange_NetworkAddressChanged(object sender, EventArgs e)
+        {
+            //Need to create a listener on the new interface or remove one from the old interface.
+            RefreshAgents();
+        }
 
         #region Control properties
+
+        private string scope = "DEFAULT";
 
         /// <summary>
         /// Gets or sets the SLP scope.
@@ -62,12 +76,16 @@ namespace Acn.Helpers
         /// </value>
         public string Scope
         {
-            get { return agents.Keys.First().Scope; }
+            get { return scope; }
             set
             {
-                foreach (SlpAgent agent in agents.Keys)
+                if (scope != value)
                 {
-                    agent.Scope = value;
+                    scope = value;
+                    foreach (SlpAgent agent in agents.Keys)
+                    {
+                        agent.Scope = value;
+                    }
                 }
             }
         }
@@ -87,9 +105,12 @@ namespace Acn.Helpers
             {
                 if (serviceType != value)
                 {
-                    if (agents.Keys.Any(a => a.Active))
+                    lock (agents)
                     {
-                        throw new InvalidOperationException("SlpDeviceManager does not support changing the ServiceType after discovery has started");
+                        if (agents.Keys.Any(a => a.Active))
+                        {
+                            throw new InvalidOperationException("SlpDeviceManager does not support changing the ServiceType after discovery has started");
+                        }
                     }
                     serviceType = value;
                 }
@@ -147,13 +168,16 @@ namespace Acn.Helpers
         public void Start()
         {
             Running = true;
-            foreach (var agent in agents.Keys)
+
+            lock (agents)
             {
-                agent.Open();
+                foreach (var agent in agents.Keys)
+                {
+                    agent.Open();
+                }
             }
             UpdateDevices();
             RequestPollCallback();
-
         }
 
         /// <summary>
@@ -170,11 +194,31 @@ namespace Acn.Helpers
         /// </summary>
         public void Stop()
         {
-            foreach (var agent in agents.Keys)
+            lock (agents)
             {
-                agent.Close();
+                foreach (var agent in agents.Keys)
+                {
+                    agent.Close();
+                }
             }
             StopPollTimer();
+        }
+
+        /// <summary>
+        /// Creates new agents for each network interface and opens them again.
+        /// </summary>
+        public void RefreshAgents()
+        {
+            lock (agents)
+            {
+                CreateAgents();
+                if (Running)
+                {
+                    //If we are running start the agents.
+                    foreach (var agent in agents.Keys)
+                        agent.Open();
+                }
+            }
         }
 
 
@@ -283,33 +327,37 @@ namespace Acn.Helpers
             lock(devicesLock)
             {
                 lock(attributeRequestLog)
-                {
-                    // If we have any agents get rid of them 
-                    foreach(SlpUserAgent agent in agents.Keys)
+                {                    
+                    lock (agents)
                     {
-                        agent.ServiceFound -= agent_ServiceFound;
-                        agent.AttributeReply -= agent_AttributeReply;
-                        agent.Dispose();
-                    }
-                    agents.Clear();
+                        // If we have any agents get rid of them 
+                        foreach (SlpUserAgent agent in agents.Keys)
+                        {
+                            agent.ServiceFound -= agent_ServiceFound;
+                            agent.AttributeReply -= agent_AttributeReply;
+                            agent.Dispose();
+                        }
+                        agents.Clear();
 
-                    // We also need to clear them from the devices
-                    foreach (SlpDeviceInformation device in devices.Values)
-                    {
-                        device.DiscoveryAgents.Clear();
-                    }
+                        // We also need to clear them from the devices
+                        foreach (SlpDeviceInformation device in devices.Values)
+                        {
+                            device.DiscoveryAgents.Clear();
+                        }
 
-                    // Now create a new agent for each adaptor
-                    foreach (var localAddress in NetworkInterface.GetAllNetworkInterfaces()
-                        .Where(i => i.OperationalStatus == OperationalStatus.Up)
-                        .SelectMany(i => i.GetIPProperties().UnicastAddresses)
-                        .Where(a => a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork))
-                    {
-                        SlpUserAgent agent = new SlpUserAgent();
-                        agent.NetworkAdapter = localAddress.Address;
-                        agent.ServiceFound += agent_ServiceFound;
-                        agent.AttributeReply += agent_AttributeReply;
-                        agents.Add(agent, 0);
+                        // Now create a new agent for each adaptor
+                        foreach (var localAddress in NetworkInterface.GetAllNetworkInterfaces()
+                            .Where(i => i.OperationalStatus == OperationalStatus.Up)
+                            .SelectMany(i => i.GetIPProperties().UnicastAddresses)
+                            .Where(a => a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork))
+                        {
+                            SlpUserAgent agent = new SlpUserAgent();
+                            agent.NetworkAdapter = localAddress.Address;
+                            agent.Scope = Scope;
+                            agent.ServiceFound += agent_ServiceFound;
+                            agent.AttributeReply += agent_AttributeReply;
+                            agents.Add(agent, 0);
+                        }
                     }
                 }
             }
@@ -358,7 +406,8 @@ namespace Acn.Helpers
             // Look for devices that haven't responded 
             lock (devicesLock)
             {
-                foreach (var device in devices.Values.Where(d => d.LastUpdateId < agents[d.DiscoveryAgents.First()]))
+                //Search through all devices that have not responded recently.
+                foreach (var device in devices.Values.Where(d => (d.DiscoveryAgents.Count == 0 || d.LastUpdateId < agents[d.DiscoveryAgents.First()])))
                 {
                     device.MissedUpdates++;
                 }
@@ -372,9 +421,15 @@ namespace Acn.Helpers
                 attributeRequestLog.Clear();
             }
 
-            foreach (var agent in agents.Keys.ToList())
+            lock (agents)
             {
-                agents[agent] = agent.Find(ServiceType);
+                foreach (var agent in agents.Keys.ToList())
+                {
+                    if (agent.IsOpen())
+                    {
+                        agents[agent] = agent.Find(ServiceType);
+                    }
+                }
             }
         }
 
@@ -399,10 +454,12 @@ namespace Acn.Helpers
                         device = new SlpDeviceInformation() { Url = url.Url, FirstUpdateId = e.RequestId };
                         devices[url.Url] = device;
                     }
+                
+                    device.Endpoint = e.Address;
+                    device.DiscoveryAgents.Add(sender as SlpUserAgent);
+                    device.UpdateRecieved(e.RequestId);
                 }
-                device.Endpoint = e.Address;
-                device.DiscoveryAgents.Add(sender as SlpUserAgent);
-                device.UpdateRecieved(e.RequestId);
+
                 RequestAttributes(device);
                 if (newDevice)
                 {
