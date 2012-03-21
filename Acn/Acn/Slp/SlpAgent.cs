@@ -116,6 +116,11 @@ namespace Acn.Slp
             }
         }
 
+        public virtual bool IsOpen()
+        {
+            return (socket != null);
+        }
+
         void socket_NewPacket(object sender, NewPacketEventArgs e)
         {
             ProcessPacket(e);
