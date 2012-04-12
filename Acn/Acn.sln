@@ -24,9 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SntpUpdate", "SntpUpdate\SntpUpdate.csproj", "{0F28564B-B395-404F-9B3B-7A395FC4BEC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SntpServer", "SntpServer\SntpServer.csproj", "{1E304772-DE8A-421E-8E97-DF72AF01E434}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 10
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -53,6 +57,17 @@ Global
 		SccProjectTopLevelParentUniqueName6 = Acn.sln
 		SccProjectName6 = Samples/RdmSnoop
 		SccLocalPath6 = Samples\\RdmSnoop
+		SccProjectUniqueName7 = Acn.Test\\Acn.Test.csproj
+		SccProjectName7 = Acn.Test
+		SccLocalPath7 = Acn.Test
+		SccProjectUniqueName8 = SntpUpdate\\SntpUpdate.csproj
+		SccProjectTopLevelParentUniqueName8 = Acn.sln
+		SccProjectName8 = SntpUpdate
+		SccLocalPath8 = SntpUpdate
+		SccProjectUniqueName9 = SntpServer\\SntpServer.csproj
+		SccProjectTopLevelParentUniqueName9 = Acn.sln
+		SccProjectName9 = SntpServer
+		SccLocalPath9 = SntpServer
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Acn.vsmdi
@@ -136,6 +151,26 @@ Global
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Release|x86.ActiveCfg = Release|Any CPU
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Debug|x86.ActiveCfg = Debug|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Debug|x86.Build.0 = Debug|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Release|Any CPU.ActiveCfg = Release|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Release|x86.ActiveCfg = Release|x86
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5}.Release|x86.Build.0 = Release|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Debug|x86.ActiveCfg = Debug|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Debug|x86.Build.0 = Debug|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Release|Any CPU.ActiveCfg = Release|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Release|x86.ActiveCfg = Release|x86
+		{1E304772-DE8A-421E-8E97-DF72AF01E434}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +181,8 @@ Global
 		{D0EB7F18-3367-467F-B255-F57B04A489FE} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{7C4D0221-6D36-4283-81C3-A43047E7EDFB} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{62616DF2-0F0F-4EAC-A96D-5E6D8B303ED4} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+		{0F28564B-B395-404F-9B3B-7A395FC4BEC5} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+		{1E304772-DE8A-421E-8E97-DF72AF01E434} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 	EndGlobalSection
 	GlobalSection(SharpSetup) = preSolution
 		Version = 1.2
