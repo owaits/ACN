@@ -219,6 +219,11 @@
     <Compile Include="Slp\SlpUserAgent.cs" />
     <Compile Include="Slp\Sockets\NewPacketEventArgs.cs" />
     <Compile Include="Slp\Sockets\SlpSocket.cs" />
+    <Compile Include="Sntp\NtpData.cs" />
+    <Compile Include="Sntp\SntpClient.cs" />
+    <Compile Include="Sntp\SntpServer.cs" />
+    <Compile Include="Sntp\Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Sntp\Sockets\SntpSocket.cs" />
     <Compile Include="Sockets\AcnSocket.cs" />
     <Compile Include="Sockets\NewPacketEventArgs.cs" />
     <Compile Include="Sockets\RdmSocket.cs" />
