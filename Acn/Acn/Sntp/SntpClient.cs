@@ -60,6 +60,8 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using Acn.Sntp.Sockets;
 using System.Linq;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Acn.Sntp
 {
@@ -160,46 +162,57 @@ namespace Acn.Sntp
         /// <summary>
         /// Connect to the time server and update system time
         /// </summary>
+        /// <param name="roundTrips">The number of round trips.</param>
         /// <param name="UpdateSystemTime">if set to <c>true</c> update the system time.</param>
-        public NtpData GetTime(bool UpdateSystemTime)
+        /// <returns></returns>
+        public List<NtpData> GetTime(int roundTrips, bool UpdateSystemTime)
         {
             try
             {
                 // Resolve server address
                 IPHostEntry hostadd = Dns.GetHostEntry(TimeServer);
                 IPEndPoint EPhost = new IPEndPoint(hostadd.AddressList.First(a => a.AddressFamily == AddressFamily.InterNetwork), SntpSocket.Port);
+                NtpData recieveData;
+                List<NtpData> replies;
 
                 //Connect the time server
-                UdpClient timeSocket = new UdpClient();
-                // Don't block for ages
-                timeSocket.Client.SendTimeout = 1000;
-                timeSocket.Client.ReceiveTimeout = 1000;
-                // Allow conenction back to local
-                //timeSocket.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-
-                timeSocket.Connect(EPhost);
-
-                // Initialize data structure
-                NtpData sendData = new NtpData();
-                sendData.Initialize(4, NtpMode.Client, DateTime.Now);
-                byte[] sendBytes = sendData.ToArray();
-                timeSocket.Send(sendBytes, sendBytes.Length);
-
-                NtpData recieveData = new NtpData(timeSocket.Receive(ref EPhost));
-                recieveData.ReceptionTimestamp = DateTime.Now;
-                if (!recieveData.IsResponseValid())
+                using (UdpClient timeSocket = new UdpClient())
                 {
-                    throw new Exception("Invalid response from " + TimeServer);
+                    // Don't block for ages
+                    timeSocket.Client.SendTimeout = 2000;
+                    timeSocket.Client.ReceiveTimeout = 2000;
+                    // Allow conenction back to local
+                    //timeSocket.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+
+                    timeSocket.Connect(EPhost);
+
+                    // Do an odd number of trips, quick way to make the maths easy
+                    if (roundTrips % 2 == 0)
+                        roundTrips++;
+
+                    replies = new List<NtpData>();
+                    for (int i = 0; i < roundTrips; i++)
+                    {
+                        replies.Add(GetTimeDelta(EPhost, timeSocket));
+                        if (i < roundTrips - 1)
+                        {
+                            // Wait a moment so not to spam the server
+                            Thread.Sleep(100);
+                        }
+                    }
+
+                    //Find the median value
+                    replies = replies.OrderBy(r => r.LocalClockOffset).ToList();
+
+                    recieveData = replies[replies.Count / 2];
                 }
-
-
                 // Update system time
                 if (UpdateSystemTime)
                 {
                     SetTime(recieveData.NewTime);
                 }
 
-                return recieveData;
+                return replies;
             }
             catch (SocketException e)
             {
@@ -208,6 +221,29 @@ namespace Acn.Sntp
 
         }
 
+        /// <summary>
+        /// Gets the time delta from an NTP server.
+        /// Does one round trip.
+        /// </summary>
+        /// <param name="host">The host.</param>
+        /// <param name="timeSocket">The time socket.</param>
+        /// <returns>The returned time packet</returns>
+        private NtpData GetTimeDelta(IPEndPoint host, UdpClient timeSocket)
+        {
+            // Initialize data structure
+            NtpData sendData = new NtpData();
+            sendData.Initialize(4, NtpMode.Client, DateTime.Now);
+            byte[] sendBytes = sendData.ToArray();
+            timeSocket.Send(sendBytes, sendBytes.Length);
+
+            NtpData recieveData = new NtpData(timeSocket.Receive(ref host));
+            recieveData.ReceptionTimestamp = DateTime.Now;
+            if (!recieveData.IsResponseValid())
+            {
+                throw new Exception("Invalid response from " + TimeServer);
+            }
+            return recieveData;
+        }
 
 
         // SYSTEMTIME structure used by SetSystemTime

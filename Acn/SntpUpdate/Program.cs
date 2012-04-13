@@ -15,10 +15,14 @@ namespace SntpUpdate
             bool addressExplicit = false;
             bool setSystemTime = false;
             bool help = false;
+            int count = 3;
+            bool verbose = false;
 
             var p = new OptionSet() {
                 { "s=|server=", "Server to request time from",  v => { serverAddress = v; addressExplicit = true; } },
+                { "c=|count=", "Number of requests to make", (int v) => count = v },
                 { "u|update", "Update the system clock with the recieved time", v => setSystemTime = v != null},
+                { "v|verbose", "Print verbose information", v => verbose = v != null},
                 { "h|?|help", "Print command line help",  v => help = v != null }
             };
 
@@ -45,8 +49,22 @@ namespace SntpUpdate
             else
             {
                 SntpClient client = new SntpClient(serverAddress);
-                NtpData data = client.GetTime(setSystemTime);
-                Console.WriteLine(data.ToString());
+                List<NtpData> data = client.GetTime(count, setSystemTime);
+                if (verbose)
+                {
+                    foreach (var d in data)
+                    {
+                        Console.WriteLine(d.ToString());
+                    }
+                }
+
+                TimeSpan median = data[data.Count / 2].LocalClockOffset;
+                Console.WriteLine("\r\nMedian Offset: " + median.TotalMilliseconds.ToString() + " ms");
+
+                if (setSystemTime)
+                {
+                    Console.WriteLine("\r\nSystem Clock Updated to: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fff"));
+                }
             }
         }
     }
