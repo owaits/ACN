@@ -127,10 +127,6 @@ namespace Acn.Rdm
 
         #endregion
 
-
-        
-
-
         public static RdmPacket Create(RdmHeader header)
         {
             return RdmPacketFactory.Build(header);

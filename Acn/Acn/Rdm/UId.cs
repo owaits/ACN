@@ -21,9 +21,11 @@ namespace Acn.Rdm
 
         public uint DeviceId { get; protected set; }
 
+        #region Predefined Values
+
         private static UId broadcast = new UId(0xFFFF, 0xFFFFFFFF);
 
-        public static UId Broadcast 
+        public static UId Broadcast
         {
             get { return broadcast; }
         }
@@ -39,6 +41,29 @@ namespace Acn.Rdm
         {
             return new UId(manufacturerId, 0xFFFFFFFF);
         }
+
+        private static UId minValue = new UId(0x1, 0x0);
+
+        /// <summary>
+        /// Gets the minimum possible UId value.
+        /// </summary>
+        public static UId MinValue
+        {
+            get { return minValue; }
+        }
+
+        private static UId maxValue = new UId(0x7FFF, 0xFFFFFFFF);
+
+        /// <summary>
+        /// Gets the maximum possible UId value.
+        /// </summary>
+        public static UId MaxValue
+        {
+            get { return maxValue; }
+        }
+
+        #endregion
+        
 
         public override string ToString()
         {

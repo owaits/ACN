@@ -12,7 +12,7 @@ namespace Acn.Rdm
         //---- Network Management ----
         DiscoveryUniqueBranch = 0x0001,
         DiscoveryMute = 0x0002,
-        DiscoverUnMute = 0x0003,
+        DiscoveryUnMute = 0x0003,
         ProxiedDevices = 0x0010,
         ProxiedDeviceCount = 0x0011,
         CommsStatus = 0x0015,
