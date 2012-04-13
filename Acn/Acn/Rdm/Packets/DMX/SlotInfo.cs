@@ -60,10 +60,10 @@ namespace Acn.Rdm.Packets.DMX
         BarnDoors = 0x0409,
 
         //Control Functions
-        LampControl = 0x0401,
-        FixtureControl = 0x0401,
-        FixtureSpeed = 0x0401,
-        Macro = 0x0401
+        LampControl = 0x0501,
+        FixtureControl = 0x0502,
+        FixtureSpeed = 0x0503,
+        Macro = 0x0504
     }
 
     /// <summary>
