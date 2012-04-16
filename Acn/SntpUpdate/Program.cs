@@ -17,10 +17,12 @@ namespace SntpUpdate
             bool help = false;
             int count = 3;
             bool verbose = false;
+            int? port = null;
 
             var p = new OptionSet() {
                 { "s=|server=", "Server to request time from",  v => { serverAddress = v; addressExplicit = true; } },
                 { "c=|count=", "Number of requests to make", (int v) => count = v },
+                { "p=|port=", "The port to contact the server on", (int v) => port = v },
                 { "u|update", "Update the system clock with the recieved time", v => setSystemTime = v != null},
                 { "v|verbose", "Print verbose information", v => verbose = v != null},
                 { "h|?|help", "Print command line help",  v => help = v != null }
@@ -49,6 +51,10 @@ namespace SntpUpdate
             else
             {
                 SntpClient client = new SntpClient(serverAddress);
+                if (port != null)
+                {
+                    client.Port = (int)port;
+                }
                 List<NtpData> data = client.GetTime(count, setSystemTime);
                 if (verbose)
                 {

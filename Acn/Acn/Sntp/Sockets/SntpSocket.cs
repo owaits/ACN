@@ -50,6 +50,7 @@ namespace Acn.Sntp.Sockets
         public SntpSocket()
             : base(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Dgram, System.Net.Sockets.ProtocolType.Udp)
         {
+            Port = DefaultPort;
         }
 
         #endregion
@@ -57,9 +58,17 @@ namespace Acn.Sntp.Sockets
         #region Information
 
         /// <summary>
-        /// Then SNTP/NTP port
+        /// The published default SNTP/NTP port
         /// </summary>
-        public const int Port = 123;
+        public const int DefaultPort = 123;
+
+        /// <summary>
+        /// Gets or sets the port to listen on.
+        /// </summary>
+        /// <value>
+        /// The port.
+        /// </value>
+        public int Port { get; set; }
 
         /// <summary>
         /// Gets the multicast group for NTP/SNTP.
