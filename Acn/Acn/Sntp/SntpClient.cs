@@ -157,7 +157,17 @@ namespace Acn.Sntp
         public SntpClient(string host)
         {
             TimeServer = host;
+            // Set default port
+            Port = SntpSocket.DefaultPort;
         }
+
+        /// <summary>
+        /// Gets or sets the port to contact the server on.
+        /// </summary>
+        /// <value>
+        /// The port.
+        /// </value>
+        public int Port { get; set; }
 
         /// <summary>
         /// Connect to the time server and update system time
@@ -171,7 +181,7 @@ namespace Acn.Sntp
             {
                 // Resolve server address
                 IPHostEntry hostadd = Dns.GetHostEntry(TimeServer);
-                IPEndPoint EPhost = new IPEndPoint(hostadd.AddressList.First(a => a.AddressFamily == AddressFamily.InterNetwork), SntpSocket.Port);
+                IPEndPoint EPhost = new IPEndPoint(hostadd.AddressList.First(a => a.AddressFamily == AddressFamily.InterNetwork), Port);
                 NtpData recieveData;
                 List<NtpData> replies;
 
