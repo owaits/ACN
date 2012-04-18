@@ -54,6 +54,7 @@ namespace Acn.Sntp
         /// </summary>
         public SntpServer()
         {
+            Port = SntpSocket.DefaultPort;
         }
 
         #endregion
@@ -73,6 +74,30 @@ namespace Acn.Sntp
         {
             get { return networkAdapter; }
             set { networkAdapter = value; }
+        }
+
+        private int port;
+
+        /// <summary>
+        /// Gets or sets the port.
+        /// </summary>
+        /// <value>
+        /// The port.
+        /// </value>
+        public int Port
+        {
+            get 
+            { 
+                return port;
+            }
+            set
+            {
+                port = value;
+                if (socket != null)
+                {
+                    socket.Port = port;
+                }
+            }
         }
 
 
@@ -100,7 +125,7 @@ namespace Acn.Sntp
             {
                 if (socket == null)
                 {
-                    socket = new SntpSocket();
+                    socket = new SntpSocket() { Port = Port };
                     socket.NewPacket += new EventHandler<NewPacketEventArgs>(socket_NewPacket);
 
                     socket.Open(NetworkAdapter);
