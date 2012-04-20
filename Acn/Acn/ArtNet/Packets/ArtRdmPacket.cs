@@ -6,7 +6,7 @@ using Acn.ArtNet.IO;
 
 namespace Acn.ArtNet.Packets
 {
-    internal class ArtRdmPacket:ArtNetPacket
+    public class ArtRdmPacket : ArtNetPacket
     {
         public ArtRdmPacket()
             : base(ArtNetOpCodes.Rdm)

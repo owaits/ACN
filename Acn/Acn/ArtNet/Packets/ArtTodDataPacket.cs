@@ -7,7 +7,7 @@ using Acn.ArtNet.IO;
 
 namespace Acn.ArtNet.Packets
 {
-    internal class ArtTodDataPacket : ArtNetPacket
+    public class ArtTodDataPacket : ArtNetPacket
     {
         public ArtTodDataPacket()
             : base(ArtNetOpCodes.TodData)

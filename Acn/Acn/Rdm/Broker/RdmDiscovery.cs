@@ -20,7 +20,7 @@ namespace Acn.Rdm.Broker
 
         private List<UId> deviceTable = new List<UId>();
 
-        private DiscoveryStatus status = DiscoveryStatus.Ready;
+        private DiscoveryStatus status = DiscoveryStatus.Stopped;
 
         public DiscoveryStatus Status
         {

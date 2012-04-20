@@ -227,7 +227,7 @@
             this.rdmTrace.FormattingEnabled = true;
             this.rdmTrace.Location = new System.Drawing.Point(3, 16);
             this.rdmTrace.Name = "rdmTrace";
-            this.rdmTrace.Size = new System.Drawing.Size(604, 95);
+            this.rdmTrace.Size = new System.Drawing.Size(604, 103);
             this.rdmTrace.TabIndex = 0;
             // 
             // AcnDevice

@@ -61,14 +61,14 @@ namespace Acn.ArtNet.Packets
 
         #endregion
         	
-        public virtual void ReadData(BinaryReader data)
+        public virtual void ReadData(ArtNetBinaryReader data)
         {
             Protocol = System.Text.ASCIIEncoding.UTF8.GetString(data.ReadBytes(8));
             OpCode = data.ReadInt16();
             Version = data.ReadInt16();
         }
 
-        public virtual void WriteData(BinaryWriter data)
+        public virtual void WriteData(ArtNetBinaryWriter data)
         {
             data.Write(System.Text.ASCIIEncoding.UTF8.GetBytes(Protocol.PadRight(7)));
             data.Write((byte)0);            //Null terminate the string.

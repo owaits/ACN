@@ -12,7 +12,7 @@ using Acn.ArtNet.IO;
 
 namespace Acn.ArtNet.Sockets
 {
-    public class ArtNetSocket:Socket
+    public class ArtNetSocket : Socket, IRdmSocket
     {
         public const int Port = 6454;
 
