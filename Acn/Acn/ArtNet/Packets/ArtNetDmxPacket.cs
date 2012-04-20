@@ -6,7 +6,7 @@ using Acn.ArtNet.IO;
 
 namespace Acn.ArtNet.Packets
 {
-    internal class ArtNetDmxPacket:ArtNetPacket
+    public class ArtNetDmxPacket : ArtNetPacket
     {
         public ArtNetDmxPacket()
             : base(ArtNetOpCodes.Dmx)
@@ -65,7 +65,7 @@ namespace Acn.ArtNet.Packets
 
         #endregion
 
-        public override void ReadData(System.IO.BinaryReader data)
+        public override void ReadData(ArtNetBinaryReader data)
         {
             base.ReadData(data);
 
@@ -76,7 +76,7 @@ namespace Acn.ArtNet.Packets
             DmxData = data.ReadBytes(length);
         }
 
-        public override void WriteData(System.IO.BinaryWriter data)
+        public override void WriteData(ArtNetBinaryWriter data)
         {
             base.WriteData(data);
             

@@ -122,7 +122,7 @@
             this.levelBar.Maximum = 255;
             this.levelBar.Name = "levelBar";
             this.levelBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.levelBar.Size = new System.Drawing.Size(43, 231);
+            this.levelBar.Size = new System.Drawing.Size(45, 231);
             this.levelBar.TabIndex = 2;
             this.levelBar.TickFrequency = 16;
             this.levelBar.TickStyle = System.Windows.Forms.TickStyle.Both;

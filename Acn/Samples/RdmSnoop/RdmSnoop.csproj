@@ -48,6 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brokers\RdmDeviceBroker.cs" />
+    <Compile Include="DeviceFoundEventArgs.cs" />
+    <Compile Include="IRdmTransport.cs" />
+    <Compile Include="Models\RdmDeviceModel.cs" />
     <Compile Include="SnoopMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +60,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transports\ArtNet.cs" />
+    <Compile Include="Transports\RdmNet.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

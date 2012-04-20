@@ -12,7 +12,7 @@ namespace Acn.ArtNet.Packets
         AtcFlash = 1
     }
 
-    internal class ArtTodControlPacket:ArtNetPacket
+    public class ArtTodControlPacket : ArtNetPacket
     {
         public ArtTodControlPacket()
             : base(ArtNetOpCodes.TodControl)

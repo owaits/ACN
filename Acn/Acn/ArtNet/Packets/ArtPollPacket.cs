@@ -6,8 +6,13 @@ using Acn.ArtNet.IO;
 
 namespace Acn.ArtNet.Packets
 {
-    internal class ArtPollPacket:ArtNetPacket
+    public class ArtPollPacket : ArtNetPacket
     {
+        public ArtPollPacket()
+            : base(ArtNetOpCodes.Poll)
+        {
+        }
+
         public ArtPollPacket(ArtNetRecieveData data)
             : base(data)
         {
@@ -26,11 +31,18 @@ namespace Acn.ArtNet.Packets
 
         #endregion
 
-        public override void ReadData(System.IO.BinaryReader data)
+        public override void ReadData(ArtNetBinaryReader data)
         {
             base.ReadData(data);
 
             TalkToMe = data.ReadByte();
+        }
+
+        public override void WriteData(ArtNetBinaryWriter data)
+        {
+            base.WriteData(data);
+
+            data.Write(TalkToMe);
         }
 
     }

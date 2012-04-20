@@ -16,7 +16,7 @@ namespace Acn.ArtNet.Packets
         ROMBoot = 4
     }
 
-    internal class ArtPollReplyPacket:ArtNetPacket
+    public class ArtPollReplyPacket:ArtNetPacket
     {
         public ArtPollReplyPacket()
             : base(ArtNetOpCodes.PollReply)
@@ -269,31 +269,54 @@ namespace Acn.ArtNet.Packets
 	
         #endregion
 
-        public override void ReadData(System.IO.BinaryReader data)
+        public override void ReadData(ArtNetBinaryReader data)
         {
-            Protocol = System.Text.ASCIIEncoding.UTF8.GetString(data.ReadBytes(8));
+            Protocol = data.ReadNetworkString(8);
             OpCode = data.ReadInt16();
             IpAddress = data.ReadBytes(4);
             Port = data.ReadInt16();
-            Version = data.ReadInt16();
+            FirmwareVersion = data.ReadNetwork16();
+            SubSwitch = data.ReadNetwork16();
+            Oem = data.ReadNetwork16();
+            UbeaVersion = data.ReadByte();
+            Status = (PollReplyStatus)data.ReadByte();
+            EstaCode = data.ReadNetworkString(2);
+            ShortName = data.ReadNetworkString(18);
+            LongName = data.ReadNetworkString(64);
+            NodeReport = data.ReadNetworkString(64);
+            PortCount = data.ReadNetwork16();
+            PortTypes = data.ReadBytes(4);
+            GoodInput = data.ReadBytes(4);
+            GoodOutput = data.ReadBytes(4);
+            SwIn = data.ReadBytes(4);
+            SwOut = data.ReadBytes(4);
+            SwVideo = data.ReadByte();
+            SwMacro = data.ReadByte();
+            SwRemote = data.ReadByte();
+            data.ReadBytes(3);
+            Style = data.ReadByte();
+            MacAddress = data.ReadBytes(6);
+            BindIpAddress = data.ReadBytes(4);
+            BindIndex = data.ReadByte();
+            Status2 = data.ReadByte();
         }
 
-        public override void WriteData(System.IO.BinaryWriter data)
+        public override void WriteData(ArtNetBinaryWriter data)
         {
-            data.Write(System.Text.ASCIIEncoding.UTF8.GetBytes(Protocol.PadRight(8, (char) 0x0)));
+            data.WriteNetwork(Protocol,8);
             data.Write(OpCode);
             data.Write(IpAddress);
             data.Write(Port);
-            data.Write(IPAddress.HostToNetworkOrder(FirmwareVersion));
-            data.Write(IPAddress.HostToNetworkOrder(SubSwitch));
-            data.Write(IPAddress.HostToNetworkOrder(Oem));
+            data.WriteNetwork(FirmwareVersion);
+            data.WriteNetwork(SubSwitch);
+            data.WriteNetwork(Oem);
             data.Write(UbeaVersion);
             data.Write((byte) Status);
-            data.Write(System.Text.ASCIIEncoding.UTF8.GetBytes(EstaCode.PadRight(2)));
-            data.Write(System.Text.ASCIIEncoding.UTF8.GetBytes(ShortName.PadRight(18, (char) 0x0)));
-            data.Write(System.Text.ASCIIEncoding.UTF8.GetBytes(LongName.PadRight(64, (char) 0x0)));
-            data.Write(System.Text.ASCIIEncoding.UTF8.GetBytes(NodeReport.PadRight(64, (char) 0x0)));
-            data.Write(IPAddress.HostToNetworkOrder(PortCount));
+            data.WriteNetwork(EstaCode,2);
+            data.WriteNetwork(ShortName,18);
+            data.WriteNetwork(LongName,64);
+            data.WriteNetwork(NodeReport,64);
+            data.WriteNetwork(PortCount);
             data.Write(PortTypes);
             data.Write(GoodInput);
             data.Write(GoodOutput);
@@ -302,7 +325,6 @@ namespace Acn.ArtNet.Packets
             data.Write(SwVideo);
             data.Write(SwMacro);
             data.Write(SwRemote);
-            data.Write(GoodInput);
             data.Write(new byte[3]);
             data.Write(Style);
             data.Write(MacAddress);

@@ -37,7 +37,7 @@ using System.Net.Sockets;
 
 namespace Acn.Sockets
 {
-    public class RdmSocket:StreamingAcnSocket,IProtocolFilter
+    public class RdmSocket : StreamingAcnSocket, IProtocolFilter, IRdmSocket
     {
         public event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
 

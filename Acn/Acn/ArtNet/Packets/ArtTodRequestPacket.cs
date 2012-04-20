@@ -6,7 +6,7 @@ using Acn.ArtNet.IO;
 
 namespace Acn.ArtNet.Packets
 {
-    internal class ArtTodRequestPacket:ArtNetPacket
+    public class ArtTodRequestPacket : ArtNetPacket
     {
         public ArtTodRequestPacket()
             : base(ArtNetOpCodes.TodRequest)
