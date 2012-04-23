@@ -18,10 +18,10 @@ namespace RdmNetworkMonitor
     {
         IRdmSocket socket = null;
 
-        public RdmDeviceBroker(IRdmSocket socket, UId id, IPAddress ipAddress)
+        public RdmDeviceBroker(IRdmSocket socket, UId id, RdmAddress address)
         {
             Id = id;
-            IpAddress = ipAddress;
+            Address = address;
             this.socket = socket;
 
             socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<RdmPacket>>(socket_NewRdmPacket);
@@ -31,7 +31,7 @@ namespace RdmNetworkMonitor
 
         public UId Id { get; set; }
 
-        public IPAddress IpAddress { get; set; }
+        public RdmAddress Address { get; set; }
 
         private List<short> ports = new List<short>();
 
@@ -137,25 +137,25 @@ namespace RdmNetworkMonitor
         public void Interogate()
         {
             DeviceInfo.Get getInfo = new DeviceInfo.Get();
-            socket.SendRdm(getInfo, IpAddress, Id);
+            socket.SendRdm(getInfo, Address, Id);
 
             PortList.Get getPorts = new PortList.Get();
-            socket.SendRdm(getPorts, IpAddress, Id);
+            socket.SendRdm(getPorts, Address, Id);
         }
 
         public void RequestDetails()
         {
             ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
-            socket.SendRdm(manufacturer, IpAddress, Id);
+            socket.SendRdm(manufacturer, Address, Id);
 
             DeviceModelDescription.Get model = new DeviceModelDescription.Get();
-            socket.SendRdm(model, IpAddress, Id);
+            socket.SendRdm(model, Address, Id);
         }
 
         public void RequestLabel()
         {
             DeviceLabel.Get label = new DeviceLabel.Get();
-            socket.SendRdm(label, IpAddress, Id);
+            socket.SendRdm(label, Address, Id);
         }
 
         #region Events

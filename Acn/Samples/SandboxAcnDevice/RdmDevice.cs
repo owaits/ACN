@@ -40,7 +40,7 @@ namespace SandboxAcnDevice
             RdmPacket replyPacket = broker.ProcessPacket(e.Packet);
             if (replyPacket != null)
             {
-                socket.SendRdm(replyPacket,e.Source.Address,e.Packet.Header.SourceId);
+                socket.SendRdm(replyPacket,new RdmAddress(e.Source.Address),e.Packet.Header.SourceId);
             }
         }
 

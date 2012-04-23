@@ -19,6 +19,7 @@ namespace RdmSnoop
         void Stop();
         void Discover();
 
+        IEnumerable<IRdmSocket> Sockets { get; }
         IRdmSocket GetDeviceSocket(UId deviceId);
         
     }

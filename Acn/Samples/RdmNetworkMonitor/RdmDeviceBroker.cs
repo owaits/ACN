@@ -17,10 +17,10 @@ namespace RdmNetworkMonitor
 
         public event EventHandler PortsChanged;
 
-        public RdmDeviceBroker(RdmSocket socket, UId id,IPAddress ipAddress)
+        public RdmDeviceBroker(RdmSocket socket, UId id,RdmAddress address)
         {
             Id = id;
-            IpAddress = ipAddress;
+            Address = address;
             this.socket = socket;
 
             socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<RdmPacket>>(socket_NewRdmPacket);
@@ -39,14 +39,14 @@ namespace RdmNetworkMonitor
 
         public UId Id { get; set; }
 
-        public IPAddress IpAddress { get; set; }
+        public RdmAddress Address { get; set; }
 
         public List<short> Ports { get; set; }
 
         public void Identify()
         {
             PortList.Get getPorts = new PortList.Get();
-            socket.SendRdm(getPorts,IpAddress,Id);
+            socket.SendRdm(getPorts,Address,Id);
         }
     }
 }

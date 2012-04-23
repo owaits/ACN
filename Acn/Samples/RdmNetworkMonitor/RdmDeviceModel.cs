@@ -12,7 +12,7 @@ namespace RdmNetworkMonitor
     public class RdmDeviceModel:RdmDeviceBroker
     {
 
-        public RdmDeviceModel(TreeNode node, RdmSocket socket, UId id,IPAddress ipAddress)
+        public RdmDeviceModel(TreeNode node, RdmSocket socket, UId id,RdmAddress ipAddress)
             : base(socket, id,ipAddress)
         {
             Node = node;
