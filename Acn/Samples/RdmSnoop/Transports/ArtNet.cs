@@ -7,18 +7,20 @@ using Acn.ArtNet.Sockets;
 using Acn.Rdm;
 using Acn.ArtNet.Packets;
 using Acn.ArtNet;
+using Acn.Sockets;
 
 namespace RdmSnoop.Transports
 {
     public class ArtNet : IRdmTransport
     {
-        private ArtNetSocket socket = new ArtNetSocket(UId.NewUId(0));
+        private ArtNetSocket socket = null;
 
         public event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
         public ArtNet()
         {
-            socket.NewPacket += new EventHandler<Acn.Sockets.NewPacketEventArgs<ArtNetPacket>>(socket_NewPacket);
+
+            
         }
 
         void socket_NewPacket(object sender, Acn.Sockets.NewPacketEventArgs<ArtNetPacket> e)
@@ -26,10 +28,10 @@ namespace RdmSnoop.Transports
             switch ((ArtNetOpCodes)e.Packet.OpCode)
             {
                 case ArtNetOpCodes.PollReply:
-                    ProcessPollReply((ArtPollReplyPacket)e.Packet);
+                    ProcessPollReply((ArtPollReplyPacket)e.Packet, e.Source);
                     break;
                 case ArtNetOpCodes.TodData:
-                    ProcessTodData((ArtTodDataPacket)e.Packet);
+                    ProcessTodData((ArtTodDataPacket)e.Packet,e.Source);
                     break;
             }
         }
@@ -43,16 +45,24 @@ namespace RdmSnoop.Transports
             protected set { localAdapter = value; }
         }
 
-        public void Start(System.Net.IPAddress localAdapter)
+        public void Start(IPAddress localAdapter,IPAddress subnetMask)
         {
-            if (!socket.PortOpen)
+            if (socket == null || !socket.PortOpen)
             {
                 LocalAdapter = localAdapter;
 
-                socket.Open(localAdapter, IPAddress.Broadcast);
+                socket = new ArtNetSocket(UId.NewUId(0));
+                socket.NewPacket += new EventHandler<Acn.Sockets.NewPacketEventArgs<ArtNetPacket>>(socket_NewPacket);
+                socket.Open(localAdapter, subnetMask);
 
-                SendTodRequest();
+                Discover();
             }
+        }
+
+        public void Discover()
+        {
+            SendArtPoll();
+            //SendTodRequest();
         }
 
         public void Stop()
@@ -68,24 +78,51 @@ namespace RdmSnoop.Transports
         #region Art Net
 
 
-        private void ProcessPollReply(ArtPollReplyPacket packet)
+        private void ProcessPollReply(ArtPollReplyPacket packet,IPEndPoint endPoint)
         {
             //Does device support RDM?
-            //if ((packet.Status & PollReplyStatus.RdmCapable) > 0)
-            //{
-            //    //Request RDM Table of Devices
+            if ((packet.Status & PollReplyStatus.RdmCapable) > 0)
+            {
+                //if (NewDeviceFound != null)
+                //    NewDeviceFound(this, new DeviceFoundEventArgs(id, endPoint.Address));
 
-            //}
+                //Request RDM Table of Devices
+
+                //Find out which universes the device supports.
+                List<byte> universes = new List<byte>();
+                for(int n=0; n<4;n++)
+                {
+                    if((packet.PortTypes[n] & 0x80)>0)
+                    {
+                        universes.Add(packet.SwOut[n]);
+                    }
+                }
+
+                //Request TOD for each input universe.
+                SendTodRequest(endPoint.Address, universes);
+            }
         }
 
-        private void ProcessTodData(ArtTodDataPacket packet)
+        private void ProcessTodData(ArtTodDataPacket packet,IPEndPoint endPoint)
         {
-            
+            foreach (UId id in packet.Devices)
+            {
+                if (NewDeviceFound != null)
+                    NewDeviceFound(this, new DeviceFoundEventArgs((UId) (new NetworkUId(id, (int) packet.Universe)),endPoint.Address));
+            }
         }
 
-        private void SendTodRequest()
+        private void SendArtPoll()
+        {
+            ArtPollPacket packet = new ArtPollPacket();
+            packet.TalkToMe = 6;
+            socket.Send(packet);
+        }
+
+        private void SendTodRequest(IPAddress address, List<byte> universes)
         {
             ArtTodRequestPacket packet = new ArtTodRequestPacket();
+            packet.RequestedUniverses = universes;
             socket.Send(packet);
         }
 

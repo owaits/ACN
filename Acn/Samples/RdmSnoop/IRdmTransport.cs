@@ -15,8 +15,9 @@ namespace RdmSnoop
 
         IPAddress LocalAdapter { get; }
 
-        void Start(IPAddress localAdapter);
+        void Start(IPAddress localAdapter, IPAddress subnetMask);
         void Stop();
+        void Discover();
 
         IRdmSocket GetDeviceSocket(UId deviceId);
         

@@ -12,7 +12,7 @@ namespace RdmSnoop.Transports
     public class RdmNet : IRdmTransport
     {
         private SlpUserAgent slpUser = new SlpUserAgent("ACN-DEFAULT");
-        private RdmSocket acnSocket = new RdmSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
+        private RdmSocket acnSocket = null;
 
         public event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
@@ -25,15 +25,18 @@ namespace RdmSnoop.Transports
         }
 
 
-        public void Start(IPAddress localAdapter)
+        public void Start(IPAddress localAdapter,IPAddress subnetMask)
         {
             LocalAdapter = localAdapter;
 
             slpUser.NetworkAdapter = localAdapter;
             slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
 
-            if (!acnSocket.PortOpen)
+            if (acnSocket == null || !acnSocket.PortOpen)
+            {
+                acnSocket = new RdmSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
                 acnSocket.Open(localAdapter);
+            }
 
             slpUser.Open();
             slpUser.Find("service:e133.esta");
@@ -51,8 +54,16 @@ namespace RdmSnoop.Transports
 
         public void  Stop()
         {
-            slpUser.Close();
-            acnSocket.Close();
+            if (slpUser != null)
+                slpUser.Close();
+
+            if(acnSocket != null)
+                acnSocket.Close();
+        }
+
+        public void Discover()
+        {
+
         }
 
         public IRdmSocket GetDeviceSocket(UId deviceId)

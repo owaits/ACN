@@ -19,7 +19,7 @@ namespace Acn.ArtNet.IO
         {
             get
             {
-                return buffer[10] + (buffer[9] << 8);
+                return buffer[9] + (buffer[8] << 8);
             }
         }
 	

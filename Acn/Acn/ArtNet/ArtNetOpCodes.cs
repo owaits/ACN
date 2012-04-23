@@ -6,14 +6,15 @@ namespace Acn.ArtNet
 {
     public enum ArtNetOpCodes
     {
-        Poll = 0x2000,
-        PollReply = 0x2100,
-        Dmx = 0x5000,
-        TodRequest = 0x8000,
-        TodData = 0x8100,
-        TodControl = 0x8200,
-        Rdm = 0x8300,
-        RdmSub = 0x8400,
+        None =0,
+        Poll = 0x20,
+        PollReply = 0x21,
+        Dmx = 0x50,
+        TodRequest = 0x80,
+        TodData = 0x81,
+        TodControl = 0x82,
+        Rdm = 0x83,
+        RdmSub = 0x84,
 
 
     }

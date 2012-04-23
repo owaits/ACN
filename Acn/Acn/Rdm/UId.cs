@@ -17,6 +17,12 @@ namespace Acn.Rdm
             DeviceId = deviceId;
         }
 
+        public UId(UId source)
+        {
+            ManufacturerId = source.ManufacturerId;
+            DeviceId = source.DeviceId;
+        }
+
         public ushort ManufacturerId { get; protected set; }
 
         public uint DeviceId { get; protected set; }

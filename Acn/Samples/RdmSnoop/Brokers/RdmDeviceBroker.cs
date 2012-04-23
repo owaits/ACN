@@ -8,16 +8,17 @@ using Acn.Sockets;
 using Acn.Rdm;
 using Acn.Rdm.Packets;
 using Acn.Rdm.Packets.Net;
+using System.ComponentModel;
+using Acn.Rdm.Packets.Product;
+using System.Threading;
 
 namespace RdmNetworkMonitor
 {
-    public class RdmDeviceBroker
+    public class RdmDeviceBroker:INotifyPropertyChanged
     {
         IRdmSocket socket = null;
 
-        public event EventHandler PortsChanged;
-
-        public RdmDeviceBroker(IRdmSocket socket, UId id,IPAddress ipAddress)
+        public RdmDeviceBroker(IRdmSocket socket, UId id, IPAddress ipAddress)
         {
             Id = id;
             IpAddress = ipAddress;
@@ -26,27 +27,149 @@ namespace RdmNetworkMonitor
             socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<RdmPacket>>(socket_NewRdmPacket);
         }
 
-        void socket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
-        {
-            PortList.Reply ports = e.Packet as PortList.Reply;
-            if (ports != null)
-            {
-                Ports = ports.PortNumbers;
-                if (PortsChanged != null)
-                    PortsChanged(this, EventArgs.Empty);
-            }
-        }
+        #region Information
 
         public UId Id { get; set; }
 
         public IPAddress IpAddress { get; set; }
 
-        public List<short> Ports { get; set; }
+        private List<short> ports = new List<short>();
 
-        public void Identify()
+        public List<short> Ports
         {
-            PortList.Get getPorts = new PortList.Get();
-            socket.SendRdm(getPorts,IpAddress,Id);
+            get { return ports; }
+            set 
+            {
+                if (ports != value)
+                {
+                    ports = value;
+                    RaisePropertyChanged("Ports");
+                }
+            }
         }
+
+        private string manufacturer = string.Empty;
+
+        public string Manufacturer
+        {
+            get { return manufacturer; }
+            protected set
+            {
+                if (manufacturer != value)
+                {
+                    manufacturer = value;
+                    RaisePropertyChanged("Manufacturer");
+                }
+            }
+        }
+
+        private string model = string.Empty;
+
+        public string Model
+        {
+            get { return model; }
+            protected set 
+            {
+                if (model != value)
+                {
+                    model = value;
+                    RaisePropertyChanged("Model");
+                }                
+            }
+        }
+
+
+
+        private string label = string.Empty;
+
+        public string Label
+        {
+            get { return label; }
+            set 
+            {
+                if (label != value)
+                {
+                    label = value;
+                    RaisePropertyChanged("Label");
+                }
+            }
+        }
+
+        #endregion
+
+        void socket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
+        {
+            if (e.Packet.Header.SourceId.Equals(Id))
+            {
+                DeviceInfo.GetReply info = e.Packet as DeviceInfo.GetReply;
+                if (info != null)
+                {
+                    RequestDetails();
+                    RequestLabel();
+                }
+
+                ManufacturerLabel.GetReply manufacturer = e.Packet as ManufacturerLabel.GetReply;
+                if (manufacturer != null)
+                {
+                    Manufacturer = manufacturer.Label;
+                }
+
+                DeviceModelDescription.GetReply model = e.Packet as DeviceModelDescription.GetReply;
+                if (model != null)
+                {
+                    Model = model.Description;
+                }
+
+                DeviceLabel.GetReply label = e.Packet as DeviceLabel.GetReply;
+                if (label != null)
+                {
+                    Label = label.Label;
+                }
+
+                PortList.Reply ports = e.Packet as PortList.Reply;
+                if (ports != null)
+                {
+                    Ports = ports.PortNumbers;
+                }
+            }
+        }
+
+        public void Interogate()
+        {
+            DeviceInfo.Get getInfo = new DeviceInfo.Get();
+            socket.SendRdm(getInfo, IpAddress, Id);
+
+            PortList.Get getPorts = new PortList.Get();
+            socket.SendRdm(getPorts, IpAddress, Id);
+        }
+
+        public void RequestDetails()
+        {
+            ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
+            socket.SendRdm(manufacturer, IpAddress, Id);
+
+            DeviceModelDescription.Get model = new DeviceModelDescription.Get();
+            socket.SendRdm(model, IpAddress, Id);
+        }
+
+        public void RequestLabel()
+        {
+            DeviceLabel.Get label = new DeviceLabel.Get();
+            socket.SendRdm(label, IpAddress, Id);
+        }
+
+        #region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged(string propertyName)
+        {
+            if(PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        
     }
 }

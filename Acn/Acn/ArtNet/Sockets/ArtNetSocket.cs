@@ -147,9 +147,17 @@ namespace Acn.ArtNet.Sockets
 
         private void ProcessPacket(IPEndPoint source, ArtNetPacket packet)
         {
-            if(packet != null && NewPacket != null)
+            if(packet != null)
             {
-                NewPacket(this, new NewPacketEventArgs<ArtNetPacket>(source,packet));
+                if(NewPacket != null)
+                    NewPacket(this, new NewPacketEventArgs<ArtNetPacket>(source,packet));
+                
+                ArtRdmPacket rdmPacket = packet as ArtRdmPacket;
+                if(rdmPacket != null && NewRdmPacket != null)
+                {
+                    RdmPacket rdm = RdmPacket.ReadPacket(new RdmBinaryReader(new MemoryStream(rdmPacket.RdmData)));
+                    NewRdmPacket(this,new NewPacketEventArgs<RdmPacket>(source,rdm)); 
+                }
             }
         }
 
@@ -193,7 +201,13 @@ namespace Acn.ArtNet.Sockets
 
             //Create sACN Packet
             ArtRdmPacket rdmPacket = new ArtRdmPacket();
+
+            NetworkUId netId = targetId as NetworkUId;
+            if (netId != null)
+                rdmPacket.Address = (byte) netId.Universe;
+
             rdmPacket.SubStartCode = (byte)RdmVersions.SubMessage;
+            //rdmPacket.Address
             rdmPacket.RdmData = rdmData.GetBuffer();
 
             Send(rdmPacket, targetAddress);
