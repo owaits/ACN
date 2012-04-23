@@ -13,6 +13,7 @@ using RdmSnoop.Transports;
 using Acn.Slp;
 using System.Net.NetworkInformation;
 using System.Collections.ObjectModel;
+using Acn.Sockets;
 
 namespace RdmSnoop
 {
@@ -21,6 +22,14 @@ namespace RdmSnoop
         public SnoopMain()
         {
             InitializeComponent();
+
+            packetView.Columns.Add("Time", 100);
+            packetView.Columns.Add("Parameter", 200);
+            packetView.Columns.Add("Command",90);
+            packetView.Columns.Add("Source Id",150);
+            packetView.Columns.Add("Target Id",150);            
+            packetView.Columns.Add("IP Address",150);
+
             
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
             {
@@ -55,8 +64,8 @@ namespace RdmSnoop
 
                     if (selectedNetworkAdapter != null && Transport != null)
                     {
-                        Transport.Stop();
-                        Transport.Start(selectedNetworkAdapter.IpAddress,selectedNetworkAdapter.SubnetMask);
+                        StopTransport();
+                        StartTransport();
                     }
                 }
             }
@@ -82,11 +91,43 @@ namespace RdmSnoop
             }
         }
 
+        void transport_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new EventHandler<NewPacketEventArgs<RdmPacket>>(transport_NewRdmPacket),sender,e);
+                return;
+            }
+
+            DateTime timeStamp = DateTime.Now;
+
+            ListViewItem newItem = new ListViewItem(string.Format("{0}{1}",timeStamp.ToLongTimeString(),timeStamp.Millisecond.ToString()));
+            newItem.SubItems.Add(e.Packet.Header.ParameterId.ToString());
+            newItem.SubItems.Add(e.Packet.Header.Command.ToString());
+            newItem.SubItems.Add(e.Packet.Header.SourceId.ToString());
+            newItem.SubItems.Add(e.Packet.Header.DestinationId.ToString());            
+            newItem.SubItems.Add(e.Source.Address.ToString());
+            
+            packetView.Items.Add(newItem);
+        }
+
         private void StopTransport()
         {
             Transport.Stop();
             rdmDevices.Nodes.Clear();
             devices.Clear();
+            packetView.Items.Clear();
+        }
+
+        private void StartTransport()
+        {
+            Transport.Start(SelectedNetworkAdapter.IpAddress, selectedNetworkAdapter.SubnetMask);
+
+            foreach (IRdmSocket socket in Transport.Sockets)
+            {
+                socket.NewRdmPacket += transport_NewRdmPacket;
+                socket.RdmPacketSent += transport_NewRdmPacket;
+            }
         }
 
         void transport_NewDeviceFound(object sender, DeviceFoundEventArgs e)
@@ -103,7 +144,7 @@ namespace RdmSnoop
 
         private Dictionary<UId, RdmDeviceModel> devices = new Dictionary<UId, RdmDeviceModel>();
 
-        private void AddDevice(UId id, IPAddress address)
+        private void AddDevice(UId id, RdmAddress address)
         {
             if (!devices.ContainsKey(id))
             {
@@ -121,7 +162,8 @@ namespace RdmSnoop
             {
                 StopTransport();
                 Transport = new RdmNet();
-                Transport.Start(SelectedNetworkAdapter.IpAddress, selectedNetworkAdapter.SubnetMask);
+                StartTransport();
+                
             }
 
             rdmNetSelect.Checked = true;
@@ -134,7 +176,7 @@ namespace RdmSnoop
             {
                 StopTransport();
                 Transport = new ArtNet();
-                Transport.Start(SelectedNetworkAdapter.IpAddress,selectedNetworkAdapter.SubnetMask);
+                StartTransport();
             }
 
             rdmNetSelect.Checked = false;

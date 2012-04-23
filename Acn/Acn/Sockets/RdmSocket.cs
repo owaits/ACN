@@ -40,6 +40,7 @@ namespace Acn.Sockets
     public class RdmSocket : StreamingAcnSocket, IProtocolFilter, IRdmSocket
     {
         public event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
+        public event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
 
         public RdmSocket(UId rdmId, Guid sourceId, string sourceName)
             : base(sourceId, sourceName)
@@ -67,12 +68,12 @@ namespace Acn.Sockets
                 NewRdmPacket(this, new NewPacketEventArgs<RdmPacket>(source, packet));
         }
 
-        public void SendRdm(RdmPacket packet,IPAddress targetAddress,UId targetId)
+        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId)
         {
             SendRdm(packet, targetAddress, targetId, RdmSourceId);
         }
 
-        public void SendRdm(RdmPacket packet, IPAddress targetAddress, UId targetId,UId sourceId)
+        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId)
         {
             //Fill in addition details
             packet.Header.SourceId = sourceId;
@@ -99,7 +100,10 @@ namespace Acn.Sockets
             dmxPacket.Framing.SourceName = SourceName;
             dmxPacket.Dmx.Data = rdmData.GetBuffer();
 
-            SendPacket(dmxPacket, targetAddress);
+            SendPacket(dmxPacket, targetAddress.IpAddress);
+
+            if (RdmPacketSent != null)
+                RdmPacketSent(this, new NewPacketEventArgs<RdmPacket>(new IPEndPoint(targetAddress.IpAddress, Port), packet));
         }
 
 

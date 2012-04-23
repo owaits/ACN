@@ -17,6 +17,7 @@ namespace RdmSnoop.Transports
 
         public event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
+
         public ArtNet()
         {
 
@@ -75,6 +76,11 @@ namespace RdmSnoop.Transports
             return socket;
         }
 
+        public IEnumerable<IRdmSocket> Sockets
+        {
+            get { return new IRdmSocket[] { socket }; }
+        }
+
         #region Art Net
 
 
@@ -108,7 +114,7 @@ namespace RdmSnoop.Transports
             foreach (UId id in packet.Devices)
             {
                 if (NewDeviceFound != null)
-                    NewDeviceFound(this, new DeviceFoundEventArgs((UId) (new NetworkUId(id, (int) packet.Universe)),endPoint.Address));
+                    NewDeviceFound(this, new DeviceFoundEventArgs(id,new RdmAddress(endPoint.Address,(int) packet.Universe)));
             }
         }
 

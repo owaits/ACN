@@ -14,11 +14,11 @@ namespace RdmSnoop.Models
     {
 
 
-        public RdmDeviceModel(TreeNode node, IRdmSocket socket, UId id, IPAddress ipAddress)
+        public RdmDeviceModel(TreeNode node, IRdmSocket socket, UId id, RdmAddress address)
         {
             CreateHandle();
 
-            broker = new RdmDeviceBroker(socket, id, ipAddress);
+            broker = new RdmDeviceBroker(socket, id, address);
 
             Node = node;
             Node.Tag = this;

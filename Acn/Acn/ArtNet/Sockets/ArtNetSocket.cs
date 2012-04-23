@@ -19,6 +19,7 @@ namespace Acn.ArtNet.Sockets
         public event UnhandledExceptionEventHandler UnhandledException;
         public event EventHandler<NewPacketEventArgs<ArtNetPacket>> NewPacket;
         public event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
+        public event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
 
         public ArtNetSocket(UId rdmId)
             : base(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Dgram, System.Net.Sockets.ProtocolType.Udp)
@@ -173,17 +174,17 @@ namespace Acn.ArtNet.Sockets
             SendTo(packet.ToArray(), new IPEndPoint(BroadcastAddress,Port));
         }
 
-        public void Send(ArtNetPacket packet, IPAddress ipAddress)
+        public void Send(ArtNetPacket packet, RdmAddress address)
         {
-            SendTo(packet.ToArray(), new IPEndPoint(ipAddress, Port));
+            SendTo(packet.ToArray(), new IPEndPoint(address.IpAddress, Port));
         }
 
-        public void SendRdm(RdmPacket packet, IPAddress targetAddress, UId targetId)
+        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId)
         {
             SendRdm(packet, targetAddress, targetId, RdmId);
         }
 
-        public void SendRdm(RdmPacket packet, IPAddress targetAddress, UId targetId, UId sourceId)
+        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId)
         {
             //Fill in addition details
             packet.Header.SourceId = sourceId;
@@ -201,19 +202,17 @@ namespace Acn.ArtNet.Sockets
 
             //Create sACN Packet
             ArtRdmPacket rdmPacket = new ArtRdmPacket();
-
-            NetworkUId netId = targetId as NetworkUId;
-            if (netId != null)
-                rdmPacket.Address = (byte) netId.Universe;
-
+            rdmPacket.Address = (byte)targetAddress.Universe;
             rdmPacket.SubStartCode = (byte)RdmVersions.SubMessage;
-            //rdmPacket.Address
             rdmPacket.RdmData = rdmData.GetBuffer();
 
             Send(rdmPacket, targetAddress);
+
+            if(RdmPacketSent != null)
+                RdmPacketSent(this, new NewPacketEventArgs<RdmPacket>(new IPEndPoint(targetAddress.IpAddress, Port), packet));
         }
 
-        public void SendRdm(List<RdmPacket> packets, IPAddress targetAddress, UId targetId)
+        public void SendRdm(List<RdmPacket> packets, RdmAddress targetAddress, UId targetId)
         {
             if(packets.Count <1)
                 throw new ArgumentException("Rdm packets list is empty.");

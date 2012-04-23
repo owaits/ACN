@@ -10,8 +10,9 @@ namespace Acn.Sockets
     public interface IRdmSocket
     {
         event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
+        event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
 
-        void SendRdm(RdmPacket packet,IPAddress targetAddress,UId targetId);
-        void SendRdm(RdmPacket packet, IPAddress targetAddress, UId targetId, UId sourceId);
+        void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId);
+        void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId);
     }
 }

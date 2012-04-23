@@ -47,7 +47,7 @@ namespace RdmSnoop.Transports
             if(NewDeviceFound != null)
             {
                 foreach (UrlEntry url in e.Urls)
-                    NewDeviceFound(this, new DeviceFoundEventArgs(UId.ParseUrl(url.Url), e.Address.Address));
+                    NewDeviceFound(this, new DeviceFoundEventArgs(UId.ParseUrl(url.Url), new RdmAddress(e.Address.Address)));
             }
 
         }
@@ -69,6 +69,11 @@ namespace RdmSnoop.Transports
         public IRdmSocket GetDeviceSocket(UId deviceId)
         {
             return acnSocket;
+        }
+
+        public IEnumerable<IRdmSocket> Sockets
+        {
+            get { return new IRdmSocket[] { acnSocket }; }
         }
     }
 }

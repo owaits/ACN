@@ -73,6 +73,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SnoopMain.resx">
       <DependentUpon>SnoopMain.cs</DependentUpon>
@@ -92,6 +93,15 @@
       <Project>{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}</Project>
       <Name>Acn</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\ArtNet.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RepeatHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OrgChartHS.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
