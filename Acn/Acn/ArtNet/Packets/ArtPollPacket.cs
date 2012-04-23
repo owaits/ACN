@@ -26,7 +26,7 @@ namespace Acn.ArtNet.Packets
         public byte TalkToMe
         {
             get { return talkToMe; }
-            protected set { talkToMe = value; }
+            set { talkToMe = value; }
         }
 
         #endregion
@@ -43,6 +43,7 @@ namespace Acn.ArtNet.Packets
             base.WriteData(data);
 
             data.Write(TalkToMe);
+            data.Write((byte)0);
         }
 
     }

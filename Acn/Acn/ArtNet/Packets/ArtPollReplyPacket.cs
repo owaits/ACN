@@ -271,8 +271,8 @@ namespace Acn.ArtNet.Packets
 
         public override void ReadData(ArtNetBinaryReader data)
         {
-            Protocol = data.ReadNetworkString(8);
-            OpCode = data.ReadInt16();
+            base.ReadData(data);
+
             IpAddress = data.ReadBytes(4);
             Port = data.ReadInt16();
             FirmwareVersion = data.ReadNetwork16();
@@ -303,8 +303,8 @@ namespace Acn.ArtNet.Packets
 
         public override void WriteData(ArtNetBinaryWriter data)
         {
-            data.WriteNetwork(Protocol,8);
-            data.Write(OpCode);
+            base.WriteData(data);
+            
             data.Write(IpAddress);
             data.Write(Port);
             data.WriteNetwork(FirmwareVersion);

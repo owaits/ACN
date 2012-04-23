@@ -10,6 +10,7 @@ using Acn.Rdm.Packets.Control;
 using Acn.Rdm.Packets.Status;
 using Acn.Rdm.Packets.Power;
 using Acn.Rdm.Packets.Management;
+using Acn.Rdm.Packets.Discovery;
 
 namespace Acn.Rdm
 {
@@ -17,6 +18,7 @@ namespace Acn.Rdm
     {
         static RdmPacketFactory()
         {
+            RegisterDiscoveryMessages();
             RegisterStatusMessages();
             RegisterCoreMessages();
             RegisterRdmNetMessages();
@@ -24,6 +26,19 @@ namespace Acn.Rdm
             RegisterDmxMessages();
             RegisterPowerMessages();
             RegisterControlMessages();
+        }
+
+        private static void RegisterDiscoveryMessages()
+        {
+            RegisterPacketType(RdmCommands.Discovery, RdmParameters.DiscoveryUniqueBranch, typeof(DiscoveryUniqueBranch.Request));
+            RegisterPacketType(RdmCommands.DiscoveryResponse, RdmParameters.DiscoveryUniqueBranch, typeof(DiscoveryUniqueBranch.Reply));
+
+            RegisterPacketType(RdmCommands.Discovery, RdmParameters.DiscoveryMute, typeof(DiscoveryMute.Request));
+            RegisterPacketType(RdmCommands.DiscoveryResponse, RdmParameters.DiscoveryMute, typeof(DiscoveryMute.Reply));
+
+            RegisterPacketType(RdmCommands.Discovery, RdmParameters.DiscoveryUnMute, typeof(DiscoveryMute.Request));
+            RegisterPacketType(RdmCommands.DiscoveryResponse, RdmParameters.DiscoveryUnMute, typeof(DiscoveryMute.Reply));
+
         }
 
         private static void RegisterStatusMessages()

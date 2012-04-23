@@ -11,19 +11,19 @@ namespace Acn.ArtNet.Packets
     {
         public ArtNetPacket(ArtNetOpCodes opCode)
         {
-            OpCode = (short) opCode;
+            OpCode = opCode;
         }
 
         public ArtNetPacket(ArtNetRecieveData data)
         {
-            BinaryReader packetReader = new BinaryReader(new MemoryStream(data.buffer));
+            ArtNetBinaryReader packetReader = new ArtNetBinaryReader(new MemoryStream(data.buffer));
             ReadData(packetReader);
         }
 
         public byte[] ToArray()
         {
             MemoryStream stream = new MemoryStream();
-            WriteData(new BinaryWriter(stream));
+            WriteData(new ArtNetBinaryWriter(stream));
             return stream.ToArray();
         }
 
@@ -43,13 +43,6 @@ namespace Acn.ArtNet.Packets
             }
         }
 
-        private short opCode = 0;
-
-        public virtual short OpCode
-        {
-            get { return opCode; }
-            protected set { opCode = value; }
-        }
 
         private short version = 14;
 
@@ -59,21 +52,36 @@ namespace Acn.ArtNet.Packets
             protected set { version = value; }
         }
 
+        private ArtNetOpCodes opCode = ArtNetOpCodes.None;
+
+        public virtual ArtNetOpCodes OpCode
+        {
+            get { return opCode; }
+            protected set { opCode = value; }
+        }
+
         #endregion
         	
         public virtual void ReadData(ArtNetBinaryReader data)
         {
-            Protocol = System.Text.ASCIIEncoding.UTF8.GetString(data.ReadBytes(8));
-            OpCode = data.ReadInt16();
-            Version = data.ReadInt16();
+            Protocol = data.ReadNetworkString(8);
+            OpCode = (ArtNetOpCodes) data.ReadNetwork16();
+
+            //For some reason the poll packet header does not include the version.
+            if (OpCode != ArtNetOpCodes.PollReply)
+                Version = data.ReadNetwork16();
+            
         }
 
         public virtual void WriteData(ArtNetBinaryWriter data)
         {
-            data.Write(System.Text.ASCIIEncoding.UTF8.GetBytes(Protocol.PadRight(7)));
-            data.Write((byte)0);            //Null terminate the string.
-            data.Write(OpCode);
-            data.Write(IPAddress.HostToNetworkOrder(Version));
+            data.WriteNetwork(Protocol,8);
+            data.WriteNetwork((short) OpCode);
+
+            //For some reason the poll packet header does not include the version.
+            if(OpCode != ArtNetOpCodes.PollReply)
+                data.WriteNetwork(Version);
+            
         }
 
         public static ArtNetPacket Create(ArtNetRecieveData data)

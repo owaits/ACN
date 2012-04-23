@@ -49,9 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brokers\RdmDeviceBroker.cs" />
+    <Compile Include="CardInfo.cs" />
     <Compile Include="DeviceFoundEventArgs.cs" />
     <Compile Include="IRdmTransport.cs" />
-    <Compile Include="Models\RdmDeviceModel.cs" />
+    <Compile Include="Models\RdmDeviceModel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SnoopMain.cs">
       <SubType>Form</SubType>
     </Compile>

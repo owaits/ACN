@@ -72,7 +72,7 @@ namespace Acn.ArtNet.Packets
             Sequence = data.ReadByte();
             Physical = data.ReadByte();
             Universe = data.ReadInt16();
-            int length = IPAddress.NetworkToHostOrder(data.ReadInt16());
+            int length = data.ReadNetwork16();
             DmxData = data.ReadBytes(length);
         }
 
@@ -83,7 +83,7 @@ namespace Acn.ArtNet.Packets
             data.Write(Sequence);
             data.Write(Physical);
             data.Write(Universe);
-            data.Write(IPAddress.HostToNetworkOrder((short) Length));
+            data.WriteNetwork(Length);
             data.Write(DmxData);
         }
 

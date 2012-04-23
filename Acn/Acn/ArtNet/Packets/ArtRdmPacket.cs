@@ -38,7 +38,7 @@ namespace Acn.ArtNet.Packets
 	
         #endregion
 
-        public override void ReadData(System.IO.BinaryReader data)
+        public override void ReadData(ArtNetBinaryReader data)
         {
             base.ReadData(data);
 
@@ -51,7 +51,7 @@ namespace Acn.ArtNet.Packets
             RdmData = data.ReadBytes((int) (data.BaseStream.Length - data.BaseStream.Position));
         }
 
-        public override void WriteData(System.IO.BinaryWriter data)
+        public override void WriteData(ArtNetBinaryWriter data)
         {
             base.WriteData(data);
 

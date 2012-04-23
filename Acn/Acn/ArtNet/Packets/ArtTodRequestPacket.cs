@@ -31,7 +31,7 @@ namespace Acn.ArtNet.Packets
 	
         #endregion
 
-        public override void ReadData(System.IO.BinaryReader data)
+        public override void ReadData(ArtNetBinaryReader data)
         {
             base.ReadData(data);
 
@@ -42,7 +42,7 @@ namespace Acn.ArtNet.Packets
             RequestedUniverses = new List<byte>(data.ReadBytes(count));
         }
 
-        public override void WriteData(System.IO.BinaryWriter data)
+        public override void WriteData(ArtNetBinaryWriter data)
         {
             base.WriteData(data);
 

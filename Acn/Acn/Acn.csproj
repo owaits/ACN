@@ -73,7 +73,7 @@
     <Compile Include="AcnPdu.cs" />
     <Compile Include="AcnRootLayer.cs" />
     <Compile Include="AcnPacket.cs" />
-    <Compile Include="ArtNet\ArtNet.cs" />
+    <Compile Include="ArtNet\ArtNetOpCodes.cs" />
     <Compile Include="ArtNet\IO\ArtNetBinaryReader.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -236,6 +236,7 @@
     <Compile Include="Sntp\Sockets\SntpSocket.cs" />
     <Compile Include="Sockets\AcnSocket.cs" />
     <Compile Include="Sockets\IRdmSocket.cs" />
+    <Compile Include="Sockets\NetworkUId.cs" />
     <Compile Include="Sockets\NewPacketEventArgs.cs" />
     <Compile Include="Sockets\RdmSocket.cs" />
     <Compile Include="Sockets\StreamingAcnSocket.cs" />
