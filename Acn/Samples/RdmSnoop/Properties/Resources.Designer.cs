@@ -60,9 +60,51 @@ namespace RdmSnoop.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap _008_Reminder_32x42_72 {
+            get {
+                object obj = ResourceManager.GetObject("008_Reminder_32x42_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _1195429270821624493molumen_multicolor_power_buttons_4_svg_med {
+            get {
+                object obj = ResourceManager.GetObject("1195429270821624493molumen_multicolor_power_buttons_4.svg.med", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _1446_envelope_stamp_clsd_48 {
+            get {
+                object obj = ResourceManager.GetObject("1446_envelope_stamp_clsd_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _363508_1297017905_3 {
+            get {
+                object obj = ResourceManager.GetObject("363508,1297017905,3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ArtNet {
             get {
                 object obj = ResourceManager.GetObject("ArtNet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap base_cog_32 {
+            get {
+                object obj = ResourceManager.GetObject("base_cog_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Gear {
+            get {
+                object obj = ResourceManager.GetObject("Gear", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -74,9 +116,23 @@ namespace RdmSnoop.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Red_Power_Button_clip_art_small {
+            get {
+                object obj = ResourceManager.GetObject("Red_Power_Button_clip_art_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap RepeatHS {
             get {
                 object obj = ResourceManager.GetObject("RepeatHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap settings_16 {
+            get {
+                object obj = ResourceManager.GetObject("settings_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

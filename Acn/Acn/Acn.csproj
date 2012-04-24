@@ -194,6 +194,7 @@
     <Compile Include="Rdm\RdmRequestPacket.cs" />
     <Compile Include="Rdm\RdmResponsePacket.cs" />
     <Compile Include="Rdm\RdmResponseTypes.cs" />
+    <Compile Include="Rdm\SubDeviceUId.cs" />
     <Compile Include="Rdm\UId.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnPacket.cs" />
     <Compile Include="Rdm\UnknownRdmPacketException.cs" />

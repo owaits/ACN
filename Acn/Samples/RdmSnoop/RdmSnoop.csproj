@@ -63,6 +63,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\DmxAddressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\DmxAddressDialog.Designer.cs">
+      <DependentUpon>DmxAddressDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transports\ArtNet.cs" />
     <Compile Include="Transports\RdmNet.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -77,6 +83,9 @@
     </Compile>
     <EmbeddedResource Include="SnoopMain.resx">
       <DependentUpon>SnoopMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\DmxAddressDialog.resx">
+      <DependentUpon>DmxAddressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -102,6 +111,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\OrgChartHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\base_cog_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\008_Reminder_32x42_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1446_envelope_stamp_clsd_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\363508,1297017905,3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1195429270821624493molumen_multicolor_power_buttons_4.svg.med.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Red_Power_Button_clip_art_small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

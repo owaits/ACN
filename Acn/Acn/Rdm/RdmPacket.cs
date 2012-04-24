@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.ComponentModel;
 
 namespace Acn.Rdm
 {
@@ -21,8 +22,10 @@ namespace Acn.Rdm
 
         #region Contents
 
+        [Browsable(false)]
         public RdmHeader Header { get; protected set; }
 
+        [Browsable(false)]
         public short Checksum { get; set; }
 
         #endregion
