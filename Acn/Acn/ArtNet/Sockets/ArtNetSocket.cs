@@ -190,6 +190,10 @@ namespace Acn.ArtNet.Sockets
             packet.Header.SourceId = sourceId;
             packet.Header.DestinationId = targetId;
 
+            //Sub Devices
+            if (targetId is SubDeviceUId)
+                packet.Header.SubDevice = ((SubDeviceUId)targetId).SubDeviceId;
+
             //Create Rdm Packet
             MemoryStream rdmData = new MemoryStream();
             RdmBinaryWriter rdmWriter = new RdmBinaryWriter(rdmData);

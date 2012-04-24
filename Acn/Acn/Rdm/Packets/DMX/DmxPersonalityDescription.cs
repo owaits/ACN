@@ -50,7 +50,8 @@ namespace Acn.Rdm.Packets.DMX
             {
                 PersonalityIndex = data.ReadByte();
                 DmxSlotsRequired = data.ReadNetwork16();
-                Description = data.ReadNetworkString(Header.ParameterDataLength - 3);
+                if(Header.ParameterDataLength > 3)
+                    Description = data.ReadNetworkString(Header.ParameterDataLength - 3);
             }
 
             protected override void WriteData(RdmBinaryWriter data)

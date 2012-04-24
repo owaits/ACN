@@ -7,6 +7,7 @@ using System.Reflection;
 using Acn.Rdm.Packets.Status;
 using Acn.Rdm.Packets.Management;
 using Acn.Rdm.Packets.Parameters;
+using System.ComponentModel;
 
 namespace Acn.Rdm.Broker
 {
@@ -17,8 +18,10 @@ namespace Acn.Rdm.Broker
         private Dictionary<RdmParameters, RdmPacket> responsePackets = new Dictionary<RdmParameters, RdmPacket>();
 
         private Dictionary<RdmParameters, ProcessPacketHandler> packetGetHandlers = new Dictionary<RdmParameters, ProcessPacketHandler>();
+        private Dictionary<RdmParameters, ProcessPacketHandler> packetGetResponseHandlers = new Dictionary<RdmParameters, ProcessPacketHandler>();
 
         private Dictionary<RdmParameters, ProcessPacketHandler> packetSetHandlers = new Dictionary<RdmParameters, ProcessPacketHandler>();
+        private Dictionary<RdmParameters, ProcessPacketHandler> packetSetResponseHandlers = new Dictionary<RdmParameters, ProcessPacketHandler>();
 
         public RdmMessageBroker()
         {
@@ -28,6 +31,7 @@ namespace Acn.Rdm.Broker
 
         private bool autoNack = false;
 
+        [Browsable(false)]
         public bool AutoNack
         {
             get { return autoNack; }
@@ -36,6 +40,7 @@ namespace Acn.Rdm.Broker
 
         private StatusMessage.GetReply statusReply = new StatusMessage.GetReply();
 
+        [Browsable(false)]
         public StatusMessage.GetReply StatusReply
         {
             get { return statusReply; }
@@ -53,9 +58,17 @@ namespace Acn.Rdm.Broker
                 case RdmCommands.Get:
                     packetGetHandlers[parameterId] = packetHandler;
                     break;
+                case RdmCommands.GetResponse:
+                    packetGetResponseHandlers[parameterId] = packetHandler;
+                    break;
                 case RdmCommands.Set:
                     packetSetHandlers[parameterId] = packetHandler;
                     break;
+                case RdmCommands.SetResponse:
+                    packetSetResponseHandlers[parameterId] = packetHandler;
+                    break;
+                default:
+                    throw new NotSupportedException(string.Format("The packet command type {0} is not supported yet.",command.ToString()));
             }          
         }
 
@@ -104,16 +117,24 @@ namespace Acn.Rdm.Broker
                         }
                     }
                     break;
+                case RdmCommands.GetResponse:
+                    if (packetGetResponseHandlers.TryGetValue(packet.Header.ParameterId, out handler))
+                    {
+                        responsePacket = handler(packet);
+                    }
+                    break;
                 case RdmCommands.Set:
                     if (packetSetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
                     {
                         responsePacket = handler(packet);
                     }
                     break;
-                case RdmCommands.GetResponse:
-                    return null;
                 case RdmCommands.SetResponse:
-                    return null;
+                    if (packetSetResponseHandlers.TryGetValue(packet.Header.ParameterId, out handler))
+                    {
+                        responsePacket = handler(packet);
+                    }
+                    break;
             }
 
             if (AutoNack && responsePacket == null)

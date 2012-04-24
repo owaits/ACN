@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace Acn.Rdm
 {
@@ -11,6 +12,7 @@ namespace Acn.Rdm
         {
         }
 
+        [Browsable(false)]
         public RdmResponseTypes ResponseType { get; set; }
     }
 }

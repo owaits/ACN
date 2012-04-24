@@ -11,6 +11,7 @@ using Acn.Rdm.Packets.Status;
 using Acn.Rdm.Packets.Power;
 using Acn.Rdm.Packets.Management;
 using Acn.Rdm.Packets.Discovery;
+using Acn.Rdm.Packets.Configuration;
 
 namespace Acn.Rdm
 {
@@ -25,6 +26,7 @@ namespace Acn.Rdm
             RegisterProductMessages();
             RegisterDmxMessages();
             RegisterPowerMessages();
+            RegisterConfigurationMessages();
             RegisterControlMessages();
         }
 
@@ -241,6 +243,33 @@ namespace Acn.Rdm
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.PresetPlayback, typeof(PresetPlayback.GetReply));
             RegisterPacketType(RdmCommands.Set, RdmParameters.PresetPlayback, typeof(PresetPlayback.Set));
             RegisterPacketType(RdmCommands.SetResponse, RdmParameters.PresetPlayback, typeof(PresetPlayback.SetReply));
+        }
+
+        private static void RegisterConfigurationMessages()
+        {
+            //PanInvert
+            RegisterPacketType(RdmCommands.Get, RdmParameters.PanInvert, typeof(PanInvert.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.PanInvert, typeof(PanInvert.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.PanInvert, typeof(PanInvert.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.PanInvert, typeof(PanInvert.SetReply));
+
+            //TiltInvert
+            RegisterPacketType(RdmCommands.Get, RdmParameters.TiltInvert, typeof(TiltInvert.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.TiltInvert, typeof(TiltInvert.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.TiltInvert, typeof(TiltInvert.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.TiltInvert, typeof(TiltInvert.SetReply));
+
+            //PanTiltSwap
+            RegisterPacketType(RdmCommands.Get, RdmParameters.PanTiltSwap, typeof(PanTiltSwap.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.PanTiltSwap, typeof(PanTiltSwap.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.PanTiltSwap, typeof(PanTiltSwap.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.PanTiltSwap, typeof(PanTiltSwap.SetReply));
+
+            //RealTimeClock
+            RegisterPacketType(RdmCommands.Get, RdmParameters.RealTimeClock, typeof(RealTimeClock.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.RealTimeClock, typeof(RealTimeClock.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.RealTimeClock, typeof(RealTimeClock.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.RealTimeClock, typeof(RealTimeClock.SetReply));
         }
 
         private struct PacketKey

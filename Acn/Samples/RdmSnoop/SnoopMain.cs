@@ -14,6 +14,8 @@ using Acn.Slp;
 using System.Net.NetworkInformation;
 using System.Collections.ObjectModel;
 using Acn.Sockets;
+using RdmNetworkMonitor;
+using RdmSnoop.Tools;
 
 namespace RdmSnoop
 {
@@ -23,11 +25,13 @@ namespace RdmSnoop
         {
             InitializeComponent();
 
-            packetView.Columns.Add("Time", 100);
+            packetView.Columns.Add("Time", 100);            
             packetView.Columns.Add("Parameter", 200);
-            packetView.Columns.Add("Command",90);
+            packetView.Columns.Add("Command",120);
+            packetView.Columns.Add("Type", 100);
             packetView.Columns.Add("Source Id",150);
-            packetView.Columns.Add("Target Id",150);            
+            packetView.Columns.Add("Target Id",150);
+            packetView.Columns.Add("Sub Device", 50); 
             packetView.Columns.Add("IP Address",150);
 
             
@@ -71,6 +75,52 @@ namespace RdmSnoop
             }
         }
 
+        private RdmDeviceBroker selectedDevice = null;
+
+        public RdmDeviceBroker SelectedDevice
+        {
+            get { return selectedDevice; }
+            set 
+            {
+                if (selectedDevice != value)
+                {
+                    selectedDevice = value;
+                    LoadDevice();
+                }
+ 
+            }
+        }
+
+        private void LoadDevice()
+        {
+            deviceToolbox.Enabled = SelectedDevice != null;
+            deviceInformation.SelectedObject = SelectedDevice;
+
+            modeTool.DropDownItems.Clear();
+            for (int n = 1; n <= SelectedDevice.DeviceInformation.DmxPersonalityCount; n++)
+            {
+                ToolStripMenuItem newItem = new ToolStripMenuItem(string.Format("Mode {0}", n));
+                if (n == SelectedDevice.DeviceInformation.DmxPersonality)
+                    newItem.Checked = true;
+
+                newItem.Tag = n;
+                modeTool.DropDownItems.Add(newItem);
+
+                newItem.Click += new EventHandler(modeTool_Click);
+            }
+        }
+
+        void modeTool_Click(object sender, EventArgs e)
+        {
+            ToolStripDropDownItem item = sender as ToolStripDropDownItem;
+            if(item != null)
+            {
+                SelectedDevice.SetMode((int)item.Tag);
+            }
+        }
+
+
+
         private IRdmTransport transport = null;
 
         public IRdmTransport Transport
@@ -104,8 +154,10 @@ namespace RdmSnoop
             ListViewItem newItem = new ListViewItem(string.Format("{0}{1}",timeStamp.ToLongTimeString(),timeStamp.Millisecond.ToString()));
             newItem.SubItems.Add(e.Packet.Header.ParameterId.ToString());
             newItem.SubItems.Add(e.Packet.Header.Command.ToString());
+            newItem.SubItems.Add(((RdmResponseTypes) e.Packet.Header.PortOrResponseType).ToString());
             newItem.SubItems.Add(e.Packet.Header.SourceId.ToString());
-            newItem.SubItems.Add(e.Packet.Header.DestinationId.ToString());            
+            newItem.SubItems.Add(e.Packet.Header.DestinationId.ToString());
+            newItem.SubItems.Add(e.Packet.Header.SubDevice.ToString());   
             newItem.SubItems.Add(e.Source.Address.ToString());
             
             packetView.Items.Add(newItem);
@@ -205,9 +257,70 @@ namespace RdmSnoop
             RdmDeviceModel model = e.Node.Tag as RdmDeviceModel;
             if (model != null)
             {
-                deviceInformation.SelectedObject = model.Broker;
+                SelectedDevice = model.Broker;
+                
             }
         }
+
+        private void identifyOn_Click(object sender, EventArgs e)
+        {
+            SelectedDevice.Identify(true);
+        }
+
+        private void identifyOff_Click(object sender, EventArgs e)
+        {
+            SelectedDevice.Identify(false);
+        }
+
+        private void addressTool_Click(object sender, EventArgs e)
+        {
+            DmxAddressDialog addressDialog = new DmxAddressDialog();
+            addressDialog.DmxAddress = SelectedDevice.DmxAddress;
+
+            if (addressDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                SelectedDevice.SetDmxAddress(addressDialog.DmxAddress);
+            }
+        }
+
+        private void modeTool_DropDownOpened(object sender, EventArgs e)
+        {
+            foreach (ToolStripMenuItem item in modeTool.DropDownItems)
+            {
+                item.Checked = ((int) (item.Tag) == SelectedDevice.DeviceInformation.DmxPersonality);
+            }
+        }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            selectedDevice.Reset();
+        }
+
+        private void selfTestTool_Click(object sender, EventArgs e)
+        {
+            selectedDevice.SelfTest();
+        }
+
+        private void powerOffTool_Click(object sender, EventArgs e)
+        {
+            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Off);
+        }
+
+        private void shutdownTool_Click(object sender, EventArgs e)
+        {
+            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Shutdown);
+        }
+
+        private void powerStandbyTool_Click(object sender, EventArgs e)
+        {
+            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Standby);
+        }
+
+        private void powerOnTool_Click(object sender, EventArgs e)
+        {
+            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Normal);
+        }
+
 
     }
 }

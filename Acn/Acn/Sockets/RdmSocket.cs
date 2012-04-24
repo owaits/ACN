@@ -79,6 +79,10 @@ namespace Acn.Sockets
             packet.Header.SourceId = sourceId;
             packet.Header.DestinationId = targetId;
 
+            SubDeviceUId id = targetId as SubDeviceUId;
+            if (id != null)
+                packet.Header.SubDevice = id.SubDeviceId;
+
             //Create Rdm Packet
             MemoryStream rdmData = new MemoryStream();
             RdmBinaryWriter rdmWriter = new RdmBinaryWriter(rdmData);
