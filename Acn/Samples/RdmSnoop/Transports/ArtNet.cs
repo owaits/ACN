@@ -71,14 +71,24 @@ namespace RdmSnoop.Transports
             socket.Close();
         }
 
+        private RdmReliableSocket reliableSocket = null;
+
         public Acn.Sockets.IRdmSocket GetDeviceSocket(Acn.Rdm.UId deviceId)
         {
-            return socket;
+            if (reliableSocket == null && socket != null)
+                reliableSocket = new RdmReliableSocket(socket);
+            return reliableSocket;
         }
 
         public IEnumerable<IRdmSocket> Sockets
         {
-            get { return new IRdmSocket[] { socket }; }
+            get 
+            {
+                if (reliableSocket == null && socket != null)
+                    reliableSocket = new RdmReliableSocket(socket);
+
+                return new IRdmSocket[] { reliableSocket }; 
+            }
         }
 
         #region Art Net

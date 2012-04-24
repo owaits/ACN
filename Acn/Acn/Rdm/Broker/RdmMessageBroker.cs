@@ -114,6 +114,9 @@ namespace Acn.Rdm.Broker
                         {
                             responsePacket = handler(packet);
 
+                            if (responsePacket != null && responsePacket.Header.Command == RdmCommands.GetResponse)
+                                responsePacket.Header.TransactionNumber = packet.Header.TransactionNumber;
+
                         }
                     }
                     break;
@@ -121,12 +124,16 @@ namespace Acn.Rdm.Broker
                     if (packetGetResponseHandlers.TryGetValue(packet.Header.ParameterId, out handler))
                     {
                         responsePacket = handler(packet);
+                        
                     }
                     break;
                 case RdmCommands.Set:
                     if (packetSetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
                     {
                         responsePacket = handler(packet);
+
+                        if (responsePacket != null && responsePacket.Header.Command == RdmCommands.SetResponse)
+                            responsePacket.Header.TransactionNumber = packet.Header.TransactionNumber;
                     }
                     break;
                 case RdmCommands.SetResponse:

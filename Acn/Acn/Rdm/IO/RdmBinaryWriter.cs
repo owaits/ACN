@@ -31,7 +31,8 @@ namespace Acn.Rdm
 
         public void WriteNetwork(string value)
         {
-            Write(Encoding.ASCII.GetBytes(value));
+            if(!string.IsNullOrEmpty(value))
+                Write(Encoding.ASCII.GetBytes(value));
         }
 
 
