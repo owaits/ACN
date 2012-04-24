@@ -16,6 +16,7 @@ using Acn.Rdm.Packets.DMX;
 using Acn.Rdm.Packets.Control;
 using Acn.Rdm.Packets.Configuration;
 using Acn.Rdm.Packets.Power;
+using RdmSnoop;
 
 namespace RdmNetworkMonitor
 {
@@ -53,22 +54,6 @@ namespace RdmNetworkMonitor
         public List<RdmDeviceBroker> SubDevices
         {
             get { return subDevices; }
-        }
-
-        private List<short> ports = new List<short>();
-
-        [Browsable(false)]
-        public List<short> Ports
-        {
-            get { return ports; }
-            set 
-            {
-                if (ports != value)
-                {
-                    ports = value;
-                    RaisePropertyChanged("Ports");
-                }
-            }
         }
 
         #endregion  
@@ -169,6 +154,31 @@ namespace RdmNetworkMonitor
                 }
             }
         }
+
+        private string mode = string.Empty;
+
+        [Category("DMX")]
+        public string Mode
+        {
+            get { return mode; }
+            protected set 
+            {
+                if (mode != value)
+                {
+                    mode = value;
+                    RaisePropertyChanged("Mode");
+                }
+            }
+        }
+
+        private List<PersonalitySlotInformation> personality = new List<PersonalitySlotInformation>();
+
+        [Category("DMX")]
+        public List<PersonalitySlotInformation> Personality
+        {
+            get { return personality; }
+        }
+
 
 
 
@@ -382,6 +392,7 @@ namespace RdmNetworkMonitor
                 RequestLabel();
                 RequestConfiguration();
                 RequestHistory();
+                RequestPersonality();
 
                 if (!SubDeviceUId.IsSubDevice(Id))
                 {
@@ -413,12 +424,6 @@ namespace RdmNetworkMonitor
             {
                 this.label = label.Label;
                 RaisePropertyChanged("Label");
-            }
-
-            PortList.Reply ports = e.Packet as PortList.Reply;
-            if (ports != null)
-            {
-                Ports = ports.PortNumbers;
             }
         }
 
@@ -522,6 +527,59 @@ namespace RdmNetworkMonitor
             return null;
         }
 
+        [RdmMessage(RdmCommands.GetResponse, RdmParameters.DmxPersonalityDescription)]
+        private RdmPacket ProcessPersonalityDescription(RdmPacket packet)
+        {
+            DmxPersonalityDescription.GetReply response = packet as DmxPersonalityDescription.GetReply;
+            if (response != null)
+            {
+                Mode = response.Description;
+            }
+
+            return null;
+        }
+
+        [RdmMessage(RdmCommands.GetResponse, RdmParameters.SlotInfo)]
+        private RdmPacket ProcessSlotInfo(RdmPacket packet)
+        {
+            SlotInfo.GetReply response = packet as SlotInfo.GetReply;
+            if (response != null)
+            {
+                foreach(SlotInfo.SlotInformation slot in response.Slots)
+                {
+                    PersonalitySlotInformation slotInfo = new PersonalitySlotInformation();
+                    slotInfo.Id = slot.Id;
+                    slotInfo.Offset = slot.Offset;
+                    slotInfo.Type = slot.Type;
+                    slotInfo.SlotLink = slot.SlotLink;
+
+                    Personality.Add(slotInfo);
+
+                    //Request the slot description.
+                    SlotDescription.Get slotDescription = new SlotDescription.Get();
+                    slotDescription.SlotOffset = slot.Offset;
+                    socket.SendRdm(slotDescription, Address, Id);
+                }
+            }
+
+            return null;
+        }
+
+        [RdmMessage(RdmCommands.GetResponse, RdmParameters.SlotDescription)]
+        private RdmPacket ProcessSlotDescription(RdmPacket packet)
+        {
+            SlotDescription.GetReply response = packet as SlotDescription.GetReply;
+            if (response != null)
+            {
+                if (response.SlotOffset >= 0 && response.SlotOffset < Personality.Count)
+                {
+                    Personality[response.SlotOffset].Description = response.Description;
+                }
+            }
+
+            return null;
+        }
+
         #endregion
 
         public void Interogate()
@@ -585,6 +643,16 @@ namespace RdmNetworkMonitor
 
             LampStrikes.Get lampStrikes = new LampStrikes.Get();
             socket.SendRdm(lampStrikes, Address, Id);
+        }
+
+        public void RequestPersonality()
+        {
+            DmxPersonalityDescription.Get packet = new DmxPersonalityDescription.Get();
+            packet.PersonalityIndex = DeviceInformation.DmxPersonality;
+            socket.SendRdm(packet, Address, Id);
+
+            SlotInfo.Get slotPacket = new SlotInfo.Get();
+            socket.SendRdm(slotPacket, Address, Id);
         }
 
         #endregion
