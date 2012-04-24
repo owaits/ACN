@@ -53,6 +53,12 @@
             this.powerOnTool = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.packetView = new System.Windows.Forms.ListView();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.packetsSentLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.packetsRecievedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.droppedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tools.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -61,6 +67,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tools
@@ -261,28 +268,28 @@
             // powerOffTool
             // 
             this.powerOffTool.Name = "powerOffTool";
-            this.powerOffTool.Size = new System.Drawing.Size(152, 22);
+            this.powerOffTool.Size = new System.Drawing.Size(128, 22);
             this.powerOffTool.Text = "Off";
             this.powerOffTool.Click += new System.EventHandler(this.powerOffTool_Click);
             // 
             // shutdownTool
             // 
             this.shutdownTool.Name = "shutdownTool";
-            this.shutdownTool.Size = new System.Drawing.Size(152, 22);
+            this.shutdownTool.Size = new System.Drawing.Size(128, 22);
             this.shutdownTool.Text = "Shutdown";
             this.shutdownTool.Click += new System.EventHandler(this.shutdownTool_Click);
             // 
             // powerStandbyTool
             // 
             this.powerStandbyTool.Name = "powerStandbyTool";
-            this.powerStandbyTool.Size = new System.Drawing.Size(152, 22);
+            this.powerStandbyTool.Size = new System.Drawing.Size(128, 22);
             this.powerStandbyTool.Text = "Standby";
             this.powerStandbyTool.Click += new System.EventHandler(this.powerStandbyTool_Click);
             // 
             // powerOnTool
             // 
             this.powerOnTool.Name = "powerOnTool";
-            this.powerOnTool.Size = new System.Drawing.Size(152, 22);
+            this.powerOnTool.Size = new System.Drawing.Size(128, 22);
             this.powerOnTool.Text = "On";
             this.powerOnTool.Click += new System.EventHandler(this.powerOnTool_Click);
             // 
@@ -314,11 +321,55 @@
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.packetsSentLabel,
+            this.packetsRecievedLabel,
+            this.toolStripStatusLabel1,
+            this.droppedLabel,
+            this.failedLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 518);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(980, 22);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip";
+            // 
+            // packetsSentLabel
+            // 
+            this.packetsSentLabel.Name = "packetsSentLabel";
+            this.packetsSentLabel.Size = new System.Drawing.Size(42, 17);
+            this.packetsSentLabel.Text = "Sent: 0";
+            // 
+            // packetsRecievedLabel
+            // 
+            this.packetsRecievedLabel.Name = "packetsRecievedLabel";
+            this.packetsRecievedLabel.Size = new System.Drawing.Size(66, 17);
+            this.packetsRecievedLabel.Text = "Recieved: 0";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
+            // droppedLabel
+            // 
+            this.droppedLabel.Name = "droppedLabel";
+            this.droppedLabel.Size = new System.Drawing.Size(65, 17);
+            this.droppedLabel.Text = "Dropped: 0";
+            // 
+            // failedLabel
+            // 
+            this.failedLabel.Name = "failedLabel";
+            this.failedLabel.Size = new System.Drawing.Size(50, 17);
+            this.failedLabel.Text = "Failed: 0";
+            // 
             // SnoopMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(980, 540);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.tools);
             this.Name = "SnoopMain";
@@ -335,6 +386,8 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -368,6 +421,12 @@
         private System.Windows.Forms.ToolStripMenuItem shutdownTool;
         private System.Windows.Forms.ToolStripMenuItem powerStandbyTool;
         private System.Windows.Forms.ToolStripMenuItem powerOnTool;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel packetsSentLabel;
+        private System.Windows.Forms.ToolStripStatusLabel packetsRecievedLabel;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel droppedLabel;
+        private System.Windows.Forms.ToolStripStatusLabel failedLabel;
 
     }
 }

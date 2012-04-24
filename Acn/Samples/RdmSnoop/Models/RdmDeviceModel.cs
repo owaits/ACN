@@ -65,10 +65,15 @@ namespace RdmSnoop.Models
 
         private void UpdateNodeName()
         {
-            if (string.IsNullOrEmpty(broker.Label))
+            if (string.IsNullOrEmpty(broker.Model))
                 Node.Text = broker.Id.ToString();
             else
-                Node.Text = string.Format("{0}:{1}",broker.Model,broker.Label);
+            {
+                if (string.IsNullOrEmpty(broker.Label))
+                    Node.Text = broker.Model;
+                else
+                    Node.Text = string.Format("{0}:{1}", broker.Model, broker.Label);
+            }
         }
 
         private void UpdateSubDevices()

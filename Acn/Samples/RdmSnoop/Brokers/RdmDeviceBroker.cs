@@ -146,11 +146,7 @@ namespace RdmNetworkMonitor
             {
                 if (dmxAddress != value)
                 {
-                    dmxAddress = value;
-
                     SetDmxAddress(value);
-
-                    RaisePropertyChanged("DmxAddress");
                 }
             }
         }
@@ -396,11 +392,15 @@ namespace RdmNetworkMonitor
 
                 if (!SubDeviceUId.IsSubDevice(Id))
                 {
-                    for (short n = 1; n <= info.SubDeviceCount; n++)
+                    if (SubDevices.Count != info.SubDeviceCount)
                     {
-                        RdmDeviceBroker subDeviceBroker = new RdmDeviceBroker(socket, new SubDeviceUId(Id, n), Address);
-                        SubDevices.Add(subDeviceBroker);
-                        subDeviceBroker.Interogate();
+                        SubDevices.Clear();
+                        for (short n = 1; n <= info.SubDeviceCount; n++)
+                        {
+                            RdmDeviceBroker subDeviceBroker = new RdmDeviceBroker(socket, new SubDeviceUId(Id, n), Address);
+                            SubDevices.Add(subDeviceBroker);
+                            subDeviceBroker.Interogate();
+                        }
                     }
                     
                     RaisePropertyChanged("SubDevices");

@@ -97,16 +97,20 @@ namespace RdmSnoop
             deviceInformation.SelectedObject = SelectedDevice;
 
             modeTool.DropDownItems.Clear();
-            for (int n = 1; n <= SelectedDevice.DeviceInformation.DmxPersonalityCount; n++)
+
+            if (SelectedDevice.DeviceInformation != null)
             {
-                ToolStripMenuItem newItem = new ToolStripMenuItem(string.Format("Mode {0}", n));
-                if (n == SelectedDevice.DeviceInformation.DmxPersonality)
-                    newItem.Checked = true;
+                for (int n = 1; n <= SelectedDevice.DeviceInformation.DmxPersonalityCount; n++)
+                {
+                    ToolStripMenuItem newItem = new ToolStripMenuItem(string.Format("Mode {0}", n));
+                    if (n == SelectedDevice.DeviceInformation.DmxPersonality)
+                        newItem.Checked = true;
 
-                newItem.Tag = n;
-                modeTool.DropDownItems.Add(newItem);
+                    newItem.Tag = n;
+                    modeTool.DropDownItems.Add(newItem);
 
-                newItem.Click += new EventHandler(modeTool_Click);
+                    newItem.Click += new EventHandler(modeTool_Click);
+                }
             }
         }
 
@@ -140,6 +144,7 @@ namespace RdmSnoop
                 
             }
         }
+
 
         void transport_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
         {
@@ -179,6 +184,41 @@ namespace RdmSnoop
             {
                 socket.NewRdmPacket += transport_NewRdmPacket;
                 socket.RdmPacketSent += transport_NewRdmPacket;
+
+                RdmReliableSocket reliableSocket = socket as RdmReliableSocket;
+                if (reliableSocket != null)
+                {
+                    reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
+                }
+            }
+        }
+
+        void reliableSocket_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(InvokeRequired)
+            {
+                BeginInvoke(new EventHandler<PropertyChangedEventArgs>(reliableSocket_PropertyChanged),sender,e);
+                return;
+            }
+
+            RdmReliableSocket reliableSocket = sender as RdmReliableSocket;
+            if (reliableSocket != null)
+            {
+                switch (e.PropertyName)
+                {
+                    case "PacketsSent":
+                        packetsSentLabel.Text = "Sent: " + reliableSocket.PacketsSent;
+                        break;
+                    case "PacketsRecieved":
+                        packetsRecievedLabel.Text = "Recieved: " + reliableSocket.PacketsRecieved;
+                        break;
+                    case "PacketsDropped":
+                        droppedLabel.Text = "Dropped: " + reliableSocket.PacketsSent;
+                        break;
+                    case "FailedTransactions":
+                        failedLabel.Text = "Failed: " + reliableSocket.PacketsSent;
+                        break;
+                }
             }
         }
 
