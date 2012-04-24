@@ -80,7 +80,7 @@ namespace Acn.Rdm
             RegisterPacketType(RdmCommands.Get, RdmParameters.PortIdentify, typeof(PortList.Get));
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.PortIdentify, typeof(PortList.Reply));
             RegisterPacketType(RdmCommands.Set, RdmParameters.PortIdentify, typeof(PortList.Reply));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.PortIdentify, typeof(PortList.Get));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.PortIdentify, typeof(PortList.Get));
         }
 
         private static void RegisterProductMessages()
@@ -132,8 +132,8 @@ namespace Acn.Rdm
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BootSoftwareVersionId, typeof(BootSoftwareVersionId.GetReply));
 
             //SoftwareVersionLabel
-            RegisterPacketType(RdmCommands.Get, RdmParameters.SoftwareVersionLabel, typeof(SoftwareVersionLabel.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.SoftwareVersionLabel, typeof(SoftwareVersionLabel.GetReply));
+            RegisterPacketType(RdmCommands.Get, RdmParameters.BootSoftwareVersionLabel, typeof(SoftwareVersionLabel.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BootSoftwareVersionLabel, typeof(SoftwareVersionLabel.GetReply));
         }
 
         private static void RegisterPowerMessages()
@@ -185,7 +185,7 @@ namespace Acn.Rdm
 
             //DmxPersonalityDescription
             RegisterPacketType(RdmCommands.Get, RdmParameters.DmxPersonalityDescription, typeof(DmxPersonalityDescription.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.DmxPersonality, typeof(DmxPersonalityDescription.GetReply));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.DmxPersonalityDescription, typeof(DmxPersonalityDescription.GetReply));
 
             //DmxStartAddress
             RegisterPacketType(RdmCommands.Get, RdmParameters.DmxStartAddress, typeof(DmxStartAddress.Get));
@@ -288,9 +288,14 @@ namespace Acn.Rdm
 
         public static void RegisterPacketType(RdmCommands command, RdmParameters parameter, Type packetType)
         {
+            
+
             PacketKey key = new PacketKey();
             key.Command = command;
             key.Parameter = parameter;
+
+            if(packetStore.ContainsKey(key))
+                throw new InvalidOperationException(string.Format("The packet {0} is already registered for {1}.",parameter.ToString(),command.ToString()));
 
             packetStore[key] = packetType;
         }
