@@ -11,7 +11,7 @@ using Acn.Sockets;
 
 namespace RdmSnoop.Transports
 {
-    public class ArtNet : IRdmTransport
+    public class ArtNet : IRdmTransport, IDisposable
     {
         private ArtNetSocket socket = null;
 
@@ -68,7 +68,10 @@ namespace RdmSnoop.Transports
 
         public void Stop()
         {
-            socket.Close();
+            if (reliableSocket != null)
+                reliableSocket.Dispose();
+            if (socket != null)
+                socket.Close();
         }
 
         private RdmReliableSocket reliableSocket = null;
@@ -143,5 +146,10 @@ namespace RdmSnoop.Transports
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            Stop();
+        }
     }
 }

@@ -54,6 +54,9 @@ namespace RdmSnoop.Transports
 
         public void  Stop()
         {
+            if(reliableSocket != null)
+                reliableSocket.Dispose();
+
             if (slpUser != null)
                 slpUser.Close();
 
@@ -66,14 +69,24 @@ namespace RdmSnoop.Transports
 
         }
 
+        private RdmReliableSocket reliableSocket = null;
+
         public IRdmSocket GetDeviceSocket(UId deviceId)
         {
-            return acnSocket;
+            if (reliableSocket == null && acnSocket != null)
+                reliableSocket = new RdmReliableSocket(acnSocket);
+            return reliableSocket;
         }
 
         public IEnumerable<IRdmSocket> Sockets
         {
-            get { return new IRdmSocket[] { acnSocket }; }
+            get 
+            {
+                if (reliableSocket == null && acnSocket != null)
+                    reliableSocket = new RdmReliableSocket(acnSocket);
+
+                return new IRdmSocket[] { reliableSocket };
+            }
         }
     }
 }

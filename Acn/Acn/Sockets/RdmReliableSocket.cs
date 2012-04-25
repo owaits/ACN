@@ -15,7 +15,7 @@ namespace Acn.Sockets
     /// <remarks>
     /// Ensures that a transaction is completed by re-requesting packets for which no response has been recieved.
     /// </remarks>
-    public class RdmReliableSocket:IRdmSocket,INotifyPropertyChanged
+    public class RdmReliableSocket:IRdmSocket,INotifyPropertyChanged,IDisposable
     {
         private IRdmSocket socket = null;
         private Dictionary<byte, Transaction> transactionQueue = new Dictionary<byte, Transaction>();
@@ -65,7 +65,7 @@ namespace Acn.Sockets
             set { retryInterval = value; }
         }
 
-        private int retryAttempts = 3;
+        private int retryAttempts = 4;
 
         public int RetryAttempts
         {
@@ -85,13 +85,16 @@ namespace Acn.Sockets
 
         private byte AllocateTransactionNumber()
         {
-            do
+            lock (transactionQueue)
             {
-                TransactionNumber++;
-            }
-            while (transactionQueue.ContainsKey(TransactionNumber));
+                do
+                {
+                    TransactionNumber++;
+                }
+                while (transactionQueue.ContainsKey(TransactionNumber));
 
-            return TransactionNumber;
+                return TransactionNumber;
+            }
         }
 
         private int packetsSent = 0;
@@ -139,17 +142,32 @@ namespace Acn.Sockets
             }
         }
 
-        private int failedTransactions = 0;
+        private int transactionsStarted = 0;
 
-        public int FailedTransactions
+        public int TransactionsStarted
         {
-            get { return failedTransactions; }
+            get { return transactionsStarted; }
             protected set
             {
-                if (failedTransactions != value)
+                if (transactionsStarted != value)
                 {
-                    failedTransactions = value;
-                    RaisePropertyChanged("FailedTransactions");
+                    transactionsStarted = value;
+                    RaisePropertyChanged("TransactionsStarted");
+                }
+            }
+        }
+
+        private int transactionsFailed = 0;
+
+        public int TransactionsFailed
+        {
+            get { return transactionsFailed; }
+            protected set
+            {
+                if (transactionsFailed != value)
+                {
+                    transactionsFailed = value;
+                    RaisePropertyChanged("TransactionsFailed");
                 }
             }
         }
@@ -166,6 +184,8 @@ namespace Acn.Sockets
 
                     if (transactionQueue.Count == 1)
                         retryTimer.Change(RetryInterval, RetryInterval);
+
+                    TransactionsStarted++;
                 }
             }
         }
@@ -174,31 +194,33 @@ namespace Acn.Sockets
         {
             DateTime timeStamp = DateTime.Now;
             List<byte> failedTransactions = new List<byte>();
-            List<Transaction> retries;
+            List<Transaction> retryTransactions = new List<Transaction>();
 
-            lock(transactionQueue)
-                retries = new List<Transaction>(transactionQueue.Values);
-
-            PacketsDropped += transactionQueue.Count;
-
-            foreach (Transaction transaction in retries)
+            lock (transactionQueue)
             {
-                if (transaction.Attempts > RetryAttempts)
-                    failedTransactions.Add(transaction.Number);
-                else
+                foreach (Transaction item in transactionQueue.Values)
                 {
-                    socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
+                    if (item.Attempts > RetryAttempts)
+                        failedTransactions.Add(item.Number);
+                    else
+                    {
+                        retryTransactions.Add(item);
+                        item.Attempts++;
+                        item.LastAttempt = timeStamp;
+                    }
                 }
 
-                transaction.Attempts++;
-                transaction.LastAttempt = timeStamp;
+                foreach (byte transactionId in failedTransactions)
+                    transactionQueue.Remove(transactionId);
             }
 
-
-            foreach (byte transactionId in failedTransactions)
-                transactionQueue.Remove(transactionId);
-
-            FailedTransactions += failedTransactions.Count;
+            PacketsDropped += retryTransactions.Count + failedTransactions.Count;
+            TransactionsFailed += failedTransactions.Count;
+            
+            foreach (Transaction transaction in retryTransactions)
+            {
+                socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
+            }
         }
 
         void socket_RdmPacketSent(object sender, NewPacketEventArgs<RdmPacket> e)
@@ -217,10 +239,13 @@ namespace Acn.Sockets
             {
                 if (e.Packet.Header.Command == RdmCommands.GetResponse || e.Packet.Header.Command == RdmCommands.SetResponse)
                 {
-                    transactionQueue.Remove(e.Packet.Header.TransactionNumber);
+                    lock (transactionQueue)
+                    {
+                        transactionQueue.Remove(e.Packet.Header.TransactionNumber);
 
-                    if (transactionQueue.Count == 0)
-                        retryTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                        if (transactionQueue.Count == 0)
+                            retryTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    }
                 }
             }
 
@@ -264,6 +289,10 @@ namespace Acn.Sockets
         }
 
         #endregion
-
+        
+        public void Dispose()
+        {
+            retryTimer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
     }
 }
