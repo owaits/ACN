@@ -153,7 +153,7 @@ namespace Acn.Rdm.Packets.DMX
                 {
                     data.WriteNetwork(slot.Offset);
                     data.WriteNetwork((byte) slot.Type);
-                    data.WriteNetwork((byte)slot.SlotLink);
+                    data.WriteNetwork((short)slot.SlotLink);
                 }
             }
 
