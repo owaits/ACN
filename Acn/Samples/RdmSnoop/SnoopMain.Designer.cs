@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SnoopMain));
             this.tools = new System.Windows.Forms.ToolStrip();
             this.rdmNetSelect = new System.Windows.Forms.ToolStripButton();
             this.artNetSelect = new System.Windows.Forms.ToolStripButton();
@@ -54,14 +55,14 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.packetView = new System.Windows.Forms.ListView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.packetsSentLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.packetsRecievedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.droppedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.transactionsLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tools.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -75,6 +76,7 @@
             // 
             // tools
             // 
+            this.tools.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rdmNetSelect,
             this.artNetSelect,
@@ -341,6 +343,13 @@
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip";
             // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(53, 17);
+            this.toolStripStatusLabel2.Text = "Packets:";
+            // 
             // packetsSentLabel
             // 
             this.packetsSentLabel.Name = "packetsSentLabel";
@@ -364,19 +373,6 @@
             this.droppedLabel.Size = new System.Drawing.Size(65, 17);
             this.droppedLabel.Text = "Dropped: 0";
             // 
-            // failedLabel
-            // 
-            this.failedLabel.Name = "failedLabel";
-            this.failedLabel.Size = new System.Drawing.Size(50, 17);
-            this.failedLabel.Text = "Failed: 0";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(53, 17);
-            this.toolStripStatusLabel2.Text = "Packets:";
-            // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -390,6 +386,12 @@
             this.transactionsLabel.Size = new System.Drawing.Size(56, 17);
             this.transactionsLabel.Text = "Started: 0";
             // 
+            // failedLabel
+            // 
+            this.failedLabel.Name = "failedLabel";
+            this.failedLabel.Size = new System.Drawing.Size(50, 17);
+            this.failedLabel.Text = "Failed: 0";
+            // 
             // SnoopMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -398,6 +400,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.tools);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SnoopMain";
             this.Text = "RDM Snoop";
             this.Load += new System.EventHandler(this.SnoopMain_Load);

@@ -116,6 +116,13 @@ namespace RdmSnoop.Properties {
             }
         }
         
+        internal static System.Drawing.Icon RdmSnoopIcon {
+            get {
+                object obj = ResourceManager.GetObject("RdmSnoopIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Red_Power_Button_clip_art_small {
             get {
                 object obj = ResourceManager.GetObject("Red_Power_Button_clip_art_small", resourceCulture);

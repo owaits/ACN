@@ -34,7 +34,11 @@ namespace RdmSnoop
             packetView.Columns.Add("Sub Device", 50); 
             packetView.Columns.Add("IP Address",150);
 
-            
+
+            IPAddress selectedIp = IPAddress.None;
+            IPAddress.TryParse(Properties.Settings.Default.NetworkAdapter, out selectedIp);
+            CardInfo selectedCard = null;
+
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (adapter.SupportsMulticast)
@@ -47,12 +51,19 @@ namespace RdmSnoop
                         {
                             CardInfo card = new CardInfo(adapter, n);
                             networkCardSelect.Items.Add(card);
+
+                            if (card.IpAddress.ToString() == selectedIp.ToString())
+                                selectedCard = card;
                         }
                     }
                 }
             }
 
-            networkCardSelect.SelectedIndex = 1;
+            if (selectedCard != null)
+                networkCardSelect.SelectedItem = selectedCard;
+            else
+                networkCardSelect.SelectedIndex = 1;
+
         }
 
         private CardInfo selectedNetworkAdapter = null;
@@ -71,6 +82,9 @@ namespace RdmSnoop
                         StopTransport();
                         StartTransport();
                     }
+
+                    Properties.Settings.Default.NetworkAdapter = selectedNetworkAdapter.IpAddress.ToString();
+                    Properties.Settings.Default.Save();
                 }
             }
         }
@@ -140,6 +154,9 @@ namespace RdmSnoop
                     {
                         transport.NewDeviceFound += new EventHandler<DeviceFoundEventArgs>(transport_NewDeviceFound);
                     }
+
+                    Properties.Settings.Default.Transport = transport.GetType().Name;
+                    Properties.Settings.Default.Save();
                 }
                 
             }
@@ -305,7 +322,19 @@ namespace RdmSnoop
 
         private void SnoopMain_Load(object sender, EventArgs e)
         {
-            Transport = new RdmNet();
+            if (Properties.Settings.Default.Transport == typeof(ArtNet).Name)
+            {
+                Transport = new ArtNet();
+
+                rdmNetSelect.Checked = false;
+                artNetSelect.Checked = true;
+            }
+            else
+            {
+                Transport = new RdmNet();
+            }
+
+            StartTransport();
         }
 
         private void rdmDevices_AfterSelect(object sender, TreeViewEventArgs e)
