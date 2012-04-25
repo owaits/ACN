@@ -44,7 +44,10 @@ namespace RdmSnoop
         {
             if (!string.IsNullOrEmpty(Description))
                 return Description;
-            return Id.ToString();
+
+            if(Type == SlotTypes.Primary || Type == SlotTypes.Undefined) 
+                return Id.ToString();
+            return Type.ToString();
         }
     }
 }

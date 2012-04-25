@@ -29,13 +29,13 @@ namespace Acn.Rdm.Broker
         public void Add16BitChannel(SlotIds id, string description, byte defaultValue)
         {
             RdmSlot slot1 = new RdmSlot();
-            slot1.Information = new SlotInfo.SlotInformation((short)this.Count, id);
+            slot1.Information = new SlotInfo.SlotInformation((short) this.Count, id);
             slot1.Description = description;
             slot1.DefaultValue = new DefaultSlotValue.SlotValue((short)this.Count, defaultValue);
             Add(slot1);
 
             RdmSlot slot2 = new RdmSlot();
-            slot2.Information = new SlotInfo.SlotInformation((short)(this.Count + 1), SlotTypes.Fine, (short)this.Count);
+            slot2.Information = new SlotInfo.SlotInformation((short) this.Count, SlotTypes.Fine, (short)this.Count);
             slot2.Description = description;
             slot2.DefaultValue = new DefaultSlotValue.SlotValue((short)this.Count, defaultValue);
             Add(slot2);
@@ -50,7 +50,7 @@ namespace Acn.Rdm.Broker
             Add(slot1);
 
             RdmSlot slot2 = new RdmSlot();
-            slot2.Information = new SlotInfo.SlotInformation((short)(this.Count + 1), SlotTypes.Fine, (short)this.Count);
+            slot2.Information = new SlotInfo.SlotInformation((short) this.Count, SlotTypes.Fine, (short)this.Count);
             slot2.Description = description;
             slot2.DefaultValue = new DefaultSlotValue.SlotValue((short)this.Count, defaultValue);
             Add(slot2);
