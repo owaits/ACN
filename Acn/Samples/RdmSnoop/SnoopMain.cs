@@ -190,7 +190,11 @@ namespace RdmSnoop
                 {
                     reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
                 }
+
+                UpdatePacketCount((RdmReliableSocket) socket);
             }
+
+           
         }
 
         void reliableSocket_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -213,13 +217,25 @@ namespace RdmSnoop
                         packetsRecievedLabel.Text = "Recieved: " + reliableSocket.PacketsRecieved;
                         break;
                     case "PacketsDropped":
-                        droppedLabel.Text = "Dropped: " + reliableSocket.PacketsSent;
+                        droppedLabel.Text = "Dropped: " + reliableSocket.PacketsDropped;
                         break;
-                    case "FailedTransactions":
-                        failedLabel.Text = "Failed: " + reliableSocket.PacketsSent;
+                    case "TransactionsStarted":
+                        transactionsLabel.Text = "Started: " + reliableSocket.TransactionsStarted;
+                        break;
+                    case "TransactionsFailed":
+                        failedLabel.Text = "Failed: " + reliableSocket.TransactionsFailed;
                         break;
                 }
             }
+        }
+
+        private void UpdatePacketCount(RdmReliableSocket reliableSocket)
+        {
+            packetsSentLabel.Text = "Sent: " + reliableSocket.PacketsSent;
+            packetsRecievedLabel.Text = "Recieved: " + reliableSocket.PacketsRecieved;
+            droppedLabel.Text = "Dropped: " + reliableSocket.PacketsDropped;
+            transactionsLabel.Text = "Started: " + reliableSocket.TransactionsStarted;
+            failedLabel.Text = "Failed: " + reliableSocket.TransactionsFailed;
         }
 
         void transport_NewDeviceFound(object sender, DeviceFoundEventArgs e)
