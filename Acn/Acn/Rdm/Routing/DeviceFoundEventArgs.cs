@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Rdm;
-using System.Net;
 using Acn.Sockets;
 
-namespace RdmSnoop
+namespace Acn.Rdm.Routing
 {
-    public class DeviceFoundEventArgs:EventArgs
+    public class DeviceFoundEventArgs : EventArgs
     {
-
         public DeviceFoundEventArgs(UId id, RdmAddress address)
         {
             this.id = id;

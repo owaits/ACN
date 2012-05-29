@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using Acn.Sockets;
 using RdmNetworkMonitor;
 using RdmSnoop.Tools;
+using Acn.Rdm.Routing;
 
 namespace RdmSnoop
 {
@@ -52,7 +53,7 @@ namespace RdmSnoop
                             CardInfo card = new CardInfo(adapter, n);
                             networkCardSelect.Items.Add(card);
 
-                            if (card.IpAddress.ToString() == selectedIp.ToString())
+                            if (selectedIp != null && card.IpAddress.ToString() == selectedIp.ToString())
                                 selectedCard = card;
                         }
                     }
@@ -195,23 +196,25 @@ namespace RdmSnoop
 
         private void StartTransport()
         {
-            Transport.Start(SelectedNetworkAdapter.IpAddress, selectedNetworkAdapter.SubnetMask);
-
-            foreach (IRdmSocket socket in Transport.Sockets)
+            ISnoopTransport snoopTransport = Transport as ISnoopTransport;
+            if (snoopTransport != null)
             {
-                socket.NewRdmPacket += transport_NewRdmPacket;
-                socket.RdmPacketSent += transport_NewRdmPacket;
-
-                RdmReliableSocket reliableSocket = socket as RdmReliableSocket;
-                if (reliableSocket != null)
-                {
-                    reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
-                }
-
-                UpdatePacketCount((RdmReliableSocket) socket);
+                snoopTransport.LocalAdapter = SelectedNetworkAdapter.IpAddress;
+                snoopTransport.SubnetMask = selectedNetworkAdapter.SubnetMask;
             }
 
-           
+            Transport.Start();
+
+            IRdmSocket socket = Transport.Socket;
+            socket.NewRdmPacket += transport_NewRdmPacket;
+            socket.RdmPacketSent += transport_NewRdmPacket;
+
+            RdmReliableSocket reliableSocket = socket as RdmReliableSocket;
+            if (reliableSocket != null)
+            {
+                reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
+                UpdatePacketCount(reliableSocket);
+            }
         }
 
         void reliableSocket_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -273,7 +276,7 @@ namespace RdmSnoop
         {
             if (!devices.ContainsKey(id))
             {
-                RdmDeviceModel device = new RdmDeviceModel(new TreeNode(id.ToString()), Transport.GetDeviceSocket(id), id, address);
+                RdmDeviceModel device = new RdmDeviceModel(new TreeNode(id.ToString()), Transport.Socket, id, address);
                 devices[id] = device;
                 rdmDevices.Nodes.Add(device.Node);
 
@@ -293,6 +296,7 @@ namespace RdmSnoop
 
             rdmNetSelect.Checked = true;
             artNetSelect.Checked = false;
+            routerSelect.Checked = false;
         }
 
         private void artNetSelect_Click(object sender, EventArgs e)
@@ -306,6 +310,7 @@ namespace RdmSnoop
 
             rdmNetSelect.Checked = false;
             artNetSelect.Checked = true;
+            routerSelect.Checked = false;
         }
 
         private void networkCardSelect_SelectedIndexChanged(object sender, EventArgs e)
@@ -404,6 +409,52 @@ namespace RdmSnoop
         private void powerOnTool_Click(object sender, EventArgs e)
         {
             selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Normal);
+        }
+
+        private void routerSelect_Click(object sender, EventArgs e)
+        {
+            RdmRouter newRouter = new RdmRouter();
+
+            int priority = 0;
+            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (adapter.SupportsMulticast)
+                {
+                    IPInterfaceProperties ipProperties = adapter.GetIPProperties();
+
+                    for (int n = 0; n < ipProperties.UnicastAddresses.Count; n++)
+                    {
+                        if (ipProperties.UnicastAddresses[n].Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            CardInfo card = new CardInfo(adapter, n);
+                            if (card.SubnetMask != null)
+                            {
+                                ArtNet transport = new ArtNet();
+                                transport.LocalAdapter = card.IpAddress;
+                                transport.SubnetMask = card.SubnetMask;
+
+                                newRouter.RegisterTransport(transport, "ArtNet: " + card.ToString(), string.Empty, priority);
+
+                                priority++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Change Transpaort
+            if (!(Transport is ArtNet))
+            {
+                StopTransport();
+                Transport = newRouter;
+                StartTransport();
+            }
+
+            rdmNetSelect.Checked = false;
+            artNetSelect.Checked = false;
+            routerSelect.Checked = true;
+
+
         }
 
 
