@@ -32,6 +32,7 @@
             this.tools = new System.Windows.Forms.ToolStrip();
             this.rdmNetSelect = new System.Windows.Forms.ToolStripButton();
             this.artNetSelect = new System.Windows.Forms.ToolStripButton();
+            this.routerSelect = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.networkCardSelect = new System.Windows.Forms.ToolStripComboBox();
             this.discoverSelect = new System.Windows.Forms.ToolStripButton();
@@ -80,6 +81,7 @@
             this.tools.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.rdmNetSelect,
             this.artNetSelect,
+            this.routerSelect,
             this.toolStripSeparator1,
             this.networkCardSelect,
             this.discoverSelect});
@@ -110,6 +112,16 @@
             this.artNetSelect.Text = "ArtNet";
             this.artNetSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.artNetSelect.Click += new System.EventHandler(this.artNetSelect_Click);
+            // 
+            // routerSelect
+            // 
+            this.routerSelect.Image = global::RdmSnoop.Properties.Resources.ArtNet;
+            this.routerSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.routerSelect.Name = "routerSelect";
+            this.routerSelect.Size = new System.Drawing.Size(46, 35);
+            this.routerSelect.Text = "Router";
+            this.routerSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.routerSelect.Click += new System.EventHandler(this.routerSelect_Click);
             // 
             // toolStripSeparator1
             // 
@@ -459,6 +471,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel transactionsLabel;
+        private System.Windows.Forms.ToolStripButton routerSelect;
 
     }
 }

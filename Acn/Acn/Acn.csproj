@@ -194,6 +194,11 @@
     <Compile Include="Rdm\RdmRequestPacket.cs" />
     <Compile Include="Rdm\RdmResponsePacket.cs" />
     <Compile Include="Rdm\RdmResponseTypes.cs" />
+    <Compile Include="Rdm\Routing\DeviceFoundEventArgs.cs" />
+    <Compile Include="Rdm\Routing\IRdmTransport.cs" />
+    <Compile Include="Rdm\Routing\RdmRouter.cs" />
+    <Compile Include="Rdm\Routing\RdmRouteBinding.cs" />
+    <Compile Include="Rdm\Routing\RdmRoutingSocket.cs" />
     <Compile Include="Rdm\SubDeviceUId.cs" />
     <Compile Include="Rdm\UId.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnPacket.cs" />

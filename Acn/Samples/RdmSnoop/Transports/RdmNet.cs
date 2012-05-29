@@ -6,10 +6,11 @@ using Acn.Slp;
 using System.Net;
 using Acn.Sockets;
 using Acn.Rdm;
+using Acn.Rdm.Routing;
 
 namespace RdmSnoop.Transports
 {
-    public class RdmNet : IRdmTransport
+    public class RdmNet : ISnoopTransport
     {
         private SlpUserAgent slpUser = new SlpUserAgent("ACN-DEFAULT");
         private RdmSocket acnSocket = null;
@@ -21,21 +22,27 @@ namespace RdmSnoop.Transports
         public IPAddress LocalAdapter
         {
             get { return localAdapter; }
-            protected set { localAdapter = value; }
+            set { localAdapter = value; }
+        }
+
+        private IPAddress subnetMask;
+
+        public IPAddress SubnetMask
+        {
+            get { return subnetMask; }
+            set { subnetMask = value; }
         }
 
 
-        public void Start(IPAddress localAdapter,IPAddress subnetMask)
+        public void Start()
         {
-            LocalAdapter = localAdapter;
-
             slpUser.NetworkAdapter = localAdapter;
             slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
 
             if (acnSocket == null || !acnSocket.PortOpen)
             {
                 acnSocket = new RdmSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
-                acnSocket.Open(localAdapter);
+                acnSocket.Open(LocalAdapter);
             }
 
             slpUser.Open();
@@ -71,21 +78,14 @@ namespace RdmSnoop.Transports
 
         private RdmReliableSocket reliableSocket = null;
 
-        public IRdmSocket GetDeviceSocket(UId deviceId)
-        {
-            if (reliableSocket == null && acnSocket != null)
-                reliableSocket = new RdmReliableSocket(acnSocket);
-            return reliableSocket;
-        }
-
-        public IEnumerable<IRdmSocket> Sockets
+        public IRdmSocket Socket
         {
             get 
             {
                 if (reliableSocket == null && acnSocket != null)
                     reliableSocket = new RdmReliableSocket(acnSocket);
 
-                return new IRdmSocket[] { reliableSocket };
+                return reliableSocket;
             }
         }
     }

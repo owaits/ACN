@@ -8,10 +8,11 @@ using Acn.Rdm;
 using Acn.ArtNet.Packets;
 using Acn.ArtNet;
 using Acn.Sockets;
+using Acn.Rdm.Routing;
 
 namespace RdmSnoop.Transports
 {
-    public class ArtNet : IRdmTransport, IDisposable
+    public class ArtNet : ISnoopTransport, IDisposable
     {
         private ArtNetSocket socket = null;
 
@@ -20,8 +21,6 @@ namespace RdmSnoop.Transports
 
         public ArtNet()
         {
-
-            
         }
 
         void socket_NewPacket(object sender, Acn.Sockets.NewPacketEventArgs<ArtNetPacket> e)
@@ -43,18 +42,24 @@ namespace RdmSnoop.Transports
         public IPAddress LocalAdapter
         {
             get { return localAdapter; }
-            protected set { localAdapter = value; }
+            set { localAdapter = value; }
         }
 
-        public void Start(IPAddress localAdapter,IPAddress subnetMask)
+        private IPAddress subnetMask;
+
+        public IPAddress SubnetMask
+        {
+            get { return subnetMask; }
+            set { subnetMask = value; }
+        }
+
+        public void Start()
         {
             if (socket == null || !socket.PortOpen)
             {
-                LocalAdapter = localAdapter;
-
                 socket = new ArtNetSocket(UId.NewUId(0));
                 socket.NewPacket += new EventHandler<Acn.Sockets.NewPacketEventArgs<ArtNetPacket>>(socket_NewPacket);
-                socket.Open(localAdapter, subnetMask);
+                socket.Open(LocalAdapter, SubnetMask);
 
                 Discover();
             }
@@ -76,21 +81,14 @@ namespace RdmSnoop.Transports
 
         private RdmReliableSocket reliableSocket = null;
 
-        public Acn.Sockets.IRdmSocket GetDeviceSocket(Acn.Rdm.UId deviceId)
-        {
-            if (reliableSocket == null && socket != null)
-                reliableSocket = new RdmReliableSocket(socket);
-            return reliableSocket;
-        }
-
-        public IEnumerable<IRdmSocket> Sockets
+        public IRdmSocket Socket
         {
             get 
             {
                 if (reliableSocket == null && socket != null)
                     reliableSocket = new RdmReliableSocket(socket);
 
-                return new IRdmSocket[] { reliableSocket }; 
+                return reliableSocket; 
             }
         }
 
