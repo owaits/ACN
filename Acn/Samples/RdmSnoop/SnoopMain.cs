@@ -334,6 +334,10 @@ namespace RdmSnoop
                 rdmNetSelect.Checked = false;
                 artNetSelect.Checked = true;
             }
+            else if (Properties.Settings.Default.Transport == typeof(RdmRouter).Name)
+            {
+                Transport = CreateRouter();
+            }
             else
             {
                 Transport = new RdmNet();
@@ -413,6 +417,25 @@ namespace RdmSnoop
 
         private void routerSelect_Click(object sender, EventArgs e)
         {
+            RdmRouter newRouter = CreateRouter();
+
+            //Change Transpaort
+            if (!(Transport is RdmRouter))
+            {
+                StopTransport();
+                Transport = newRouter;
+                StartTransport();
+            }
+            
+            rdmNetSelect.Checked = false;
+            artNetSelect.Checked = false;
+            routerSelect.Checked = true;
+
+
+        }
+
+        private RdmRouter CreateRouter()
+        {
             RdmRouter newRouter = new RdmRouter();
 
             int priority = 0;
@@ -442,19 +465,7 @@ namespace RdmSnoop
                 }
             }
 
-            //Change Transpaort
-            if (!(Transport is ArtNet))
-            {
-                StopTransport();
-                Transport = newRouter;
-                StartTransport();
-            }
-
-            rdmNetSelect.Checked = false;
-            artNetSelect.Checked = false;
-            routerSelect.Checked = true;
-
-
+            return newRouter;
         }
 
 

@@ -23,12 +23,42 @@ namespace StreamingAcn
         private DmxStreamer dmxOutput;
         private DmxUniverseData recieveData = new DmxUniverseData();
 
+        #region Setup and Initialisation
+
+        private void Start(CardInfo networkCard, IEnumerable<int> universes)
+        {
+            socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
+            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.DmxPacket>>(socket_NewPacket);
+            socket.Open(networkCard.IpAddress);
+
+            foreach (int universe in universes)
+                socket.JoinDmxUniverse(universe);
+
+            dmxOutput = new DmxStreamer(socket);
+            dmxOutput.AddUniverse(sendData.Universe);
+            dmxOutput.Start();
+        }
+
+        private void Stop()
+        {
+            if (dmxOutput != null)
+            {
+                dmxOutput.Dispose();
+                dmxOutput = null;
+            }
+
+            if (socket != null)
+            {
+                socket.Close();
+                socket = null;
+            }
+        }
+
+        #endregion
+
         public StreamingAcnSnoop()
         {
             InitializeComponent();
-
-            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.DmxPacket>>(socket_NewPacket);
-            socket.Open(IPAddress.Any);
 
             for (int n = 1; n <= 512; n++)
             {
@@ -47,6 +77,7 @@ namespace StreamingAcn
                 sendChannelArea.Controls.Add(cell);
             }
 
+            CardInfo firstCard = null;
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (adapter.SupportsMulticast)
@@ -57,16 +88,18 @@ namespace StreamingAcn
                     {
                         CardInfo card = new CardInfo(adapter, n);
                         networkCardSelect.Items.Add(card);
+
+                        firstCard = card;
                     }
                 }
             }
 
-            socket.JoinDmxUniverse(int.Parse(toolStripTextBox1.Text));
-
-            dmxOutput = new DmxStreamer(socket);
-            dmxOutput.AddUniverse(sendData.Universe);
-            dmxOutput.Start();
+            if(firstCard != null)
+             Start(firstCard,((IEnumerable<int>) new int[] {int.Parse(toolStripTextBox1.Text)}));
         }
+
+
+
 
         void socket_NewPacket(object sender, NewPacketEventArgs<Acn.Packets.sAcn.DmxPacket> e)
         {
@@ -132,14 +165,9 @@ namespace StreamingAcn
             if (networkCard != null)
             {
                 ReadOnlyCollection<int> universes = socket.DmxUniverses;
-                socket.Close();
 
-                socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
-                socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.DmxPacket>>(socket_NewPacket);
-                socket.Open(networkCard.IpAddress);
-
-                foreach (int universe in universes)
-                    socket.JoinDmxUniverse(universe);
+                Stop();
+                Start(networkCard, universes);
             }
         }
 
