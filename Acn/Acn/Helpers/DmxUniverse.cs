@@ -42,7 +42,7 @@ namespace Acn.Helpers
 
         public void SetDmx(byte[] value)
         {
-            DmxData = dmxData;
+            DmxData = value;
             aliveTime = 3;
 
             RaiseDmxDataChanged();
