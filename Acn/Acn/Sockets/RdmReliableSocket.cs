@@ -57,7 +57,7 @@ namespace Acn.Sockets
             get { return socket; }
         }
 
-        private TimeSpan retryInterval = new TimeSpan(0, 0, 3);
+        private TimeSpan retryInterval = new TimeSpan(0, 0, 1);
 
         public TimeSpan RetryInterval
         {
@@ -65,7 +65,7 @@ namespace Acn.Sockets
             set { retryInterval = value; }
         }
 
-        private int retryAttempts = 4;
+        private int retryAttempts = 6;
 
         public int RetryAttempts
         {
@@ -183,7 +183,7 @@ namespace Acn.Sockets
                     packet.Header.TransactionNumber = number;
 
                     if (transactionQueue.Count == 1)
-                        retryTimer.Change(RetryInterval, RetryInterval);
+                        retryTimer.Change(RetryInterval, TimeSpan.Zero);
 
                     TransactionsStarted++;
                 }
@@ -221,6 +221,8 @@ namespace Acn.Sockets
             {
                 socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
             }
+
+            retryTimer.Change(RetryInterval, TimeSpan.Zero);
         }
 
         void socket_RdmPacketSent(object sender, NewPacketEventArgs<RdmPacket> e)

@@ -34,6 +34,8 @@ namespace RdmSnoop
             packetView.Columns.Add("Target Id",150);
             packetView.Columns.Add("Sub Device", 50); 
             packetView.Columns.Add("IP Address",150);
+            packetView.Columns.Add("Message Count", 90);
+            packetView.Columns.Add("Transaction", 90);
 
 
             IPAddress selectedIp = IPAddress.None;
@@ -166,24 +168,29 @@ namespace RdmSnoop
 
         void transport_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
         {
-            if (InvokeRequired)
+            if (!pause)
             {
-                BeginInvoke(new EventHandler<NewPacketEventArgs<RdmPacket>>(transport_NewRdmPacket),sender,e);
-                return;
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new EventHandler<NewPacketEventArgs<RdmPacket>>(transport_NewRdmPacket), sender, e);
+                    return;
+                }
+
+                DateTime timeStamp = DateTime.Now;
+
+                ListViewItem newItem = new ListViewItem(string.Format("{0}{1}", timeStamp.ToLongTimeString(), timeStamp.Millisecond.ToString()));
+                newItem.SubItems.Add(e.Packet.Header.ParameterId.ToString());
+                newItem.SubItems.Add(e.Packet.Header.Command.ToString());
+                newItem.SubItems.Add(((RdmResponseTypes)e.Packet.Header.PortOrResponseType).ToString());
+                newItem.SubItems.Add(e.Packet.Header.SourceId.ToString());
+                newItem.SubItems.Add(e.Packet.Header.DestinationId.ToString());
+                newItem.SubItems.Add(e.Packet.Header.SubDevice.ToString());
+                newItem.SubItems.Add(e.Source.Address.ToString());
+                newItem.SubItems.Add(e.Packet.Header.MessageCount.ToString());
+                newItem.SubItems.Add(e.Packet.Header.TransactionNumber.ToString());
+
+                packetView.Items.Add(newItem);
             }
-
-            DateTime timeStamp = DateTime.Now;
-
-            ListViewItem newItem = new ListViewItem(string.Format("{0}{1}",timeStamp.ToLongTimeString(),timeStamp.Millisecond.ToString()));
-            newItem.SubItems.Add(e.Packet.Header.ParameterId.ToString());
-            newItem.SubItems.Add(e.Packet.Header.Command.ToString());
-            newItem.SubItems.Add(((RdmResponseTypes) e.Packet.Header.PortOrResponseType).ToString());
-            newItem.SubItems.Add(e.Packet.Header.SourceId.ToString());
-            newItem.SubItems.Add(e.Packet.Header.DestinationId.ToString());
-            newItem.SubItems.Add(e.Packet.Header.SubDevice.ToString());   
-            newItem.SubItems.Add(e.Source.Address.ToString());
-            
-            packetView.Items.Add(newItem);
         }
 
         private void StopTransport()
@@ -413,6 +420,13 @@ namespace RdmSnoop
         private void powerOnTool_Click(object sender, EventArgs e)
         {
             selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Normal);
+        }
+
+        private bool pause = false;
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            pause = !pause;
         }
 
         private void routerSelect_Click(object sender, EventArgs e)
