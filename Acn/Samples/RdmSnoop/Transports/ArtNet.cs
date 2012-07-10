@@ -57,7 +57,9 @@ namespace RdmSnoop.Transports
         {
             if (socket == null || !socket.PortOpen)
             {
-                socket = new ArtNetSocket(UId.NewUId(0));
+                LocalAdapter = localAdapter;
+
+                socket = new ArtNetSocket(UId.NewUId(32));
                 socket.NewPacket += new EventHandler<Acn.Sockets.NewPacketEventArgs<ArtNetPacket>>(socket_NewPacket);
                 socket.Open(LocalAdapter, SubnetMask);
 

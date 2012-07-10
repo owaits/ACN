@@ -64,6 +64,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.transactionsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tools.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -84,7 +85,8 @@
             this.routerSelect,
             this.toolStripSeparator1,
             this.networkCardSelect,
-            this.discoverSelect});
+            this.discoverSelect,
+            this.toolStripButton1});
             this.tools.Location = new System.Drawing.Point(0, 0);
             this.tools.Name = "tools";
             this.tools.Size = new System.Drawing.Size(980, 38);
@@ -159,7 +161,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.deviceInformation);
             this.splitContainer1.Panel2.Controls.Add(this.deviceToolbox);
-            this.splitContainer1.Size = new System.Drawing.Size(980, 335);
+            this.splitContainer1.Size = new System.Drawing.Size(980, 320);
             this.splitContainer1.SplitterDistance = 325;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -168,7 +170,7 @@
             this.rdmDevices.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rdmDevices.Location = new System.Drawing.Point(0, 0);
             this.rdmDevices.Name = "rdmDevices";
-            this.rdmDevices.Size = new System.Drawing.Size(325, 335);
+            this.rdmDevices.Size = new System.Drawing.Size(325, 320);
             this.rdmDevices.TabIndex = 0;
             this.rdmDevices.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.rdmDevices_AfterSelect);
             // 
@@ -177,7 +179,7 @@
             this.deviceInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.deviceInformation.Location = new System.Drawing.Point(0, 38);
             this.deviceInformation.Name = "deviceInformation";
-            this.deviceInformation.Size = new System.Drawing.Size(651, 297);
+            this.deviceInformation.Size = new System.Drawing.Size(651, 282);
             this.deviceInformation.TabIndex = 0;
             // 
             // deviceToolbox
@@ -324,16 +326,17 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.packetView);
-            this.splitContainer2.Size = new System.Drawing.Size(980, 502);
-            this.splitContainer2.SplitterDistance = 335;
+            this.splitContainer2.Size = new System.Drawing.Size(980, 480);
+            this.splitContainer2.SplitterDistance = 320;
             this.splitContainer2.TabIndex = 2;
             // 
             // packetView
             // 
             this.packetView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.packetView.Location = new System.Drawing.Point(0, 0);
+            this.packetView.MultiSelect = false;
             this.packetView.Name = "packetView";
-            this.packetView.Size = new System.Drawing.Size(980, 163);
+            this.packetView.Size = new System.Drawing.Size(980, 156);
             this.packetView.TabIndex = 0;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
@@ -404,14 +407,24 @@
             this.failedLabel.Size = new System.Drawing.Size(50, 17);
             this.failedLabel.Text = "Failed: 0";
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 35);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
             // SnoopMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(980, 540);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.tools);
+            this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SnoopMain";
             this.Text = "RDM Snoop";
@@ -471,6 +484,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel transactionsLabel;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton routerSelect;
 
     }

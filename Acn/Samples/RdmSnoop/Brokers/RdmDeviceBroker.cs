@@ -17,6 +17,7 @@ using Acn.Rdm.Packets.Control;
 using Acn.Rdm.Packets.Configuration;
 using Acn.Rdm.Packets.Power;
 using RdmSnoop;
+using Acn.Rdm.Packets.Parameters;
 
 namespace RdmNetworkMonitor
 {
@@ -316,6 +317,17 @@ namespace RdmNetworkMonitor
 
         #endregion
 
+        #region Parameters
+
+        private Dictionary<short, ParameterDescription.GetReply> parameters = new Dictionary<short, ParameterDescription.GetReply>();
+
+        public List<ParameterDescription.GetReply> Parameters
+        {
+            get { return new List<ParameterDescription.GetReply> (parameters.Values); }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -389,6 +401,7 @@ namespace RdmNetworkMonitor
                 RequestConfiguration();
                 RequestHistory();
                 RequestPersonality();
+                RequestParameters();
 
                 if (!SubDeviceUId.IsSubDevice(Id))
                 {
@@ -580,6 +593,35 @@ namespace RdmNetworkMonitor
             return null;
         }
 
+        [RdmMessage(RdmCommands.GetResponse, RdmParameters.SupportedParameters)]
+        private RdmPacket ProcessSupportedParameters(RdmPacket packet)
+        {
+            SupportedParameters.GetReply response = packet as SupportedParameters.GetReply;
+            if (response != null)
+            {
+                foreach (short pid in response.ParameterIds)
+                {
+                    ParameterDescription.Get descriptionPacket = new ParameterDescription.Get();
+                    descriptionPacket.ParameterId = pid;
+                    socket.SendRdm(descriptionPacket, Address, Id);
+                }
+            }
+
+            return null;
+        }
+
+        [RdmMessage(RdmCommands.GetResponse, RdmParameters.ParameterDescription)]
+        private RdmPacket ProcessParameterDescription(RdmPacket packet)
+        {
+            ParameterDescription.GetReply response = packet as ParameterDescription.GetReply;
+            if (response != null)
+            {
+                parameters[response.ParameterId] = response;
+            }
+
+            return null;
+        }
+
         #endregion
 
         public void Interogate()
@@ -653,6 +695,12 @@ namespace RdmNetworkMonitor
 
             SlotInfo.Get slotPacket = new SlotInfo.Get();
             socket.SendRdm(slotPacket, Address, Id);
+        }
+
+        public void RequestParameters()
+        {
+            SupportedParameters.Get packet = new SupportedParameters.Get();
+            socket.SendRdm(packet, Address, Id);
         }
 
         #endregion
