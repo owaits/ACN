@@ -151,7 +151,7 @@ namespace Acn.Slp.Sockets
 
         public void Send(SlpPacket packet)
         {
-            //packet.Header.Flags |= SlpHeaderFlags.RequestMulticast;
+            packet.Header.Flags |= SlpHeaderFlags.RequestMulticast;
             Send(new IPEndPoint(MulticastGroup,Port), packet);
         }
 
