@@ -36,6 +36,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.networkCardSelect = new System.Windows.Forms.ToolStripComboBox();
             this.discoverSelect = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.rdmDevices = new System.Windows.Forms.TreeView();
             this.deviceInformation = new System.Windows.Forms.PropertyGrid();
@@ -64,7 +65,6 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.transactionsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.tools.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -146,6 +146,16 @@
             this.discoverSelect.Text = "Refresh";
             this.discoverSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.discoverSelect.Click += new System.EventHandler(this.discoverSelect_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 35);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // splitContainer1
             // 
@@ -406,16 +416,6 @@
             this.failedLabel.Name = "failedLabel";
             this.failedLabel.Size = new System.Drawing.Size(50, 17);
             this.failedLabel.Text = "Failed: 0";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 35);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // SnoopMain
             // 

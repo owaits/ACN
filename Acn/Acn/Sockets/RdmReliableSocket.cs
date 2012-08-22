@@ -30,7 +30,7 @@ namespace Acn.Sockets
                 TargetAddress = address;
                 TargetId = id;
                 Attempts = 0;
-                LastAttempt = DateTime.Now;
+                LastAttempt = DateTime.MinValue;
             }
 
             public byte Number;
@@ -39,7 +39,22 @@ namespace Acn.Sockets
             public UId TargetId;
 
             public int Attempts = 0;
-            public DateTime LastAttempt;
+            public DateTime LastAttempt = DateTime.MinValue;
+        }
+
+        private class TransactionUniverseComparer : IEqualityComparer<Transaction>
+        {
+
+            public bool Equals(Transaction x, Transaction y)
+            {
+                return x.TargetAddress.IpAddress == y.TargetAddress.IpAddress
+                    && x.TargetAddress.Universe == x.TargetAddress.Universe;
+            }
+
+            public int GetHashCode(Transaction obj)
+            {
+                return obj.TargetAddress.IpAddress.GetHashCode() << 8 ^ obj.TargetAddress.Universe.GetHashCode();
+            }
         }
 
         public RdmReliableSocket(IRdmSocket socket)
@@ -57,12 +72,20 @@ namespace Acn.Sockets
             get { return socket; }
         }
 
-        private TimeSpan retryInterval = new TimeSpan(0, 0, 1);
+        private TimeSpan retryInterval = new TimeSpan(0, 0, 0,1);
 
         public TimeSpan RetryInterval
         {
             get { return retryInterval; }
             set { retryInterval = value; }
+        }
+
+        private TimeSpan transmitInterval = new TimeSpan(0, 0, 0, 0, 20);
+
+        public TimeSpan TransmitInterval
+        {
+            get { return transmitInterval; }
+            set { transmitInterval = value; }
         }
 
         private int retryAttempts = 6;
@@ -72,8 +95,6 @@ namespace Acn.Sockets
             get { return retryAttempts; }
             set { retryAttempts = value; }
         }
-
-
 
         private byte transactionNumber = 1;
 
@@ -183,46 +204,69 @@ namespace Acn.Sockets
                     packet.Header.TransactionNumber = number;
 
                     if (transactionQueue.Count == 1)
-                        retryTimer.Change(RetryInterval, TimeSpan.Zero);
+                        retryTimer.Change(TransmitInterval, TimeSpan.Zero);
 
                     TransactionsStarted++;
                 }
             }
         }
 
+        /// <summary>
+        /// Processes the transaction queue and determines what transactions can be sent to their destination.
+        /// </summary>
+        /// <remarks>
+        /// This function ensures that only a single transaction is sent to each DMX port every 20ms. Any more 
+        /// transactions per port and the device might become flooded.
+        /// </remarks>
+        /// <param name="state">Thread State</param>
         private void Retry(object state)
         {
             DateTime timeStamp = DateTime.Now;
             List<byte> failedTransactions = new List<byte>();
-            List<Transaction> retryTransactions = new List<Transaction>();
+            HashSet<Transaction> retryTransactions = new HashSet<Transaction>(new TransactionUniverseComparer());
+            int droppedPackets = 0;
 
             lock (transactionQueue)
             {
-                foreach (Transaction item in transactionQueue.Values)
+                //Go through all queued transactions and determine what can be sent again.
+                foreach (Transaction transaction in transactionQueue.Values)
                 {
-                    if (item.Attempts > RetryAttempts)
-                        failedTransactions.Add(item.Number);
-                    else
+                    //Only process this transaction if it has exceeded the retry interval.
+                    if(transaction.LastAttempt == DateTime.MinValue && timeStamp.Subtract(transaction.LastAttempt) > RetryInterval)
                     {
-                        retryTransactions.Add(item);
-                        item.Attempts++;
-                        item.LastAttempt = timeStamp;
+                        //We only send one packet per retry to each unique DMX port.
+                        //The retryTransactions hash set is used to ensure only one transaction is sent to each port. The rest have to wait.
+                        if (transaction.Attempts > RetryAttempts)
+                            failedTransactions.Add(transaction.Number);
+                        else if(!retryTransactions.Contains(transaction))
+                        {
+                            //If we have already tried to send this transaction then increment the dropped packet count.
+                            if(transaction.Attempts!= 0)
+                                droppedPackets++;
+
+                            //Queue this transaction for sending
+                            retryTransactions.Add(transaction);
+                            transaction.Attempts++;
+                            transaction.LastAttempt = timeStamp;
+                        }
                     }
                 }
 
+                //Remove all transactions that have perminantly failed.
                 foreach (byte transactionId in failedTransactions)
                     transactionQueue.Remove(transactionId);
             }
 
-            PacketsDropped += retryTransactions.Count + failedTransactions.Count;
+            PacketsDropped += droppedPackets + failedTransactions.Count;
             TransactionsFailed += failedTransactions.Count;
-            
+
             foreach (Transaction transaction in retryTransactions)
             {
                 socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
             }
 
-            retryTimer.Change(RetryInterval, TimeSpan.Zero);
+            lock (transactionQueue)
+                retryTimer.Change(TransmitInterval, TimeSpan.Zero);
         }
 
         void socket_RdmPacketSent(object sender, NewPacketEventArgs<RdmPacket> e)
@@ -266,16 +310,18 @@ namespace Acn.Sockets
         
         public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId)
         {
+            //Queue this packet for sending.
             RegisterTransaction(packet, targetAddress, targetId);
 
-            socket.SendRdm(packet, targetAddress, targetId);
+            //socket.SendRdm(packet, targetAddress, targetId);
         }
 
         public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId)
-        {            
+        {
+            //Queue this packet for sending.
             RegisterTransaction(packet, targetAddress, targetId);
 
-            socket.SendRdm(packet, targetAddress, targetId, sourceId);
+           // socket.SendRdm(packet, targetAddress, targetId, sourceId);
         }
 
         #endregion
