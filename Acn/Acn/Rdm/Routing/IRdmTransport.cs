@@ -8,6 +8,9 @@ namespace Acn.Rdm.Routing
 {
     public interface IRdmTransport
     {
+        event EventHandler Starting;
+        event EventHandler Stoping;
+
         event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
         void Start();

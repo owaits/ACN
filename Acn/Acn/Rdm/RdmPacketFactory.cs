@@ -327,6 +327,8 @@ namespace Acn.Rdm
                 {
                     case RdmResponseTypes.NackReason:
                         return RdmPacket.Create(header, typeof(RdmNack));
+                    case RdmResponseTypes.AckOverflow:
+                        return RdmPacket.Create(header, typeof(RdmOverflow));
                 }
             }
 

@@ -39,7 +39,7 @@ namespace Acn.Rdm.Routing
             foreach (RdmRouteBinding binding in transports.Values)
             {
                 binding.Transport.Start();
-                socket.Bind(binding.Transport.Socket);
+                Bind(binding);
             }
         }
 
@@ -51,8 +51,20 @@ namespace Acn.Rdm.Routing
             foreach (RdmRouteBinding binding in transports.Values)
             {
                 binding.Transport.Stop();
-                socket.UnBind(binding.Transport.Socket);
+                UnBind(binding);
             }
+        }
+
+        internal void Bind(RdmRouteBinding binding)
+        {
+            if(running)
+                socket.Bind(binding.Transport.Socket);
+        }
+
+        internal void UnBind(RdmRouteBinding binding)
+        {
+            if (running)
+                socket.UnBind(binding.Transport.Socket);
         }
 
         #endregion
@@ -71,7 +83,7 @@ namespace Acn.Rdm.Routing
 
         public void RegisterTransport(IRdmTransport transport, string name, string description, int priority)
         {
-            RegisterTransport(new RdmRouteBinding(transport, name, description, priority));
+            RegisterTransport(new RdmRouteBinding(this,transport, name, description, priority));
         }
 
         public void RegisterTransport(RdmRouteBinding routeDescription)
@@ -185,5 +197,9 @@ namespace Acn.Rdm.Routing
         }
 
         #endregion
+
+        public event EventHandler Starting;
+
+        public event EventHandler Stoping;
     }
 }

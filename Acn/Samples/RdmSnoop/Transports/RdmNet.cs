@@ -88,5 +88,9 @@ namespace RdmSnoop.Transports
                 return reliableSocket;
             }
         }
+
+        public event EventHandler Starting;
+
+        public event EventHandler Stoping;
     }
 }
