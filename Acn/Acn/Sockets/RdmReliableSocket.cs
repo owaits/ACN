@@ -18,12 +18,12 @@ namespace Acn.Sockets
     public class RdmReliableSocket:IRdmSocket,INotifyPropertyChanged,IDisposable
     {
         private IRdmSocket socket = null;
-        private Dictionary<byte, Transaction> transactionQueue = new Dictionary<byte, Transaction>();
+        private Dictionary<int, Transaction> transactionQueue = new Dictionary<int, Transaction>();
         private Timer retryTimer;
 
         private class Transaction
         {
-            public Transaction(byte number, RdmPacket packet, RdmAddress address, UId id)
+            public Transaction(int number, RdmPacket packet, RdmAddress address, UId id)
             {
                 Number = number;
                 Packet = packet;
@@ -33,7 +33,7 @@ namespace Acn.Sockets
                 LastAttempt = DateTime.MinValue;
             }
 
-            public byte Number;
+            public int Number;
             public RdmPacket Packet;
             public RdmAddress TargetAddress;
             public UId TargetId;
@@ -96,15 +96,15 @@ namespace Acn.Sockets
             set { retryAttempts = value; }
         }
 
-        private byte transactionNumber = 1;
+        private int transactionNumber = 1;
 
-        public byte TransactionNumber
+        public int TransactionNumber
         {
             get { return transactionNumber; }
             protected set { transactionNumber = value; }
         }
 
-        private byte AllocateTransactionNumber()
+        private int AllocateTransactionNumber()
         {
             lock (transactionQueue)
             {
@@ -199,9 +199,9 @@ namespace Acn.Sockets
             {
                 if (packet.Header.Command == RdmCommands.Get || packet.Header.Command == RdmCommands.Set)
                 {
-                    byte number = AllocateTransactionNumber();
+                    int number = AllocateTransactionNumber();
                     transactionQueue.Add(number, new Transaction(number,packet, address, id));
-                    packet.Header.TransactionNumber = number;
+                    packet.Header.TransactionNumber = (byte) (number % 255);
 
                     if (transactionQueue.Count == 1)
                         retryTimer.Change(TransmitInterval, TimeSpan.Zero);
@@ -222,7 +222,7 @@ namespace Acn.Sockets
         private void Retry(object state)
         {
             DateTime timeStamp = DateTime.Now;
-            List<byte> failedTransactions = new List<byte>();
+            List<int> failedTransactions = new List<int>();
             HashSet<Transaction> retryTransactions = new HashSet<Transaction>(new TransactionUniverseComparer());
             int droppedPackets = 0;
 

@@ -151,5 +151,9 @@ namespace RdmSnoop.Transports
         {
             Stop();
         }
+
+        public event EventHandler Starting;
+
+        public event EventHandler Stoping;
     }
 }

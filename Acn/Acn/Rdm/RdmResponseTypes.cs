@@ -10,6 +10,6 @@ namespace Acn.Rdm
         Ack = 0x0,
         AckTimer = 0x1,
         NackReason = 0x2,
-        AchOverflow = 0x3
+        AckOverflow = 0x3
     }
 }
