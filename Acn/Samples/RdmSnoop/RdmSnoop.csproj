@@ -55,6 +55,7 @@
     <Compile Include="Brokers\RdmDeviceBroker.cs" />
     <Compile Include="CardInfo.cs" />
     <Compile Include="ISnoopTransport.cs" />
+    <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="Models\RdmDeviceModel.cs">
       <SubType>UserControl</SubType>
     </Compile>

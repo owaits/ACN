@@ -45,7 +45,7 @@ namespace Acn.Rdm.Packets.Product
             
             protected override void ReadData(RdmBinaryReader data)
             {
-                Label = Encoding.ASCII.GetString(data.ReadBytes(Header.ParameterDataLength));
+                Label = data.ReadNetworkString(Header.ParameterDataLength);
             }
 
             protected override void WriteData(RdmBinaryWriter data)

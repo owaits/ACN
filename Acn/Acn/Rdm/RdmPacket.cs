@@ -128,6 +128,11 @@ namespace Acn.Rdm
             return checksum;
         }
 
+        public bool IsOverflow()
+        {
+            return (RdmResponseTypes) Header.PortOrResponseType == RdmResponseTypes.AckOverflow && (Header.Command == RdmCommands.GetResponse || Header.Command == RdmCommands.GetResponse);
+        }
+
         #endregion
 
         public static RdmPacket Create(RdmHeader header)

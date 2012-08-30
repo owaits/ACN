@@ -350,6 +350,7 @@
             this.packetView.TabIndex = 0;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
+            this.packetView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.packetView_ColumnClick);
             // 
             // statusStrip1
             // 

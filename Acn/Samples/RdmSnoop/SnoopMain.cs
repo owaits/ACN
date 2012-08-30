@@ -22,10 +22,14 @@ namespace RdmSnoop
 {
     public partial class SnoopMain : Form
     {
+        private ListViewColumnSorter columnSorter = new ListViewColumnSorter();
+
         public SnoopMain()
         {
             InitializeComponent();
 
+
+            packetView.ListViewItemSorter = columnSorter;
             packetView.Columns.Add("Time", 100);            
             packetView.Columns.Add("Parameter", 200);
             packetView.Columns.Add("Command",120);
@@ -480,6 +484,32 @@ namespace RdmSnoop
             }
 
             return newRouter;
+        }
+
+        private void packetView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == columnSorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (columnSorter.Order == SortOrder.Ascending)
+                {
+                    columnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    columnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                columnSorter.SortColumn = e.Column;
+                columnSorter.Order = SortOrder.Ascending;
+            }
+
+            // Perform the sort with these new sort options.
+            packetView.Sort();
         }
 
 
