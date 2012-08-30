@@ -129,7 +129,6 @@
     <Compile Include="Rdm\Packets\Discovery\DiscoveryUnMute.cs" />
     <Compile Include="Rdm\Packets\Discovery\DiscoveryMute.cs" />
     <Compile Include="Rdm\Packets\Discovery\DiscoveryUniqueBranch.cs" />
-    <Compile Include="Rdm\Packets\Management\RdmOverflow.cs" />
     <Compile Include="Rdm\Packets\Management\NackReason.cs" />
     <Compile Include="Rdm\Packets\Management\RdmNack.cs" />
     <Compile Include="Rdm\Packets\Parameters\ParameterDescription.cs" />

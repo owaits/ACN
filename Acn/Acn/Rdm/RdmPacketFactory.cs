@@ -302,7 +302,7 @@ namespace Acn.Rdm
 
         public static RdmPacket Build(RdmHeader header)
         {
-            if(header.PortOrResponseType != 0 && (header.Command == RdmCommands.GetResponse ||  header.Command == RdmCommands.SetResponse))
+            if (IsErrorResponse(header))
             {
                 //Error Response Packets
                 return BuildErrorResponse(header);
@@ -319,6 +319,26 @@ namespace Acn.Rdm
             return null;
         }
 
+        public static bool IsErrorResponse(RdmHeader header)
+        {
+            if (IsResponse(header))
+                return false;
+
+            switch ((RdmResponseTypes)header.PortOrResponseType)
+            {
+                case RdmResponseTypes.Ack:
+                case RdmResponseTypes.AckOverflow:
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool IsResponse(RdmHeader header)
+        {
+            return header.Command == RdmCommands.GetResponse || header.Command != RdmCommands.SetResponse;
+        }
+
         public static RdmPacket BuildErrorResponse(RdmHeader header)
         {
             if (header.PortOrResponseType != 0)
@@ -327,8 +347,6 @@ namespace Acn.Rdm
                 {
                     case RdmResponseTypes.NackReason:
                         return RdmPacket.Create(header, typeof(RdmNack));
-                    case RdmResponseTypes.AckOverflow:
-                        return RdmPacket.Create(header, typeof(RdmOverflow));
                 }
             }
 

@@ -104,7 +104,10 @@ namespace Acn.Rdm.Broker
         {
             RdmPacket responsePacket = null;
             ProcessPacketHandler handler;
-            
+
+            if (packet.IsOverflow())
+                return ProcessOverflow(packet);
+
             switch(packet.Header.Command)
             {
                 case RdmCommands.Get:
@@ -173,6 +176,17 @@ namespace Acn.Rdm.Broker
             }
 
             return null;
+        }
+
+        public RdmPacket ProcessOverflow(RdmPacket packet)
+        {
+            //Create an overflow response header to obtain the rest of the data.
+            RdmHeader header = new RdmHeader();
+            header.Command = (packet.Header.Command == RdmCommands.SetResponse ? RdmCommands.Set : RdmCommands.Get); 
+            header.PortOrResponseType = (byte) RdmResponseTypes.AckOverflow;
+
+            //Create a request packet to obtain the remaining data for the overflow.
+            return RdmPacket.Create(header);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Acn.Rdm
 
         public string ReadNetworkString(int length)
         {
-            return Encoding.ASCII.GetString(ReadBytes(length));
+            return Encoding.ASCII.GetString(ReadBytes(length)).TrimEnd((char) 0);
         }
 
         public UId ReadUId()
