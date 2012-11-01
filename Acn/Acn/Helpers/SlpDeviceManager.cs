@@ -46,7 +46,7 @@ namespace Acn.Helpers
         {
             FetchAttributes = true;
 
-            NetworkChange.NetworkAddressChanged +=new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
+            NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
 
             pollTimer = new System.Threading.Timer(new System.Threading.TimerCallback(pollTimerTick), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             CreateAgents();
@@ -324,10 +324,10 @@ namespace Acn.Helpers
         /// </summary>
         private void CreateAgents()
         {
-            lock(devicesLock)
+            lock (devicesLock)
             {
-                lock(attributeRequestLog)
-                {                    
+                lock (attributeRequestLog)
+                {
                     lock (agents)
                     {
                         // If we have any agents get rid of them 
@@ -346,13 +346,10 @@ namespace Acn.Helpers
                         }
 
                         // Now create a new agent for each adaptor
-                        foreach (var localAddress in NetworkInterface.GetAllNetworkInterfaces()
-                            .Where(i => i.OperationalStatus == OperationalStatus.Up)
-                            .SelectMany(i => i.GetIPProperties().UnicastAddresses)
-                            .Where(a => a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork))
+                        foreach (var localAddress in GetAllIpAddresses())
                         {
                             SlpUserAgent agent = new SlpUserAgent();
-                            agent.NetworkAdapter = localAddress.Address;
+                            agent.NetworkAdapter = localAddress;
                             agent.Scope = Scope;
                             agent.ServiceFound += agent_ServiceFound;
                             agent.AttributeReply += agent_AttributeReply;
@@ -362,6 +359,31 @@ namespace Acn.Helpers
                 }
             }
         }
+
+        /// <summary>
+        /// Gets all the available IP addresses.
+        /// </summary>
+        /// <returns>An Enumberable of IP addresses</returns>
+        private static IEnumerable<System.Net.IPAddress> GetAllIpAddresses()
+        {
+#if ANDROID
+
+            return Java.Net.NetworkInterface.NetworkInterfaces.
+                ToEnumberable<Java.Net.NetworkInterface>().
+                Where(i => i.IsUp && !i.IsLoopback).
+                SelectMany(i => i.InetAddresses.ToEnumberable<Java.Net.InetAddress>()).
+                Where(a => a is Java.Net.Inet4Address).
+                Select(a => System.Net.IPAddress.Parse(a.HostAddress));
+#else
+            return NetworkInterface.GetAllNetworkInterfaces()
+                                        .Where(i => i.OperationalStatus == OperationalStatus.Up)
+                                        .SelectMany(i => i.GetIPProperties().UnicastAddresses)
+                                        .Where(a => a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                                        .Select(a => a.Address);
+#endif
+        }
+
+
 
         /// <summary>
         /// Called wehn the poll timer ticks
@@ -454,7 +476,7 @@ namespace Acn.Helpers
                         device = new SlpDeviceInformation() { Url = url.Url, FirstUpdateId = e.RequestId };
                         devices[url.Url] = device;
                     }
-                
+
                     device.Endpoint = e.Address;
                     device.DiscoveryAgents.Add(sender as SlpUserAgent);
                     device.UpdateRecieved(e.RequestId);
@@ -583,4 +605,30 @@ namespace Acn.Helpers
         #endregion
 
     }
+
+    #if ANDROID
+
+    /// <summary>
+    /// Extension class to improve Android Java bindings
+    /// </summary>
+    public static class AndroidExtensions
+    {
+        /// <summary>
+        /// Converts a IEnumeration to an IEnumerable<typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumeration">The enumeration.</param>
+        /// <returns></returns>
+        public static IEnumerable<T> ToEnumberable<T>(this Java.Util.IEnumeration enumeration)
+            where T : Java.Lang.Object
+        {
+            while (enumeration.HasMoreElements)
+            {
+                yield return (T)enumeration.NextElement();
+            }
+        }
+
+    }
+
+    #endif
 }
