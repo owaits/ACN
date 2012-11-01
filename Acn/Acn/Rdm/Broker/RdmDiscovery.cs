@@ -10,7 +10,8 @@ namespace Acn.Rdm.Broker
     {
         Stopped,
         Running,
-        Complete
+        Complete,
+        Ready // ?? MD: Don't know what this is but wont build without it 
     }
 
     public abstract class RdmDiscovery
