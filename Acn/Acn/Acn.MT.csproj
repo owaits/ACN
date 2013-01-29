@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhone</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2A7495C7-1653-463F-B31B-6ECFA1248666}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Acn</RootNamespace>
+    <AssemblyName>Acn</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Distribution|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\Distribution\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\Debug\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>True</DebugSymbols>
+    <DefineConstants>DEBUG;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\Release\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <DebugSymbols>True</DebugSymbols>
+    <DefineConstants>DEBUG;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AdHoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\AdHoc\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Distribution|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Distribution\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AdHoc|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\AdHoc\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcnPdu.cs" />
+    <Compile Include="AcnRootLayer.cs" />
+    <Compile Include="AcnPacket.cs" />
+    <Compile Include="ArtNet\ArtNetOpCodes.cs" />
+    <Compile Include="ArtNet\IO\ArtNetBinaryReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ArtNet\IO\ArtNetBinaryWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ArtNet\IO\ArtNetRecieveData.cs" />
+    <Compile Include="ArtNet\Packets\ArtNetDmxPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtNetPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtPollPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtPollReplyPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtRdmPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtRdmSubPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtTodControlPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtTodDataPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtTodRequestPacket.cs" />
+    <Compile Include="ArtNet\Sockets\ArtNetSocket.cs" />
+    <Compile Include="Helpers\DmxStreamer.cs" />
+    <Compile Include="Helpers\DmxUniverse.cs" />
+    <Compile Include="Helpers\SlpDeviceEventArgs.cs" />
+    <Compile Include="Helpers\SlpDeviceInformation.cs" />
+    <Compile Include="Helpers\SlpDeviceManager.cs" />
+    <Compile Include="InvalidPacketException.cs" />
+    <Compile Include="IProtocolFilter.cs" />
+    <Compile Include="Packets\Dmp\DmpGetProperty.cs" />
+    <Compile Include="Packets\Dmp\DmpGetPropertyReply.cs" />
+    <Compile Include="Packets\Dmp\DmpMessages.cs" />
+    <Compile Include="Packets\Dmp\DmpSetProperty.cs" />
+    <Compile Include="IO\AcnBinaryReader.cs" />
+    <Compile Include="IO\AcnBinaryWriter.cs" />
+    <Compile Include="Packets\sAcn\DmxPacket.cs" />
+    <Compile Include="Packets\sAcn\FramingPdu.cs" />
+    <Compile Include="Packets\sAcn\RdmNetPacket.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AcnPacketFactory.cs" />
+    <Compile Include="ProtocolIds.cs" />
+    <Compile Include="Rdm\Broker\RdmDiscovery.cs" />
+    <Compile Include="Rdm\Broker\RdmMessageAttribute.cs" />
+    <Compile Include="Rdm\Broker\RdmPersonality.cs" />
+    <Compile Include="Rdm\Broker\RdmSlot.cs" />
+    <Compile Include="Rdm\DmxStartCodes.cs" />
+    <Compile Include="Rdm\Packets\Configuration\RealTimeClock.cs" />
+    <Compile Include="Rdm\Packets\Configuration\PanTiltSwap.cs" />
+    <Compile Include="Rdm\Packets\Configuration\TiltInvert.cs" />
+    <Compile Include="Rdm\Packets\Configuration\PanInvert.cs" />
+    <Compile Include="Rdm\Packets\Control\CapturePreset.cs" />
+    <Compile Include="Rdm\Packets\Control\PresetPlayback.cs" />
+    <Compile Include="Rdm\Packets\Control\SelfTestDescription.cs" />
+    <Compile Include="Rdm\Packets\Control\PerformSelfTest.cs" />
+    <Compile Include="Rdm\Packets\Control\PowerState.cs" />
+    <Compile Include="Rdm\Packets\Control\ResetDevice.cs" />
+    <Compile Include="Rdm\Packets\Control\IdentifyDevice.cs" />
+    <Compile Include="Rdm\Packets\Discovery\DiscoveryUnMute.cs" />
+    <Compile Include="Rdm\Packets\Discovery\DiscoveryMute.cs" />
+    <Compile Include="Rdm\Packets\Discovery\DiscoveryUniqueBranch.cs" />
+    <Compile Include="Rdm\Packets\Management\NackReason.cs" />
+    <Compile Include="Rdm\Packets\Management\RdmNack.cs" />
+    <Compile Include="Rdm\Packets\Parameters\ParameterDescription.cs" />
+    <Compile Include="Rdm\Packets\Parameters\SupportedParameters.cs" />
+    <Compile Include="Rdm\Packets\Display\DisplayLevel.cs" />
+    <Compile Include="Rdm\Packets\Display\DisplayInvert.cs" />
+    <Compile Include="Rdm\Packets\DMX\DefaultSlotValue.cs" />
+    <Compile Include="Rdm\Packets\DMX\SlotDescription.cs" />
+    <Compile Include="Rdm\Packets\DMX\SlotInfo.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxPersonalityDescription.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxPersonality.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxStartAddress.cs" />
+    <Compile Include="Rdm\Packets\Management\CommsStatus.cs" />
+    <Compile Include="Rdm\Packets\Management\ProxiedDeviceCount.cs" />
+    <Compile Include="Rdm\Packets\Management\ProxiedDevices.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundDiscovery.cs" />
+    <Compile Include="Rdm\Packets\Net\BindingControlFields.cs" />
+    <Compile Include="Rdm\Packets\Net\InitiateDiscovery.cs" />
+    <Compile Include="Rdm\Packets\Net\PortFunction.cs" />
+    <Compile Include="Rdm\Packets\Net\PortLabel.cs" />
+    <Compile Include="Rdm\Packets\Net\PortTiming.cs" />
+    <Compile Include="Rdm\Packets\Net\PortTimingDescription.cs" />
+    <Compile Include="Rdm\Packets\Net\PortToUniverse.cs" />
+    <Compile Include="Rdm\Packets\Net\IdentifyPort.cs" />
+    <Compile Include="Rdm\Packets\Net\PortList.cs" />
+    <Compile Include="Rdm\Packets\Net\RdmTrafficEnable.cs" />
+    <Compile Include="Rdm\IO\RdmBinaryReader.cs" />
+    <Compile Include="Rdm\IO\RdmBinaryWriter.cs" />
+    <Compile Include="Rdm\Packets\Power\DevicePowerCycles.cs" />
+    <Compile Include="Rdm\Packets\Power\LampOnMode.cs" />
+    <Compile Include="Rdm\Packets\Power\LampState.cs" />
+    <Compile Include="Rdm\Packets\Power\LampStrikes.cs" />
+    <Compile Include="Rdm\Packets\Power\LampHours.cs" />
+    <Compile Include="Rdm\Packets\Power\DeviceHours.cs" />
+    <Compile Include="Rdm\Packets\Product\BootSoftwareVersionId.cs" />
+    <Compile Include="Rdm\Packets\Product\BootSoftwareVersionLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\Language.cs" />
+    <Compile Include="Rdm\Packets\Product\FactoryDefaults.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\ProductCategories.cs" />
+    <Compile Include="Rdm\Packets\Product\SoftwareVersionLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\LanguageCapabilities.cs" />
+    <Compile Include="Rdm\Packets\Product\ManufacturerLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceModelDescription.cs" />
+    <Compile Include="Rdm\Packets\Product\ProductDetailIdList.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceInfo.cs" />
+    <Compile Include="Rdm\Packets\Sensors\RecordSensor.cs" />
+    <Compile Include="Rdm\Packets\Sensors\SensorValue.cs" />
+    <Compile Include="Rdm\Packets\Sensors\SensorDefinition.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusTypes.cs" />
+    <Compile Include="Rdm\Packets\Status\SubDeviceStatusReportThreshold.cs" />
+    <Compile Include="Rdm\Packets\Status\ClearStatusId.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusIdDescription.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusMessages.cs" />
+    <Compile Include="Rdm\Packets\Status\QueuedMessage.cs" />
+    <Compile Include="Rdm\RdmCommands.cs" />
+    <Compile Include="Rdm\RdmHeader.cs" />
+    <Compile Include="Rdm\Broker\RdmMessageBroker.cs" />
+    <Compile Include="Rdm\RdmNackCodes.cs" />
+    <Compile Include="Rdm\RdmPacket.cs" />
+    <Compile Include="Rdm\RdmPacketFactory.cs" />
+    <Compile Include="Rdm\RdmParameters.cs" />
+    <Compile Include="Rdm\RdmRequestPacket.cs" />
+    <Compile Include="Rdm\RdmResponsePacket.cs" />
+    <Compile Include="Rdm\RdmResponseTypes.cs" />
+    <Compile Include="Rdm\Routing\DeviceFoundEventArgs.cs" />
+    <Compile Include="Rdm\Routing\IRdmTransport.cs" />
+    <Compile Include="Rdm\Routing\RdmRouter.cs" />
+    <Compile Include="Rdm\Routing\RdmRouteBinding.cs" />
+    <Compile Include="Rdm\Routing\RdmRoutingSocket.cs" />
+    <Compile Include="Rdm\SubDeviceUId.cs" />
+    <Compile Include="Rdm\UId.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnPacket.cs" />
+    <Compile Include="Rdm\UnknownRdmPacketException.cs" />
+    <Compile Include="Slp\AttributeReplyEventArgs.cs" />
+    <Compile Include="Slp\AuthenticationBlock.cs" />
+    <Compile Include="Slp\DirectoryAgentInformation.cs" />
+    <Compile Include="Slp\IO\SlpBinaryWriter.cs" />
+    <Compile Include="Slp\IO\SlpBinaryReader.cs" />
+    <Compile Include="Slp\Packets\AttributeRequestPacket.cs" />
+    <Compile Include="Slp\Packets\AttributeReplyPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceTypeRequestPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceTypeReplyPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceAgentAdvertPacket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Slp\Packets\ServiceDeregistrationPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceRegistrationPacket.cs" />
+    <Compile Include="Slp\Packets\DirectoryAgentAdvertPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceAcknowledgePacket.cs" />
+    <Compile Include="Slp\Packets\ServiceReplyPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceRequestPacket.cs" />
+    <Compile Include="Slp\Packets\SlpHeaderPacket.cs" />
+    <Compile Include="Slp\Packets\SlpPacket.cs" />
+    <Compile Include="Slp\Packets\SlpRequestPacket.cs" />
+    <Compile Include="Slp\UrlEntry.cs" />
+    <Compile Include="Slp\ServiceFoundEventArgs.cs" />
+    <Compile Include="Slp\SlpAgent.cs" />
+    <Compile Include="Slp\SlpDiscoveryAgent.cs" />
+    <Compile Include="Slp\SlpErrorCode.cs" />
+    <Compile Include="Slp\SlpException.cs" />
+    <Compile Include="Slp\SlpFunctionId.cs" />
+    <Compile Include="Slp\SlpServiceAgent.cs" />
+    <Compile Include="Slp\SlpUserAgent.cs" />
+    <Compile Include="Slp\Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Slp\Sockets\SlpSocket.cs" />
+    <Compile Include="Sntp\NtpData.cs" />
+    <Compile Include="Sntp\SntpClient.cs" />
+    <Compile Include="Sntp\SntpServer.cs" />
+    <Compile Include="Sntp\Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Sntp\Sockets\SntpSocket.cs" />
+    <Compile Include="Sockets\AcnSocket.cs" />
+    <Compile Include="Sockets\IRdmSocket.cs" />
+    <Compile Include="Sockets\RdmAddress.cs" />
+    <Compile Include="Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Sockets\RdmReliableSocket.cs" />
+    <Compile Include="Sockets\RdmSocket.cs" />
+    <Compile Include="Sockets\StreamingAcnSocket.cs" />
+    <Compile Include="TFtp\TFTPServer.cs" />
+  </ItemGroup>
+</Project>
