@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using Acn.Slp;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace Acn.Helpers
 {
@@ -59,8 +60,28 @@ namespace Acn.Helpers
         /// <param name="e"></param>
         void NetworkChange_NetworkAddressChanged(object sender, EventArgs e)
         {
-            //Need to create a listener on the new interface or remove one from the old interface.
-            RefreshAgents();
+            ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessAddressChanged), null);
+        }
+
+        /// <summary>
+        /// Handles re-connect when the network IP address changes.
+        /// </summary>
+        /// <param name="state">not used</param>
+        private void ProcessAddressChanged(object state)
+        {
+            try
+            {
+                //Wait for the network adapter to become available.
+                Thread.Sleep(4000);
+                
+                //Need to create a listener on the new interface or remove one from the old interface.
+                RefreshAgents();              
+            }
+            catch (Exception ex)
+            {
+                if (!RaiseUnhandledException(ex))
+                    throw;
+            }   
         }
 
         #region Control properties
@@ -239,6 +260,30 @@ namespace Acn.Helpers
         #region Public events
 
         /// <summary>
+        /// Ocurrs when an unhandled exception has ocurred.
+        /// </summary>
+        /// <remarks>
+        /// Should be logged by user code.
+        /// </remarks>
+        public event UnhandledExceptionEventHandler UnhandledException;
+
+        /// <summary>
+        /// Called to indicate an unhandled exception has ocurred.
+        /// </summary>
+        /// <param name="ex">The exception that has not been handled.</param>
+        protected virtual bool RaiseUnhandledException(Exception ex)
+        {
+            if (UnhandledException != null)
+            {
+                UnhandledException(this, new UnhandledExceptionEventArgs(ex, false));
+                return true;
+            }
+
+            return false;
+        }
+
+
+        /// <summary>
         /// Called whenever a device or the devices list is updated.
         /// Can be called quite frequently
         /// </summary>
@@ -391,11 +436,18 @@ namespace Acn.Helpers
         /// <param name="state">The state.</param>
         private void pollTimerTick(object state)
         {
-            if (Running)
+            try
             {
-                UpdateDevices();
-                RequestPollCallback();
-            }
+                if (Running)
+                {
+                    UpdateDevices();
+                    RequestPollCallback();
+                }
+            }            
+            catch (Exception ex)
+            {
+                RaiseUnhandledException(ex);
+            }  
         }
 
         // Random source designed to stop lots of nodes on a network 
