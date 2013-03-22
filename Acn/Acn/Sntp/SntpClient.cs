@@ -180,8 +180,8 @@ namespace Acn.Sntp
             try
             {
                 // Resolve server address
-                IPHostEntry hostadd = Dns.GetHostEntry(TimeServer);
-                IPEndPoint EPhost = new IPEndPoint(hostadd.AddressList.First(a => a.AddressFamily == AddressFamily.InterNetwork), Port);
+                var hostaddresses = Dns.GetHostAddresses(TimeServer);
+                IPEndPoint EPhost = new IPEndPoint(hostaddresses.First(a => a.AddressFamily == AddressFamily.InterNetwork), Port);
                 NtpData recieveData;
                 List<NtpData> replies;
 
@@ -191,7 +191,7 @@ namespace Acn.Sntp
                     // Don't block for ages
                     timeSocket.Client.SendTimeout = 2000;
                     timeSocket.Client.ReceiveTimeout = 2000;
-                    // Allow conenction back to local
+                    // Allow connection back to local
                     //timeSocket.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
 
                     timeSocket.Connect(EPhost);
@@ -226,7 +226,7 @@ namespace Acn.Sntp
             }
             catch (SocketException e)
             {
-                throw new Exception(e.Message);
+                throw new Exception(string.Format("Error getting time from {0} error was {1}", TimeServer, e.Message), e);
             }
 
         }
