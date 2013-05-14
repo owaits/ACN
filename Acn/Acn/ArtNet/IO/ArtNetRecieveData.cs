@@ -6,8 +6,8 @@ namespace Acn.ArtNet.IO
 {
     public class ArtNetRecieveData
     {
-        public byte[] buffer = new byte[1000];
-        public int bufferSize = 1000;
+        public byte[] buffer = new byte[1500];
+        public int bufferSize = 1500;
         public int DataLength = 0;
 
         public bool Valid

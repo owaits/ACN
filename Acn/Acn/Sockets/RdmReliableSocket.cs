@@ -80,7 +80,7 @@ namespace Acn.Sockets
             set { retryInterval = value; }
         }
 
-        private TimeSpan transmitInterval = new TimeSpan(0, 0, 0, 0, 20);
+        private TimeSpan transmitInterval = new TimeSpan(0, 0, 0, 0, 40);
 
         public TimeSpan TransmitInterval
         {

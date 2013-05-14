@@ -81,7 +81,7 @@ namespace Acn
                 throw new InvalidOperationException("You must write the root layer data first before calling WriteLength.");
 
             //Update the Length
-            Length = (int) (data.BaseStream.Position - lengthPosition - 6);
+            Length = (int) (data.BaseStream.Position - lengthPosition);
 
             //Write the updated length to the packet data.
             long savedPosition = data.BaseStream.Position;

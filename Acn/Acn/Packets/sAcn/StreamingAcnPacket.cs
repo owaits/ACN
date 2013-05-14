@@ -46,6 +46,8 @@ namespace Acn.Packets.sAcn
         {
             Framing.WritePdu(data);
             Dmx.WritePdu(data);
+            Dmx.WriteLength(data);
+            Framing.WriteLength(data);
         }
 
         #endregion

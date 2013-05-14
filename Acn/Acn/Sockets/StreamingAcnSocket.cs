@@ -34,18 +34,23 @@ namespace Acn.Sockets
 
         public string SourceName { get; protected set; }
 
-        private int sequenceNumber = 0;
+        private Dictionary<int,int> sequenceNumber = new Dictionary<int,int>();
 
-        public int SequenceNumber
+        public int GetSequenceNumber(int universe)
         {
-            get { return sequenceNumber; }
-            protected set 
-            { 
-                if(sequenceNumber > 255 || sequenceNumber < 0)
-                    sequenceNumber = 0;
-                else
-                    sequenceNumber = value; 
-            }
+            int value = 0;
+            sequenceNumber.TryGetValue(universe,out value);
+            return value; 
+        }
+
+        public void IncrementSequenceNumber(int universe)
+        {
+            int value = 0;
+            sequenceNumber.TryGetValue(universe, out value);
+
+            value = (value >=255 ? 0 : value + 1);
+                
+            sequenceNumber[universe] = value;
         }
 
 
@@ -108,13 +113,13 @@ namespace Acn.Sockets
 
         public void SendDmx(int universe, byte[] dmxData, byte priority)
         {
-            SequenceNumber++;
+            IncrementSequenceNumber(universe);
 
             DmxPacket packet = new DmxPacket();
             packet.Framing.SourceName = SourceName;
             packet.Framing.Universe = (short) universe;
             packet.Framing.Priority = priority;
-            packet.Framing.SequenceNumber = (byte) SequenceNumber;
+            packet.Framing.SequenceNumber = (byte) GetSequenceNumber(universe);
             packet.Dmx.Data = dmxData;            
 
             SendPacket(packet, GetUniverseAddress(universe));
