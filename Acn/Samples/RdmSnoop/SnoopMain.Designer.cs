@@ -117,7 +117,7 @@
             // 
             // routerSelect
             // 
-            this.routerSelect.Image = global::RdmSnoop.Properties.Resources.ArtNet;
+            this.routerSelect.Image = global::RdmSnoop.Properties.Resources.Connection_Manager;
             this.routerSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.routerSelect.Name = "routerSelect";
             this.routerSelect.Size = new System.Drawing.Size(46, 35);
@@ -149,12 +149,12 @@
             // 
             // toolStripButton1
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.Image = global::RdmSnoop.Properties.Resources.PauseHS;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 35);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(42, 35);
+            this.toolStripButton1.Text = "Pause";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // splitContainer1
