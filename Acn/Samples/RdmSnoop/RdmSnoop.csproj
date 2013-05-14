@@ -112,6 +112,8 @@
     <None Include="Images\ArtNet.gif" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Connection_Manager.png" />
+    <None Include="Resources\PauseHS.png" />
     <None Include="Resources\RepeatHS.png" />
   </ItemGroup>
   <ItemGroup>
@@ -146,8 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="RdmSnoopIcon.ico" />
-    <None Include="Resources\Connection_Manager.png" />
-    <None Include="Resources\PauseHS.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
