@@ -36,7 +36,6 @@ namespace StreamingAcn
 
             dmxOutput = new DmxStreamer(socket);
             dmxOutput.AddUniverse(sendData.Universe);
-            dmxOutput.Start();
         }
 
         private void Stop()
@@ -240,6 +239,24 @@ namespace StreamingAcn
         }
 
         #endregion       
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            sendSelect.Checked = true;
+            recieveSelect.Checked = false;
+
+            dataTabs.SelectedTab = sendTab;
+            dmxOutput.Start();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            sendSelect.Checked = false;
+            recieveSelect.Checked = true;
+
+            dataTabs.SelectedTab = recieveTab;
+            dmxOutput.Stop();
+        }
 
     }
 }

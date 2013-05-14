@@ -60,6 +60,7 @@ namespace Acn
             {
                 Streaming = false;
                 dmxThread.Join();
+                dmxThread = null;
             }
         }
 

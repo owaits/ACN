@@ -95,9 +95,9 @@ namespace Acn.ArtNet.Packets
             set { status = value; }
         }
 
-        private string estaCode= string.Empty;
+        private short estaCode = 0;
 
-        public string EstaCode
+        public short EstaCode
         {
             get { return estaCode; }
             set { estaCode = value; }
@@ -280,7 +280,7 @@ namespace Acn.ArtNet.Packets
             Oem = data.ReadNetwork16();
             UbeaVersion = data.ReadByte();
             Status = (PollReplyStatus)data.ReadByte();
-            EstaCode = data.ReadNetworkString(2);
+            EstaCode = data.ReadNetwork16();
             ShortName = data.ReadNetworkString(18);
             LongName = data.ReadNetworkString(64);
             NodeReport = data.ReadNetworkString(64);
@@ -312,7 +312,7 @@ namespace Acn.ArtNet.Packets
             data.WriteNetwork(Oem);
             data.Write(UbeaVersion);
             data.Write((byte) Status);
-            data.WriteNetwork(EstaCode,2);
+            data.Write(EstaCode);
             data.WriteNetwork(ShortName,18);
             data.WriteNetwork(LongName,64);
             data.WriteNetwork(NodeReport,64);
