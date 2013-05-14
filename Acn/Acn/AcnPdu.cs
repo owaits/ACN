@@ -90,11 +90,13 @@ namespace Acn
 
         protected abstract void ReadData(AcnBinaryReader data);
 
+        long lengthPosition = 0;
+
         public virtual void WritePdu(AcnBinaryWriter data)
         {
             //Save length and skip
             //We save the stream position of the length so we can come back later and write it.
-            long lengthPosition = data.BaseStream.Position;
+            lengthPosition = data.BaseStream.Position;
             data.BaseStream.Seek(2, System.IO.SeekOrigin.Current);          
                        
             //Write the PDU Vector.
@@ -110,10 +112,13 @@ namespace Acn
 
             //Write the PDU data.
             WriteData(data);
+        }
 
+        public void WriteLength(AcnBinaryWriter data)
+        {
             //Return to Length and update
             long endPosition = data.BaseStream.Position;
-            Length = (int) (endPosition - lengthPosition - 6);
+            Length = (int) (endPosition - lengthPosition);
 
             //Write PDU length.
             data.BaseStream.Seek(lengthPosition, System.IO.SeekOrigin.Begin);
