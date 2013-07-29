@@ -63,14 +63,19 @@ namespace RdmSnoop.Transports
                 socket.NewPacket += new EventHandler<Acn.Sockets.NewPacketEventArgs<ArtNetPacket>>(socket_NewPacket);
                 socket.Open(LocalAdapter, SubnetMask);
 
-                Discover();
+                Discover(DiscoveryType.GatewayDiscovery);
             }
         }
 
-        public void Discover()
+        public void Discover(DiscoveryType type)
         {
-            SendArtPoll();
-            //SendTodRequest();
+            if (type == DiscoveryType.GatewayDiscovery)
+                SendArtPoll();
+            if (type == DiscoveryType.DeviceDiscovery)
+            {
+                for (int n = 0; n < byte.MaxValue;n++)
+                    SendTodControl(n,ArtTodControlCommand.AtcFlush);
+            }
         }
 
         public void Stop()
@@ -142,6 +147,14 @@ namespace RdmSnoop.Transports
         {
             ArtTodRequestPacket packet = new ArtTodRequestPacket();
             packet.RequestedUniverses = universes;
+            socket.Send(packet);
+        }
+
+        private void SendTodControl(int port, ArtTodControlCommand command)
+        {
+            ArtTodControlPacket packet = new ArtTodControlPacket();
+            packet.Address = (byte) port;
+            packet.Command = command;
             socket.Send(packet);
         }
 

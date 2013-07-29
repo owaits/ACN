@@ -146,11 +146,11 @@ namespace Acn.Rdm.Routing
             }
         }
 
-        public void Discover()
+        public void Discover(DiscoveryType type)
         {
             //Ask each transport to discover.
             foreach (RdmRouteBinding binding in transports.Values)
-                binding.Transport.Discover();
+                binding.Transport.Discover(type);
         }
 
         #endregion

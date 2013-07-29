@@ -71,7 +71,7 @@ namespace RdmSnoop.Transports
                 acnSocket.Close();
         }
 
-        public void Discover()
+        public void Discover(DiscoveryType type)
         {
 
         }

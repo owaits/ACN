@@ -37,6 +37,7 @@
             this.networkCardSelect = new System.Windows.Forms.ToolStripComboBox();
             this.discoverSelect = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.rdmDiscoverSelect = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.rdmDevices = new System.Windows.Forms.TreeView();
             this.deviceInformation = new System.Windows.Forms.PropertyGrid();
@@ -86,7 +87,8 @@
             this.toolStripSeparator1,
             this.networkCardSelect,
             this.discoverSelect,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.rdmDiscoverSelect});
             this.tools.Location = new System.Drawing.Point(0, 0);
             this.tools.Name = "tools";
             this.tools.Size = new System.Drawing.Size(980, 38);
@@ -156,6 +158,16 @@
             this.toolStripButton1.Text = "Pause";
             this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // rdmDiscoverSelect
+            // 
+            this.rdmDiscoverSelect.Image = global::RdmSnoop.Properties.Resources.SearchWebHS;
+            this.rdmDiscoverSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rdmDiscoverSelect.Name = "rdmDiscoverSelect";
+            this.rdmDiscoverSelect.Size = new System.Drawing.Size(56, 35);
+            this.rdmDiscoverSelect.Text = "Discover";
+            this.rdmDiscoverSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.rdmDiscoverSelect.Click += new System.EventHandler(this.rdmDiscoverSelect_Click);
             // 
             // splitContainer1
             // 
@@ -487,6 +499,7 @@
         private System.Windows.Forms.ToolStripStatusLabel transactionsLabel;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton routerSelect;
+        private System.Windows.Forms.ToolStripButton rdmDiscoverSelect;
 
     }
 }
