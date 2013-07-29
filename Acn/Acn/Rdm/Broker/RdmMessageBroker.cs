@@ -13,6 +13,25 @@ namespace Acn.Rdm.Broker
 {
     public delegate RdmPacket ProcessPacketHandler(RdmPacket requestPacket);
 
+    /// <summary>
+    /// The staqtus of a parameter value.
+    /// </summary>
+    public enum ParameterStatus
+    {
+        /// <summary>
+        /// The parameter is invalid or has not been set.
+        /// </summary>
+        Empty,
+        /// <summary>
+        /// The parameter has been request but not yet recieved.
+        /// </summary>
+        Pending,
+        /// <summary>
+        /// The parameter is up to date.
+        /// </summary>
+        Valid
+    }
+
     public class RdmMessageBroker
     {
         private Dictionary<RdmParameters, RdmPacket> responsePackets = new Dictionary<RdmParameters, RdmPacket>();
@@ -188,5 +207,30 @@ namespace Acn.Rdm.Broker
             //Create a request packet to obtain the remaining data for the overflow.
             return RdmPacket.Create(header);
         }
+
+        #region Parameter Status
+
+        private Dictionary<RdmParameters, ParameterStatus> parameterStatus = new Dictionary<RdmParameters, ParameterStatus>();
+
+        protected void SetParameterStatus(RdmParameters parameter,ParameterStatus status)
+        {
+            parameterStatus[parameter] = status;
+        }
+
+        protected ParameterStatus GetParameterStatus(RdmParameters parameter)
+        {
+            ParameterStatus status;
+            if (parameterStatus.TryGetValue(parameter, out status))
+                return status;
+
+            return ParameterStatus.Empty;
+        }
+
+        protected bool IsParameterStatus(RdmParameters parameter,ParameterStatus status)
+        {
+            return GetParameterStatus(parameter) == status;
+        }
+
+        #endregion
     }
 }

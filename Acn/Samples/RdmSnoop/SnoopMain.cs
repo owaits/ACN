@@ -333,7 +333,7 @@ namespace RdmSnoop
 
         private void discoverSelect_Click(object sender, EventArgs e)
         {
-            Transport.Discover();
+            Transport.Discover(DiscoveryType.GatewayDiscovery);
         }
 
         private void SnoopMain_Load(object sender, EventArgs e)
@@ -510,6 +510,11 @@ namespace RdmSnoop
 
             // Perform the sort with these new sort options.
             packetView.Sort();
+        }
+
+        private void rdmDiscoverSelect_Click(object sender, EventArgs e)
+        {
+            Transport.Discover(DiscoveryType.DeviceDiscovery);
         }
 
 

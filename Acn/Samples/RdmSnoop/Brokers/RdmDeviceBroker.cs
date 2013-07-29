@@ -385,6 +385,8 @@ namespace RdmNetworkMonitor
 
             RdmPacket replyPacket = ProcessPacket(e.Packet);
 
+            SetParameterStatus(e.Packet.Header.ParameterId, ParameterStatus.Valid);
+
             if (replyPacket != null)
             {
                 socket.SendRdm(replyPacket, Address, Id);
@@ -624,83 +626,93 @@ namespace RdmNetworkMonitor
 
         #endregion
 
+        protected void SendRdm(RdmPacket packet)
+        {
+            if (IsParameterStatus(packet.Header.ParameterId, ParameterStatus.Empty))
+            {
+                SetParameterStatus(packet.Header.ParameterId, ParameterStatus.Pending);
+                socket.SendRdm(packet, Address, Id);
+            }
+        }
+        
+
         public void Interogate()
         {
             DeviceInfo.Get getInfo = new DeviceInfo.Get();
-            socket.SendRdm(getInfo, Address, Id);
+            SendRdm(getInfo);
 
             PortList.Get getPorts = new PortList.Get();
-            socket.SendRdm(getPorts, Address, Id);
+            SendRdm(getPorts);
         }
 
         public void RequestDetails()
         {
             ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
-            socket.SendRdm(manufacturer, Address, Id);
+            SendRdm(manufacturer);
 
             DeviceModelDescription.Get model = new DeviceModelDescription.Get();
-            socket.SendRdm(model, Address, Id);
+            SendRdm(model);
 
             DmxStartAddress.Get dmxAddress = new DmxStartAddress.Get();
-            socket.SendRdm(dmxAddress, Address, Id);
+            SendRdm(dmxAddress);
         }
 
         public void RequestLabel()
         {
             DeviceLabel.Get label = new DeviceLabel.Get();
-            socket.SendRdm(label, Address, Id);
+            SendRdm(label);
         }
 
         public void RequestDmxInformation()
         {
             ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
-            socket.SendRdm(manufacturer, Address, Id);
+            SendRdm(manufacturer);
 
             DeviceModelDescription.Get model = new DeviceModelDescription.Get();
-            socket.SendRdm(model, Address, Id);
+            SendRdm(model);
         }
 
         public void RequestConfiguration()
         {
             PanInvert.Get pan = new PanInvert.Get();
-            socket.SendRdm(pan, Address, Id);
+            SendRdm(pan);
 
             TiltInvert.Get tilt = new TiltInvert.Get();
-            socket.SendRdm(tilt, Address, Id);
+            SendRdm(tilt);
 
             PanTiltSwap.Get swap = new PanTiltSwap.Get();
-            socket.SendRdm(swap, Address, Id);
+            SendRdm(swap);
         }
 
         public void RequestHistory()
         {
             DeviceHours.Get hours = new DeviceHours.Get();
-            socket.SendRdm(hours, Address, Id);
+            SendRdm(hours);
 
             DevicePowerCycles.Get cycles = new DevicePowerCycles.Get();
-            socket.SendRdm(cycles, Address, Id);
+            SendRdm(cycles);
 
             LampHours.Get lampHours = new LampHours.Get();
-            socket.SendRdm(lampHours, Address, Id);
+            SendRdm(lampHours);
 
             LampStrikes.Get lampStrikes = new LampStrikes.Get();
-            socket.SendRdm(lampStrikes, Address, Id);
+            SendRdm(lampStrikes);
         }
 
         public void RequestPersonality()
         {
             DmxPersonalityDescription.Get packet = new DmxPersonalityDescription.Get();
             packet.PersonalityIndex = DeviceInformation.DmxPersonality;
-            socket.SendRdm(packet, Address, Id);
-
+            SendRdm(packet);
+           
             SlotInfo.Get slotPacket = new SlotInfo.Get();
-            socket.SendRdm(slotPacket, Address, Id);
+            SendRdm(slotPacket);
         }
 
         public void RequestParameters()
         {
             SupportedParameters.Get packet = new SupportedParameters.Get();
-            socket.SendRdm(packet, Address, Id);
+            SendRdm(packet);
         }
 
         #endregion
