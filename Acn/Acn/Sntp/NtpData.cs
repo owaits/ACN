@@ -394,7 +394,7 @@ namespace Acn.Sntp
             {
                 // Only support setting the primary reference at the moment
                 if (Stratum != NtpStratum.PrimaryReference)
-                    throw new NotImplementedException("Setting reference ID not implimented for Startum other than the Primary Reference");
+                    throw new NotImplementedException("Setting reference ID not implemented for Startum other than the Primary Reference");
 
                 for (int i = 0; i < 4; i++)
                 {

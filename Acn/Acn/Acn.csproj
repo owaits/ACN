@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Acn</RootNamespace>
     <AssemblyName>Acn</AssemblyName>
-    <TargetFrameworkVersion  Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' ">v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' ">v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -55,7 +55,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidDebug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidDebug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -82,7 +82,6 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  
   <ItemGroup Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' ">
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -101,13 +100,11 @@
     <Reference Include="mscorlib" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-	<Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-
-  
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -302,7 +299,9 @@
     <Compile Include="Sockets\StreamingAcnSocket.cs" />
     <Compile Include="TFtp\TFTPServer.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -326,7 +325,6 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

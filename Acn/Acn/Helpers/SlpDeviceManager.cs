@@ -23,14 +23,14 @@
 //______________________________________________________________________________________________________________
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Acn.Slp;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Threading;
+
+using Acn.Slp;
 
 namespace Acn.Helpers
 {
@@ -42,6 +42,7 @@ namespace Acn.Helpers
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SlpDeviceManager"/> class.
+        /// You should subscribe clients to the <see cref="UnhandledException"/> event after construction.
         /// </summary>
         public SlpDeviceManager()
         {
@@ -56,8 +57,8 @@ namespace Acn.Helpers
         /// <summary>
         /// Called when the network IP changes or a network is connected.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         void NetworkChange_NetworkAddressChanged(object sender, EventArgs e)
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback(ProcessAddressChanged), null);
@@ -143,7 +144,7 @@ namespace Acn.Helpers
 
         /// <summary>
         /// Gets or sets the poll interval.
-        /// This is how oftern the network will be polled for devices.
+        /// This is how often the network will be polled for devices.
         /// Defaults to 15 seconds.
         /// </summary>
         /// <value>
@@ -202,7 +203,7 @@ namespace Acn.Helpers
         }
 
         /// <summary>
-        /// Starts an update imediately.
+        /// Starts an update immediately.
         /// </summary>
         public void Update()
         {
@@ -242,7 +243,6 @@ namespace Acn.Helpers
             }
         }
 
-
         /// <summary>
         /// Gets the devices that have been discovered.
         /// </summary>
@@ -260,7 +260,7 @@ namespace Acn.Helpers
         #region Public events
 
         /// <summary>
-        /// Ocurrs when an unhandled exception has ocurred.
+        /// Occurs when an unhandled exception has occurred.
         /// </summary>
         /// <remarks>
         /// Should be logged by user code.
@@ -268,7 +268,7 @@ namespace Acn.Helpers
         public event UnhandledExceptionEventHandler UnhandledException;
 
         /// <summary>
-        /// Called to indicate an unhandled exception has ocurred.
+        /// Called to indicate an unhandled exception has occurred.
         /// </summary>
         /// <param name="ex">The exception that has not been handled.</param>
         protected virtual bool RaiseUnhandledException(Exception ex)
@@ -281,7 +281,6 @@ namespace Acn.Helpers
 
             return false;
         }
-
 
         /// <summary>
         /// Called whenever a device or the devices list is updated.
@@ -299,7 +298,6 @@ namespace Acn.Helpers
                 DeviceUpdated(this, EventArgs.Empty);
             }
         }
-
 
         /// <summary>
         /// Occurs when a device changes state.
@@ -341,7 +339,7 @@ namespace Acn.Helpers
 
         #endregion
 
-        #region Implimentation
+        #region Implementation
 
         /// <summary>
         /// Timer for polling
@@ -408,7 +406,7 @@ namespace Acn.Helpers
         /// <summary>
         /// Gets all the available IP addresses.
         /// </summary>
-        /// <returns>An Enumberable of IP addresses</returns>
+        /// <returns>An Enumerable of IP addresses</returns>
         private static IEnumerable<System.Net.IPAddress> GetAllIpAddresses()
         {
 #if ANDROID
@@ -428,10 +426,8 @@ namespace Acn.Helpers
 #endif
         }
 
-
-
         /// <summary>
-        /// Called wehn the poll timer ticks
+        /// Called when the poll timer ticks
         /// </summary>
         /// <param name="state">The state.</param>
         private void pollTimerTick(object state)
@@ -507,9 +503,6 @@ namespace Acn.Helpers
             }
         }
 
-
-
-
         /// <summary>
         /// Handles the ServiceFound event of the agent control.
         /// </summary>
@@ -544,7 +537,7 @@ namespace Acn.Helpers
         }
 
         /// <summary>
-        /// Struct to hold a composite key for a alp attribtue request.
+        /// Struct to hold a composite key for a alp attribute request.
         /// Holds the agent and the request id
         /// </summary>
         private struct UserAgentRequest
