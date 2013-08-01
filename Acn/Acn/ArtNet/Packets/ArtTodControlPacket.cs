@@ -9,7 +9,7 @@ namespace Acn.ArtNet.Packets
     public enum ArtTodControlCommand
     {
         AtcNone = 0,
-        AtcFlash = 1
+        AtcFlush = 1
     }
 
     public class ArtTodControlPacket : ArtNetPacket
