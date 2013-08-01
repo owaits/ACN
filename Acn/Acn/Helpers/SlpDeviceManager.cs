@@ -73,7 +73,7 @@ namespace Acn.Helpers
             try
             {
                 //Wait for the network adapter to become available.
-                Thread.Sleep(4000);
+                Thread.Sleep(6000);
                 
                 //Need to create a listener on the new interface or remove one from the old interface.
                 RefreshAgents();              
