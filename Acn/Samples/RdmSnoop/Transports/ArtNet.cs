@@ -74,7 +74,7 @@ namespace RdmSnoop.Transports
             if (type == DiscoveryType.DeviceDiscovery)
             {
                 for (int n = 0; n < byte.MaxValue;n++)
-                    SendTodControl(n,ArtTodControlCommand.AtcFlash);
+                    SendTodControl(n,ArtTodControlCommand.AtcFlush);
             }
         }
 
