@@ -8,7 +8,7 @@ namespace Acn.Rdm.Routing
 {
     public class DeviceFoundEventArgs : EventArgs
     {
-        public DeviceFoundEventArgs(UId id, RdmAddress address)
+        public DeviceFoundEventArgs(UId id, RdmEndPoint address)
         {
             this.id = id;
             this.ipAddress = address;
@@ -22,9 +22,9 @@ namespace Acn.Rdm.Routing
             set { id = value; }
         }
 
-        private RdmAddress ipAddress;
+        private RdmEndPoint ipAddress;
 
-        public RdmAddress IpAddress
+        public RdmEndPoint IpAddress
         {
             get { return ipAddress; }
             set { ipAddress = value; }

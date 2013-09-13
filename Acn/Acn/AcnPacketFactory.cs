@@ -12,7 +12,7 @@ namespace Acn
         static AcnPacketFactory()
         {
             //Port List
-            RegisterPacketType((int)ProtocolIds.sACN, typeof(DmxPacket));
+            RegisterPacketType((int)ProtocolIds.sACN, typeof(StreamingAcnDmxPacket));
             RegisterPacketType((int)ProtocolIds.RdmNet, typeof(RdmNetPacket));
         }
 

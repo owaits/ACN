@@ -53,7 +53,7 @@ namespace Acn.Rdm.Routing
                 RdmPacketSent(this, packetInfo);
         }
 
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
         {
             List<RdmRouteBinding> transportsToUse = router.GetTransportsRoutes(targetId);
 
@@ -64,7 +64,7 @@ namespace Acn.Rdm.Routing
             }
         }
 
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
             List<RdmRouteBinding> transportsToUse = router.GetTransportsRoutes(targetId);
 

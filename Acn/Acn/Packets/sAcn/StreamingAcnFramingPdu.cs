@@ -7,10 +7,10 @@ using System.IO;
 
 namespace Acn.Packets.sAcn
 {
-    public class FramingPdu:AcnPdu
+    public class StreamingAcnFramingPdu : AcnPdu
     {
-        public FramingPdu()
-            : base(ProtocolIds.DMP)
+        public StreamingAcnFramingPdu()
+            : base((int) ProtocolIds.DMP)
         {
         }
 

@@ -1,80 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace Acn.Rdm.Packets.Net
 {
-    public class RdmTrafficEnable
+    public class TcpCommsStatus
     {
         public class Get : RdmRequestPacket
         {
-            public Get():base(RdmCommands.Get,RdmParameters.RdmTrafficEnable)
+            public Get()
+                : base(RdmCommands.Get, RdmParameters.TcpCommsStatus)
             {
             }
 
-            public short EndpointID { get; set; }
-
             protected override void ReadData(RdmBinaryReader data)
             {
-                EndpointID = data.ReadNetwork16();
+                //Parameter Data Empty
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(EndpointID);
+                //Parameter Data Empty
             }
         }
 
         public class GetReply : RdmResponsePacket
         {
-            public GetReply():base(RdmCommands.GetResponse,RdmParameters.RdmTrafficEnable)
+            public GetReply()
+                : base(RdmCommands.GetResponse, RdmParameters.TcpCommsStatus)
             {
             }
 
-            public short EndpointID { get; set; }
+            public IPAddress CurrentConnectionIP { get; set; }
 
-            public bool RdmEnabled { get; set; }
+            public short UnhealthyTCPEvents { get; set; }
+
+            public short TCPConnectEvents { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                EndpointID = data.ReadNetwork16();
-                RdmEnabled = (data.ReadByte() > 0);
+                CurrentConnectionIP = new IPAddress(data.ReadBytes(4));
+                UnhealthyTCPEvents = data.ReadNetwork16();
+                TCPConnectEvents = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(EndpointID);
-                data.Write((byte) (RdmEnabled ? 1 : 0));
+                data.Write(CurrentConnectionIP.GetAddressBytes());                
+                data.Write(UnhealthyTCPEvents);
+                data.Write(TCPConnectEvents);
             }
         }
 
         public class Set : RdmRequestPacket
         {
-            public Set():base(RdmCommands.Set,RdmParameters.RdmTrafficEnable)
+            public Set()
+                : base(RdmCommands.Set, RdmParameters.EndpointLabel)
             {
             }
 
-            public short EndpointID { get; set; }
-
-            public bool RdmEnabled { get; set; }
-
             protected override void ReadData(RdmBinaryReader data)
             {
-                EndpointID = data.ReadNetwork16();
-                RdmEnabled = (data.ReadByte() > 0);
+                //Parameter Data Empty
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(EndpointID);
-                data.Write((byte)(RdmEnabled ? 1 : 0));
+                //Parameter Data Empty
             }
         }
 
         public class SetReply : RdmResponsePacket
         {
-            public SetReply():base(RdmCommands.SetResponse,RdmParameters.RdmTrafficEnable)
+            public SetReply()
+                : base(RdmCommands.SetResponse, RdmParameters.EndpointLabel)
             {
             }
 

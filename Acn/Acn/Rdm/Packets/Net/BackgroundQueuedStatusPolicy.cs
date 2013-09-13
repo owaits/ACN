@@ -5,102 +5,95 @@ using System.Text;
 
 namespace Acn.Rdm.Packets.Net
 {
-    public class InitiateDiscovery
+    public class BackgroundQueuedStatusPolicy
     {
-        public enum DiscoveryState
-        {
-            NotActive = 0x0,
-            Full = 0x1,
-            Incremental = 0x2
-        }
-
         public class Get : RdmRequestPacket
         {
             public Get()
-                : base(RdmCommands.Get, RdmParameters.InitiateDiscovery)
+                : base(RdmCommands.Get,RdmParameters.BackgroundQueuedStatusPolicy)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
+                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
+                data.WriteNetwork(EndpointID);
             }
         }
 
         public class GetReply : RdmResponsePacket
         {
             public GetReply()
-                : base(RdmCommands.GetResponse, RdmParameters.InitiateDiscovery)
+                : base(RdmCommands.GetResponse, RdmParameters.BackgroundQueuedStatusPolicy)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
-            public short DeviceCount { get; set; }
+            public byte CurrentPolicyID { get; set; }
 
-            public DiscoveryState DiscoveryState { get; set; }
+            public byte PolicyCount { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
-                DeviceCount = data.ReadNetwork16();
-                DiscoveryState = (DiscoveryState)data.ReadByte();
-
+                EndpointID = data.ReadNetwork16();
+                CurrentPolicyID = data.ReadByte();
+                PolicyCount = data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
-                data.WriteNetwork(DeviceCount);
-                data.Write((byte)DiscoveryState);
+                data.WriteNetwork(EndpointID);
+                data.Write(CurrentPolicyID);
+                data.Write(PolicyCount);
             }
         }
 
         public class Set : RdmRequestPacket
         {
             public Set()
-                : base(RdmCommands.Set, RdmParameters.InitiateDiscovery)
+                : base(RdmCommands.Set, RdmParameters.BackgroundQueuedStatusPolicy)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
-            public DiscoveryState DiscoveryState { get; set; }
+            public byte CurrentPolicyID { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
-                DiscoveryState = (DiscoveryState)data.ReadByte();
-
+                EndpointID = data.ReadNetwork16();
+                CurrentPolicyID = data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
-                data.Write((byte)DiscoveryState);
+                data.WriteNetwork(EndpointID);
+                data.Write(CurrentPolicyID);
             }
         }
 
         public class SetReply : RdmResponsePacket
         {
             public SetReply()
-                : base(RdmCommands.SetResponse, RdmParameters.InitiateDiscovery)
+                : base(RdmCommands.SetResponse, RdmParameters.BackgroundQueuedStatusPolicy)
             {
             }
 
             protected override void ReadData(RdmBinaryReader data)
             {
+                //Parameter Data Empty
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
+                //Parameter Data Empty
             }
         }
     }

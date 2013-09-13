@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Acn.Packets.sAcn
 {
-    public class DmxPacket:StreamingAcnPacket
+    public class StreamingAcnDmxPacket:StreamingAcnPacket
     {
-        public DmxPacket()
+        public StreamingAcnDmxPacket()
             : base(ProtocolIds.sACN)
         {
             Dmx.AddressType = 0xa1;

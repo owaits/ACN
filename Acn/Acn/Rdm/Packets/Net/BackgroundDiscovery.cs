@@ -14,16 +14,16 @@ namespace Acn.Rdm.Packets.Net
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
+                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
+                data.WriteNetwork(EndpointID);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Acn.Rdm.Packets.Net
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
             /// <summary>
             /// Controls whether background discovery is enabled within the RDM device.
@@ -43,13 +43,13 @@ namespace Acn.Rdm.Packets.Net
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
+                EndpointID = data.ReadNetwork16();
                 BackgroundDiscovery = data.ReadBoolean();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
+                data.WriteNetwork(EndpointID);
                 data.Write(BackgroundDiscovery);
             }
         }
@@ -61,7 +61,7 @@ namespace Acn.Rdm.Packets.Net
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
             /// <summary>
             /// Controls whether background discovery is enabled within the RDM device.
@@ -70,13 +70,13 @@ namespace Acn.Rdm.Packets.Net
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
+                EndpointID = data.ReadNetwork16();
                 BackgroundDiscovery = data.ReadBoolean();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
+                data.WriteNetwork(EndpointID);
                 data.Write(BackgroundDiscovery);
             }
         }
@@ -90,10 +90,12 @@ namespace Acn.Rdm.Packets.Net
 
             protected override void ReadData(RdmBinaryReader data)
             {
+                //Parameter Data Empty
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
+                //Parameter Data Empty
             }
         }
     }

@@ -23,7 +23,7 @@ namespace Acn.Sockets
 
         private class Transaction
         {
-            public Transaction(int number, RdmPacket packet, RdmAddress address, UId id)
+            public Transaction(int number, RdmPacket packet, RdmEndPoint address, UId id)
             {
                 Number = number;
                 Packet = packet;
@@ -35,7 +35,7 @@ namespace Acn.Sockets
 
             public int Number;
             public RdmPacket Packet;
-            public RdmAddress TargetAddress;
+            public RdmEndPoint TargetAddress;
             public UId TargetId;
 
             public int Attempts = 0;
@@ -193,7 +193,7 @@ namespace Acn.Sockets
             }
         }
 
-        private void RegisterTransaction(RdmPacket packet, RdmAddress address, UId id)
+        private void RegisterTransaction(RdmPacket packet, RdmEndPoint address, UId id)
         {
             lock (transactionQueue)
             {
@@ -308,7 +308,7 @@ namespace Acn.Sockets
 
         #region Communications
         
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
         {
             //Queue this packet for sending.
             RegisterTransaction(packet, targetAddress, targetId);
@@ -316,7 +316,7 @@ namespace Acn.Sockets
             //socket.SendRdm(packet, targetAddress, targetId);
         }
 
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
             //Queue this packet for sending.
             RegisterTransaction(packet, targetAddress, targetId);

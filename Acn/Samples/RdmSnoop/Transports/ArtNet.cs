@@ -132,7 +132,7 @@ namespace RdmSnoop.Transports
             foreach (UId id in packet.Devices)
             {
                 if (NewDeviceFound != null)
-                    NewDeviceFound(this, new DeviceFoundEventArgs(id,new RdmAddress(endPoint.Address,(int) packet.Universe)));
+                    NewDeviceFound(this, new DeviceFoundEventArgs(id,new RdmEndPoint(endPoint.Address,(int) packet.Universe)));
             }
         }
 

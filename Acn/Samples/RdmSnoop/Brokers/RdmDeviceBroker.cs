@@ -25,7 +25,7 @@ namespace RdmNetworkMonitor
     {
         IRdmSocket socket = null;
 
-        public RdmDeviceBroker(IRdmSocket socket, UId id, RdmAddress address)
+        public RdmDeviceBroker(IRdmSocket socket, UId id, RdmEndPoint address)
         {
             Id = id;
             Address = address;
@@ -44,7 +44,7 @@ namespace RdmNetworkMonitor
         public UId Id { get; protected set; }
 
         [Category("Information")]
-        public RdmAddress Address { get; protected set; }
+        public RdmEndPoint Address { get; protected set; }
 
         [Category("Information")]
         public int SubDeviceId { get; protected set; }
@@ -641,7 +641,7 @@ namespace RdmNetworkMonitor
             DeviceInfo.Get getInfo = new DeviceInfo.Get();
             SendRdm(getInfo);
 
-            PortList.Get getPorts = new PortList.Get();
+            EndpointList.Get getPorts = new EndpointList.Get();
             SendRdm(getPorts);
         }
 

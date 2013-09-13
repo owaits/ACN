@@ -8,15 +8,16 @@ using System.Net;
 using Acn.Rdm.Packets.Net;
 using Acn.Rdm;
 using Acn.Rdm.Broker;
+using Acn.RdmNet.Sockets;
 
 namespace SandboxAcnDevice
 {
     public class RdmDevice
     {
-        RdmSocket socket = null;
+        RdmNetSocket socket = null;
         RdmMessageBroker broker = new RdmMessageBroker();
 
-        public RdmDevice(RdmSocket socket)
+        public RdmDevice(RdmNetSocket socket)
         {
             UId = Guid.NewGuid();
             this.socket = socket;
@@ -29,9 +30,9 @@ namespace SandboxAcnDevice
         private void SetupBroker()
         {
             //Port List Reply
-            PortList.Reply portListReply = new PortList.Reply();
-            portListReply.PortNumbers = new List<short>() { 1, 2, 3, 4 };
-            broker.RegisterResponse(RdmParameters.PortList, portListReply);
+            EndpointList.Reply portListReply = new EndpointList.Reply();
+            portListReply.EndpointIDs = new List<short>() { 1, 2, 3, 4 };
+            broker.RegisterResponse(RdmParameters.EndpointList, portListReply);
 
         }
 
@@ -40,7 +41,7 @@ namespace SandboxAcnDevice
             RdmPacket replyPacket = broker.ProcessPacket(e.Packet);
             if (replyPacket != null)
             {
-                socket.SendRdm(replyPacket,new RdmAddress(e.Source.Address),e.Packet.Header.SourceId);
+                socket.SendRdm(replyPacket,new RdmEndPoint(e.Source.Address),e.Packet.Header.SourceId);
             }
         }
 

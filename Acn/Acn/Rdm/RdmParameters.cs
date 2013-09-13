@@ -82,16 +82,25 @@ namespace Acn.Rdm
         PresetPlayback = 0x1031,
 
         //---- RDMnet ----
-        PortList = 0x7FE0,
-        PortIdentify = 0x7FE9,
-        PortToUniverse = 0x7FE1,
+        EndpointList = 0x7FE0,
+        EndpointListChange = 0x7FEE,
+        EndpointIdentify = 0x7FE9,
+        EndpointToUniverse = 0x7FE1,
         RdmTrafficEnable = 0x7FE2,
-        PortFunction = 0x7FE3,
-        PortLabel = 0x7FE4,
-        InitiateDiscovery = 0x7FE5,
+        EndpointMode = 0x7FE3,
+        EndpointLabel = 0x7FE4,
+        DiscoveryState = 0x7FE5,
         BackgroundDiscovery = 0x7FEA,
-        PortTiming = 0x7FE6,
-        PortTimingDescription = 0x7FE7,
-        BindingControlFields = 0x7FE8
+        EndpointTiming = 0x7FE6,
+        EndpointTimingDescription = 0x7FE7,
+        EndpointDeviceListChange = 0x7FEB,
+        EndpointDevices = 0x7FEC,
+        BindingControlFields = 0x7FE8,
+        TcpCommsStatus = 0x7FED,
+        BackgroundQueuedStatusPolicy = 0x7FD0,
+        BackgroundQueuedStatusPolicyDescription = 0x7FD1,
+        BackgroundStatusType = 0x7FD2,
+        QueuedStatusEndpointCollection = 0x7FD3,
+        QueuedStatusUIDCollection = 0x7FD4
     }
 }

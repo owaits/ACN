@@ -13,6 +13,6 @@ namespace Acn
         /// <summary>
         /// RDM data carried via streaming ACN.
         /// </summary>
-        RdmNet = 0x2A
+        RdmNet = 0x05
     }
 }

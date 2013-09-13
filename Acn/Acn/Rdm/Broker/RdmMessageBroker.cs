@@ -119,7 +119,7 @@ namespace Acn.Rdm.Broker
             RegisterHandlers(personality);
         }
 
-        public RdmPacket ProcessPacket(RdmPacket packet)
+        public virtual RdmPacket ProcessPacket(RdmPacket packet)
         {
             RdmPacket responsePacket = null;
             ProcessPacketHandler handler;
