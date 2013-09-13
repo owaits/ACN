@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acn", "Acn\Acn.csproj", "{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}"
