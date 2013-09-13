@@ -5,93 +5,98 @@ using System.Text;
 
 namespace Acn.Rdm.Packets.Net
 {
-    public class PortTiming
+    public class EndpointMode
     {
+        public enum EndpointModes
+        {
+            Disabled = 0x0,
+            Input = 0x1,
+            Output = 0x2
+        }
+
         public class Get : RdmRequestPacket
         {
             public Get()
-                : base(RdmCommands.Get, RdmParameters.PortTiming)
+                : base(RdmCommands.Get, RdmParameters.EndpointMode)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
+                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
+                data.WriteNetwork(EndpointID);
             }
         }
 
         public class GetReply : RdmResponsePacket
         {
             public GetReply()
-                : base(RdmCommands.GetResponse, RdmParameters.PortTiming)
+                : base(RdmCommands.GetResponse, RdmParameters.EndpointMode)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
-            public byte CurrentSetting { get; set; }
-
-            public byte SettingsCount { get; set; }
+            public EndpointModes EndpointMode { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
-                CurrentSetting = data.ReadByte();
-                SettingsCount = data.ReadByte();
+                EndpointID = data.ReadNetwork16();
+                EndpointMode = (EndpointModes) data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
-                data.Write(CurrentSetting);
-                data.Write(SettingsCount);
+                data.WriteNetwork(EndpointID);
+                data.Write((byte) EndpointMode);
             }
         }
 
         public class Set : RdmRequestPacket
         {
             public Set()
-                : base(RdmCommands.Set, RdmParameters.PortTiming)
+                : base(RdmCommands.Set, RdmParameters.EndpointMode)
             {
             }
+            
+            public short EndpointID { get; set; }
 
-            public short PortNumber { get; set; }
-
-            public byte PortTiming { get; set; }
+            public EndpointModes EndpointMode { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
-                PortTiming = data.ReadByte();
+                EndpointID = data.ReadNetwork16();
+                EndpointMode = (EndpointModes) data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
-                data.Write(PortTiming);
+                data.WriteNetwork(EndpointID);
+                data.Write((byte) EndpointMode);
             }
         }
 
         public class SetReply : RdmResponsePacket
         {
             public SetReply()
-                : base(RdmCommands.SetResponse, RdmParameters.PortTiming)
+                : base(RdmCommands.SetResponse, RdmParameters.EndpointMode)
             {
             }
 
             protected override void ReadData(RdmBinaryReader data)
             {
+                //Parameter Data Empty
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
+                //Parameter Data Empty
             }
         }
     }

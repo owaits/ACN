@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Acn.Rdm.Packets.Net
 {
-    public class PortTimingDescription
+    public class EndpointTimingDescription
     {
         public class Get : RdmRequestPacket
         {
             public Get()
-                : base(RdmCommands.Get, RdmParameters.PortTimingDescription)
+                : base(RdmCommands.Get, RdmParameters.EndpointTimingDescription)
             {
             }
 
@@ -30,7 +30,7 @@ namespace Acn.Rdm.Packets.Net
         public class GetReply : RdmResponsePacket
         {
             public GetReply()
-                : base(RdmCommands.GetResponse, RdmParameters.PortTimingDescription)
+                : base(RdmCommands.GetResponse, RdmParameters.EndpointTimingDescription)
             {
             }
 
@@ -41,13 +41,13 @@ namespace Acn.Rdm.Packets.Net
             protected override void ReadData(RdmBinaryReader data)
             {
                 SettingIndex = data.ReadByte();
-                Description = Encoding.ASCII.GetString(data.ReadBytes(Header.ParameterDataLength - 1));
+                Description = data.ReadNetworkString(Header.ParameterDataLength - 1);
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
                 data.Write(SettingIndex);
-                data.Write(Encoding.ASCII.GetBytes(Description));
+                data.WriteNetwork(Description);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Acn
     {
         private int vectorLength = 0;
 
-        public AcnPdu(ProtocolIds protocolId)
+        public AcnPdu(int protocolId)
             :this((int) protocolId,4)
         {
         }

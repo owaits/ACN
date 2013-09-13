@@ -12,7 +12,7 @@ namespace Acn.Sockets
         event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
         event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
 
-        void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId);
-        void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId);
+        void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId);
+        void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId);
     }
 }

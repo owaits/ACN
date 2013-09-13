@@ -5,11 +5,12 @@ using System.Text;
 
 namespace Acn.Rdm.Packets.Net
 {
-    public class RdmTrafficEnable
+    public class EndpointTiming
     {
         public class Get : RdmRequestPacket
         {
-            public Get():base(RdmCommands.Get,RdmParameters.RdmTrafficEnable)
+            public Get()
+                : base(RdmCommands.Get, RdmParameters.EndpointTiming)
             {
             }
 
@@ -28,64 +29,69 @@ namespace Acn.Rdm.Packets.Net
 
         public class GetReply : RdmResponsePacket
         {
-            public GetReply():base(RdmCommands.GetResponse,RdmParameters.RdmTrafficEnable)
+            public GetReply()
+                : base(RdmCommands.GetResponse, RdmParameters.EndpointTiming)
             {
             }
 
             public short EndpointID { get; set; }
 
-            public bool RdmEnabled { get; set; }
+            public byte CurrentSetting { get; set; }
+
+            public byte SettingsCount { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
                 EndpointID = data.ReadNetwork16();
-                RdmEnabled = (data.ReadByte() > 0);
+                CurrentSetting = data.ReadByte();
+                SettingsCount = data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
                 data.WriteNetwork(EndpointID);
-                data.Write((byte) (RdmEnabled ? 1 : 0));
+                data.Write(CurrentSetting);
+                data.Write(SettingsCount);
             }
         }
 
         public class Set : RdmRequestPacket
         {
-            public Set():base(RdmCommands.Set,RdmParameters.RdmTrafficEnable)
+            public Set()
+                : base(RdmCommands.Set, RdmParameters.EndpointTiming)
             {
             }
 
             public short EndpointID { get; set; }
 
-            public bool RdmEnabled { get; set; }
+            public byte PortTiming { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
                 EndpointID = data.ReadNetwork16();
-                RdmEnabled = (data.ReadByte() > 0);
+                PortTiming = data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
                 data.WriteNetwork(EndpointID);
-                data.Write((byte)(RdmEnabled ? 1 : 0));
+                data.Write(PortTiming);
             }
         }
 
         public class SetReply : RdmResponsePacket
         {
-            public SetReply():base(RdmCommands.SetResponse,RdmParameters.RdmTrafficEnable)
+            public SetReply()
+                : base(RdmCommands.SetResponse, RdmParameters.EndpointTiming)
             {
             }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                //Parameter Data Empty
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                //Parameter Data Empty
             }
         }
     }

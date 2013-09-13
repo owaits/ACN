@@ -3,33 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Acn.IO;
-using System.IO;
-using Acn.Packets.sAcn;
-using Acn.Packets.Dmp;
+using Acn.Packets.RdmNet;
 
 namespace Acn.Packets.sAcn
 {
-    public abstract class StreamingAcnPacket : AcnPacket
+    public class RdmNetPacket : AcnPacket
     {
-        public StreamingAcnPacket(ProtocolIds protocolId)
-            : base(protocolId)
+        public RdmNetPacket()
+            : base(ProtocolIds.RdmNet)
         {
         }
 
         #region Packet Contents
 
-        private StreamingAcnFramingPdu framing = new StreamingAcnFramingPdu();
+        private RdmNetFramingPdu framing = new RdmNetFramingPdu(RdmNetProtocolIds.RdmNet);
 
-        public StreamingAcnFramingPdu Framing
+        public RdmNetFramingPdu Framing
         {
             get { return framing; }
         }
 
-        private DmpSetProperty dmx = new DmpSetProperty();
+        private RdmNetPdu rdmNet = new RdmNetPdu();
 
-        public DmpSetProperty Dmx
+        public RdmNetPdu RdmNet
         {
-            get { return dmx; }
+            get { return rdmNet; }
         }
 
         #endregion
@@ -39,14 +37,14 @@ namespace Acn.Packets.sAcn
         protected override void ReadData(AcnBinaryReader data)
         {
             Framing.ReadPdu(data);
-            Dmx.ReadPdu(data);
+            RdmNet.ReadPdu(data);
         }
 
         protected override void WriteData(AcnBinaryWriter data)
         {
             Framing.WritePdu(data);
-            Dmx.WritePdu(data);
-            Dmx.WriteLength(data);
+            RdmNet.WritePdu(data);
+            RdmNet.WriteLength(data);
             Framing.WriteLength(data);
         }
 

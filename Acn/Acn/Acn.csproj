@@ -154,9 +154,13 @@
     <Compile Include="Packets\Dmp\DmpSetProperty.cs" />
     <Compile Include="IO\AcnBinaryReader.cs" />
     <Compile Include="IO\AcnBinaryWriter.cs" />
-    <Compile Include="Packets\sAcn\DmxPacket.cs" />
-    <Compile Include="Packets\sAcn\FramingPdu.cs" />
-    <Compile Include="Packets\sAcn\RdmNetPacket.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetStatusPdu.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetStatusPacket.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetPdu.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetFramingPdu.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnDmxPacket.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnFramingPdu.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AcnPacketFactory.cs" />
     <Compile Include="ProtocolIds.cs" />
@@ -181,6 +185,15 @@
     <Compile Include="Rdm\Packets\Discovery\DiscoveryUniqueBranch.cs" />
     <Compile Include="Rdm\Packets\Management\NackReason.cs" />
     <Compile Include="Rdm\Packets\Management\RdmNack.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundQueuedStatusPolicy.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundQueuedStatusPolicyDescription.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundStatusType.cs" />
+    <Compile Include="Rdm\Packets\Net\TcpCommsStatus.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointDevices.cs" />
+    <Compile Include="Rdm\Packets\Net\QueuedStatusUIDCollection.cs" />
+    <Compile Include="Rdm\Packets\Net\QueuedStatusEndpointCollection.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointDeviceListChange.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointListChange.cs" />
     <Compile Include="Rdm\Packets\Parameters\ParameterDescription.cs" />
     <Compile Include="Rdm\Packets\Parameters\SupportedParameters.cs" />
     <Compile Include="Rdm\Packets\Display\DisplayLevel.cs" />
@@ -196,14 +209,14 @@
     <Compile Include="Rdm\Packets\Management\ProxiedDevices.cs" />
     <Compile Include="Rdm\Packets\Net\BackgroundDiscovery.cs" />
     <Compile Include="Rdm\Packets\Net\BindingControlFields.cs" />
-    <Compile Include="Rdm\Packets\Net\InitiateDiscovery.cs" />
-    <Compile Include="Rdm\Packets\Net\PortFunction.cs" />
-    <Compile Include="Rdm\Packets\Net\PortLabel.cs" />
-    <Compile Include="Rdm\Packets\Net\PortTiming.cs" />
-    <Compile Include="Rdm\Packets\Net\PortTimingDescription.cs" />
-    <Compile Include="Rdm\Packets\Net\PortToUniverse.cs" />
-    <Compile Include="Rdm\Packets\Net\IdentifyPort.cs" />
-    <Compile Include="Rdm\Packets\Net\PortList.cs" />
+    <Compile Include="Rdm\Packets\Net\DiscoveryState.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointMode.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointLabel.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointTiming.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointTimingDescription.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointToUniverse.cs" />
+    <Compile Include="Rdm\Packets\Net\IdentifyEndpoint.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointList.cs" />
     <Compile Include="Rdm\Packets\Net\RdmTrafficEnable.cs" />
     <Compile Include="Rdm\IO\RdmBinaryReader.cs" />
     <Compile Include="Rdm\IO\RdmBinaryWriter.cs" />
@@ -292,10 +305,10 @@
     <Compile Include="Sntp\Sockets\SntpSocket.cs" />
     <Compile Include="Sockets\AcnSocket.cs" />
     <Compile Include="Sockets\IRdmSocket.cs" />
-    <Compile Include="Sockets\RdmAddress.cs" />
+    <Compile Include="Sockets\RdmEndPoint.cs" />
     <Compile Include="Sockets\NewPacketEventArgs.cs" />
     <Compile Include="Sockets\RdmReliableSocket.cs" />
-    <Compile Include="Sockets\RdmSocket.cs" />
+    <Compile Include="RdmNet\Sockets\RdmNetSocket.cs" />
     <Compile Include="Sockets\StreamingAcnSocket.cs" />
     <Compile Include="TFtp\TFTPServer.cs" />
   </ItemGroup>
@@ -319,6 +332,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' " Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Condition=" '$(Configuration)' == 'AndroidDebug' or '$(Configuration)' == 'AndroidRelease' " Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <PropertyGroup>

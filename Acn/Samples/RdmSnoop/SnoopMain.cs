@@ -283,7 +283,7 @@ namespace RdmSnoop
 
         private Dictionary<UId, RdmDeviceModel> devices = new Dictionary<UId, RdmDeviceModel>();
 
-        private void AddDevice(UId id, RdmAddress address)
+        private void AddDevice(UId id, RdmEndPoint address)
         {
             if (!devices.ContainsKey(id))
             {

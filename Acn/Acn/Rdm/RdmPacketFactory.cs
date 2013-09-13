@@ -72,15 +72,81 @@ namespace Acn.Rdm
 
         private static void RegisterRdmNetMessages()
         {
-            //Port List
-            RegisterPacketType(RdmCommands.Get, RdmParameters.PortList, typeof(PortList.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.PortList, typeof(PortList.Reply));
+            //Endpoint List
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointList, typeof(EndpointList.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointList, typeof(EndpointList.Reply));
 
-            //Identify Port
-            RegisterPacketType(RdmCommands.Get, RdmParameters.PortIdentify, typeof(PortList.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.PortIdentify, typeof(PortList.Reply));
-            RegisterPacketType(RdmCommands.Set, RdmParameters.PortIdentify, typeof(PortList.Reply));
-            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.PortIdentify, typeof(PortList.Get));
+            //EndpointListChange
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointListChange, typeof(EndpointListChange.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointListChange, typeof(EndpointListChange.Reply));
+
+            //EndpointIdentify
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.SetReply));
+
+            //EndpointToUniverse
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.SetReply));
+            
+            //RdmTrafficEnable
+            RegisterPacketType(RdmCommands.Get, RdmParameters.RdmTrafficEnable, typeof(RdmTrafficEnable.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.RdmTrafficEnable, typeof(BackgroundDiscovery.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.RdmTrafficEnable, typeof(RdmTrafficEnable.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.RdmTrafficEnable, typeof(RdmTrafficEnable.SetReply));
+
+            //EndpointMode
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointMode, typeof(EndpointMode.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointMode, typeof(EndpointMode.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointMode, typeof(EndpointMode.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointMode, typeof(EndpointMode.SetReply));
+
+            //EndpointLabel
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointLabel, typeof(EndpointLabel.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointLabel, typeof(EndpointLabel.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointLabel, typeof(EndpointLabel.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointLabel, typeof(EndpointLabel.SetReply));
+
+            //DiscoveryState
+            RegisterPacketType(RdmCommands.Get, RdmParameters.DiscoveryState, typeof(DiscoveryState.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.DiscoveryState, typeof(DiscoveryState.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.DiscoveryState, typeof(DiscoveryState.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.DiscoveryState, typeof(DiscoveryState.SetReply));
+
+            //BackgroundDiscovery
+            RegisterPacketType(RdmCommands.Get, RdmParameters.BackgroundDiscovery, typeof(BackgroundDiscovery.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BackgroundDiscovery, typeof(BackgroundDiscovery.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.BackgroundDiscovery, typeof(BackgroundDiscovery.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.BackgroundDiscovery, typeof(BackgroundDiscovery.SetReply));
+
+            //EndpointTiming
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointTiming, typeof(EndpointTiming.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointTiming, typeof(EndpointTiming.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointTiming, typeof(EndpointTiming.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointTiming, typeof(EndpointTiming.SetReply));
+
+            //EndpointTimingDescription
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointTimingDescription, typeof(EndpointTimingDescription.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointTimingDescription, typeof(EndpointTimingDescription.GetReply));
+
+            //EndpointDeviceListChange
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointDeviceListChange, typeof(EndpointDeviceListChange.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointDeviceListChange, typeof(EndpointDeviceListChange.Reply));
+
+            //Endpoint Devices
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointDevices, typeof(EndpointDevices.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointDevices, typeof(EndpointDevices.Reply));
+
+            //BindingControlFields
+            //TcpCommsStatus
+            //BackgroundQueuedStatusPolicy
+            //BackgroundQueuedStatusPolicyDescription
+            //BackgroundStatusType
+            //QueuedStatusEndpointCollection
+            //QueuedStatusUIDCollection
         }
 
         private static void RegisterProductMessages()

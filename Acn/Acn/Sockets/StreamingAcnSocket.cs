@@ -14,7 +14,7 @@ namespace Acn.Sockets
 {
     public class StreamingAcnSocket:AcnSocket, IProtocolFilter
     {
-        public event EventHandler<NewPacketEventArgs<DmxPacket>> NewPacket;
+        public event EventHandler<NewPacketEventArgs<StreamingAcnDmxPacket>> NewPacket;
 
         #region Setup and Initialisation
 
@@ -115,7 +115,7 @@ namespace Acn.Sockets
         {
             IncrementSequenceNumber(universe);
 
-            DmxPacket packet = new DmxPacket();
+            StreamingAcnDmxPacket packet = new StreamingAcnDmxPacket();
             packet.Framing.SourceName = SourceName;
             packet.Framing.Universe = (short) universe;
             packet.Framing.Priority = priority;
@@ -125,10 +125,10 @@ namespace Acn.Sockets
             SendPacket(packet, GetUniverseAddress(universe));
         }
 
-        protected virtual void RaiseNewPacket(IPEndPoint source, DmxPacket newPacket)
+        protected virtual void RaiseNewPacket(IPEndPoint source, StreamingAcnDmxPacket newPacket)
         {
             if(NewPacket != null)
-                NewPacket(this, new NewPacketEventArgs<DmxPacket>(source, newPacket));
+                NewPacket(this, new NewPacketEventArgs<StreamingAcnDmxPacket>(source, newPacket));
         }
 
         #endregion
@@ -142,7 +142,7 @@ namespace Acn.Sockets
 
         public void ProcessPacket(IPEndPoint source, AcnRootLayer header, AcnBinaryReader data)
         {
-            DmxPacket newPacket = AcnPacket.ReadPacket(header, data) as DmxPacket;
+            StreamingAcnDmxPacket newPacket = AcnPacket.ReadPacket(header, data) as StreamingAcnDmxPacket;
             if (newPacket != null)
             {
                 RaiseNewPacket(source, newPacket);

@@ -5,90 +5,92 @@ using System.Text;
 
 namespace Acn.Rdm.Packets.Net
 {
-    public class PortLabel
+    public class EndpointIdentify
     {
-        public class Get : RdmRequestPacket
+        public class Get:RdmRequestPacket
         {
-            public Get()
-                : base(RdmCommands.Get, RdmParameters.PortLabel)
+            public Get():base(RdmCommands.Get,RdmParameters.EndpointIdentify)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
+                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
+                data.WriteNetwork(EndpointID);
             }
         }
 
         public class GetReply : RdmResponsePacket
         {
             public GetReply()
-                : base(RdmCommands.GetResponse, RdmParameters.PortLabel)
+                : base(RdmCommands.GetResponse, RdmParameters.EndpointIdentify)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
-            public string Label { get; set; }
+            public bool IdentifyOn { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
-                Label = Encoding.ASCII.GetString(data.ReadBytes(Header.ParameterDataLength-2));
+                EndpointID = data.ReadNetwork16();
+                IdentifyOn = data.ReadBoolean();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
-                data.Write(Encoding.ASCII.GetBytes(Label));
+                data.WriteNetwork(EndpointID);
+                data.Write(IdentifyOn);
             }
         }
 
         public class Set : RdmRequestPacket
         {
-            public Set()
-                : base(RdmCommands.Set, RdmParameters.PortLabel)
+            public Set():base(RdmCommands.Set,RdmParameters.EndpointIdentify)
             {
             }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
-            public string Label { get; set; }
+            public bool IdentifyOn { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                PortNumber = data.ReadNetwork16();
-                Label = Encoding.ASCII.GetString(data.ReadBytes(Header.ParameterDataLength - 2));
+                EndpointID = data.ReadNetwork16();
+                IdentifyOn = data.ReadBoolean();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(PortNumber);
-                data.Write(Encoding.ASCII.GetBytes(Label));
+                data.WriteNetwork(EndpointID);
+                data.Write(IdentifyOn);
             }
         }
 
-        public class SetReply : RdmResponsePacket
+        public class SetReply : RdmRequestPacket
         {
             public SetReply()
-                : base(RdmCommands.SetResponse, RdmParameters.PortLabel)
+                : base(RdmCommands.SetResponse, RdmParameters.EndpointIdentify)
             {
             }
 
             protected override void ReadData(RdmBinaryReader data)
             {
+                //Parameter Data Empty
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
+                //Parameter Data Empty
             }
         }
+
+        
     }
 }

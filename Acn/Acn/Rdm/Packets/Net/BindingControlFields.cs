@@ -36,7 +36,7 @@ namespace Acn.Rdm.Packets.Net
 
             public UId Id { get; set; }
 
-            public short PortNumber { get; set; }
+            public short EndpointID { get; set; }
 
             public short ControlFields { get; set; }
 
@@ -45,7 +45,7 @@ namespace Acn.Rdm.Packets.Net
             protected override void ReadData(RdmBinaryReader data)
             {
                 Id = data.ReadUId();
-                PortNumber = data.ReadNetwork16();
+                EndpointID = data.ReadNetwork16();
                 ControlFields = data.ReadNetwork16();
                 BindingId = data.ReadUId();
             }
@@ -53,7 +53,7 @@ namespace Acn.Rdm.Packets.Net
             protected override void WriteData(RdmBinaryWriter data)
             {
                 data.Write(Id);
-                data.Write(PortNumber);
+                data.Write(EndpointID);
                 data.Write(ControlFields);
                 data.Write(BindingId);
             }

@@ -28,7 +28,7 @@ namespace StreamingAcn
         private void Start(CardInfo networkCard, IEnumerable<int> universes)
         {
             socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
-            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.DmxPacket>>(socket_NewPacket);
+            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.StreamingAcnDmxPacket>>(socket_NewPacket);
             socket.Open(networkCard.IpAddress);
 
             foreach (int universe in universes)
@@ -100,9 +100,9 @@ namespace StreamingAcn
 
 
 
-        void socket_NewPacket(object sender, NewPacketEventArgs<Acn.Packets.sAcn.DmxPacket> e)
+        void socket_NewPacket(object sender, NewPacketEventArgs<StreamingAcnDmxPacket> e)
         {
-            DmxPacket dmxPacket = e.Packet as DmxPacket;
+            StreamingAcnDmxPacket dmxPacket = e.Packet as StreamingAcnDmxPacket;
             if (dmxPacket != null)
             {
                 recieveData.DmxData = dmxPacket.Dmx.Data;

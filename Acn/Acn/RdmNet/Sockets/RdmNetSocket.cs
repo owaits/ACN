@@ -34,15 +34,16 @@ using Acn.IO;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using Acn.Sockets;
 
-namespace Acn.Sockets
+namespace Acn.RdmNet.Sockets
 {
-    public class RdmSocket : StreamingAcnSocket, IProtocolFilter, IRdmSocket
+    public class RdmNetSocket : StreamingAcnSocket, IProtocolFilter, IRdmSocket
     {
         public event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
         public event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
 
-        public RdmSocket(UId rdmId, Guid sourceId, string sourceName)
+        public RdmNetSocket(UId rdmId, Guid sourceId, string sourceName)
             : base(sourceId, sourceName)
         {
             RdmSourceId = rdmId;
@@ -62,18 +63,18 @@ namespace Acn.Sockets
             get { return new IPAddress(new byte[] { 239, 255, 250, 0 }); }
         }
 
-        protected void RaiseNewRdmPacket(IPEndPoint source, RdmPacket packet)
+        protected void RaiseNewRdmPacket(RdmEndPoint source, RdmPacket packet)
         {
             if (NewRdmPacket != null)
                 NewRdmPacket(this, new NewPacketEventArgs<RdmPacket>(source, packet));
         }
 
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
         {
             SendRdm(packet, targetAddress, targetId, RdmSourceId);
         }
 
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
             //Fill in addition details
             packet.Header.SourceId = sourceId;
@@ -102,7 +103,8 @@ namespace Acn.Sockets
             //Create sACN Packet
             RdmNetPacket dmxPacket = new RdmNetPacket();
             dmxPacket.Framing.SourceName = SourceName;
-            dmxPacket.Dmx.Data = rdmData.GetBuffer();
+            dmxPacket.Framing.EndpointID = (short) targetAddress.Universe;
+            dmxPacket.RdmNet.RdmData = rdmData.GetBuffer();
 
             SendPacket(dmxPacket, targetAddress.IpAddress);
 
@@ -124,13 +126,13 @@ namespace Acn.Sockets
             RdmNetPacket newPacket = AcnPacket.ReadPacket(header,data) as RdmNetPacket;
             if (newPacket != null)
             {
-                RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(newPacket.Dmx.Data));
+                RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(newPacket.RdmNet.RdmData));
 
                 //Skip Start Code and sub-start code
                 dmxReader.BaseStream.Seek(2, SeekOrigin.Begin);
 
                 RdmPacket rdmPacket = RdmPacket.ReadPacket(dmxReader);
-                RaiseNewRdmPacket(source, rdmPacket);
+                RaiseNewRdmPacket(new RdmEndPoint(source,newPacket.Framing.EndpointID), rdmPacket);
             }
         }
 

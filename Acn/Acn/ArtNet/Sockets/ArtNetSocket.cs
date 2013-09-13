@@ -174,17 +174,17 @@ namespace Acn.ArtNet.Sockets
             SendTo(packet.ToArray(), new IPEndPoint(BroadcastAddress,Port));
         }
 
-        public void Send(ArtNetPacket packet, RdmAddress address)
+        public void Send(ArtNetPacket packet, RdmEndPoint address)
         {
             SendTo(packet.ToArray(), new IPEndPoint(address.IpAddress, Port));
         }
 
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
         {
             SendRdm(packet, targetAddress, targetId, RdmId);
         }
 
-        public void SendRdm(RdmPacket packet, RdmAddress targetAddress, UId targetId, UId sourceId)
+        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
             //Fill in addition details
             packet.Header.SourceId = sourceId;
@@ -216,7 +216,7 @@ namespace Acn.ArtNet.Sockets
                 RdmPacketSent(this, new NewPacketEventArgs<RdmPacket>(new IPEndPoint(targetAddress.IpAddress, Port), packet));
         }
 
-        public void SendRdm(List<RdmPacket> packets, RdmAddress targetAddress, UId targetId)
+        public void SendRdm(List<RdmPacket> packets, RdmEndPoint targetAddress, UId targetId)
         {
             if(packets.Count <1)
                 throw new ArgumentException("Rdm packets list is empty.");

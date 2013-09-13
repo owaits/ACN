@@ -29,7 +29,7 @@ namespace RdmSnoop.Models
             UpdateNodeName();
         }
 
-        public RdmDeviceModel(TreeNode node, IRdmSocket socket, UId id, RdmAddress address)
+        public RdmDeviceModel(TreeNode node, IRdmSocket socket, UId id, RdmEndPoint address)
         {
             CreateHandle();
 

@@ -11,6 +11,7 @@ using System.Net;
 using Acn.Sockets;
 using Acn.Rdm;
 using System.Net.NetworkInformation;
+using Acn.RdmNet.Sockets;
 
 namespace SandboxAcnDevice
 {
@@ -18,7 +19,7 @@ namespace SandboxAcnDevice
     {
         private SlpServiceAgent slpService = new SlpServiceAgent();
         private List<RdmDevice> devices = new List<RdmDevice>();
-        private RdmSocket socket = new RdmSocket(UId.NewUId(0xFF),Guid.NewGuid(), "Sandbox Acn Device");
+        private RdmNetSocket socket = new RdmNetSocket(UId.NewUId(0xFF),Guid.NewGuid(), "Sandbox Acn Device");
 
         public AcnDevice()
         {

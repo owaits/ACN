@@ -7,18 +7,24 @@ using System.Net;
 
 namespace Acn.Sockets
 {
-    public class RdmAddress
+    public class RdmEndPoint:IPEndPoint
     {
-        protected RdmAddress():base()
+        public RdmEndPoint(IPAddress ipAddress)
+            : this(ipAddress, 0,0)
         {
         }
 
-        public RdmAddress(IPAddress ipAddress)
-        {
-            IpAddress = ipAddress;
+        public RdmEndPoint(IPAddress ipAddress, int universe)
+            : this(ipAddress, 0, universe)
+        { 
         }
 
-        public RdmAddress(IPAddress ipAddress, int universe)
+        public RdmEndPoint(IPEndPoint ipEndPoint, int universe)
+            : this(ipEndPoint.Address,ipEndPoint.Port,universe)
+        {
+        }
+
+        public RdmEndPoint(IPAddress ipAddress,int port, int universe):base(ipAddress,port)
         {
             IpAddress = ipAddress;
             Universe = universe;
@@ -30,6 +36,14 @@ namespace Acn.Sockets
         {
             get { return ipAddress; }
             set { ipAddress = value; }
+        }
+
+        private UId id = UId.Empty;
+
+        public UId Id
+        {
+            get { return id; }
+            set { id = value; }
         }
 
         private int universe = 0;
