@@ -11,15 +11,34 @@ namespace Citp.Packets.FInf
     {
         public LiveStatus(byte flagSize)
         {
-            FlagMask = new byte[flagSize];
-            Flags = new byte[flagSize];
+            this.fixtureIdentifier = 0;
+            this.flagMask = new byte[flagSize];
+            this.flags = new byte[flagSize];
         }
 
-        public ushort FixtureIdentifier { get; set; }
+        private ushort fixtureIdentifier;
 
-        public byte[] FlagMask { get; set; }
+        public ushort FixtureIdentifier
+        {
+            get { return fixtureIdentifier; }
+            set { fixtureIdentifier = value; }
+        }
 
-        public byte[] Flags { get; set; }
+        private byte[] flagMask;
+
+        public byte[] FlagMask
+        {
+            get { return flagMask; }
+            set { flagMask = value; }
+        }
+
+        private byte[] flags;
+
+        public byte[] Flags
+        {
+            get { return flags; }
+            set { flags = value; }
+        }
     }
 
     public class FInfLiveStatus : FInfHeader
