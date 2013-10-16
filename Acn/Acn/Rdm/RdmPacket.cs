@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.ComponentModel;
+using Acn.Rdm.Packets.Management;
 
 namespace Acn.Rdm
 {
@@ -130,7 +131,7 @@ namespace Acn.Rdm
 
         public bool IsOverflow()
         {
-            return (RdmResponseTypes) Header.PortOrResponseType == RdmResponseTypes.AckOverflow && (Header.Command == RdmCommands.GetResponse || Header.Command == RdmCommands.GetResponse);
+            return (RdmResponseTypes) Header.PortOrResponseType == RdmResponseTypes.AckOverflow && (Header.Command == RdmCommands.GetResponse || Header.Command == RdmCommands.SetResponse);
         }
 
         #endregion

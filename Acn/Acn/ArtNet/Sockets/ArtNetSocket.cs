@@ -66,6 +66,8 @@ namespace Acn.ArtNet.Sockets
         {
             get
             {
+                if (LocalSubnetMask == null)
+                    return IPAddress.Broadcast;
                 return GetBroadcastAddress(LocalIP, LocalSubnetMask);
             }
         }

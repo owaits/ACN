@@ -39,29 +39,34 @@
             this.levelZero = new System.Windows.Forms.Button();
             this.levelFull = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.networkCardSelect = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.recieveSelect = new System.Windows.Forms.ToolStripButton();
             this.sendSelect = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.networkCardSelect = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.portGrid = new System.Windows.Forms.DataGridView();
             this.dataTabs.SuspendLayout();
             this.recieveTab.SuspendLayout();
             this.sendTab.SuspendLayout();
             this.levelGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelBar)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.portGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // dataTabs
             // 
+            this.dataTabs.Controls.Add(this.tabPage1);
             this.dataTabs.Controls.Add(this.recieveTab);
             this.dataTabs.Controls.Add(this.sendTab);
             this.dataTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataTabs.Location = new System.Drawing.Point(0, 38);
             this.dataTabs.Name = "dataTabs";
             this.dataTabs.SelectedIndex = 0;
-            this.dataTabs.Size = new System.Drawing.Size(565, 343);
+            this.dataTabs.Size = new System.Drawing.Size(747, 396);
             this.dataTabs.TabIndex = 0;
             // 
             // recieveTab
@@ -166,29 +171,9 @@
             this.toolStripTextBox1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(565, 38);
+            this.toolStrip1.Size = new System.Drawing.Size(747, 38);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // networkCardSelect
-            // 
-            this.networkCardSelect.DropDownWidth = 600;
-            this.networkCardSelect.Name = "networkCardSelect";
-            this.networkCardSelect.Size = new System.Drawing.Size(250, 38);
-            this.networkCardSelect.SelectedIndexChanged += new System.EventHandler(this.networkCardSelect_SelectedIndexChanged);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(55, 35);
-            this.toolStripLabel1.Text = "Universe:";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(50, 38);
-            this.toolStripTextBox1.Text = "1";
-            this.toolStripTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox1_KeyDown);
             // 
             // recieveSelect
             // 
@@ -217,11 +202,51 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
             // 
+            // networkCardSelect
+            // 
+            this.networkCardSelect.DropDownWidth = 600;
+            this.networkCardSelect.Name = "networkCardSelect";
+            this.networkCardSelect.Size = new System.Drawing.Size(250, 38);
+            this.networkCardSelect.SelectedIndexChanged += new System.EventHandler(this.networkCardSelect_SelectedIndexChanged);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(55, 35);
+            this.toolStripLabel1.Text = "Universe:";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(50, 38);
+            this.toolStripTextBox1.Text = "1";
+            this.toolStripTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox1_KeyDown);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.portGrid);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(739, 370);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Ports";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // portGrid
+            // 
+            this.portGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.portGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.portGrid.Location = new System.Drawing.Point(3, 3);
+            this.portGrid.Name = "portGrid";
+            this.portGrid.Size = new System.Drawing.Size(733, 364);
+            this.portGrid.TabIndex = 0;
+            // 
             // StreamingAcnSnoop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(565, 381);
+            this.ClientSize = new System.Drawing.Size(747, 434);
             this.Controls.Add(this.dataTabs);
             this.Controls.Add(this.toolStrip1);
             this.Name = "StreamingAcnSnoop";
@@ -235,6 +260,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.levelBar)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.portGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -258,6 +285,8 @@
         private System.Windows.Forms.ToolStripButton recieveSelect;
         private System.Windows.Forms.ToolStripButton sendSelect;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.DataGridView portGrid;
     }
 }
 

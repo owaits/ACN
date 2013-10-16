@@ -40,6 +40,8 @@ namespace Acn.RdmNet.Sockets
 {
     public class RdmNetSocket : StreamingAcnSocket, IProtocolFilter, IRdmSocket
     {
+        public static int RdmNetPort = 5569;
+
         public event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
         public event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
 
@@ -47,7 +49,13 @@ namespace Acn.RdmNet.Sockets
             : base(sourceId, sourceName)
         {
             RdmSourceId = rdmId;
+        }        
+
+        public override int Port
+        {
+            get { return RdmNetPort; }
         }
+
 
         #region Information
 
@@ -106,7 +114,7 @@ namespace Acn.RdmNet.Sockets
             dmxPacket.Framing.EndpointID = (short) targetAddress.Universe;
             dmxPacket.RdmNet.RdmData = rdmData.GetBuffer();
 
-            SendPacket(dmxPacket, targetAddress.IpAddress);
+            SendPacket(dmxPacket, targetAddress);
 
             if (RdmPacketSent != null)
                 RdmPacketSent(this, new NewPacketEventArgs<RdmPacket>(new IPEndPoint(targetAddress.IpAddress, Port), packet));
