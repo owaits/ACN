@@ -73,11 +73,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RdmNet\RdmNetEndPoint.cs" />
     <Compile Include="CardInfo.cs" />
     <Compile Include="ChannelCell.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DmxUniverseData.cs" />
+    <Compile Include="RdmNet\RdmNetEndPointExplorer.cs" />
     <Compile Include="StreamingAcnSnoop.cs">
       <SubType>Form</SubType>
     </Compile>

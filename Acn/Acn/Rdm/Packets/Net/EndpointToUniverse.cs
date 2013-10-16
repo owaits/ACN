@@ -120,6 +120,7 @@ namespace Acn.Rdm.Packets.Net
         {
             public Set():base(RdmCommands.Set,RdmParameters.EndpointToUniverse)
             {
+                EndpointMode = UniverseMode.Standard;
             }
 
             public short EndpointID { get; set; }

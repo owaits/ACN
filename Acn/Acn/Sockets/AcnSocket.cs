@@ -26,7 +26,10 @@ namespace Acn.Sockets
 
         #region Information
 
-        public const int Port = 5568;
+        public virtual int Port
+        {
+            get { return 5568; }
+        }
 
         private Guid senderId = Guid.Empty;
 
@@ -68,8 +71,11 @@ namespace Acn.Sockets
 
         public void Open(IPAddress adapterIP)
         {
-            IPEndPoint localEndPoint = new IPEndPoint(adapterIP, Port);
+            Open(new IPEndPoint(adapterIP, Port));
+        }
 
+        public void Open(IPEndPoint localEndPoint)
+        {           
             SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             Bind(localEndPoint);
 
@@ -151,6 +157,11 @@ namespace Acn.Sockets
 
         public void SendPacket(AcnPacket packet, IPAddress destination)
         {
+            SendPacket(packet, new IPEndPoint(destination, Port));
+        }
+
+        public void SendPacket(AcnPacket packet, IPEndPoint destination)
+        {
             //Set the senders CID.
             packet.Root.SenderId = SenderId;
 
@@ -159,7 +170,7 @@ namespace Acn.Sockets
 
             AcnPacket.WritePacket(packet, writer);
 
-            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, new IPEndPoint(destination, Port), null, null);
+            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, destination, null, null);
         }
 
         protected void RaiseUnhandledException(Exception ex)

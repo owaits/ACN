@@ -46,11 +46,11 @@ namespace RdmSnoop.Transports
             {
                 acnSocket = new RdmNetSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
                 acnSocket.NewRdmPacket += acnSocket_NewRdmPacket;
-                acnSocket.Open(LocalAdapter);
+                acnSocket.Open(new IPEndPoint(LocalAdapter,0));
             }
 
             slpUser.Open();
-            slpUser.Find("service:e133.esta");
+            slpUser.Find("service:rdmnet-device");
         }
 
         void acnSocket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
@@ -67,7 +67,7 @@ namespace RdmSnoop.Transports
             {
                 foreach (UrlEntry url in e.Urls)
                 {
-                    RdmEndPoint controlEndpoint = new RdmEndPoint(e.Address.Address, 0) { Id = UId.ParseUrl(url.Url) };
+                    RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(e.Address.Address, RdmNetSocket.RdmNetPort),0) { Id = UId.ParseUrl(url.Url) };
                     ControlEndpoints.Add(controlEndpoint);
                     DiscoverEndpoints(controlEndpoint);
                 }
@@ -180,19 +180,5 @@ namespace RdmSnoop.Transports
 
         #endregion
 
-    }
-
-    public class RdmEndpointComparer:IEqualityComparer<RdmEndPoint>
-    {
-
-        public bool Equals(RdmEndPoint x, RdmEndPoint y)
-        {
-            return x.Id.Equals(y.Id) && x.Universe.Equals(y.Universe);
-        }
-
-        public int GetHashCode(RdmEndPoint obj)
-        {
-            return obj.Id.GetHashCode();
-        }
     }
 }

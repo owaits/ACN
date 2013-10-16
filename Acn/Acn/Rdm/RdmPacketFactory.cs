@@ -411,6 +411,8 @@ namespace Acn.Rdm
             {
                 switch ((RdmResponseTypes)header.PortOrResponseType)
                 {
+                    case RdmResponseTypes.AckTimer:
+                        return RdmPacket.Create(header, typeof(RdmAckTimer));
                     case RdmResponseTypes.NackReason:
                         return RdmPacket.Create(header, typeof(RdmNack));
                 }

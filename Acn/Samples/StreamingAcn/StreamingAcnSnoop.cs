@@ -14,6 +14,8 @@ using System.Net.NetworkInformation;
 using System.Collections.ObjectModel;
 using Acn;
 using Acn.Helpers;
+using StreamingAcn.RdmNet;
+using Acn.Rdm.Packets.Net;
 
 namespace StreamingAcn
 {
@@ -22,6 +24,8 @@ namespace StreamingAcn
         private StreamingAcnSocket socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
         private DmxStreamer dmxOutput;
         private DmxUniverseData recieveData = new DmxUniverseData();
+
+        private RdmNetEndPointExplorer acnPortExplorer;
 
         #region Setup and Initialisation
 
@@ -36,10 +40,22 @@ namespace StreamingAcn
 
             dmxOutput = new DmxStreamer(socket);
             dmxOutput.AddUniverse(sendData.Universe);
+
+            acnPortExplorer = new RdmNetEndPointExplorer();
+            acnPortExplorer.LocalAdapter = networkCard.IpAddress;
+            acnPortExplorer.NewEndpointFound += acnPortExplorer_NewEndpointFound;
+            acnPortExplorer.Start();
+
         }
 
         private void Stop()
         {
+            if (acnPortExplorer != null)
+            {
+                acnPortExplorer.Stop();
+                acnPortExplorer = null;
+            }
+
             if (dmxOutput != null)
             {
                 dmxOutput.Dispose();
@@ -58,6 +74,7 @@ namespace StreamingAcn
         public StreamingAcnSnoop()
         {
             InitializeComponent();
+            SetupGrid();
 
             for (int n = 1; n <= 512; n++)
             {
@@ -97,7 +114,100 @@ namespace StreamingAcn
              Start(firstCard,((IEnumerable<int>) new int[] {int.Parse(toolStripTextBox1.Text)}));
         }
 
+        private void SetupGrid()
+        {
+            DataGridViewTextBoxColumn column;
+            portGrid.AutoGenerateColumns = false;
+            portGrid.CellClick += portGrid_CellClick;
+            portGrid.CellFormatting += portGrid_CellFormatting;
 
+            portGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Device",
+                DataPropertyName = "ManufacturerLabel",
+                HeaderText = "Device"
+            });
+
+            portGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Label",
+                DataPropertyName = "DeviceLabel",
+                HeaderText = "Label"
+            });
+
+
+            column = new DataGridViewTextBoxColumn();
+            column.Name = "PortLabel";
+            column.DataPropertyName = "PortLabel";
+            column.HeaderText = "Port Label";
+            portGrid.Columns.Add(column);
+
+
+            portGrid.Columns.Add(new DataGridViewComboBoxColumn()
+            {
+                Name = "Direction",
+                DataPropertyName = "Direction",
+                HeaderText = "Direction",
+                ValueType = typeof(EndpointMode.EndpointModes),
+                DataSource = Enum.GetValues(typeof(EndpointMode.EndpointModes))
+            });
+
+            column = new DataGridViewTextBoxColumn();
+            column.Name = "AcnUniverse";
+            column.DataPropertyName = "AcnUniverse";
+            column.HeaderText = "Universe";
+            portGrid.Columns.Add(column);
+
+            portGrid.Columns.Add(new DataGridViewButtonColumn()
+            {
+                Name = "Patched",
+                HeaderText = "Patched",
+                DataPropertyName = "Patched",
+                Width = 60
+            });
+
+            portGrid.Columns.Add(new DataGridViewButtonColumn()
+            {
+                Name = "Identify",
+                HeaderText = "Identify",
+                DataPropertyName = "Identify",
+                Width = 60
+            });
+        }
+
+        void portGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+            
+            RdmNetEndPoint endpoint = portGrid.Rows[e.RowIndex].DataBoundItem as RdmNetEndPoint;
+            if (endpoint != null)
+            {
+                if (e.ColumnIndex == portGrid.Columns["Identify"].Index)
+                    e.Value = endpoint.Identify ? "On" : "Off";
+            }
+        }
+
+        void portGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+
+            RdmNetEndPoint endpoint = portGrid.Rows[e.RowIndex].DataBoundItem as RdmNetEndPoint;
+            if (endpoint != null)
+            {
+                if (e.ColumnIndex == portGrid.Columns["Patched"].Index)
+                {
+                    if (endpoint.AcnUniverse == 0)
+                        endpoint.AcnUniverse = endpoint.Universe;
+                    else
+                        endpoint.AcnUniverse = 0;
+                }                    
+
+                if (e.ColumnIndex == portGrid.Columns["Identify"].Index)
+                    endpoint.Identify = !endpoint.Identify;
+            }
+
+        }
 
 
         void socket_NewPacket(object sender, NewPacketEventArgs<StreamingAcnDmxPacket> e)
@@ -257,6 +367,28 @@ namespace StreamingAcn
             dataTabs.SelectedTab = recieveTab;
             dmxOutput.Stop();
         }
+
+        #region RDMNet Ports
+
+        private BindingList<RdmNetEndPoint> ports = new BindingList<RdmNetEndPoint>();
+
+        void acnPortExplorer_NewEndpointFound(object sender, EventArgs e)
+        {
+            BeginInvoke(new UpdatePortsHandler(UpdatePorts));
+        }
+
+        private delegate void UpdatePortsHandler();
+
+        private void UpdatePorts()
+        {
+            ports.Clear();
+            foreach(RdmNetEndPoint port in acnPortExplorer.DiscoveredEndpoints)
+                ports.Add(port);
+
+            portGrid.DataSource = ports;
+        }
+
+        #endregion
 
     }
 }

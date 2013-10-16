@@ -19,6 +19,11 @@ namespace Acn.Sockets
         { 
         }
 
+        public RdmEndPoint(IPEndPoint ipEndPoint)
+            : this(ipEndPoint.Address, ipEndPoint.Port, 0)
+        {
+        }
+
         public RdmEndPoint(IPEndPoint ipEndPoint, int universe)
             : this(ipEndPoint.Address,ipEndPoint.Port,universe)
         {
@@ -57,6 +62,20 @@ namespace Acn.Sockets
         public override string ToString()
         {
             return IpAddress.ToString();
+        }
+    }
+
+    public class RdmEndpointComparer : IEqualityComparer<RdmEndPoint>
+    {
+
+        public bool Equals(RdmEndPoint x, RdmEndPoint y)
+        {
+            return x.Id.Equals(y.Id) && x.Universe.Equals(y.Universe);
+        }
+
+        public int GetHashCode(RdmEndPoint obj)
+        {
+            return obj.Id.GetHashCode();
         }
     }
 }
