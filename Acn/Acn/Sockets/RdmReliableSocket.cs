@@ -72,7 +72,7 @@ namespace Acn.Sockets
             get { return socket; }
         }
 
-        private TimeSpan retryInterval = new TimeSpan(0, 0, 0,1);
+        private TimeSpan retryInterval = new TimeSpan(0, 0, 0,20);
 
         public TimeSpan RetryInterval
         {
@@ -232,7 +232,7 @@ namespace Acn.Sockets
                 foreach (Transaction transaction in transactionQueue.Values)
                 {
                     //Only process this transaction if it has exceeded the retry interval.
-                    if(transaction.LastAttempt == DateTime.MinValue && timeStamp.Subtract(transaction.LastAttempt) > RetryInterval)
+                    if(transaction.LastAttempt == DateTime.MinValue || timeStamp.Subtract(transaction.LastAttempt) > RetryInterval)
                     {
                         //We only send one packet per retry to each unique DMX port.
                         //The retryTransactions hash set is used to ensure only one transaction is sent to each port. The rest have to wait.
