@@ -78,6 +78,11 @@ namespace Acn.Sockets
             return new IPAddress(group);
         }
 
+        public static IPEndPoint GetUniverseEndPoint(int universe)
+        {
+            return new IPEndPoint(GetUniverseAddress(universe), 5568);
+        }
+
         #endregion
 
         #region Traffic
@@ -122,7 +127,7 @@ namespace Acn.Sockets
             packet.Framing.SequenceNumber = (byte) GetSequenceNumber(universe);
             packet.Dmx.Data = dmxData;            
 
-            SendPacket(packet, GetUniverseAddress(universe));
+            SendPacket(packet, GetUniverseEndPoint(universe));
         }
 
         protected virtual void RaiseNewPacket(IPEndPoint source, StreamingAcnDmxPacket newPacket)
