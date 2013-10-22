@@ -57,6 +57,8 @@
     <Compile Include="Packets\CaEx\CaExNack.cs" />
     <Compile Include="Packets\CaEx\CaExRecordCue.cs" />
     <Compile Include="Packets\CaEx\CaExSetCueRecordingCapabilities.cs" />
+    <Compile Include="Packets\CaEx\CaExSetRecorderClearingCapabilities.cs" />
+    <Compile Include="Packets\CaEx\CaExClearRecorder.cs" />
     <Compile Include="Packets\CitpHeader.cs" />
     <Compile Include="Packets\CitpPacket.cs" />
     <Compile Include="Packets\CitpPacketBuilder.cs" />

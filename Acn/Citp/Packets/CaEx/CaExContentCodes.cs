@@ -14,6 +14,8 @@ namespace Citp.Packets.CaEx
         GetLiveViewImage = 0x200,
         LiveViewImage = 0x201,
         SetCueRecordingCapabilities = 0x10100,
-        RecordCue = 0x10200
+        RecordCue = 0x10200,
+        SetRecorderClearingCapabilities = 0x10300,
+        ClearRecorder = 0x10400
     }
 }
