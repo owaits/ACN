@@ -12,7 +12,7 @@ namespace Citp.Sockets
     {
         private CitpBinaryReader reader = null;
 
-        public int ReadNibble = 500;
+        public int ReadNibble = 64000;
         public int ReadPosition = 0;
 
         public CitpRecieveData()

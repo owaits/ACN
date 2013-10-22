@@ -252,6 +252,12 @@ namespace Citp.Packets
                 case CaExContentCodes.RecordCue:
                     packet = new CaExRecordCue();
                     break;
+                case CaExContentCodes.SetRecorderClearingCapabilities:
+                    packet = new CaExSetRecorderClearingCapabilities();
+                    break;
+                case CaExContentCodes.ClearRecorder:
+                    packet = new CaExClearRecorder();
+                    break;
                 default:
                     return null;
             }
