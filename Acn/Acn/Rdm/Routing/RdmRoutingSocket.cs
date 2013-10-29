@@ -18,11 +18,13 @@ namespace Acn.Rdm.Routing
         public void Bind(IRdmSocket socket)
         {
             socket.NewRdmPacket += Socket_NewRdmPacket;
+            socket.RdmPacketSent += socket_RdmPacketSent;
         }
 
         public void UnBind(IRdmSocket socket)
         {
             socket.NewRdmPacket -= Socket_NewRdmPacket;
+            socket.RdmPacketSent -= socket_RdmPacketSent;
         }
 
         private void Socket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
@@ -33,6 +35,11 @@ namespace Acn.Rdm.Routing
         protected void ProcessPacket(NewPacketEventArgs<RdmPacket> e)
         {
             RaiseNewRdmPacket(e);
+        }
+
+        void socket_RdmPacketSent(object sender, NewPacketEventArgs<RdmPacket> e)
+        {
+            RaiseRdmPacketSent(e);
         }
 
         #region IRdmSocket
