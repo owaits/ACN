@@ -117,7 +117,7 @@ namespace Acn.RdmNet.Sockets
             SendPacket(dmxPacket, targetAddress);
 
             if (RdmPacketSent != null)
-                RdmPacketSent(this, new NewPacketEventArgs<RdmPacket>(new IPEndPoint(targetAddress.IpAddress, Port), packet));
+                RdmPacketSent(this, new NewPacketEventArgs<RdmPacket>(targetAddress, packet));
         }
 
 

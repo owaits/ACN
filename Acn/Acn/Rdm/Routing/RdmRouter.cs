@@ -89,13 +89,13 @@ namespace Acn.Rdm.Routing
         public void RegisterTransport(RdmRouteBinding routeDescription)
         {
             if (running)
-                new InvalidOperationException("The router is already running. You can not register a transport while the router is running. You must Stop it first.");
+                throw new InvalidOperationException("The router is already running. You can not register a transport while the router is running. You must Stop it first.");
 
             if (transports.ContainsKey(routeDescription.Priority))
-                new InvalidOperationException("A transport with the priority {0} already exists. Each transport must have a unique priority.");
+                throw new InvalidOperationException("A transport with the priority {0} already exists. Each transport must have a unique priority.");
 
             if (transports.Values.Any <RdmRouteBinding>(item => item.Transport == routeDescription.Transport))
-                new InvalidOperationException("This transport has already been registered. You may only register a transport once.");
+                throw new InvalidOperationException("This transport has already been registered. You may only register a transport once.");
 
             routeDescription.Transport.NewDeviceFound += new EventHandler<DeviceFoundEventArgs>(Transport_NewDeviceFound);
 

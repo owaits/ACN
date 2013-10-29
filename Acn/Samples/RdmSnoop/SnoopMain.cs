@@ -457,7 +457,7 @@ namespace RdmSnoop
             RdmRouter newRouter = new RdmRouter();
 
             int priority = 0;
-            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+                        foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (adapter.SupportsMulticast)
                 {
@@ -470,13 +470,17 @@ namespace RdmSnoop
                             CardInfo card = new CardInfo(adapter, n);
                             if (card.SubnetMask != null)
                             {
-                                ArtNet transport = new ArtNet();
-                                transport.LocalAdapter = card.IpAddress;
-                                transport.SubnetMask = card.SubnetMask;
+                                RdmNet rdmNetTransport = new RdmNet();
+                                rdmNetTransport.LocalAdapter = card.IpAddress;
+                                rdmNetTransport.SubnetMask = card.SubnetMask;
+                                newRouter.RegisterTransport(rdmNetTransport, "RdmNet: " + card.ToString(), string.Empty, priority);
+                                priority++; 
 
-                                newRouter.RegisterTransport(transport, "ArtNet: " + card.ToString(), string.Empty, priority);
-
-                                priority++;
+                                ArtNet artNettransport = new ArtNet();
+                                artNettransport.LocalAdapter = card.IpAddress;
+                                artNettransport.SubnetMask = card.SubnetMask;
+                                newRouter.RegisterTransport(artNettransport, "ArtNet: " + card.ToString(), string.Empty, priority);
+                                priority++;                                                                   
                             }
                         }
                     }

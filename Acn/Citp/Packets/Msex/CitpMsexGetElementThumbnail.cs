@@ -7,6 +7,11 @@ using Citp.IO;
 
 namespace Citp.Packets.Msex
 {
+    public enum ThumbnailOptions
+    {
+        None = 0,
+        PreserveAspectRatio = 1
+    }
     public class CitpMsexGetElementThumbnail:CitpMsexHeader
     {
         public const string PacketType = "GETh";
@@ -33,7 +38,7 @@ namespace Citp.Packets.Msex
 
         public UInt16 ThumbnailHeight { get; set; }
 
-        public byte ThumbnailFlags { get; set; }
+        public ThumbnailOptions ThumbnailFlags { get; set; }
 
         public MsexElementType LibraryType { get; set; }
 
@@ -68,7 +73,7 @@ namespace Citp.Packets.Msex
             ThmbnailFormat = data.ReadCookie();
             ThumbnailWidth = data.ReadUInt16();
             ThumbnailHeight = data.ReadUInt16();
-            ThumbnailFlags = data.ReadByte();
+            ThumbnailFlags = (ThumbnailOptions) data.ReadByte();
             LibraryType = (MsexElementType) data.ReadByte();
 
             if (MsexVersion < 1.1)
@@ -88,7 +93,7 @@ namespace Citp.Packets.Msex
             data.WriteCookie(ThmbnailFormat);
             data.Write(ThumbnailWidth);
             data.Write(ThumbnailHeight);
-            data.Write(ThumbnailFlags);
+            data.Write((byte) ThumbnailFlags);
             data.Write((byte)LibraryType);
 
             if (MsexVersion < 1.1)
