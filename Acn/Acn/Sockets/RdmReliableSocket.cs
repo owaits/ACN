@@ -23,9 +23,10 @@ namespace Acn.Sockets
 
         private class Transaction
         {
-            public Transaction(int number, RdmPacket packet, RdmEndPoint address, UId id)
+            public Transaction(int transactionId, RdmPacket packet, RdmEndPoint address, UId id)
             {
-                Number = number;
+                Id = transactionId;
+                TransactionNumber = (byte) (transactionId % 255);
                 Packet = packet;
                 TargetAddress = address;
                 TargetId = id;
@@ -33,7 +34,8 @@ namespace Acn.Sockets
                 LastAttempt = DateTime.MinValue;
             }
 
-            public int Number;
+            public int Id;
+            public byte TransactionNumber;
             public RdmPacket Packet;
             public RdmEndPoint TargetAddress;
             public UId TargetId;
@@ -88,7 +90,7 @@ namespace Acn.Sockets
             set { transmitInterval = value; }
         }
 
-        private int retryAttempts = 6;
+        private int retryAttempts = 3;
 
         public int RetryAttempts
         {
@@ -110,7 +112,10 @@ namespace Acn.Sockets
             {
                 do
                 {
-                    TransactionNumber++;
+                    if (TransactionNumber == int.MaxValue)
+                        TransactionNumber = 1;
+                    else
+                        TransactionNumber++;
                 }
                 while (transactionQueue.ContainsKey(TransactionNumber));
 
@@ -199,9 +204,10 @@ namespace Acn.Sockets
             {
                 if (packet.Header.Command == RdmCommands.Get || packet.Header.Command == RdmCommands.Set)
                 {
-                    int number = AllocateTransactionNumber();
-                    transactionQueue.Add(number, new Transaction(number,packet, address, id));
-                    packet.Header.TransactionNumber = (byte) (number % 255);
+                    int transactionId = AllocateTransactionNumber();
+                    Transaction transaction = new Transaction(transactionId, packet, address, id);
+                    transactionQueue.Add(transactionId, transaction);
+                    packet.Header.TransactionNumber = transaction.TransactionNumber;
 
                     if (transactionQueue.Count == 1)
                         retryTimer.Change(TransmitInterval, TimeSpan.Zero);
@@ -222,7 +228,7 @@ namespace Acn.Sockets
         private void Retry(object state)
         {
             DateTime timeStamp = DateTime.Now;
-            List<int> failedTransactions = new List<int>();
+            List<Transaction> failedTransactions = new List<Transaction>();
             HashSet<Transaction> retryTransactions = new HashSet<Transaction>(new TransactionUniverseComparer());
             int droppedPackets = 0;
 
@@ -237,7 +243,7 @@ namespace Acn.Sockets
                         //We only send one packet per retry to each unique DMX port.
                         //The retryTransactions hash set is used to ensure only one transaction is sent to each port. The rest have to wait.
                         if (transaction.Attempts > RetryAttempts)
-                            failedTransactions.Add(transaction.Number);
+                            failedTransactions.Add(transaction);
                         else if(!retryTransactions.Contains(transaction))
                         {
                             //If we have already tried to send this transaction then increment the dropped packet count.
@@ -253,8 +259,8 @@ namespace Acn.Sockets
                 }
 
                 //Remove all transactions that have perminantly failed.
-                foreach (byte transactionId in failedTransactions)
-                    transactionQueue.Remove(transactionId);
+                foreach (Transaction transaction in failedTransactions)
+                    transactionQueue.Remove(transaction.Id);
             }
 
             PacketsDropped += droppedPackets + failedTransactions.Count;
@@ -287,7 +293,9 @@ namespace Acn.Sockets
                 {
                     lock (transactionQueue)
                     {
-                        transactionQueue.Remove(e.Packet.Header.TransactionNumber);
+                        Transaction transaction = transactionQueue.Values.FirstOrDefault(item => item.TransactionNumber == e.Packet.Header.TransactionNumber);
+                        if(transaction != null)
+                            transactionQueue.Remove(transaction.Id);
 
                         if (transactionQueue.Count == 0)
                             retryTimer.Change(Timeout.Infinite, Timeout.Infinite);

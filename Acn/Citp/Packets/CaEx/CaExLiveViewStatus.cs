@@ -53,12 +53,12 @@ namespace Citp.Packets.CaEx
             Availability = (LiveViewAvailability)data.ReadByte();
             Width = data.ReadUInt16();
             Height = data.ReadUInt16();
-            CameraPositionX = data.ReadByte();
-            CameraPositionY = data.ReadByte();
-            CameraPositionZ = data.ReadByte();
-            CameraFocusX = data.ReadByte();
-            CameraFocusY = data.ReadByte();
-            CameraFocusZ = data.ReadByte();
+            CameraPositionX = data.ReadSingle();
+            CameraPositionY = data.ReadSingle();
+            CameraPositionZ = data.ReadSingle();
+            CameraFocusX = data.ReadSingle();
+            CameraFocusY = data.ReadSingle();
+            CameraFocusZ = data.ReadSingle();
         }
 
         public override void WriteData(CitpBinaryWriter data)

@@ -103,4 +103,12 @@ namespace Acn.Rdm
         QueuedStatusEndpointCollection = 0x7FD3,
         QueuedStatusUIDCollection = 0x7FD4
     }
+
+    public static class RdmParametersExtensions
+    {
+        public static bool IsManufacturerPID(this RdmParameters pid)
+        {
+            return (int) pid >= 0x8000 && (int) pid <= 0xFFDF;
+        }
+    }
 }

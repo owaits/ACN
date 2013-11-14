@@ -319,7 +319,7 @@ namespace RdmNetworkMonitor
 
         #region Parameters
 
-        private Dictionary<short, ParameterDescription.GetReply> parameters = new Dictionary<short, ParameterDescription.GetReply>();
+        private Dictionary<RdmParameters, ParameterDescription.GetReply> parameters = new Dictionary<RdmParameters, ParameterDescription.GetReply>();
 
         public List<ParameterDescription.GetReply> Parameters
         {
@@ -601,7 +601,7 @@ namespace RdmNetworkMonitor
             SupportedParameters.GetReply response = packet as SupportedParameters.GetReply;
             if (response != null)
             {
-                foreach (short pid in response.ParameterIds)
+                foreach (RdmParameters pid in response.ParameterIds.Where(item => item.IsManufacturerPID()))
                 {
                     ParameterDescription.Get descriptionPacket = new ParameterDescription.Get();
                     descriptionPacket.ParameterId = pid;
