@@ -387,7 +387,7 @@ namespace Acn.Rdm
 
         public static bool IsErrorResponse(RdmHeader header)
         {
-            if (IsResponse(header))
+            if (!IsResponse(header))
                 return false;
 
             switch ((RdmResponseTypes)header.PortOrResponseType)

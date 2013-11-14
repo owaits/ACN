@@ -48,7 +48,7 @@ namespace RdmSnoop
 
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
             {
-                if (adapter.SupportsMulticast)
+                if (adapter.SupportsMulticast && adapter.OperationalStatus == OperationalStatus.Up)
                 {
                     IPInterfaceProperties ipProperties = adapter.GetIPProperties();
 

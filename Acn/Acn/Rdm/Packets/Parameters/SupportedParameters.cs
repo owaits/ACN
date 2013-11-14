@@ -48,7 +48,7 @@ namespace Acn.Rdm.Packets.Parameters
             {
                 for (int n = 0; n < base.Header.ParameterDataLength / 2; n++)
                 {
-                    ParameterIds.Add((RdmParameters) data.ReadNetwork16());
+                    ParameterIds.Add((RdmParameters) ((ushort) data.ReadNetwork16()));
                 }
             }
 

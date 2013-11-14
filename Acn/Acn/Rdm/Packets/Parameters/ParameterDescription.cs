@@ -19,16 +19,16 @@ namespace Acn.Rdm.Packets.Parameters
             {
             }
 
-            public short ParameterId { get; set; }
+            public RdmParameters ParameterId { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                ParameterId = data.ReadNetwork16();
+                ParameterId = (RdmParameters) ((ushort) data.ReadNetwork16());
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(ParameterId);
+                data.WriteNetwork((ushort) ParameterId);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Acn.Rdm.Packets.Parameters
             /// <summary>
             /// The manufacturer specific PID requested by the controller. Range 0x8000 to 0xFFDF.
             /// </summary>
-            public short ParameterId { get; set; }
+            public RdmParameters ParameterId { get; set; }
 
             /// <summary>
             /// PDL Size defines the number used for the PDL field in all GET_RESPONSE and SET messages
@@ -117,12 +117,33 @@ namespace Acn.Rdm.Packets.Parameters
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                ParameterId = data.ReadNetwork16();
+                ParameterId = (RdmParameters) ((ushort) data.ReadNetwork16());
+                PDLSize = data.ReadByte();
+                DataType = data.ReadByte();
+                CommandClass = data.ReadByte();
+                Type = data.ReadByte();
+                Unit = data.ReadByte();
+                Prefix = data.ReadByte();
+                MinValidValue = data.ReadNetwork32();
+                MaxValidValue = data.ReadNetwork32();
+                DefaultValue = data.ReadNetwork32();
+                Description = data.ReadNetworkString(Header.ParameterDataLength - 20);
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(ParameterId);
+                data.WriteNetwork((ushort) ParameterId);
+                data.Write(PDLSize);
+                data.Write(DataType);
+                data.Write(CommandClass);
+                data.Write(Type);
+                data.Write(Unit);
+                data.Write(Prefix);
+                data.WriteNetwork(MinValidValue);
+                data.WriteNetwork(MaxValidValue);
+                data.WriteNetwork(DefaultValue);
+                data.Write(Encoding.ASCII.GetBytes(Description));
+;
             }
         }
     }
