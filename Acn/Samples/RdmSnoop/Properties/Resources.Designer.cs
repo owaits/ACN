@@ -143,6 +143,16 @@ namespace RdmSnoop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap hyperlink {
+            get {
+                object obj = ResourceManager.GetObject("hyperlink", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap OrgChartHS {
             get {
                 object obj = ResourceManager.GetObject("OrgChartHS", resourceCulture);

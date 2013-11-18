@@ -239,6 +239,7 @@
     <Compile Include="Rdm\Packets\Product\DeviceModelDescription.cs" />
     <Compile Include="Rdm\Packets\Product\ProductDetailIdList.cs" />
     <Compile Include="Rdm\Packets\Product\DeviceInfo.cs" />
+    <Compile Include="Rdm\Packets\RdmRawPacket.cs" />
     <Compile Include="Rdm\Packets\Sensors\RecordSensor.cs" />
     <Compile Include="Rdm\Packets\Sensors\SensorValue.cs" />
     <Compile Include="Rdm\Packets\Sensors\SensorDefinition.cs" />

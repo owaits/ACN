@@ -18,6 +18,7 @@ using Acn.Rdm.Packets.Configuration;
 using Acn.Rdm.Packets.Power;
 using RdmSnoop;
 using Acn.Rdm.Packets.Parameters;
+using RdmSnoop.Brokers;
 
 namespace RdmNetworkMonitor
 {
@@ -319,11 +320,11 @@ namespace RdmNetworkMonitor
 
         #region Parameters
 
-        private Dictionary<RdmParameters, ParameterDescription.GetReply> parameters = new Dictionary<RdmParameters, ParameterDescription.GetReply>();
+        private Dictionary<RdmParameters, ParameterInformation> parameters = new Dictionary<RdmParameters, ParameterInformation>();
 
-        public List<ParameterDescription.GetReply> Parameters
+        public List<ParameterInformation> Parameters
         {
-            get { return new List<ParameterDescription.GetReply> (parameters.Values); }
+            get { return new List<ParameterInformation>(parameters.Values); }
         }
 
         #endregion
@@ -618,7 +619,7 @@ namespace RdmNetworkMonitor
             ParameterDescription.GetReply response = packet as ParameterDescription.GetReply;
             if (response != null)
             {
-                parameters[response.ParameterId] = response;
+                parameters[response.ParameterId] = new ParameterInformation(response);
             }
 
             return null;

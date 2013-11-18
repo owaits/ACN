@@ -17,6 +17,7 @@ using Acn.Sockets;
 using RdmNetworkMonitor;
 using RdmSnoop.Tools;
 using Acn.Rdm.Routing;
+using Acn.Rdm.Packets;
 
 namespace RdmSnoop
 {
@@ -519,6 +520,28 @@ namespace RdmSnoop
         private void rdmDiscoverSelect_Click(object sender, EventArgs e)
         {
             Transport.Discover(DiscoveryType.DeviceDiscovery);
+        }
+
+        private RdmRawPacket customMessage = null;
+
+        private void sendTool_Click(object sender, EventArgs e)
+        {
+            UserMessage message = new UserMessage();
+            if (customMessage != null)
+            {
+                message.Command = customMessage.Header.Command;
+                message.ParameterID = customMessage.Header.ParameterId;
+                message.Data = customMessage.Data;
+            }
+
+            if (message.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                customMessage = message.Message;
+                if (customMessage == null)
+                    MessageBox.Show("Invalid message format!");
+                else
+                    Transport.Socket.SendRdm(message.Message, SelectedDevice.Address, SelectedDevice.Id);
+            }
         }
 
 

@@ -19,6 +19,11 @@ namespace Acn.Rdm
             return (short)IPAddress.NetworkToHostOrder(ReadInt16());
         }
 
+        public ushort ReadNetworkU16()
+        {
+            return (ushort)ReadNetwork16();
+        }
+
         public int ReadNetwork32()
         {
             return (int)IPAddress.NetworkToHostOrder(ReadInt32());
