@@ -66,6 +66,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.transactionsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sendTool = new System.Windows.Forms.ToolStripButton();
             this.tools.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -213,7 +214,8 @@
             this.addressTool,
             this.modeTool,
             this.toolStripDropDownButton2,
-            this.toolStripDropDownButton3});
+            this.toolStripDropDownButton3,
+            this.sendTool});
             this.deviceToolbox.Location = new System.Drawing.Point(0, 0);
             this.deviceToolbox.Name = "deviceToolbox";
             this.deviceToolbox.Size = new System.Drawing.Size(651, 38);
@@ -248,7 +250,7 @@
             // 
             // addressTool
             // 
-            this.addressTool.Image = global::RdmSnoop.Properties.Resources._1446_envelope_stamp_clsd_48;
+            this.addressTool.Image = global::RdmSnoop.Properties.Resources.hyperlink;
             this.addressTool.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addressTool.Name = "addressTool";
             this.addressTool.Size = new System.Drawing.Size(53, 35);
@@ -309,28 +311,28 @@
             // powerOffTool
             // 
             this.powerOffTool.Name = "powerOffTool";
-            this.powerOffTool.Size = new System.Drawing.Size(128, 22);
+            this.powerOffTool.Size = new System.Drawing.Size(152, 22);
             this.powerOffTool.Text = "Off";
             this.powerOffTool.Click += new System.EventHandler(this.powerOffTool_Click);
             // 
             // shutdownTool
             // 
             this.shutdownTool.Name = "shutdownTool";
-            this.shutdownTool.Size = new System.Drawing.Size(128, 22);
+            this.shutdownTool.Size = new System.Drawing.Size(152, 22);
             this.shutdownTool.Text = "Shutdown";
             this.shutdownTool.Click += new System.EventHandler(this.shutdownTool_Click);
             // 
             // powerStandbyTool
             // 
             this.powerStandbyTool.Name = "powerStandbyTool";
-            this.powerStandbyTool.Size = new System.Drawing.Size(128, 22);
+            this.powerStandbyTool.Size = new System.Drawing.Size(152, 22);
             this.powerStandbyTool.Text = "Standby";
             this.powerStandbyTool.Click += new System.EventHandler(this.powerStandbyTool_Click);
             // 
             // powerOnTool
             // 
             this.powerOnTool.Name = "powerOnTool";
-            this.powerOnTool.Size = new System.Drawing.Size(128, 22);
+            this.powerOnTool.Size = new System.Drawing.Size(152, 22);
             this.powerOnTool.Text = "On";
             this.powerOnTool.Click += new System.EventHandler(this.powerOnTool_Click);
             // 
@@ -430,6 +432,16 @@
             this.failedLabel.Size = new System.Drawing.Size(50, 17);
             this.failedLabel.Text = "Failed: 0";
             // 
+            // sendTool
+            // 
+            this.sendTool.Image = global::RdmSnoop.Properties.Resources._1446_envelope_stamp_clsd_48;
+            this.sendTool.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.sendTool.Name = "sendTool";
+            this.sendTool.Size = new System.Drawing.Size(57, 35);
+            this.sendTool.Text = "Message";
+            this.sendTool.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.sendTool.Click += new System.EventHandler(this.sendTool_Click);
+            // 
             // SnoopMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -500,6 +512,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton routerSelect;
         private System.Windows.Forms.ToolStripButton rdmDiscoverSelect;
+        private System.Windows.Forms.ToolStripButton sendTool;
 
     }
 }

@@ -29,7 +29,7 @@ namespace Acn.Rdm.Packets.Parameters
         public class GetReply : RdmResponsePacket
         {
             public GetReply()
-                : base(RdmCommands.GetResponse, RdmParameters.BackgroundDiscovery)
+                : base(RdmCommands.GetResponse, RdmParameters.SupportedParameters)
             {
                 ParameterIds = new List<RdmParameters>();
             }
@@ -37,25 +37,20 @@ namespace Acn.Rdm.Packets.Parameters
             /// <summary>
             /// A list of parameter ids for parameters the device supports.
             /// </summary>
-            public short PortNumber { get; set; }
-
-            /// <summary>
-            /// Controls whether background discovery is enabled within the RDM device.
-            /// </summary>
             public List<RdmParameters> ParameterIds { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
                 for (int n = 0; n < base.Header.ParameterDataLength / 2; n++)
                 {
-                    ParameterIds.Add((RdmParameters) ((ushort) data.ReadNetwork16()));
+                    ParameterIds.Add((RdmParameters) data.ReadNetworkU16());
                 }
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
                 foreach (RdmParameters parameterId in ParameterIds)
-                    data.Write((short) parameterId);
+                    data.WriteNetwork((ushort) parameterId);
             }
         }
     }

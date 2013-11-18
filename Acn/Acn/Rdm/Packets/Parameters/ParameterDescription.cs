@@ -28,7 +28,7 @@ namespace Acn.Rdm.Packets.Parameters
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork((ushort) ParameterId);
+                data.WriteNetwork((short) ParameterId);
             }
         }
 

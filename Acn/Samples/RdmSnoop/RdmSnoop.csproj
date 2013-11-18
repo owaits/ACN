@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brokers\ParameterInformation.cs" />
     <Compile Include="Brokers\PersonalitySlotInformation.cs" />
     <Compile Include="Brokers\RdmDeviceBroker.cs" />
     <Compile Include="CardInfo.cs" />
@@ -75,6 +76,12 @@
     </Compile>
     <Compile Include="Transports\ArtNet.cs" />
     <Compile Include="Transports\RdmNet.cs" />
+    <Compile Include="UserMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserMessage.Designer.cs">
+      <DependentUpon>UserMessage.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -90,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\DmxAddressDialog.resx">
       <DependentUpon>DmxAddressDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserMessage.resx">
+      <DependentUpon>UserMessage.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
@@ -148,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="RdmSnoopIcon.ico" />
+    <None Include="Resources\hyperlink.png" />
     <None Include="Resources\SearchWebHS.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

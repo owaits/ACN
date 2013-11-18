@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.ComponentModel;
 using Acn.Rdm.Packets.Management;
+using Acn.Rdm.Packets;
 
 namespace Acn.Rdm
 {
@@ -95,6 +96,18 @@ namespace Acn.Rdm
             }
 
             return false;
+        }
+
+        public static RdmRawPacket ReadPacketRaw(RdmBinaryReader data)
+        {
+            RdmHeader header = new RdmHeader();
+            header.ReadData(data);
+
+            RdmRawPacket rdmPacket = RdmPacket.Create(header, typeof(RdmRawPacket)) as RdmRawPacket;
+            if (rdmPacket != null)
+                rdmPacket.ReadData(data);
+
+            return rdmPacket;   
         }
 
         public static void WritePacket(RdmPacket packet, RdmBinaryWriter data)
