@@ -32,7 +32,13 @@ namespace Citp.Packets.Msex
             get{ return LibraryId.ToNumber(); }
         }
 
-        public CitpMsexLibraryId LibraryId { get; set; }
+        private CitpMsexLibraryId libraryId = new CitpMsexLibraryId();
+
+        public CitpMsexLibraryId LibraryId
+        {
+            get { return libraryId; }
+            set { libraryId = value; }
+        }
 
         private List<MediaInformation> elements = new List<MediaInformation>();
 

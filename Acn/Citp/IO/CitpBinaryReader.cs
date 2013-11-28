@@ -37,13 +37,12 @@ namespace Citp.IO
         public string ReadUcs2()
         {
             string readString = string.Empty;
-            char newCharacter = ReadChar();
+            char newCharacter = (char) ReadInt16();
 
             while (newCharacter != 0)
             {
                 readString += newCharacter;
-                newCharacter = ReadChar();
-                ReadChar();
+                newCharacter = (char) ReadInt16();
             }
 
             return readString;
