@@ -31,7 +31,14 @@ namespace Citp.Packets.Msex
 
         public CitpMsexLibraryId LibraryParentId { get; set; }
 
-        public List<byte> LibraryNumbers { get; set; }
+        private List<byte> libraryNumbers = new List<byte>();
+
+        public List<byte> LibraryNumbers
+        {
+            get { return libraryNumbers; }
+            set { libraryNumbers = value; }
+        }
+
 
         #endregion
 

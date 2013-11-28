@@ -53,10 +53,31 @@ namespace Citp.Packets.Msex
             Level3 = 0;
         }
 
+        public static CitpMsexLibraryId ParseLibraryNumber(byte number)
+        {
+            CitpMsexLibraryId id = new CitpMsexLibraryId();
+            id.ParseNumber(number);
+            return id;
+        }
+
         public override string ToString()
         {
             return string.Format("{0}:{1}/{2}/{3}",Level,Level1,Level2,Level3);
         }
 
+    }
+
+    public class CitpMsexLibraryIdComparer:IEqualityComparer<CitpMsexLibraryId>
+    {
+
+        public bool Equals(CitpMsexLibraryId x, CitpMsexLibraryId y)
+        {
+            return x.Level == y.Level && x.Level1 == y.Level1 && x.Level2 == y.Level2 && x.Level3 == y.Level3;
+        }
+
+        public int GetHashCode(CitpMsexLibraryId obj)
+        {
+            return obj.Level.GetHashCode() ^ obj.Level1.GetHashCode() ^obj.Level2.GetHashCode() ^obj.Level3.GetHashCode();
+        }
     }
 }
