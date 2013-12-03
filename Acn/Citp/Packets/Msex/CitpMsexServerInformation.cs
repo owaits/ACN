@@ -60,9 +60,9 @@ namespace Citp.Packets.Msex
             get { return streamFormats; }
         }
 
-        private List<string> dmxLayers = new List<string>();
+        private List<DmxDescriptor> dmxLayers = new List<DmxDescriptor>();
 
-        public List<string> DmxLayers
+        public List<DmxDescriptor> DmxLayers
         {
             get { return dmxLayers; }
         }
@@ -100,8 +100,13 @@ namespace Citp.Packets.Msex
             }
 
             int layerCount = data.ReadByte();
-            for(int n=0;n<layerCount;n++)
-                DmxLayers.Add(data.ReadCookie());
+            for (int n = 0; n < layerCount; n++)
+            {
+                DmxDescriptor dmx;
+                if (DmxDescriptor.TryParse(data.ReadUcs1(), out dmx))
+                    DmxLayers.Add(dmx);
+            }
+                
         }
 
         public override void WriteData(CitpBinaryWriter data)
@@ -133,8 +138,8 @@ namespace Citp.Packets.Msex
             }
 
             data.Write((byte) DmxLayers.Count);
-            foreach (string layer in DmxLayers)
-                data.WriteUcs1(layer);
+            foreach (DmxDescriptor layer in DmxLayers)
+                data.WriteUcs1(layer.ToString());
         }
 
         #endregion

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="CitpMessageHandler.cs" />
     <Compile Include="CitpStreamSession.cs" />
+    <Compile Include="DmxDescriptor.cs" />
     <Compile Include="IO\CitpBinaryReader.cs" />
     <Compile Include="IO\CitpBinaryWriter.cs" />
     <Compile Include="Packets\CaEx\CaExContentCodes.cs" />
