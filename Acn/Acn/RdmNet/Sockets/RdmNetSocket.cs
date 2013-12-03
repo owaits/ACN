@@ -38,7 +38,7 @@ using Acn.Sockets;
 
 namespace Acn.RdmNet.Sockets
 {
-    public class RdmNetSocket : StreamingAcnSocket, IProtocolFilter, IRdmSocket
+    public class RdmNetSocket : AcnSocket, IProtocolFilter, IRdmSocket
     {
         public static int RdmNetPort = 5569;
 
@@ -46,9 +46,12 @@ namespace Acn.RdmNet.Sockets
         public event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
 
         public RdmNetSocket(UId rdmId, Guid sourceId, string sourceName)
-            : base(sourceId, sourceName)
+            : base(sourceId)
         {
             RdmSourceId = rdmId;
+            SourceName = sourceName;
+
+            RegisterProtocolFilter(this);
         }        
 
         public override int Port
@@ -64,12 +67,9 @@ namespace Acn.RdmNet.Sockets
         /// </summary>
         public UId RdmSourceId { get; set; }
 
-        #endregion
+        public string SourceName { get; set; }
 
-        public IPAddress SquawkGroup
-        {
-            get { return new IPAddress(new byte[] { 239, 255, 250, 0 }); }
-        }
+        #endregion
 
         protected void RaiseNewRdmPacket(RdmEndPoint source, RdmPacket packet)
         {
@@ -116,11 +116,14 @@ namespace Acn.RdmNet.Sockets
 
             SendPacket(dmxPacket, targetAddress);
 
-            if (RdmPacketSent != null)
-                RdmPacketSent(this, new NewPacketEventArgs<RdmPacket>(targetAddress, packet));
+            RaiseRdmPacketSent(new NewPacketEventArgs<RdmPacket>(targetAddress, packet));
         }
 
-
+        protected virtual void RaiseRdmPacketSent(NewPacketEventArgs<RdmPacket> args)
+        {
+            if (RdmPacketSent != null)
+                RdmPacketSent(this, args);
+        }
 
         #region IProtocolFilter Members
 

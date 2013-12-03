@@ -14,10 +14,10 @@ namespace SandboxAcnDevice
 {
     public class RdmDevice
     {
-        RdmNetSocket socket = null;
+        RdmNetDeviceSocket socket = null;
         RdmMessageBroker broker = new RdmMessageBroker();
 
-        public RdmDevice(RdmNetSocket socket)
+        public RdmDevice(RdmNetDeviceSocket socket)
         {
             UId = Guid.NewGuid();
             this.socket = socket;
@@ -41,7 +41,7 @@ namespace SandboxAcnDevice
             RdmPacket replyPacket = broker.ProcessPacket(e.Packet);
             if (replyPacket != null)
             {
-                socket.SendRdm(replyPacket,new RdmEndPoint(e.Source.Address),e.Packet.Header.SourceId);
+                socket.SendRdm(replyPacket,new RdmEndPoint(e.Source),e.Packet.Header.SourceId);
             }
         }
 

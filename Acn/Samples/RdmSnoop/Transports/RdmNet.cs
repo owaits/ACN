@@ -16,7 +16,7 @@ namespace RdmSnoop.Transports
     public class RdmNet : ISnoopTransport
     {
         private SlpUserAgent slpUser = new SlpUserAgent("ACN-DEFAULT");
-        private RdmNetSocket acnSocket = null;
+        private RdmNetMeshSocket rdmNetSocket = null;
 
         public event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
@@ -42,11 +42,11 @@ namespace RdmSnoop.Transports
             slpUser.NetworkAdapter = localAdapter;
             slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
 
-            if (acnSocket == null || !acnSocket.PortOpen)
+            if (rdmNetSocket == null || !rdmNetSocket.PortOpen)
             {
-                acnSocket = new RdmNetSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
-                acnSocket.NewRdmPacket += acnSocket_NewRdmPacket;
-                acnSocket.Open(new IPEndPoint(LocalAdapter,0));
+                rdmNetSocket = new RdmNetMeshSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
+                rdmNetSocket.NewRdmPacket += acnSocket_NewRdmPacket;
+                rdmNetSocket.Open(new IPEndPoint(LocalAdapter,0));
             }
 
             slpUser.Open();
@@ -55,10 +55,15 @@ namespace RdmSnoop.Transports
 
         void acnSocket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
         {
-            if (e.Packet is EndpointDevices.Reply)
-                ProcessDeviceList(e.Source, e.Packet);
             if (e.Packet is EndpointList.Reply)
                 ProcessEndpointList(e.Source, e.Packet);
+            if (e.Packet is EndpointListChange.Reply)
+                ProcessEndpointListChange(e.Source, e.Packet);
+
+            if (e.Packet is EndpointDevices.Reply)
+                ProcessDeviceList(e.Source, e.Packet);           
+            if (e.Packet is EndpointDeviceListChange.Reply)
+                ProcessDeviceListChange(e.Source, e.Packet);
         }
 
         void slpUser_ServiceFound(object sender, ServiceFoundEventArgs e)
@@ -69,6 +74,7 @@ namespace RdmSnoop.Transports
                 {
                     RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(e.Address.Address, RdmNetSocket.RdmNetPort),0) { Id = UId.ParseUrl(url.Url) };
                     ControlEndpoints.Add(controlEndpoint);
+                    rdmNetSocket.AddKnownDevice(controlEndpoint);
                     DiscoverEndpoints(controlEndpoint);
                 }
             }
@@ -78,19 +84,26 @@ namespace RdmSnoop.Transports
         {
             EndpointList.Get getEndpoints = new EndpointList.Get();
             getEndpoints.Header.DestinationId = endpoint.Id;
-            acnSocket.SendRdm(getEndpoints, endpoint, endpoint.Id);
+            rdmNetSocket.SendRdm(getEndpoints, endpoint, endpoint.Id);
         }
 
         public void  Stop()
         {
-            if(reliableSocket != null)
+            if (reliableSocket != null)
+            {
                 reliableSocket.Dispose();
+                reliableSocket = null;
+            }                
 
             if (slpUser != null)
                 slpUser.Close();
 
-            if(acnSocket != null)
-                acnSocket.Close();
+            if (rdmNetSocket != null)
+            {
+                rdmNetSocket.Close();
+                rdmNetSocket = null;
+            }
+                
         }
 
         public void Discover(DiscoveryType type)
@@ -110,7 +123,7 @@ namespace RdmSnoop.Transports
             request.EndpointID = (short) endpoint.Universe;
             request.DiscoveryState = DiscoveryState.DiscoveryStates.Full;
 
-            acnSocket.SendRdm(request, new RdmEndPoint(endpoint,0), endpoint.Id);
+            rdmNetSocket.SendRdm(request, new RdmEndPoint(endpoint,0), endpoint.Id);
         }
 
         private RdmReliableSocket reliableSocket = null;
@@ -119,8 +132,8 @@ namespace RdmSnoop.Transports
         {
             get 
             {
-                if (reliableSocket == null && acnSocket != null)
-                    reliableSocket = new RdmReliableSocket(acnSocket);
+                if (reliableSocket == null && rdmNetSocket != null)
+                    reliableSocket = new RdmReliableSocket(rdmNetSocket);
 
                 return reliableSocket;
             }
@@ -160,8 +173,17 @@ namespace RdmSnoop.Transports
 
                     EndpointDevices.Get request = new EndpointDevices.Get();
                     request.EndpointID = (short) endpointId;
-                    acnSocket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
+                    Socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
                 }
+            }
+        }
+
+        private void ProcessEndpointListChange(IPEndPoint endpoint, RdmPacket packet)
+        {
+            EndpointListChange.Reply reply = packet as EndpointListChange.Reply;
+            if (reply != null)
+            {
+                DiscoverEndpoints(new RdmEndPoint(endpoint));
             }
         }
 
@@ -175,6 +197,19 @@ namespace RdmSnoop.Transports
                 {
                     NewDeviceFound(this, new DeviceFoundEventArgs(id, source));
                 }
+            }
+        }
+
+        private void ProcessDeviceListChange(IPEndPoint endpoint, RdmPacket packet)
+        {
+            EndpointDeviceListChange.Reply reply = packet as EndpointDeviceListChange.Reply;
+            if (reply != null)
+            {
+                RdmEndPoint source = new RdmEndPoint(endpoint, reply.EndpointID);
+
+                EndpointDevices.Get request = new EndpointDevices.Get();
+                request.EndpointID = reply.EndpointID;
+                Socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
             }
         }
 
