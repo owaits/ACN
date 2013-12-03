@@ -12,6 +12,13 @@ namespace Acn.Sockets
 {
     public class AcnSocket:Socket
     {
+        /// <summary>
+        /// Winsock ioctl code which will disable ICMP errors from being propagated to a UDP socket.
+        /// This can occur if a UDP packet is sent to a valid destination but there is no socket
+        /// registered to listen on the given port.
+        /// </summary>
+        public const int SIO_UDP_CONNRESET = -1744830452;
+
         public event UnhandledExceptionEventHandler UnhandledException;
 
         #region Setup and Initialisation
@@ -19,6 +26,9 @@ namespace Acn.Sockets
         public AcnSocket(Guid senderId)
             : base(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Dgram, System.Net.Sockets.ProtocolType.Udp)
         {
+            if (senderId == Guid.Empty)
+                throw new ArgumentException("Invalid sender ID!", "senderId");
+
             this.senderId = senderId;
         }
 
@@ -74,34 +84,49 @@ namespace Acn.Sockets
             Open(new IPEndPoint(adapterIP, Port));
         }
 
-        public void Open(IPEndPoint localEndPoint)
-        {           
+        public virtual void Open(IPEndPoint localEndPoint)
+        {
+            if (PortOpen)
+                throw new InvalidOperationException("This ACN socket is already open. Did you mean to close the socket first?");
+
+            // Set the SIO_UDP_CONNRESET ioctl to true for this UDP socket. If this UDP socket
+            //    ever sends a UDP packet to a remote destination that exists but there is
+            //    no socket to receive the packet, an ICMP port unreachable message is returned
+            //    to the sender. By default, when this is received the next operation on the
+            //    UDP socket that send the packet will receive a SocketException. The native
+            //    (Winsock) error that is received is WSAECONNRESET (10054). Since we don't want
+            //    to wrap each UDP socket operation in a try/except, we'll disable this error
+            //    for the socket with this ioctl call.
+            byte[] byteTrue = new byte[4] {0,0,0, 1};
+            IOControl(SIO_UDP_CONNRESET, byteTrue, null);
+
             SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             Bind(localEndPoint);
 
             //Multi-cast socket settings
             MulticastLoopback = true;            
-            SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 20);        //Only join local LAN group.
+            SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 1);        //Only join local LAN group.
 
             PortOpen = true;
 
-            StartRecieve(null);
+            StartRecieve(this,null);
         }
 
-        public void StartRecieve(MemoryStream recieveState)
+        public void StartRecieve(Socket socket, MemoryStream buffer)
         {
             try
             {
-                EndPoint localPort = new IPEndPoint(IPAddress.Any, Port);
+                EndPoint localPort = new IPEndPoint(IPAddress.Any, 0);
 
-                if (recieveState == null)
+                if (buffer == null)
                 {
-                    recieveState = new MemoryStream(1024);
-                    recieveState.SetLength(1024);
+                    buffer = new MemoryStream(65536);
+                    buffer.SetLength(65536);
                 }
-                recieveState.Seek(0, SeekOrigin.Begin);
+                buffer.Seek(0, SeekOrigin.Begin);
 
-                BeginReceiveFrom(recieveState.GetBuffer(), 0,(int) recieveState.Length, SocketFlags.None, ref localPort, new AsyncCallback(OnRecieve), recieveState);
+                Tuple<Socket, MemoryStream> recieveState = new Tuple<Socket, MemoryStream>(socket, buffer);
+                socket.BeginReceiveFrom(buffer.GetBuffer(), 0, (int)buffer.Length, SocketFlags.None, ref localPort, new AsyncCallback(OnRecieve), recieveState);
             }
             catch (Exception ex)
             {
@@ -111,23 +136,29 @@ namespace Acn.Sockets
 
         private void OnRecieve(IAsyncResult state)
         {
-            EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
-
             if (PortOpen)
             {
-                MemoryStream recieveState = (MemoryStream)(state.AsyncState);
+                Tuple<Socket, MemoryStream> recieveState = (Tuple<Socket, MemoryStream>)(state.AsyncState);
                 
                 try
                 {
                     if (recieveState != null)
                     {
-                        EndReceiveFrom(state, ref remoteEndPoint);
+                        EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                        recieveState.Item1.EndReceiveFrom(state, ref remoteEndPoint);
 
                         //Protect against UDP loopback where we recieve our own packets.
                         if (LocalEndPoint != remoteEndPoint)
                         {
                             LastPacket = DateTime.Now;
-                            ProcessAcnPacket((IPEndPoint) remoteEndPoint,new AcnBinaryReader(recieveState));
+
+                            IPEndPoint ipEndPoint = (IPEndPoint) remoteEndPoint;
+
+                            //If this is a TCP connection then the returned enpoint will be empty and we must use the connection endpoint.
+                            if (ipEndPoint.Port == 0)
+                                ipEndPoint = (IPEndPoint) recieveState.Item1.RemoteEndPoint;
+
+                            ProcessAcnPacket(ipEndPoint, new AcnBinaryReader(recieveState.Item2));
                         }
                     }
                 }
@@ -138,7 +169,7 @@ namespace Acn.Sockets
                 finally
                 {
                     //Attempt to recieve another packet.
-                    StartRecieve(recieveState);
+                    StartRecieve(recieveState.Item1, recieveState.Item2);
                 }
             }
         }

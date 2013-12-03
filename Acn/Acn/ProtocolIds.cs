@@ -13,6 +13,11 @@ namespace Acn
         /// <summary>
         /// RDM data carried via streaming ACN.
         /// </summary>
-        RdmNet = 0x05
+        RdmNet = 0x05,
+
+        /// <summary>
+        /// Null packet used in RDMNet for Heartbeat.
+        /// </summary>
+        Null = 0x6
     }
 }

@@ -103,7 +103,7 @@
             this.serviceTypeText.Name = "serviceTypeText";
             this.serviceTypeText.Size = new System.Drawing.Size(403, 20);
             this.serviceTypeText.TabIndex = 0;
-            this.serviceTypeText.Text = "service:e133.esta";
+            this.serviceTypeText.Text = "service:rdmnet-device";
             this.serviceTypeText.TextChanged += new System.EventHandler(this.serviceTypeText_TextChanged);
             // 
             // uidText
@@ -173,7 +173,7 @@
             this.daList.FormattingEnabled = true;
             this.daList.Location = new System.Drawing.Point(3, 16);
             this.daList.Name = "daList";
-            this.daList.Size = new System.Drawing.Size(604, 82);
+            this.daList.Size = new System.Drawing.Size(604, 93);
             this.daList.TabIndex = 0;
             // 
             // tabControl1

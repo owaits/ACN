@@ -19,7 +19,7 @@ namespace SandboxAcnDevice
     {
         private SlpServiceAgent slpService = new SlpServiceAgent();
         private List<RdmDevice> devices = new List<RdmDevice>();
-        private RdmNetSocket socket = new RdmNetSocket(UId.NewUId(0xFF),Guid.NewGuid(), "Sandbox Acn Device");
+        private RdmNetDeviceSocket socket = new RdmNetDeviceSocket(UId.NewUId(0xFF), Guid.NewGuid(), "Sandbox Acn Device");
 
         public AcnDevice()
         {
@@ -79,7 +79,7 @@ namespace SandboxAcnDevice
             {
                 slpService.NetworkAdapter = localAddress;
                 slpService.Scope = "ACN-DEFAULT";
-                slpService.ServiceUrl = string.Format("{0}://{1}:5568/{2}", serviceTypeText.Text, localAddress, uidText.Text);
+                slpService.ServiceUrl = string.Format("{0}://{1}:5569/{2}", serviceTypeText.Text, localAddress, uidText.Text);
                 // Attributes aren't part of the ACN spec but this is handy for testing SLP
                 slpService.Attributes["Foo"] = "Bar";
                 slpService.Attributes["Time"] = "Money";

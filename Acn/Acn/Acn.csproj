@@ -35,6 +35,8 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +47,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,6 +57,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidDebug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -154,6 +158,7 @@
     <Compile Include="Packets\Dmp\DmpSetProperty.cs" />
     <Compile Include="IO\AcnBinaryReader.cs" />
     <Compile Include="IO\AcnBinaryWriter.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetHeartbeat.cs" />
     <Compile Include="Packets\RdmNet\RdmNetStatusPdu.cs" />
     <Compile Include="Packets\RdmNet\RdmNetStatusPacket.cs" />
     <Compile Include="Packets\RdmNet\RdmNetPdu.cs" />
@@ -164,6 +169,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AcnPacketFactory.cs" />
     <Compile Include="ProtocolIds.cs" />
+    <Compile Include="RdmNet\Sockets\HealthCheckedTcpSocket.cs" />
+    <Compile Include="RdmNet\Sockets\RdmNetMeshSocket.cs" />
+    <Compile Include="RdmNet\Sockets\RdmNetDeviceSocket.cs" />
     <Compile Include="Rdm\Broker\RdmDiscovery.cs" />
     <Compile Include="Rdm\Broker\RdmMessageAttribute.cs" />
     <Compile Include="Rdm\Broker\RdmPersonality.cs" />
