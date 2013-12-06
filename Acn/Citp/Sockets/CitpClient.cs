@@ -18,11 +18,18 @@ namespace Citp.Sockets
 
         public event UnhandledExceptionEventHandler UnhandledException;
         public event EventHandler<CitpNewPacketEventArgs> NewPacket;
+        public event EventHandler Disconnected;
 
         public CitpClient(TcpClient client)
         {
             this.client = client;
             StartRecieve(new CitpRecieveData());
+        }
+
+        protected void RaiseDisconnected()
+        {
+            if (Disconnected != null)
+                Disconnected(this, EventArgs.Empty);
         }
 
         protected void StartRecieve(CitpRecieveData recieveState)
@@ -47,7 +54,7 @@ namespace Citp.Sockets
 
             try
             {
-                if (recieveState != null && client != null)
+                if (recieveState != null && client != null && client.Connected)
                 {
                     recieveState.SetLength((recieveState.Length - recieveState.ReadNibble) + client.Client.EndReceive(state));
 
@@ -83,6 +90,8 @@ namespace Citp.Sockets
                 //Attempt to recieve another packet.
                 if (restartRecieve)
                     StartRecieve(recieveState);
+                else
+                    RaiseDisconnected();                   
             }
         }
 
