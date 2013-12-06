@@ -8,6 +8,8 @@ namespace Citp.Packets.Msex
 {
     public class CitpMsexLibraryId
     {
+        #region Setup and Intialisation
+
         public CitpMsexLibraryId(byte number)
         {
             ParseNumber(number);
@@ -28,6 +30,24 @@ namespace Citp.Packets.Msex
             Level2 = 0;
             Level3 = 0;
         }
+
+        #endregion
+
+        #region Operators
+
+        public static bool operator == (CitpMsexLibraryId a,CitpMsexLibraryId b)
+        {
+            return a.Level == b.Level && a.Level1 == b.Level1 && a.Level2 == b.Level2 && a.Level3 == b.Level3;
+        }
+
+        public static bool operator !=(CitpMsexLibraryId a, CitpMsexLibraryId b)
+        {
+            return !(a == b);
+        }
+
+        #endregion
+
+
 
         public byte Level { get; set; }
 
@@ -53,6 +73,8 @@ namespace Citp.Packets.Msex
             Level3 = 0;
         }
 
+
+
         public static CitpMsexLibraryId ParseLibraryNumber(byte number)
         {
             CitpMsexLibraryId id = new CitpMsexLibraryId();
@@ -60,9 +82,34 @@ namespace Citp.Packets.Msex
             return id;
         }
 
+        public static CitpMsexLibraryId Parse(string libraryId)
+        {
+            string[] elements = libraryId.Split(':','/','_','@');
+
+            if (elements.Length != 4)
+                throw new ArgumentException(@"The library id is not in the correct format. It must follow the format N:N/N/N", libraryId);
+
+            CitpMsexLibraryId id = new CitpMsexLibraryId()
+            {
+                Level = byte.Parse(elements[0]),
+                Level1 = byte.Parse(elements[1]),
+                Level2 = byte.Parse(elements[2]),
+                Level3 = byte.Parse(elements[3])
+            };
+
+            return id;           
+        }
+
         public override string ToString()
         {
             return string.Format("{0}:{1}/{2}/{3}",Level,Level1,Level2,Level3);
+        }
+
+        private static CitpMsexLibraryId empty = new CitpMsexLibraryId();
+
+        public static CitpMsexLibraryId Empty
+        {
+            get { return empty; }
         }
 
     }

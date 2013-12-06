@@ -42,7 +42,7 @@ namespace Citp.Packets.Msex
 
         public MsexElementType LibraryType { get; set; }
 
-        public int LibraryNumber 
+        public byte LibraryNumber 
         {
             get { return LibraryId.ToNumber(); }                
         }
