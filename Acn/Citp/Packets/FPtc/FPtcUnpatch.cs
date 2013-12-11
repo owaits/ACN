@@ -9,7 +9,7 @@ namespace Citp.Packets.FPtc
 {
     public class FPtcUnpatch : FPtcHeader
     {
-        public const string PacketType = "FPTC";
+        public const string PacketType = "UPtc";
 
         #region Setup and Initialisation
 
