@@ -22,7 +22,11 @@ namespace Citp.Sockets
 
         public CitpClient(TcpClient client)
         {
-            this.client = client;
+            this.client = client;            
+        }
+
+        public virtual void Start()
+        {
             StartRecieve(new CitpRecieveData());
         }
 
@@ -58,7 +62,7 @@ namespace Citp.Sockets
                 {
                     recieveState.SetLength((recieveState.Length - recieveState.ReadNibble) + client.Client.EndReceive(state));
 
-                    if (recieveState.Length > 0)
+                    if (recieveState.Length > 0 && !IsDisposed())
                     {
                         //We want to start the recieve again to listen for more data.
                         //Only do this when the client is in a position to do so.
@@ -115,14 +119,21 @@ namespace Citp.Sockets
             if (UnhandledException != null) UnhandledException(this, new UnhandledExceptionEventArgs((object)ex, false));
         }
 
+        private bool disposed = false;
 
-        public void Dispose()
+        public bool IsDisposed()
         {
+            return disposed;
+        }
+
+        public virtual void Dispose()
+        {
+            disposed = true;
             if (client != null)
             {
                 client.Close();
                 client = null;
-            }
+            }            
         }
     }
 }
