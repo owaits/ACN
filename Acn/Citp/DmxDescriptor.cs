@@ -51,9 +51,9 @@ namespace Citp
         {
             string str = Protocol;
 
-            if (Net != INVALID) str += '/' + Net;
-            if (Universe != INVALID) str += '/' + Universe;
-            if (Channel != INVALID) str += '/' + Channel;
+            if (Net != INVALID) str += '/' + Net.ToString();
+            if (Universe != INVALID) str += '/' + Universe.ToString();
+            if (Channel != INVALID) str += '/' + Channel.ToString();
 
             return str;
         }
