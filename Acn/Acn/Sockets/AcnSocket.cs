@@ -206,8 +206,9 @@ namespace Acn.Sockets
 
         protected void RaiseUnhandledException(Exception ex)
         {
-            if (UnhandledException != null) 
-                UnhandledException(this, new UnhandledExceptionEventArgs((object)ex, false));
+            if (UnhandledException == null)
+                throw new ApplicationException("Exception is unhandled by user code. Please subscribe to the UnhandledException event.",ex);
+            UnhandledException(this, new UnhandledExceptionEventArgs((object)ex, false));
         }
 
         protected override void Dispose(bool disposing)

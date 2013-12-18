@@ -117,16 +117,30 @@ namespace Acn.RdmNet.Sockets
 
         private void Heartbeat(object state)
         {
-            if(Healthy)
-                SendHeartbeat();
-            else
-                heartbeatTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            try 
+	        {	        
+		        if(Healthy)
+                    SendHeartbeat();
+                else
+                    heartbeatTimer.Change(Timeout.Infinite, Timeout.Infinite);
+	        }
+	        catch (Exception ex)
+	        {
+                RaiseUnhandledException(ex);
+	        }            
         }
 
         public void SendHeartbeat()
         {
-            RdmNetHeartbeat heartbeatPacket = new RdmNetHeartbeat();
-            SendPacket(heartbeatPacket);
+            try
+            {
+                RdmNetHeartbeat heartbeatPacket = new RdmNetHeartbeat();
+                SendPacket(heartbeatPacket);
+            }
+            catch (SocketException)
+            {
+                socket.Close();
+            }   
         }
 
 
@@ -148,8 +162,7 @@ namespace Acn.RdmNet.Sockets
             AcnBinaryWriter writer = new AcnBinaryWriter(data);
 
             AcnPacket.WritePacket(packet, writer);
-
-            socket.Send(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None);
+            socket.Send(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None);         
         }
 
         #endregion
