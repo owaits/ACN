@@ -47,9 +47,9 @@ namespace Acn.Helpers
         public SlpDeviceManager()
         {
             FetchAttributes = true;
-
+			#if !(ANDROID || IOS)
             NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
-
+			#endif
             pollTimer = new System.Threading.Timer(new System.Threading.TimerCallback(pollTimerTick), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             CreateAgents();
         }
@@ -419,7 +419,8 @@ namespace Acn.Helpers
                 Select(a => System.Net.IPAddress.Parse(a.HostAddress));
 #else
             return NetworkInterface.GetAllNetworkInterfaces()
-                                        .Where(i => i.OperationalStatus == OperationalStatus.Up)
+				// On IOS all the interface status are marked a Unknown
+					.Where(i => i.OperationalStatus == OperationalStatus.Up || i.OperationalStatus == OperationalStatus.Unknown)
                                         .SelectMany(i => i.GetIPProperties().UnicastAddresses)
                                         .Where(a => a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                                         .Select(a => a.Address);
