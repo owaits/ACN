@@ -139,7 +139,7 @@ namespace Acn.Sockets
             if (PortOpen)
             {
                 Tuple<Socket, MemoryStream> recieveState = (Tuple<Socket, MemoryStream>)(state.AsyncState);
-                
+
                 try
                 {
                     if (recieveState != null)
@@ -152,15 +152,19 @@ namespace Acn.Sockets
                         {
                             LastPacket = DateTime.Now;
 
-                            IPEndPoint ipEndPoint = (IPEndPoint) remoteEndPoint;
+                            IPEndPoint ipEndPoint = (IPEndPoint)remoteEndPoint;
 
                             //If this is a TCP connection then the returned enpoint will be empty and we must use the connection endpoint.
                             if (ipEndPoint.Port == 0)
-                                ipEndPoint = (IPEndPoint) recieveState.Item1.RemoteEndPoint;
+                                ipEndPoint = (IPEndPoint)recieveState.Item1.RemoteEndPoint;
 
                             ProcessAcnPacket(ipEndPoint, new AcnBinaryReader(recieveState.Item2));
                         }
                     }
+                }
+                catch (SocketException)
+                {
+                    Close();
                 }
                 catch (Exception ex)
                 {
@@ -169,7 +173,8 @@ namespace Acn.Sockets
                 finally
                 {
                     //Attempt to recieve another packet.
-                    StartRecieve(recieveState.Item1, recieveState.Item2);
+                    if(PortOpen)
+                        StartRecieve(recieveState.Item1, recieveState.Item2);
                 }
             }
         }

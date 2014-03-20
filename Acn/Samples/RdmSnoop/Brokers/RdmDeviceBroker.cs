@@ -26,6 +26,8 @@ namespace RdmNetworkMonitor
     {
         IRdmSocket socket = null;
 
+        #region Setup and Iniiaalisation
+               
         public RdmDeviceBroker(IRdmSocket socket, UId id, RdmEndPoint address)
         {
             Id = id;
@@ -36,6 +38,8 @@ namespace RdmNetworkMonitor
             
             socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<RdmPacket>>(socket_NewRdmPacket);
         }
+
+        #endregion
 
         #region Data Model
         
@@ -131,8 +135,6 @@ namespace RdmNetworkMonitor
                 }
             }
         }
-
-
 
         #endregion
 
@@ -632,6 +634,7 @@ namespace RdmNetworkMonitor
             if (IsParameterStatus(packet.Header.ParameterId, ParameterStatus.Empty))
             {
                 SetParameterStatus(packet.Header.ParameterId, ParameterStatus.Pending);
+                //packet.Header.PortOrResponseType = (byte) Address.Universe;
                 socket.SendRdm(packet, Address, Id);
             }
         }
@@ -639,11 +642,18 @@ namespace RdmNetworkMonitor
 
         public void Interogate()
         {
+            RequestParameters();
+
             DeviceInfo.Get getInfo = new DeviceInfo.Get();
             SendRdm(getInfo);
 
-            EndpointList.Get getPorts = new EndpointList.Get();
-            SendRdm(getPorts);
+            //Only for RDMNet Endpoint Zero devices.
+            if (Address.Universe == 0)
+            {
+                //Get a list of endpoints supported by this device.
+                EndpointList.Get getPorts = new EndpointList.Get();
+                SendRdm(getPorts);
+            }
         }
 
         public void RequestDetails()

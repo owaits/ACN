@@ -209,7 +209,7 @@ namespace Acn.Sockets
                     transactionQueue.Add(transactionId, transaction);
                     packet.Header.TransactionNumber = transaction.TransactionNumber;
 
-                    if (transactionQueue.Count == 1)
+                    if (transactionQueue.Count == 1 && retryTimer != null)
                         retryTimer.Change(TransmitInterval, TimeSpan.Zero);
 
                     TransactionsStarted++;
@@ -348,7 +348,11 @@ namespace Acn.Sockets
         
         public void Dispose()
         {
-            retryTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            if (retryTimer != null)
+            {
+                retryTimer.Dispose();
+                retryTimer = null;
+            }
         }
     }
 }

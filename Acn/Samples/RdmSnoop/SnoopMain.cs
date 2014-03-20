@@ -113,6 +113,17 @@ namespace RdmSnoop
             }
         }
 
+        public bool AutoInterogate
+        {
+            get { return Properties.Settings.Default.AutoInterogate; }
+            set 
+            {
+                Properties.Settings.Default.AutoInterogate = value;
+                Properties.Settings.Default.Save();
+                autoInterogateSelect.Checked = value;
+            }
+        }
+
         private void LoadDevice()
         {
             deviceToolbox.Enabled = SelectedDevice != null;
@@ -292,7 +303,8 @@ namespace RdmSnoop
                 devices[id] = device;
                 rdmDevices.Nodes.Add(device.Node);
 
-                device.Interogate();
+                if(AutoInterogate)
+                    device.Interogate();
             }
         }
 
@@ -339,6 +351,8 @@ namespace RdmSnoop
 
         private void SnoopMain_Load(object sender, EventArgs e)
         {
+            autoInterogateSelect.Checked = AutoInterogate;
+
             if (Properties.Settings.Default.Transport == typeof(ArtNet).Name)
             {
                 Transport = new ArtNet();
@@ -542,6 +556,16 @@ namespace RdmSnoop
                 else
                     Transport.Socket.SendRdm(message.Message, SelectedDevice.Address, SelectedDevice.Id);
             }
+        }
+
+        private void autoInterogateSelect_Click(object sender, EventArgs e)
+        {
+            AutoInterogate = !AutoInterogate;
+        }
+
+        private void deviceRefresh_Click(object sender, EventArgs e)
+        {
+            SelectedDevice.Interogate();
         }
 
 

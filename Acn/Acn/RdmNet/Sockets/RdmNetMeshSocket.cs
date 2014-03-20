@@ -59,9 +59,15 @@ namespace Acn.RdmNet.Sockets
             if(!devices.ContainsKey(endpoint))
             {
                 HealthCheckedTcpSocket device = HealthCheckedTcpSocket.Connect(endpoint,SenderId);
+                device.UnhandledException += device_UnhandledException;
                 device.NewRdmPacket += device_NewRdmPacket;
                 devices.Add(endpoint,device);
             }
+        }
+
+        void device_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            RaiseUnhandledException((Exception) e.ExceptionObject);
         }
 
         public void RemoveKnownDevice(RdmEndPoint endpoint)

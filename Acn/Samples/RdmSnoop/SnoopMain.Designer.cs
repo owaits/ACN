@@ -38,10 +38,13 @@
             this.discoverSelect = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.rdmDiscoverSelect = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton4 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.autoInterogateSelect = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.rdmDevices = new System.Windows.Forms.TreeView();
             this.deviceInformation = new System.Windows.Forms.PropertyGrid();
             this.deviceToolbox = new System.Windows.Forms.ToolStrip();
+            this.deviceRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.identifyOn = new System.Windows.Forms.ToolStripMenuItem();
             this.identifyOff = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +58,7 @@
             this.shutdownTool = new System.Windows.Forms.ToolStripMenuItem();
             this.powerStandbyTool = new System.Windows.Forms.ToolStripMenuItem();
             this.powerOnTool = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendTool = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.packetView = new System.Windows.Forms.ListView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -66,12 +70,13 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.transactionsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.sendTool = new System.Windows.Forms.ToolStripButton();
             this.tools.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.deviceToolbox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -89,7 +94,8 @@
             this.networkCardSelect,
             this.discoverSelect,
             this.toolStripButton1,
-            this.rdmDiscoverSelect});
+            this.rdmDiscoverSelect,
+            this.toolStripDropDownButton4});
             this.tools.Location = new System.Drawing.Point(0, 0);
             this.tools.Name = "tools";
             this.tools.Size = new System.Drawing.Size(980, 38);
@@ -170,6 +176,26 @@
             this.rdmDiscoverSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.rdmDiscoverSelect.Click += new System.EventHandler(this.rdmDiscoverSelect_Click);
             // 
+            // toolStripDropDownButton4
+            // 
+            this.toolStripDropDownButton4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoInterogateSelect});
+            this.toolStripDropDownButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton4.Image")));
+            this.toolStripDropDownButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton4.Name = "toolStripDropDownButton4";
+            this.toolStripDropDownButton4.Size = new System.Drawing.Size(62, 35);
+            this.toolStripDropDownButton4.Text = "Options";
+            this.toolStripDropDownButton4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // autoInterogateSelect
+            // 
+            this.autoInterogateSelect.Checked = true;
+            this.autoInterogateSelect.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoInterogateSelect.Name = "autoInterogateSelect";
+            this.autoInterogateSelect.Size = new System.Drawing.Size(157, 22);
+            this.autoInterogateSelect.Text = "Auto Interogate";
+            this.autoInterogateSelect.Click += new System.EventHandler(this.autoInterogateSelect_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -210,6 +236,7 @@
             this.deviceToolbox.Enabled = false;
             this.deviceToolbox.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.deviceToolbox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deviceRefresh,
             this.toolStripDropDownButton1,
             this.addressTool,
             this.modeTool,
@@ -221,6 +248,16 @@
             this.deviceToolbox.Size = new System.Drawing.Size(651, 38);
             this.deviceToolbox.TabIndex = 1;
             this.deviceToolbox.Text = "toolStrip1";
+            // 
+            // deviceRefresh
+            // 
+            this.deviceRefresh.Image = global::RdmSnoop.Properties.Resources.RepeatHS;
+            this.deviceRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deviceRefresh.Name = "deviceRefresh";
+            this.deviceRefresh.Size = new System.Drawing.Size(50, 35);
+            this.deviceRefresh.Text = "Refresh";
+            this.deviceRefresh.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.deviceRefresh.Click += new System.EventHandler(this.deviceRefresh_Click);
             // 
             // toolStripDropDownButton1
             // 
@@ -311,30 +348,40 @@
             // powerOffTool
             // 
             this.powerOffTool.Name = "powerOffTool";
-            this.powerOffTool.Size = new System.Drawing.Size(152, 22);
+            this.powerOffTool.Size = new System.Drawing.Size(128, 22);
             this.powerOffTool.Text = "Off";
             this.powerOffTool.Click += new System.EventHandler(this.powerOffTool_Click);
             // 
             // shutdownTool
             // 
             this.shutdownTool.Name = "shutdownTool";
-            this.shutdownTool.Size = new System.Drawing.Size(152, 22);
+            this.shutdownTool.Size = new System.Drawing.Size(128, 22);
             this.shutdownTool.Text = "Shutdown";
             this.shutdownTool.Click += new System.EventHandler(this.shutdownTool_Click);
             // 
             // powerStandbyTool
             // 
             this.powerStandbyTool.Name = "powerStandbyTool";
-            this.powerStandbyTool.Size = new System.Drawing.Size(152, 22);
+            this.powerStandbyTool.Size = new System.Drawing.Size(128, 22);
             this.powerStandbyTool.Text = "Standby";
             this.powerStandbyTool.Click += new System.EventHandler(this.powerStandbyTool_Click);
             // 
             // powerOnTool
             // 
             this.powerOnTool.Name = "powerOnTool";
-            this.powerOnTool.Size = new System.Drawing.Size(152, 22);
+            this.powerOnTool.Size = new System.Drawing.Size(128, 22);
             this.powerOnTool.Text = "On";
             this.powerOnTool.Click += new System.EventHandler(this.powerOnTool_Click);
+            // 
+            // sendTool
+            // 
+            this.sendTool.Image = global::RdmSnoop.Properties.Resources._1446_envelope_stamp_clsd_48;
+            this.sendTool.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.sendTool.Name = "sendTool";
+            this.sendTool.Size = new System.Drawing.Size(57, 35);
+            this.sendTool.Text = "Message";
+            this.sendTool.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.sendTool.Click += new System.EventHandler(this.sendTool_Click);
             // 
             // splitContainer2
             // 
@@ -417,7 +464,7 @@
             // 
             this.toolStripStatusLabel3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(79, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(78, 17);
             this.toolStripStatusLabel3.Text = "Transactions:";
             // 
             // transactionsLabel
@@ -431,16 +478,6 @@
             this.failedLabel.Name = "failedLabel";
             this.failedLabel.Size = new System.Drawing.Size(50, 17);
             this.failedLabel.Text = "Failed: 0";
-            // 
-            // sendTool
-            // 
-            this.sendTool.Image = global::RdmSnoop.Properties.Resources._1446_envelope_stamp_clsd_48;
-            this.sendTool.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.sendTool.Name = "sendTool";
-            this.sendTool.Size = new System.Drawing.Size(57, 35);
-            this.sendTool.Text = "Message";
-            this.sendTool.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.sendTool.Click += new System.EventHandler(this.sendTool_Click);
             // 
             // SnoopMain
             // 
@@ -459,11 +496,13 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.deviceToolbox.ResumeLayout(false);
             this.deviceToolbox.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -513,6 +552,9 @@
         private System.Windows.Forms.ToolStripButton routerSelect;
         private System.Windows.Forms.ToolStripButton rdmDiscoverSelect;
         private System.Windows.Forms.ToolStripButton sendTool;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton4;
+        private System.Windows.Forms.ToolStripMenuItem autoInterogateSelect;
+        private System.Windows.Forms.ToolStripButton deviceRefresh;
 
     }
 }
