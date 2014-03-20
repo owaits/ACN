@@ -10,6 +10,8 @@ using Acn.Rdm.Routing;
 using Acn.RdmNet.Sockets;
 using Acn.Rdm.Packets.Net;
 using Acn.Rdm.Broker;
+using System.Diagnostics;
+using Mono.Zeroconf;
 
 namespace RdmSnoop.Transports
 {
@@ -17,6 +19,7 @@ namespace RdmSnoop.Transports
     {
         private SlpUserAgent slpUser = new SlpUserAgent("ACN-DEFAULT");
         private RdmNetMeshSocket rdmNetSocket = null;
+        private ServiceBrowser dnsSD = null;
 
         public event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
@@ -45,12 +48,39 @@ namespace RdmSnoop.Transports
             if (rdmNetSocket == null || !rdmNetSocket.PortOpen)
             {
                 rdmNetSocket = new RdmNetMeshSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
+                rdmNetSocket.UnhandledException += rdmNetSocket_UnhandledException;
                 rdmNetSocket.NewRdmPacket += acnSocket_NewRdmPacket;
                 rdmNetSocket.Open(new IPEndPoint(LocalAdapter,0));
             }
 
             slpUser.Open();
             slpUser.Find("service:rdmnet-device");
+
+            dnsSD = new ServiceBrowser();
+            dnsSD.ServiceAdded += dnsSD_ServiceAdded;
+            dnsSD.Browse("_rdmNet._udp", "local");
+        }
+
+        void dnsSD_ServiceAdded(object o, ServiceBrowseEventArgs args)
+        {
+            args.Service.Resolved += delegate(object sender, ServiceResolvedEventArgs e)
+            {
+                IResolvableService s = (IResolvableService)e.Service;
+                foreach (IPAddress address in s.HostEntry.AddressList)
+                {
+
+                    RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(address, RdmNetSocket.RdmNetPort), 0) { Id = UId.ParseUrl(s.TxtRecord["id"].ValueString) };
+                    ControlEndpoints.Add(controlEndpoint);
+                    rdmNetSocket.AddKnownDevice(controlEndpoint);
+                    DiscoverEndpoints(controlEndpoint);
+                }
+            };
+            args.Service.Resolve();
+        }
+
+        void rdmNetSocket_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Trace.WriteLine(((Exception) e.ExceptionObject).Message);
         }
 
         void acnSocket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
@@ -173,7 +203,7 @@ namespace RdmSnoop.Transports
 
                     EndpointDevices.Get request = new EndpointDevices.Get();
                     request.EndpointID = (short) endpointId;
-                    Socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
+                    if(Socket != null) Socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
                 }
             }
         }
@@ -203,7 +233,7 @@ namespace RdmSnoop.Transports
         private void ProcessDeviceListChange(IPEndPoint endpoint, RdmPacket packet)
         {
             EndpointDeviceListChange.Reply reply = packet as EndpointDeviceListChange.Reply;
-            if (reply != null)
+            if (reply != null && Socket != null)
             {
                 RdmEndPoint source = new RdmEndPoint(endpoint, reply.EndpointID);
 

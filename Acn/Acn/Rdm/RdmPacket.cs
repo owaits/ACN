@@ -61,6 +61,15 @@ namespace Acn.Rdm
                 rdmPacket.ReadData(data);
                 return rdmPacket;
              }
+            else
+            {
+                rdmPacket = RdmPacket.Create(header, typeof(RdmRawPacket)) as RdmRawPacket;
+                if (rdmPacket != null)
+                {
+                    rdmPacket.ReadData(data);
+                    return rdmPacket;
+                }
+            }
 
             throw new UnknownRdmPacketException(header);            
         }
@@ -78,6 +87,15 @@ namespace Acn.Rdm
             {
                 rdmPacket.ReadData(contentData);
                 return rdmPacket;
+            }
+            else
+            {
+                rdmPacket = RdmPacket.Create(header, typeof(RdmRawPacket)) as RdmRawPacket;
+                if (rdmPacket != null)
+                {
+                    rdmPacket.ReadData(contentData);
+                    return rdmPacket;
+                }
             }
 
             throw new UnknownRdmPacketException(header);

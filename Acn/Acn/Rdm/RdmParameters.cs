@@ -48,12 +48,26 @@ namespace Acn.Rdm
         SlotInfo = 0x0120,
         SlotDescription = 0x0121,
         DefaultSlotValue = 0x0122,
+        DmxBlockAddress = 0x0140,
+        DmxFailMode = 0x0141,
+        DmxStartupMode = 0x0142,
 
         //---- Sensors ----
         SensorDefinition = 0x0200,
         SensorValue = 0x0201,
         RecordSensors = 0x0202,
         
+        //---- Dimmers ----
+        DimmerInfo = 0x0340,
+        MinimumLevel = 0x0341,
+        MaximumLevel = 0x0342,
+        Curve = 0x0343,
+        CurveDescription = 0x0344,
+        OutputResponseTime = 0x0345,
+        OutputResponseTimeDescription = 0x0346,
+        ModulationFrequency = 0x0347,
+        ModulationFrequencyDescription = 0x0348,
+
         //---- Power/Lamp Settings ----
         DeviceHours = 0x0400,
         LampHours = 0x0401,
@@ -61,6 +75,7 @@ namespace Acn.Rdm
         LampState = 0x0403,
         LampOnMode = 0x0404,
         DevicePowerCycles = 0x0405,
+        BurnIn = 0x0440,
 
         //---- Display Settings ----
         DisplayInvert = 0x0500,
@@ -71,6 +86,9 @@ namespace Acn.Rdm
         TiltInvert = 0x0601,
         PanTiltSwap = 0x0602,
         RealTimeClock = 0x0603,
+        LockPin = 0x0640,
+        LockState = 0x0641,
+        LockStateDescription = 0x0642,
 
         //---- Control ----
         IdentifyDevice = 0x1000,
@@ -80,6 +98,11 @@ namespace Acn.Rdm
         SelfTestDescription = 0x1021,
         CapturePreset = 0x1030,
         PresetPlayback = 0x1031,
+        IdentifyMode = 0x1040,
+        PresetInfo = 0x1041,
+        PresetStatus = 0x1042,
+        PresetMergeMode = 0x1043,
+        PowerOnSelfTest = 0x1044,
 
         //---- RDMnet ----
         EndpointList = 0x7FE0,

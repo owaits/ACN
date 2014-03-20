@@ -127,7 +127,8 @@ namespace Acn.Rdm.Broker
             switch(packet.Header.Command)
             {
                 case RdmCommands.Get:
-                    if (!responsePackets.TryGetValue(packet.Header.ParameterId, out responsePacket))
+                    responsePacket = DequeueOverflow(packet);
+                    if (responsePacket == null && !responsePackets.TryGetValue(packet.Header.ParameterId, out responsePacket))
                     {
                         if (packetGetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
                         {
@@ -147,7 +148,8 @@ namespace Acn.Rdm.Broker
                     }
                     break;
                 case RdmCommands.Set:
-                    if (packetSetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
+                    responsePacket = DequeueOverflow(packet);
+                    if (responsePacket == null && packetSetHandlers.TryGetValue(packet.Header.ParameterId, out handler))
                     {
                         responsePacket = handler(packet);
 
@@ -204,11 +206,48 @@ namespace Acn.Rdm.Broker
             RdmHeader header = new RdmHeader();
             header.ParameterId = packet.Header.ParameterId;
             header.Command = (packet.Header.Command == RdmCommands.SetResponse ? RdmCommands.Set : RdmCommands.Get); 
-            header.PortOrResponseType = (byte) RdmResponseTypes.AckOverflow;
 
             //Create a request packet to obtain the remaining data for the overflow.
             return RdmPacket.Create(header);
         }
+
+        #region Overflow
+
+        private Dictionary<UId, Queue<RdmPacket>> overflowQueues = new Dictionary<UId, Queue<RdmPacket>>();
+
+        protected RdmPacket QueueOverflow(RdmPacket request, Queue<RdmPacket> overflowPackets)
+        {
+            overflowQueues[request.Header.SourceId] = overflowPackets;
+            return DequeueOverflow(request);
+        }
+
+        protected RdmPacket DequeueOverflow(RdmPacket request)
+        {
+            Queue<RdmPacket> messages;
+            if (overflowQueues.TryGetValue(request.Header.SourceId, out messages))
+            {
+                RdmPacket reply = messages.Dequeue();
+
+                //If a different parameter is being requested then dump 
+                if (reply.Header.ParameterId != request.Header.ParameterId)
+                {
+                    overflowQueues.Remove(request.Header.SourceId);
+                    return null;
+                }
+
+                reply.Header.PortOrResponseType = (byte) (messages.Count == 0 ? RdmResponseTypes.Ack : RdmResponseTypes.AckOverflow);
+
+                if (messages.Count == 0)
+                    overflowQueues.Remove(request.Header.SourceId);
+
+                return reply;
+            }
+
+            return null;
+        }
+
+        #endregion
+
 
         #region Parameter Status
 
