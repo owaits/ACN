@@ -24,7 +24,7 @@ namespace RdmSnoop
     public partial class SnoopMain : Form
     {
         private ListViewColumnSorter columnSorter = new ListViewColumnSorter();
-
+        private Timer refreshTimer = new Timer();
         public SnoopMain()
         {
             InitializeComponent();
@@ -72,7 +72,9 @@ namespace RdmSnoop
             else
                 networkCardSelect.SelectedIndex = 1;
 
+            refreshTimer.Tick += refreshTimer_Tick;
         }
+
 
         private CardInfo selectedNetworkAdapter = null;
 
@@ -349,6 +351,11 @@ namespace RdmSnoop
             Transport.Discover(DiscoveryType.GatewayDiscovery);
         }
 
+        void refreshTimer_Tick(object sender, EventArgs e)
+        {
+            Transport.Discover(DiscoveryType.GatewayDiscovery);
+        }
+
         private void SnoopMain_Load(object sender, EventArgs e)
         {
             autoInterogateSelect.Checked = AutoInterogate;
@@ -566,6 +573,45 @@ namespace RdmSnoop
         private void deviceRefresh_Click(object sender, EventArgs e)
         {
             SelectedDevice.Interogate();
+        }
+
+        private void autoRefreshSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TimeSpan refreshInterval = TimeSpan.Zero;
+            switch(autoRefreshSelect.SelectedIndex)
+            {
+                case 0:
+                    refreshInterval = TimeSpan.Zero;
+                    break;
+                case 1:
+                    refreshInterval = TimeSpan.FromMinutes(1);
+                    break;
+                case 2:
+                    refreshInterval = TimeSpan.FromMinutes(2);
+                    break;
+                case 3:
+                    refreshInterval = TimeSpan.FromMinutes(5);
+                    break;
+                case 4:
+                    refreshInterval = TimeSpan.FromMinutes(10);
+                    break;
+                case 5:
+                    refreshInterval = TimeSpan.FromMinutes(20);
+                    break;
+                case 6:
+                    refreshInterval = TimeSpan.FromHours(1);
+                    break;
+            }
+
+            if(refreshInterval != TimeSpan.Zero)
+            {
+                refreshTimer.Interval = (int) refreshInterval.TotalMilliseconds;
+                refreshTimer.Enabled = true;
+            }
+            else
+            {
+                refreshTimer.Enabled = false;
+            }   
         }
 
 

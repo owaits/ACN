@@ -1,4 +1,7 @@
-﻿using System;
+﻿//#define SLP_Discovery
+#define mDNS_Discovery
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,13 +13,17 @@ using Acn.Rdm.Routing;
 using Acn.RdmNet.Sockets;
 using Acn.Slp;
 using Acn.Sockets;
+using Mono.Zeroconf;
 
 namespace StreamingAcn.RdmNet
 {
     public class RdmNetEndPointExplorer
     {
-        private SlpUserAgent slpUser = new SlpUserAgent("ACN-DEFAULT");
+        private SlpUserAgent slpUser = null;
         private RdmNetSocket acnSocket = null;
+#if mDNS_Discovery
+        private ServiceBrowser dnsSD = null;
+#endif
 
         public event EventHandler NewEndpointFound;
 
@@ -39,19 +46,47 @@ namespace StreamingAcn.RdmNet
 
         public void Start()
         {
-            slpUser.NetworkAdapter = localAdapter;
-            slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
-
-            if (acnSocket == null || !acnSocket.PortOpen)
+                        if (acnSocket == null || !acnSocket.PortOpen)
             {
                 acnSocket = new RdmNetSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
                 acnSocket.NewRdmPacket += acnSocket_NewRdmPacket;
                 acnSocket.Open(new IPEndPoint(LocalAdapter, 0));
             }
 
+#if SLP_Discovery
+            slpUser = new SlpUserAgent("ACN-DEFAULT");
+            slpUser.NetworkAdapter = localAdapter;
+            slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
+
+
             slpUser.Open();
             slpUser.Find("service:rdmnet-device");
+#endif
+
+#if mDNS_Discovery
+            dnsSD = new ServiceBrowser();
+            dnsSD.ServiceAdded += dnsSD_ServiceAdded;
+            dnsSD.Browse("_rdmnet._udp", "local");
+#endif
         }
+
+#if mDNS_Discovery
+        void dnsSD_ServiceAdded(object o, ServiceBrowseEventArgs args)
+        {
+            args.Service.Resolved += delegate(object sender, ServiceResolvedEventArgs e)
+            {
+                IResolvableService s = (IResolvableService)e.Service;
+                foreach (IPAddress address in s.HostEntry.AddressList)
+                {
+
+                    RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(address, RdmNetSocket.RdmNetPort), 0) { Id = UId.ParseUrl(s.TxtRecord["id"].ValueString) };
+                    ControlEndpoints.Add(controlEndpoint);
+                    DiscoverEndpoints(controlEndpoint);
+                }
+            };
+            args.Service.Resolve();
+        }
+#endif
 
         void acnSocket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
         {
@@ -131,11 +166,15 @@ namespace StreamingAcn.RdmNet
 
         protected void RegisterEndpoint(RdmNetEndPoint endpoint)
         {
-            if (!DiscoveredEndpoints.Contains(endpoint))
+            lock (DiscoveredEndpoints)
             {
-                endpoint.PropertyChanged += endpoint_PropertyChanged;
-                DiscoveredEndpoints.Add(endpoint);
+                if (!DiscoveredEndpoints.Contains(endpoint))
+                {
+                    endpoint.PropertyChanged += endpoint_PropertyChanged;
+                    DiscoveredEndpoints.Add(endpoint);
+                }
             }
+
         }
 
         void endpoint_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -186,10 +225,13 @@ namespace StreamingAcn.RdmNet
             ManufacturerLabel.GetReply reply = packet as ManufacturerLabel.GetReply;
             if (reply != null)
             {
-                foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                lock (DiscoveredEndpoints)
                 {
-                    if (port.Id.Equals(packet.Header.SourceId))
-                        port.ManufacturerLabel = reply.Label;
+                    foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                    {
+                        if (port.Id.Equals(packet.Header.SourceId))
+                            port.ManufacturerLabel = reply.Label;
+                    }
                 }
             }
         }
@@ -199,10 +241,13 @@ namespace StreamingAcn.RdmNet
             DeviceLabel.GetReply reply = packet as DeviceLabel.GetReply;
             if (reply != null)
             {
-                foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                lock (DiscoveredEndpoints)
                 {
-                    if (port.Id.Equals(packet.Header.SourceId))
-                        port.DeviceLabel = reply.Label;
+                    foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                    {
+                        if (port.Id.Equals(packet.Header.SourceId))
+                            port.DeviceLabel = reply.Label;
+                    }
                 }
             }
         }
@@ -212,10 +257,13 @@ namespace StreamingAcn.RdmNet
             EndpointLabel.GetReply reply = packet as EndpointLabel.GetReply;
             if (reply != null)
             {
-                foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                lock (DiscoveredEndpoints)
                 {
-                    if (port.Id.Equals(packet.Header.SourceId) && port.Universe == reply.EndpointID)
-                        port.PortLabel = reply.Label;
+                    foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                    {
+                        if (port.Id.Equals(packet.Header.SourceId) && port.Universe == reply.EndpointID)
+                            port.PortLabel = reply.Label;
+                    }
                 }
             }
         }
@@ -225,10 +273,13 @@ namespace StreamingAcn.RdmNet
             EndpointMode.GetReply reply = packet as EndpointMode.GetReply;
             if (reply != null)
             {
-                foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                lock (DiscoveredEndpoints)
                 {
-                    if (port.Id.Equals(packet.Header.SourceId) && port.Universe == reply.EndpointID)
-                        port.Direction = reply.EndpointMode;
+                    foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                    {
+                        if (port.Id.Equals(packet.Header.SourceId) && port.Universe == reply.EndpointID)
+                            port.Direction = reply.EndpointMode;
+                    }
                 }
             }
         }
@@ -238,10 +289,13 @@ namespace StreamingAcn.RdmNet
             EndpointToUniverse.GetReply reply = packet as EndpointToUniverse.GetReply;
             if (reply != null)
             {
-                foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                lock (DiscoveredEndpoints)
                 {
-                    if (port.Id.Equals(packet.Header.SourceId) && port.Universe == reply.EndpointID)
-                        port.AcnUniverse = reply.UniverseNumber;
+                    foreach (RdmNetEndPoint port in DiscoveredEndpoints)
+                    {
+                        if (port.Id.Equals(packet.Header.SourceId) && port.Universe == reply.EndpointID)
+                            port.AcnUniverse = reply.UniverseNumber;
+                    }
                 }
             }
         }

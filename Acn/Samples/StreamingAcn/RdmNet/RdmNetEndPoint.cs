@@ -7,14 +7,18 @@ using System.Text;
 using Acn.Rdm;
 using Acn.Sockets;
 using Acn.Rdm.Packets.Net;
+using System.Threading;
 
 namespace StreamingAcn
 {
     public class RdmNetEndPoint : RdmEndPoint, INotifyPropertyChanged
     {
+        private SynchronizationContext threadContext = null;
+
         public RdmNetEndPoint(IPEndPoint ipEndPoint, int endpointId)
             : base(ipEndPoint, endpointId)
         {
+            threadContext = SynchronizationContext.Current;
         }
 
         private string manufacturerLabel = string.Empty;
@@ -129,8 +133,11 @@ namespace StreamingAcn
 
         protected void RaisePropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            threadContext.Post(new SendOrPostCallback((state) =>
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }),null);
         }
     }
 

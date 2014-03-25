@@ -1,4 +1,7 @@
-﻿using System;
+﻿//#define SLP_Discovery
+#define mDNS_Discovery
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +14,20 @@ using Acn.RdmNet.Sockets;
 using Acn.Rdm.Packets.Net;
 using Acn.Rdm.Broker;
 using System.Diagnostics;
+
+#if mDNS_Discovery
 using Mono.Zeroconf;
+#endif
 
 namespace RdmSnoop.Transports
 {
     public class RdmNet : ISnoopTransport
     {
-        private SlpUserAgent slpUser = new SlpUserAgent("ACN-DEFAULT");
+        private SlpUserAgent slpUser = null;
         private RdmNetMeshSocket rdmNetSocket = null;
+#if mDNS_Discovery
         private ServiceBrowser dnsSD = null;
+        #endif
 
         public event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
@@ -42,8 +50,6 @@ namespace RdmSnoop.Transports
 
         public void Start()
         {
-            slpUser.NetworkAdapter = localAdapter;
-            slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
 
             if (rdmNetSocket == null || !rdmNetSocket.PortOpen)
             {
@@ -53,14 +59,22 @@ namespace RdmSnoop.Transports
                 rdmNetSocket.Open(new IPEndPoint(LocalAdapter,0));
             }
 
+#if SLP_Discovery   
+            slpUser = new SlpUserAgent("ACN-DEFAULT");
+            slpUser.NetworkAdapter = localAdapter;
+            slpUser.ServiceFound += new EventHandler<ServiceFoundEventArgs>(slpUser_ServiceFound);
             slpUser.Open();
             slpUser.Find("service:rdmnet-device");
+#endif
 
+#if mDNS_Discovery
             dnsSD = new ServiceBrowser();
             dnsSD.ServiceAdded += dnsSD_ServiceAdded;
             dnsSD.Browse("_rdmNet._udp", "local");
+            #endif
         }
 
+#if mDNS_Discovery
         void dnsSD_ServiceAdded(object o, ServiceBrowseEventArgs args)
         {
             args.Service.Resolved += delegate(object sender, ServiceResolvedEventArgs e)
@@ -77,6 +91,7 @@ namespace RdmSnoop.Transports
             };
             args.Service.Resolve();
         }
+#endif
 
         void rdmNetSocket_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -126,7 +141,18 @@ namespace RdmSnoop.Transports
             }                
 
             if (slpUser != null)
-                slpUser.Close();
+            {
+                slpUser.Dispose();
+                slpUser = null;
+            }
+
+#if mDNS_Discovery
+            if(dnsSD != null)
+            {
+                dnsSD.Dispose();
+                dnsSD = null;
+            }
+#endif                
 
             if (rdmNetSocket != null)
             {
