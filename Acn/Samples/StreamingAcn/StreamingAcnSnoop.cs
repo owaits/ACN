@@ -382,10 +382,15 @@ namespace StreamingAcn
         private void UpdatePorts()
         {
             ports.Clear();
-            foreach(RdmNetEndPoint port in acnPortExplorer.DiscoveredEndpoints)
-                ports.Add(port);
+
+            lock (acnPortExplorer.DiscoveredEndpoints)
+            {
+                foreach (RdmNetEndPoint port in acnPortExplorer.DiscoveredEndpoints)
+                    ports.Add(port);
+            }
 
             portGrid.DataSource = ports;
+            portGrid.ResetBindings();
         }
 
         #endregion

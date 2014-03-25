@@ -70,6 +70,9 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.transactionsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.autoRefreshSelect = new System.Windows.Forms.ToolStripComboBox();
+            this.autoRefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -179,8 +182,11 @@
             // toolStripDropDownButton4
             // 
             this.toolStripDropDownButton4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autoInterogateSelect});
-            this.toolStripDropDownButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton4.Image")));
+            this.autoInterogateSelect,
+            this.toolStripSeparator2,
+            this.autoRefreshToolStripMenuItem,
+            this.autoRefreshSelect});
+            this.toolStripDropDownButton4.Image = global::RdmSnoop.Properties.Resources.settings_16;
             this.toolStripDropDownButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton4.Name = "toolStripDropDownButton4";
             this.toolStripDropDownButton4.Size = new System.Drawing.Size(62, 35);
@@ -192,7 +198,7 @@
             this.autoInterogateSelect.Checked = true;
             this.autoInterogateSelect.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoInterogateSelect.Name = "autoInterogateSelect";
-            this.autoInterogateSelect.Size = new System.Drawing.Size(157, 22);
+            this.autoInterogateSelect.Size = new System.Drawing.Size(181, 22);
             this.autoInterogateSelect.Text = "Auto Interogate";
             this.autoInterogateSelect.Click += new System.EventHandler(this.autoInterogateSelect_Click);
             // 
@@ -479,6 +485,31 @@
             this.failedLabel.Size = new System.Drawing.Size(50, 17);
             this.failedLabel.Text = "Failed: 0";
             // 
+            // autoRefreshSelect
+            // 
+            this.autoRefreshSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.autoRefreshSelect.Items.AddRange(new object[] {
+            "Off",
+            "1 Minute",
+            "5 Minutes",
+            "10 Minutes",
+            "20 Minutes",
+            "1 Hour"});
+            this.autoRefreshSelect.Name = "autoRefreshSelect";
+            this.autoRefreshSelect.Size = new System.Drawing.Size(121, 23);
+            this.autoRefreshSelect.SelectedIndexChanged += new System.EventHandler(this.autoRefreshSelect_SelectedIndexChanged);
+            // 
+            // autoRefreshToolStripMenuItem
+            // 
+            this.autoRefreshToolStripMenuItem.Name = "autoRefreshToolStripMenuItem";
+            this.autoRefreshToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.autoRefreshToolStripMenuItem.Text = "Auto Refresh";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(178, 6);
+            // 
             // SnoopMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -555,6 +586,9 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton4;
         private System.Windows.Forms.ToolStripMenuItem autoInterogateSelect;
         private System.Windows.Forms.ToolStripButton deviceRefresh;
+        private System.Windows.Forms.ToolStripComboBox autoRefreshSelect;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem autoRefreshToolStripMenuItem;
 
     }
 }

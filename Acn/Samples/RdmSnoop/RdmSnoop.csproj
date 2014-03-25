@@ -46,11 +46,11 @@
   <ItemGroup>
     <Reference Include="Mono.Zeroconf, Version=4.0.0.90, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\x86\Mono.Zeroconf.dll</HintPath>
+      <HintPath>..\..\Libraries\Mono.Zeroconf.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Zeroconf.Providers.Bonjour, Version=4.0.0.90, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\x86\Mono.Zeroconf.Providers.Bonjour.dll</HintPath>
+      <HintPath>..\..\Libraries\Mono.Zeroconf.Providers.Bonjour.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -106,6 +106,7 @@
     </Compile>
     <EmbeddedResource Include="SnoopMain.resx">
       <DependentUpon>SnoopMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\DmxAddressDialog.resx">
       <DependentUpon>DmxAddressDialog.cs</DependentUpon>
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="RdmSnoopIcon.ico" />
+    <None Include="Resources\Bolt_16xLG.png" />
     <None Include="Resources\hyperlink.png" />
     <None Include="Resources\SearchWebHS.png" />
   </ItemGroup>

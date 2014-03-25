@@ -31,12 +31,12 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtData = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.txtParameterId = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.commandSelect = new System.Windows.Forms.ComboBox();
+            this.txtData = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -79,35 +79,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(536, 50);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 25);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Command";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // txtData
-            // 
-            this.txtData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtData.Location = new System.Drawing.Point(10, 60);
-            this.txtData.Multiline = true;
-            this.txtData.Name = "txtData";
-            this.txtData.Size = new System.Drawing.Size(536, 91);
-            this.txtData.TabIndex = 3;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(10, 115);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(536, 36);
-            this.panel1.TabIndex = 4;
-            // 
             // label2
             // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -126,6 +97,16 @@
             this.txtParameterId.Size = new System.Drawing.Size(409, 20);
             this.txtParameterId.TabIndex = 6;
             // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(115, 25);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Command";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // commandSelect
             // 
             this.commandSelect.FormattingEnabled = true;
@@ -137,13 +118,32 @@
             this.commandSelect.Size = new System.Drawing.Size(97, 21);
             this.commandSelect.TabIndex = 7;
             // 
+            // txtData
+            // 
+            this.txtData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtData.Location = new System.Drawing.Point(10, 60);
+            this.txtData.Multiline = true;
+            this.txtData.Name = "txtData";
+            this.txtData.Size = new System.Drawing.Size(536, 55);
+            this.txtData.TabIndex = 3;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(10, 115);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(536, 36);
+            this.panel1.TabIndex = 4;
+            // 
             // UserMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 161);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtData);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "UserMessage";
