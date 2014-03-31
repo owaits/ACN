@@ -22,6 +22,17 @@ namespace Acn
 
         public bool Streaming { get; protected set; }
 
+        private int priority = 100;
+
+        /// <summary>
+        /// Gets or sets the priority of the sACN DMX stream.
+        /// </summary>
+        public int Priority
+        {
+            get { return priority; }
+            set { priority = value; }
+        }
+
         public void AddUniverse(DmxUniverse universe)
         {
             lock (universes)
@@ -72,7 +83,7 @@ namespace Acn
                 {
                     if (universe.AliveTime > 0 || universe.KeepAliveTime > 36)
                     {
-                        socket.SendDmx(universe.Universe, universe.DmxData);
+                        socket.SendDmx(universe.Universe, universe.DmxData, Priority);
 
                         universe.KeepAliveTime = 0;
                         universe.AliveTime = Math.Max(0, universe.AliveTime-1);
