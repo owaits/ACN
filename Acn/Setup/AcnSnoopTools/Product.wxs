@@ -21,6 +21,8 @@
               </File>
               <File Id="RdmSnoop.exe.config" Name="RdmSnoop.exe.config" Source="$(var.RdmSnoop.TargetDir)RdmSnoop.exe.config"/>
               <File Id="RdmSnoopAcn" Name="Acn.dll" Source="$(var.RdmSnoop.TargetDir)Acn.dll"/>
+              <File Id="Mono.Zeroconf.dll" Name="Mono.Zeroconf.dll" Source="$(var.RdmSnoop.TargetDir)Mono.Zeroconf.dll"/>
+              <File Id="Mono.Zeroconf.Providers.Bonjour.dll" Name="Mono.Zeroconf.Providers.Bonjour.dll" Source="$(var.RdmSnoop.TargetDir)Mono.Zeroconf.Providers.Bonjour.dll"/>
             </Component>
           </Directory>
 
@@ -30,6 +32,8 @@
                 <Shortcut Id="startMenu_StreamingAcn" Directory="acnToolsProgramMenu" Name="Streaming ACN Snoop" Icon="StreamingAcn.exe" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
               </File>
               <File Id="streamingAcnSnoopAcn" Name="Acn.dll" Source="$(var.StreamingAcn.TargetDir)Acn.dll"/>
+              <File Id="streamingAcn.Mono.Zeroconf.dll" Name="Mono.Zeroconf.dll" Source="$(var.StreamingAcn.TargetDir)Mono.Zeroconf.dll"/>
+              <File Id="streamingAcn.Mono.Zeroconf.Providers.Bonjour.dll" Name="Mono.Zeroconf.Providers.Bonjour.dll" Source="$(var.StreamingAcn.TargetDir)Mono.Zeroconf.Providers.Bonjour.dll"/>
             </Component>
           </Directory>
         </Directory>

@@ -123,14 +123,29 @@ namespace StreamingAcn.RdmNet
 
         public void Stop()
         {
-            if (reliableSocket != null)
-                reliableSocket.Dispose();
+            if(dnsSD != null)
+            {
+                dnsSD.Dispose();
+                dnsSD = null;                
+            }
 
             if (slpUser != null)
+            {
                 slpUser.Close();
+                slpUser = null;
+            }
 
             if (acnSocket != null)
+            {
                 acnSocket.Close();
+                acnSocket = null;
+            }                     
+            
+            if (reliableSocket != null)
+            {
+                reliableSocket.Dispose();
+                reliableSocket = null;
+            }                         
         }
 
         private RdmReliableSocket reliableSocket = null;
@@ -139,7 +154,10 @@ namespace StreamingAcn.RdmNet
         {
             get
             {
-                if (reliableSocket == null && acnSocket != null)
+                if (acnSocket == null)
+                    return null;
+
+                if (reliableSocket == null)
                     reliableSocket = new RdmReliableSocket(acnSocket);
 
                 return reliableSocket;
@@ -194,7 +212,7 @@ namespace StreamingAcn.RdmNet
         private void SetEndpointMode(RdmNetEndPoint endpoint)
         {
             EndpointMode.Set setMode = new EndpointMode.Set();
-            setMode.EndpointID = (short)endpoint.Port;
+            setMode.EndpointID = (short)endpoint.Universe;
             setMode.EndpointMode = endpoint.Direction;
 
             acnSocket.SendRdm(setMode, new RdmEndPoint(endpoint,0), endpoint.Id);

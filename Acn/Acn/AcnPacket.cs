@@ -23,7 +23,7 @@ namespace Acn
 
         #region Packet Contents
 
-        public AcnRootLayer Root { get; protected set; }
+        public AcnRootLayer Root { get; set; }
 
         #endregion
 
@@ -46,6 +46,7 @@ namespace Acn
             AcnPacket packet = AcnPacket.Create(header);
             if (packet != null)
             {
+                packet.Root = header;
                 packet.ReadData(data);
             }
 
