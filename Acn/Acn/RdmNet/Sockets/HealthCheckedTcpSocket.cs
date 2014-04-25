@@ -161,7 +161,7 @@ namespace Acn.RdmNet.Sockets
             MemoryStream data = new MemoryStream();
             AcnBinaryWriter writer = new AcnBinaryWriter(data);
 
-            AcnPacket.WritePacket(packet, writer);
+            AcnPacket.WriteTcpPacket(packet, writer);
             socket.Send(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None);         
         }
 

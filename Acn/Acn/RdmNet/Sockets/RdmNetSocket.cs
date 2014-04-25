@@ -96,9 +96,6 @@ namespace Acn.RdmNet.Sockets
             MemoryStream rdmData = new MemoryStream();
             RdmBinaryWriter rdmWriter = new RdmBinaryWriter(rdmData);
 
-            //Write the RDM start code.
-            rdmWriter.Write((byte)DmxStartCodes.RDM);
-
             //Write the RDM sub-start code.
             rdmWriter.Write((byte)RdmVersions.SubMessage);
 
@@ -106,7 +103,7 @@ namespace Acn.RdmNet.Sockets
             RdmPacket.WritePacket(packet,rdmWriter);
 
             //Write the checksum
-            rdmWriter.WriteNetwork((short) RdmPacket.CalculateChecksum(rdmData.GetBuffer()));
+            rdmWriter.WriteNetwork((short)RdmPacket.CalculateChecksum(rdmData.GetBuffer()) + (byte)DmxStartCodes.RDM);
 
             //Create sACN Packet
             RdmNetPacket dmxPacket = new RdmNetPacket();
@@ -140,7 +137,7 @@ namespace Acn.RdmNet.Sockets
                 RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(newPacket.RdmNet.RdmData));
 
                 //Skip Start Code and sub-start code
-                dmxReader.BaseStream.Seek(2, SeekOrigin.Begin);
+                dmxReader.BaseStream.Seek(1, SeekOrigin.Begin);
 
                 RdmPacket rdmPacket = RdmPacket.ReadPacket(dmxReader);
                 RaiseNewRdmPacket(new RdmEndPoint(source,newPacket.Framing.EndpointID), rdmPacket);

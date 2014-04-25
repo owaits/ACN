@@ -11,7 +11,7 @@ namespace Acn.Packets.RdmNet
     public class RdmNetPdu:AcnPdu
     {
         public RdmNetPdu()
-            : base((int)DmxStartCodes.RDM)
+            : base((int)DmxStartCodes.RDM,1)
         {
         }
 

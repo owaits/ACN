@@ -36,7 +36,15 @@ namespace Acn
         public static AcnPacket ReadPacket(AcnBinaryReader data)
         {
             AcnRootLayer rootLayer = new AcnRootLayer();
-            rootLayer.ReadData(data);
+            rootLayer.ReadData(data,false);
+
+            return ReadPacket(rootLayer, data); ;
+        }
+
+        public static AcnPacket ReadTcpPacket(AcnBinaryReader data)
+        {
+            AcnRootLayer rootLayer = new AcnRootLayer();
+            rootLayer.ReadData(data, true);
 
             return ReadPacket(rootLayer, data); ;
         }
@@ -55,7 +63,14 @@ namespace Acn
 
         public static void WritePacket(AcnPacket packet, AcnBinaryWriter data)
         {
-            packet.Root.WriteData(data);
+            packet.Root.WriteData(data,false);
+            packet.WriteData(data);
+            packet.Root.WriteLength(data);
+        }
+
+        public static void WriteTcpPacket(AcnPacket packet, AcnBinaryWriter data)
+        {
+            packet.Root.WriteData(data, true);
             packet.WriteData(data);
             packet.Root.WriteLength(data);
         }

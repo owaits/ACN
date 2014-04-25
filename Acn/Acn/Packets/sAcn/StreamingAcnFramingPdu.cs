@@ -32,6 +32,17 @@ namespace Acn.Packets.sAcn
             set { priority = value; }
         }
 
+        private short syncPacketAddress = 0;
+        
+        /// <summary>
+        /// Gets or sets the Universe containing the sync packet to sync this DMX frame to.
+        /// </summary>
+        public short SyncPacketAddress
+        {
+            get { return syncPacketAddress; }
+            set { syncPacketAddress = value; }
+        }
+
         private byte sequenceNumber = 0;
 
         public byte SequenceNumber
@@ -64,6 +75,7 @@ namespace Acn.Packets.sAcn
         {
             SourceName = data.ReadUtf8String(64);
             Priority = data.ReadByte();
+            SyncPacketAddress = data.ReadOctet2();
             data.BaseStream.Seek(2, SeekOrigin.Current);
             SequenceNumber = data.ReadByte();
             Options = data.ReadByte();
@@ -74,6 +86,7 @@ namespace Acn.Packets.sAcn
         {
             data.WriteUtf8String(SourceName,64);
             data.Write(Priority);
+            data.WriteOctet(SyncPacketAddress);
             data.BaseStream.Seek(2, SeekOrigin.Current);
             data.Write(SequenceNumber);
             data.Write(Options);
