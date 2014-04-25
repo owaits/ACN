@@ -21,6 +21,8 @@ namespace Acn
 
         public short PostambleSize { get; set; }
 
+        public int BlockSize { get; set; }
+
         public string PacketId 
         { 
             get { return "ASC-E1.17"; } 
@@ -38,14 +40,21 @@ namespace Acn
 
         #region Read and Write
 
-        public void ReadData(AcnBinaryReader data)
+        public void ReadData(AcnBinaryReader data, bool tcpTransport)
         {
             //Read Preamble
-            PreambleSize = data.ReadOctet2();
-            PostambleSize = data.ReadOctet2();
+            if(!tcpTransport)
+            {
+                PreambleSize = data.ReadOctet2();
+                PostambleSize = data.ReadOctet2();
+            }
+
             string packetId = data.ReadUtf8String(12);
             if (packetId != PacketId)
                 throw new InvalidPacketException("The packet ID is not a valid ACN packet Id");
+
+            if(tcpTransport)
+             BlockSize = data.ReadOctet4();
 
             //Read PDU Header
             Length = data.ReadOctet2();
@@ -59,13 +68,21 @@ namespace Acn
 
         private long lengthPosition = 0;
 
-        public void WriteData(AcnBinaryWriter data)
+        public void WriteData(AcnBinaryWriter data,bool tcpTransport)
         {
             ValidatePacket();
 
-            data.WriteOctet(PreambleSize);
-            data.WriteOctet(PostambleSize);
+            if (!tcpTransport)
+            {
+                data.WriteOctet(PreambleSize);
+                data.WriteOctet(PostambleSize);
+            }
+
             data.WriteUtf8String(PacketId, 12);
+
+            //PDU Block Size
+            if (tcpTransport)
+                data.BaseStream.Seek(4, System.IO.SeekOrigin.Current);
 
             //Save the position of the length so we can come back and fill it in.
             lengthPosition = data.BaseStream.Position;

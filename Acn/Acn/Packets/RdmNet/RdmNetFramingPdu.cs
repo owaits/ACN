@@ -9,10 +9,10 @@ namespace Acn.Packets.RdmNet
 {
     public enum RdmNetProtocolIds
     {
-        RdmNet,
-        Status,
-        Controller,
-        ChangeNotification
+        RdmNet = 1,
+        Status = 2,
+        Controller = 3,
+        ChangeNotification =4
     }
 
     public class RdmNetFramingPdu:AcnPdu

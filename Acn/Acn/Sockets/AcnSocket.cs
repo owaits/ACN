@@ -182,7 +182,7 @@ namespace Acn.Sockets
         private void ProcessAcnPacket(IPEndPoint source, AcnBinaryReader data)
         {
             AcnRootLayer rootLayer = new AcnRootLayer();
-            rootLayer.ReadData(data);
+            rootLayer.ReadData(data,false);
 
             IProtocolFilter filter;
             if (filters.TryGetValue(rootLayer.ProtocolId, out filter))
