@@ -7,7 +7,19 @@ namespace Acn
 {
     public enum ProtocolIds
     {
+        /// <summary>
+        /// Session Data Transport Protocol
+        /// </summary>
+        SDT = 0x1,
+
+        /// <summary>
+        /// Device Management Protocol
+        /// </summary>
         DMP = 0x2,
+
+        /// <summary>
+        /// DMX Data streamed via Multicast
+        /// </summary>
         sACN = 0x4,
 
         /// <summary>
