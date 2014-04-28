@@ -135,6 +135,13 @@ namespace StreamingAcn
                 HeaderText = "Label"
             });
 
+            portGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                Name = "Endpoint",
+                DataPropertyName = "Universe",
+                HeaderText = "Endpoint",
+                Width = 80
+            });
 
             column = new DataGridViewTextBoxColumn();
             column.Name = "PortLabel";
