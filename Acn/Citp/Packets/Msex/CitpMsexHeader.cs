@@ -17,7 +17,7 @@ namespace Citp.Packets
 
         #region Packet Content
 
-        public float MsexVersion { get; set; }
+        public double MsexVersion { get; set; }
 
         public string LayerContentType { get; set; }
 
