@@ -11,5 +11,10 @@ namespace Acn.Packets.Sdt.Addresses
         public IPv6Address():base(SdtAddressTypes.IPv6)
         {
         }
+
+        public override void WriteData(IO.AcnBinaryWriter data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

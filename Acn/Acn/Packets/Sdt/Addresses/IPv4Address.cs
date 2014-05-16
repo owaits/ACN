@@ -12,5 +12,10 @@ namespace Acn.Packets.Sdt.Addresses
             : base(SdtAddressTypes.IPv4)
         {
         }
+
+        public override void WriteData(IO.AcnBinaryWriter data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
