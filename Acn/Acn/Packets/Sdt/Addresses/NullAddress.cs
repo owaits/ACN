@@ -11,5 +11,9 @@ namespace Acn.Packets.Sdt.Addresses
         public NullAddress():base(SdtAddressTypes.Null)
         {
         }
+
+        public override void WriteData(IO.AcnBinaryWriter data)
+        {
+        }
     }
 }
