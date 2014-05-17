@@ -23,6 +23,18 @@ namespace Acn.Rdm
             DeviceId = source.DeviceId;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UId"/> class. Creates a device ID from the combination
+        /// of the specified <paramref name="productId"/> and <paramref name="deviceCode"/>.
+        /// </summary>
+        /// <param name="manufacturerId">The manufacturer identifier.</param>
+        /// <param name="productId">The product identifier, stored in the high byte of the <see cref="DeviceId"/>.</param>
+        /// <param name="deviceCode">The device code, stored in the other 3 bytes of the <see cref="DeviceId"/>.</param>
+        public UId(ushort manufacturerId, byte productId, uint deviceCode)
+            : this(manufacturerId, (uint)((productId << 24) + (deviceCode & 0x00FFFFFF)))
+        {
+        }
+
         public ushort ManufacturerId { get; protected set; }
 
         public uint DeviceId { get; protected set; }
@@ -80,6 +92,20 @@ namespace Acn.Rdm
         {
             Random randomId = new Random();
             return new UId(manufacturerId, (uint) randomId.Next(1,0x7FFFFFFF));
+        }
+
+        /// <summary>
+        /// Generates a new random <see cref="UId"/> with the specified <paramref name="manufacturerId"/>. The high
+        /// byte of <see cref="DeviceId"/> will be the <paramref name="productId"/>, the other 3 bytes will be a
+        /// randomly generated number.
+        /// </summary>
+        /// <param name="manufacturerId">The manufacturer identifier.</param>
+        /// <param name="productId">The product identifier.</param>
+        /// <returns>The new <see cref="UId"/>.</returns>
+        public static UId NewUId(ushort manufacturerId, byte productId)
+        {
+            Random randomId = new Random();
+            return new UId(manufacturerId, productId, (uint)randomId.Next(1, 0x00FFFFFF));
         }
 
         public static UId Parse(string value)
