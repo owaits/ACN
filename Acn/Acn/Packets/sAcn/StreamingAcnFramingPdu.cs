@@ -76,7 +76,6 @@ namespace Acn.Packets.sAcn
             SourceName = data.ReadUtf8String(64);
             Priority = data.ReadByte();
             SyncPacketAddress = data.ReadOctet2();
-            data.BaseStream.Seek(2, SeekOrigin.Current);
             SequenceNumber = data.ReadByte();
             Options = data.ReadByte();
             Universe = data.ReadOctet2();
@@ -87,7 +86,6 @@ namespace Acn.Packets.sAcn
             data.WriteUtf8String(SourceName,64);
             data.Write(Priority);
             data.WriteOctet(SyncPacketAddress);
-            data.BaseStream.Seek(2, SeekOrigin.Current);
             data.Write(SequenceNumber);
             data.Write(Options);
             data.WriteOctet(Universe);
