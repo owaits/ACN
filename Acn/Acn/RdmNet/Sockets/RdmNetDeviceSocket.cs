@@ -81,6 +81,7 @@ namespace Acn.RdmNet.Sockets
                         else
                         {
                             HealthCheckedTcpSocket socket = new HealthCheckedTcpSocket(clientSocket, RdmSourceId, SenderId, SourceName);
+                            socket.UnhandledException += socket_UnhandledException;
                             socket.Open(new IPEndPoint(IPAddress.Any, 0));
                             AliveTcpSocket = socket;
                         }
@@ -91,6 +92,16 @@ namespace Acn.RdmNet.Sockets
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Handles the UnhandledException event of the socket control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="UnhandledExceptionEventArgs"/> instance containing the event data.</param>
+        void socket_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            RaiseUnhandledException((Exception)e.ExceptionObject);
         }
 
 
@@ -110,9 +121,6 @@ namespace Acn.RdmNet.Sockets
             //Create Rdm Packet
             MemoryStream rdmData = new MemoryStream();
             RdmBinaryWriter rdmWriter = new RdmBinaryWriter(rdmData);
-
-            //Write the RDM start code.
-            rdmWriter.Write((byte)DmxStartCodes.RDM);
 
             //Write the RDM sub-start code.
             rdmWriter.Write((byte)RdmVersions.SubMessage);
