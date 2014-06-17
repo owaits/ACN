@@ -79,6 +79,11 @@ namespace Acn.Sockets
 
         #region Traffic
 
+        protected virtual bool TcpTraffic
+        {
+            get { return false; }
+        }
+
         public void Open(IPAddress adapterIP)
         {
             Open(new IPEndPoint(adapterIP, Port));
@@ -182,7 +187,7 @@ namespace Acn.Sockets
         private void ProcessAcnPacket(IPEndPoint source, AcnBinaryReader data)
         {
             AcnRootLayer rootLayer = new AcnRootLayer();
-            rootLayer.ReadData(data,false);
+            rootLayer.ReadData(data, TcpTraffic);
 
             IProtocolFilter filter;
             if (filters.TryGetValue(rootLayer.ProtocolId, out filter))

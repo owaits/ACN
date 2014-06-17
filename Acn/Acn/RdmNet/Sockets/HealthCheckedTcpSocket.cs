@@ -85,6 +85,11 @@ namespace Acn.RdmNet.Sockets
             protected set { lastContact = value; }
         }
 
+        protected override bool TcpTraffic
+        {
+            get { return true; }
+        }
+
         #endregion       
 
         #region Health Check
