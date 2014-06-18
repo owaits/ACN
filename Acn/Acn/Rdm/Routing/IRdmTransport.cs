@@ -33,6 +33,16 @@ namespace Acn.Rdm.Routing
         void Stop();
         void Discover(DiscoveryType type);
 
+        /// <summary>
+        /// Gets the universe index for a specific endpoint address.
+        /// </summary>
+        /// <remarks>
+        /// The transport may wish to resolve this to an internal addressing scheme.
+        /// </remarks>
+        /// <param name="address">The device address.</param>
+        /// <returns>The DMX universe that this address resolves to.</returns>
+        int ResolveEndpointToUniverse(RdmEndPoint address);
+
         IRdmSocket Socket { get; }
     }
 }

@@ -157,6 +157,21 @@ namespace Acn.Rdm.Routing
 
         #region Routing
 
+        /// <summary>
+        /// Gets the current transport in use for a specific device.
+        /// </summary>
+        /// <param name="targetId">The id of the device to return the transport for.</param>
+        /// <returns>The RDM transport for the device.</returns>
+        /// <exception cref="InvalidOperationException">The target id is a broadcast id or another invalid id.</exception>
+        public IRdmTransport GetTransportForDevice(UId targetId)
+        {
+            if (targetId == UId.Broadcast)
+                throw new InvalidOperationException("Target device UId can not be broadcast.");
+
+            RdmRouteBinding route = GetTransportsRoutes(targetId).FirstOrDefault();
+            return route != null ? route.Transport : null;
+        }
+
         internal List<RdmRouteBinding> GetTransportsRoutes(UId targetId)
         {
             List<RdmRouteBinding> transportsToUse = new List<RdmRouteBinding>();
@@ -201,5 +216,25 @@ namespace Acn.Rdm.Routing
         public event EventHandler Starting;
 
         public event EventHandler Stoping;
+
+
+        /// <summary>
+        /// Gets the universe index for a specific endpoint address.
+        /// </summary>
+        /// <param name="address">The device address.</param>
+        /// <returns>
+        /// The DMX universe that this address resolves to.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">No transport exists for this device address.</exception>
+        /// <remarks>
+        /// The transport may wish to resolve this to an internal addressing scheme.
+        /// </remarks>
+        public int ResolveEndpointToUniverse(RdmEndPoint address)
+        {
+            IRdmTransport transport = GetTransportForDevice(address.Id);
+            if (transport == null)
+                throw new InvalidOperationException("No transport exists for this device address.");
+            return transport.ResolveEndpointToUniverse(address);
+        }
     }
 }
