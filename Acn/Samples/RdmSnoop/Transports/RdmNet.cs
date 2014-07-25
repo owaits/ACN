@@ -271,5 +271,11 @@ namespace RdmSnoop.Transports
 
         #endregion
 
+
+
+        public int ResolveEndpointToUniverse(RdmEndPoint address)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
