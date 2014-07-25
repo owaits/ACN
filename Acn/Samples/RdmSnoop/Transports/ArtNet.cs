@@ -168,5 +168,11 @@ namespace RdmSnoop.Transports
         public event EventHandler Starting;
 
         public event EventHandler Stoping;
+
+
+        public int ResolveEndpointToUniverse(RdmEndPoint address)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
