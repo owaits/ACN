@@ -41,6 +41,10 @@ namespace Acn.RdmNet.Sockets
                 if (connectionListener != null)
                     connectionListener.Stop();
             }
+            if(disposing && AliveTcpSocket != null)
+            {
+                AliveTcpSocket.Dispose();
+            }
 
             base.Dispose(disposing);
         }

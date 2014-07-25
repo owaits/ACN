@@ -54,7 +54,13 @@ namespace Acn.RdmNet.Sockets
 
         protected override void Dispose(bool disposing)
         {
-            HeartbeatEnabled = false;
+            heartbeatEnabled = false;
+            if (disposing && heartbeatTimer != null)
+            {
+                // If this is finalise not dispose then our members will already be finalised.
+                heartbeatTimer.Dispose();
+                heartbeatTimer = null;
+            }
             base.Dispose(disposing);
         }
 
