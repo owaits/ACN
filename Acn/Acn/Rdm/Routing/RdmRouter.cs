@@ -172,6 +172,23 @@ namespace Acn.Rdm.Routing
             return route != null ? route.Transport : null;
         }
 
+        /// <summary>
+        /// Gets the transport binding for a specific device.
+        /// </summary>
+        /// <remarks>
+        /// Each device will have a transport binding which determines the transport used to comunicate with that device.
+        /// </remarks>
+        /// <param name="targetId">The ID of the device we wish to get the binding for.</param>
+        /// <returns>The transport binding for the specified device.</returns>
+        public RdmRouteBinding GetBindingForDevice(UId targetId)
+        {
+            if (targetId == UId.Broadcast)
+                throw new InvalidOperationException("Target device UId can not be broadcast.");
+
+            RdmRouteBinding route = GetTransportsRoutes(targetId).FirstOrDefault();
+            return route;
+        }
+
         internal List<RdmRouteBinding> GetTransportsRoutes(UId targetId)
         {
             List<RdmRouteBinding> transportsToUse = new List<RdmRouteBinding>();

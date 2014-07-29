@@ -40,6 +40,8 @@ namespace Acn.RdmNet.Sockets
                 IsDisposed = true;
                 if (connectionListener != null)
                     connectionListener.Stop();
+
+                AliveTcpSocket = null;
             }
             if(disposing && AliveTcpSocket != null)
             {
@@ -59,7 +61,19 @@ namespace Acn.RdmNet.Sockets
         public HealthCheckedTcpSocket AliveTcpSocket
         {
             get { return aliveTcpSocket; }
-            set { aliveTcpSocket = value; }
+            protected set 
+            { 
+                if(aliveTcpSocket != value)
+                {
+                    if (aliveTcpSocket != null)
+                    {
+                        aliveTcpSocket.Dispose();
+                    }
+                    
+                    aliveTcpSocket = value; 
+                }
+                
+            }
         }
 
         public bool IsTcpConnectionAlive()
