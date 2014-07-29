@@ -51,6 +51,14 @@ namespace Acn.Sockets
             set { id = value; }
         }
 
+        private UId gatewayId = UId.Empty;
+
+        public UId GatewayId
+        {
+            get { return gatewayId; }
+            set { gatewayId = value; }
+        }
+
         private int universe = 0;
 
         public int Universe

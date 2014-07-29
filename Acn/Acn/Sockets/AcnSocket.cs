@@ -150,10 +150,11 @@ namespace Acn.Sockets
                     if (recieveState != null)
                     {
                         EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                        recieveState.Item1.EndReceiveFrom(state, ref remoteEndPoint);
+                        int dataSize = recieveState.Item1.EndReceiveFrom(state, ref remoteEndPoint);
 
                         //Protect against UDP loopback where we recieve our own packets.
-                        if (LocalEndPoint != remoteEndPoint)
+                        //Ensure we have actually recieved data.
+                        if (LocalEndPoint != remoteEndPoint && dataSize > 0)
                         {
                             LastPacket = DateTime.Now;
 
