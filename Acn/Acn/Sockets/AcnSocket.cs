@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using Acn.IO;
 using Acn.Packets.sAcn;
+using System.Threading;
 
 namespace Acn.Sockets
 {
@@ -135,7 +136,7 @@ namespace Acn.Sockets
             }
             catch (Exception ex)
             {
-                RaiseUnhandledException(new ApplicationException("An error ocurred while trying to start recieving CITP.", ex));
+                RaiseUnhandledException(new ApplicationException("An error ocurred while trying to start recieving ACN.", ex));
             }
         }
 
@@ -222,6 +223,39 @@ namespace Acn.Sockets
             UnhandledException(this, new UnhandledExceptionEventArgs((object)ex, false));
         }
 
+        /// <summary>
+        /// Closes the <see cref="T:System.Net.Sockets.Socket" /> connection and releases all associated resources.
+        /// </summary>
+        /// <PermissionSet>
+        ///   <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
+        protected new void Close()
+        {
+            PortOpen = false;
+            base.Close();
+        }
+
+        /// <summary>
+        /// Closes the <see cref="T:System.Net.Sockets.Socket" /> connection and releases all associated resources with a specified timeout to allow queued data to be sent.
+        /// </summary>
+        /// <param name="timeout">Wait up to <paramref name="timeout" /> seconds to send any remaining data, then close the socket.</param>
+        /// <PermissionSet>
+        ///   <IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
+        ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
+        /// </PermissionSet>
+        protected new void Close(int timeout)
+        {
+            PortOpen = false;
+            base.Close(timeout);
+        }
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the <see cref="T:System.Net.Sockets.Socket" />, and optionally disposes of the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to releases only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             PortOpen = false;

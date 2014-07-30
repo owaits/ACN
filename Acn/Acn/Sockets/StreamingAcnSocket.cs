@@ -116,16 +116,40 @@ namespace Acn.Sockets
             SendDmx(universe, dmxData, 100);
         }
 
+        /// <summary>
+        /// Sends a DMX frame over streaming ACN.
+        /// </summary>
+        /// <remarks>
+        /// The dmxData must include the start code. Please use the overload with startCode specified
+        /// if the data does not include the start code.
+        /// </remarks>
+        /// <param name="universe">The streaming ACN universe between 1 and 3000.</param>
+        /// <param name="dmxData">The DMX data including the start code.</param>
+        /// <param name="priority">The sACN priority for the DMX data.</param>
         public void SendDmx(int universe, byte[] dmxData, byte priority)
+        {
+            //Start code of 0xFF indicates the start code is in the data.
+            SendDmx(universe, 0xFF, dmxData, priority);
+        }
+
+        /// <summary>
+        /// Sends a DMX frame over streaming ACN.
+        /// </summary>
+        /// <param name="universe">The streaming ACN universe between 1 and 3000.</param>
+        /// <param name="startCode"></param>
+        /// <param name="dmxData">The DMX data including the start code.</param>
+        /// <param name="priority">The sACN priority for the DMX data.</param>
+        public void SendDmx(int universe, byte startCode, byte[] dmxData, byte priority)
         {
             IncrementSequenceNumber(universe);
 
             StreamingAcnDmxPacket packet = new StreamingAcnDmxPacket();
             packet.Framing.SourceName = SourceName;
-            packet.Framing.Universe = (short) universe;
+            packet.Framing.Universe = (short)universe;
             packet.Framing.Priority = priority;
-            packet.Framing.SequenceNumber = (byte) GetSequenceNumber(universe);
-            packet.Dmx.Data = dmxData;            
+            packet.Framing.SequenceNumber = (byte)GetSequenceNumber(universe);
+            packet.Dmx.StartCode = startCode;
+            packet.Dmx.Data = dmxData;
 
             SendPacket(packet, GetUniverseEndPoint(universe));
         }

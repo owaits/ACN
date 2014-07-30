@@ -78,6 +78,18 @@ namespace Acn.Packets.Dmp
             data.WriteOctet(FirstPropertyAddress);
             data.WriteOctet(AddressIncrement);
             data.WriteOctet(PropertyLength);
+            WriteContent(data);
+        }
+
+        /// <summary>
+        /// Writes the Property data to the packet stream.
+        /// </summary>
+        /// <remarks>
+        /// This allows customization of the property data.
+        /// </remarks>
+        /// <param name="data">The packet data stream.</param>
+        protected virtual void WriteContent(AcnBinaryWriter data)
+        {
             data.Write(PropertyData);
         }
 

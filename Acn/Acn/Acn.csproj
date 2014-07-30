@@ -164,6 +164,7 @@
     <Compile Include="Packets\RdmNet\RdmNetStatusPacket.cs" />
     <Compile Include="Packets\RdmNet\RdmNetPdu.cs" />
     <Compile Include="Packets\RdmNet\RdmNetFramingPdu.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnDmxPdu.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnSynchronizationPacket.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnDmxPacket.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnFramingPdu.cs" />

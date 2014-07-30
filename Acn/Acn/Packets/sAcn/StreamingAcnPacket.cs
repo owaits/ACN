@@ -25,9 +25,9 @@ namespace Acn.Packets.sAcn
             get { return framing; }
         }
 
-        private DmpSetProperty dmx = new DmpSetProperty();
+        private StreamingAcnDmxPdu dmx = new StreamingAcnDmxPdu();
 
-        public DmpSetProperty Dmx
+        public StreamingAcnDmxPdu Dmx
         {
             get { return dmx; }
         }
