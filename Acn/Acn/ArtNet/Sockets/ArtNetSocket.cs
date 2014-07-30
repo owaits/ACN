@@ -114,7 +114,6 @@ namespace Acn.ArtNet.Sockets
 
         private void OnRecieve(IAsyncResult state)
         {
-            ArtNetPacket newPacket;
             EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any,0);
 
             if (PortOpen)
