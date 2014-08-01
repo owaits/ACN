@@ -44,6 +44,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Midi", "Midi\Midi.csproj", "{04895AE4-595D-4694-8C90-7AD0919C2C6E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version", "Version", "{64BF5B96-D7A7-48EF-AE8A-952D18775A85}"
+	ProjectSection(SolutionItems) = preProject
+		ProductVersion.cs = ProductVersion.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 12

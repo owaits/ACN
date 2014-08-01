@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProductVersion.cs">
+      <Link>ProductVersion.cs</Link>
+    </Compile>
     <Compile Include="IO\MidiBinaryReader.cs" />
     <Compile Include="IO\MidiBinaryWriter.cs" />
     <Compile Include="MidiCommand.cs" />
