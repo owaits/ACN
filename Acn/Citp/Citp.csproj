@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ProductVersion.cs">
+      <Link>ProductVersion.cs</Link>
+    </Compile>
     <Compile Include="CitpMessageHandler.cs" />
     <Compile Include="CitpStreamSession.cs" />
     <Compile Include="DmxDescriptor.cs" />
