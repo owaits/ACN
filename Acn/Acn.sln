@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
 EndProject
@@ -42,9 +42,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 		Libraries\Mono.Zeroconf.Providers.Bonjour.pdb = Libraries\Mono.Zeroconf.Providers.Bonjour.pdb
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Midi", "Midi\Midi.csproj", "{04895AE4-595D-4694-8C90-7AD0919C2C6E}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -85,6 +87,9 @@ Global
 		SccProjectUniqueName10 = Citp\\Citp.csproj
 		SccProjectName10 = Citp
 		SccLocalPath10 = Citp
+		SccProjectUniqueName11 = Midi\\Midi.csproj
+		SccProjectName11 = Midi
+		SccLocalPath11 = Midi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AndroidRelease|Any CPU = AndroidRelease|Any CPU
@@ -246,6 +251,21 @@ Global
 		{945047A9-0F25-4388-A46A-0D53F9440F80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{945047A9-0F25-4388-A46A-0D53F9440F80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{945047A9-0F25-4388-A46A-0D53F9440F80}.Release|x86.ActiveCfg = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.AndroidRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.AndroidRelease|Any CPU.Build.0 = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.AndroidRelease|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.AndroidRelease|Mixed Platforms.Build.0 = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.AndroidRelease|x86.ActiveCfg = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
