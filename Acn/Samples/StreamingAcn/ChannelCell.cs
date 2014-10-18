@@ -28,7 +28,7 @@ namespace StreamingAcn
 
         void UniverseData_DmxDataChanged(object sender, EventArgs e)
         {
-            if (UniverseData.DmxData != null)
+            if (UniverseData.DmxData != null && UniverseData.DmxData.Length > Channel)
             {
                 Level = UniverseData.DmxData[Channel];
             }
