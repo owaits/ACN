@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using Acn.IO;
 using Acn.Packets.sAcn;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Acn.Sockets
@@ -103,8 +104,15 @@ namespace Acn.Sockets
             //    (Winsock) error that is received is WSAECONNRESET (10054). Since we don't want
             //    to wrap each UDP socket operation in a try/except, we'll disable this error
             //    for the socket with this ioctl call.
+            try
+            {
             byte[] byteTrue = new byte[4] {0,0,0, 1};
             IOControl(SIO_UDP_CONNRESET, byteTrue, null);
+            }
+            catch (SocketException)
+            {
+                Trace.WriteLine("Unable to set SIO_UDP_CONNRESET, maybe not supported.");
+            }
 
             SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             Bind(localEndPoint);
