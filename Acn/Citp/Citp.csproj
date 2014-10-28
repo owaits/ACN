@@ -53,11 +53,13 @@
     <Compile Include="IO\CitpBinaryReader.cs" />
     <Compile Include="IO\CitpBinaryWriter.cs" />
     <Compile Include="Packets\CaEx\CaExContentCodes.cs" />
+    <Compile Include="Packets\CaEx\CaExLeaveShow.cs" />
     <Compile Include="Packets\CaEx\CaExGetLiveViewImage.cs" />
     <Compile Include="Packets\CaEx\CaExGetLiveViewStatus.cs" />
     <Compile Include="Packets\CaEx\CaExHeader.cs" />
     <Compile Include="Packets\CaEx\CaExLiveViewImage.cs" />
     <Compile Include="Packets\CaEx\CaExLiveViewStatus.cs" />
+    <Compile Include="Packets\CaEx\CaExEnterShow.cs" />
     <Compile Include="Packets\CaEx\CaExNack.cs" />
     <Compile Include="Packets\CaEx\CaExRecordCue.cs" />
     <Compile Include="Packets\CaEx\CaExSetCueRecordingCapabilities.cs" />
@@ -108,6 +110,9 @@
     <Compile Include="Packets\PInf\CitpPInfHeader.cs" />
     <Compile Include="Packets\PInf\CitpPInfPeerLocation.cs" />
     <Compile Include="Packets\PInf\CitpPInfPeerName.cs" />
+    <Compile Include="Packets\SDmx\SDmxCapabilities.cs" />
+    <Compile Include="Packets\SDmx\SDmxChannelList.cs" />
+    <Compile Include="Packets\SDmx\SDmxSetExternalUniverseSource.cs" />
     <Compile Include="Packets\SDmx\SDmxSetExternalSource.cs" />
     <Compile Include="Packets\SDmx\SDmxChannelBlock.cs" />
     <Compile Include="Packets\SDmx\SDmxEncryptionIdentifier.cs" />

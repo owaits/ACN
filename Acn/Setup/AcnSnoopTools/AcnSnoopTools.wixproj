@@ -28,6 +28,14 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Acn\Acn.csproj">
+      <Name>Acn</Name>
+      <Project>{9f69b278-176f-4e9c-a9ea-8cb7bcc611a4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\Samples\RdmSnoop\RdmSnoop.csproj">
       <Name>RdmSnoop</Name>
       <Project>{62616df2-0f0f-4eac-a96d-5e6d8b303ed4}</Project>

@@ -173,7 +173,8 @@ namespace Acn.Sockets
                             if (ipEndPoint.Port == 0)
                                 ipEndPoint = (IPEndPoint)recieveState.Item1.RemoteEndPoint;
 
-                            ProcessAcnPacket(ipEndPoint, new AcnBinaryReader(recieveState.Item2));
+                            AcnBinaryReader packetReader = new AcnBinaryReader(recieveState.Item2);
+                            ProcessAcnPacket(ipEndPoint, packetReader);
                         }
                     }
                 }
