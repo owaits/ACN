@@ -16,6 +16,8 @@ namespace Citp.Packets.CaEx
         SetCueRecordingCapabilities = 0x10100,
         RecordCue = 0x10200,
         SetRecorderClearingCapabilities = 0x10300,
-        ClearRecorder = 0x10400
+        ClearRecorder = 0x10400,
+        EnterShow = 0x20100,
+        LeaveShow = 0x20101
     }
 }

@@ -19,31 +19,45 @@ namespace Citp
         public int Channel;
         public bool UnicodeString;
 
+        public Guid PersonalityID { get; set; }
+
         public static bool TryParse(string value, out DmxDescriptor descriptor)
         {
             descriptor = new DmxDescriptor();
 
             string[] parts = value.Split('/');
 
-            descriptor.Protocol = parts[0];
-            descriptor.Net = INVALID;
-            descriptor.Universe = INVALID;
-            descriptor.Channel = INVALID;
-            if (parts.Length > 1)
+            try
             {
-                int.TryParse(parts[parts.Length - 1], out descriptor.Channel);
-                if (descriptor.Channel == INVALID) return false;
-                if (parts.Length > 2)
+                int position = 0;
+                while(position < parts.Length)
                 {
-                    int.TryParse(parts[parts.Length - 2], out descriptor.Universe);
-                    if (descriptor.Universe == INVALID) return false;
-                    if (parts.Length > 3)
+                    switch(parts[position].ToLower())
                     {
-                        int.TryParse(parts[parts.Length - 3], out descriptor.Net);
-                        if (descriptor.Net == INVALID || parts.Length > 4) return false;
+                        case "artnet":
+                            descriptor.Protocol = parts[position];
+                            descriptor.Net = int.Parse(parts[position + 1]);
+                            descriptor.Universe = int.Parse(parts[position + 2]);
+                            descriptor.Channel = int.Parse(parts[position + 3]);
+                            break;
+                        case "bsre1.31":
+                            descriptor.Protocol = parts[position];
+                            descriptor.Universe = int.Parse(parts[position + 1]);
+                            descriptor.Channel = int.Parse(parts[position + 2]);
+                            break;
+                        case "personalityid":
+                            descriptor.PersonalityID = Guid.Parse(parts[position + 1]);
+                            break;
                     }
+                    position++;
                 }
             }
+            catch (Exception)
+            {
+                return false;
+            }            
+
+
             return true;
         }
 

@@ -52,7 +52,7 @@ namespace StreamingAcn
             }
         }
 
-        public string portLabel = string.Empty;
+        public string portLabel = null;
 
         public string PortLabel
         {
@@ -61,6 +61,8 @@ namespace StreamingAcn
             {
                 if (portLabel != value)
                 {
+                    RaisePropertySet("PortLabel", portLabel, value);
+
                     portLabel = value;
                     RaisePropertyChanged("PortLabel");
                 }
@@ -97,30 +99,34 @@ namespace StreamingAcn
             }
         }
 
-        public EndpointMode.EndpointModes direction = EndpointMode.EndpointModes.Disabled;
+        public EndpointMode.EndpointModes? direction = null;
 
-        public EndpointMode.EndpointModes Direction
+        public EndpointMode.EndpointModes? Direction
         {
             get { return direction; }
             set
             {
                 if (direction != value)
                 {
+                    RaisePropertySet("Direction", direction, value);
+
                     direction = value;
                     RaisePropertyChanged("Direction");
                 }
             }
         }
 
-        public int acnUniverse = 0;
+        public int? acnUniverse = null;
 
-        public int AcnUniverse
+        public int? AcnUniverse
         {
             get { return acnUniverse; }
             set
             {
                 if (acnUniverse != value)
                 {
+                    RaisePropertySet("AcnUniverse", acnUniverse, value);
+
                     acnUniverse = value;
                     Patched = (acnUniverse == 0 ? "No" : "Yes");
 
@@ -128,6 +134,18 @@ namespace StreamingAcn
                 }
             }
         }
+
+        public event PropertyChangedEventHandler PropertySet;
+
+        protected void RaisePropertySet(string propertyName, object oldValue, object newValue)
+        {
+            if(oldValue != null)
+            {
+                if (PropertySet != null)
+                    PropertySet(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -139,6 +157,7 @@ namespace StreamingAcn
                     PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }),null);
         }
+
     }
 
     public class RdmNetEndpointComparer : IEqualityComparer<RdmNetEndPoint>

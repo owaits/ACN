@@ -43,7 +43,6 @@ namespace StreamingAcn.RdmNet
             set { subnetMask = value; }
         }
 
-
         public void Start()
         {
                         if (acnSocket == null || !acnSocket.PortOpen)
@@ -118,7 +117,7 @@ namespace StreamingAcn.RdmNet
         {
             EndpointList.Get getEndpoints = new EndpointList.Get();
             getEndpoints.Header.DestinationId = endpoint.Id;
-            acnSocket.SendRdm(getEndpoints, endpoint, endpoint.Id);
+            Socket.SendRdm(getEndpoints, endpoint, endpoint.Id);
         }
 
         public void Stop()
@@ -188,7 +187,7 @@ namespace StreamingAcn.RdmNet
             {
                 if (!DiscoveredEndpoints.Contains(endpoint))
                 {
-                    endpoint.PropertyChanged += endpoint_PropertyChanged;
+                    endpoint.PropertySet += endpoint_PropertyChanged;
                     DiscoveredEndpoints.Add(endpoint);
                 }
             }
@@ -211,11 +210,14 @@ namespace StreamingAcn.RdmNet
 
         private void SetEndpointMode(RdmNetEndPoint endpoint)
         {
-            EndpointMode.Set setMode = new EndpointMode.Set();
-            setMode.EndpointID = (short)endpoint.Universe;
-            setMode.EndpointMode = endpoint.Direction;
+            if(endpoint.Direction != null)
+            {
+                EndpointMode.Set setMode = new EndpointMode.Set();
+                setMode.EndpointID = (short)endpoint.Universe;
+                setMode.EndpointMode = (EndpointMode.EndpointModes) endpoint.Direction;
 
-            acnSocket.SendRdm(setMode, new RdmEndPoint(endpoint,0), endpoint.Id);
+                Socket.SendRdm(setMode, new RdmEndPoint(endpoint,0), endpoint.Id);
+            }
         }
 
         private void SetEndpointUniverse(RdmNetEndPoint endpoint)
@@ -224,7 +226,7 @@ namespace StreamingAcn.RdmNet
             setUniverse.EndpointID = (short) endpoint.Universe;
             setUniverse.UniverseNumber = (short) endpoint.AcnUniverse;
 
-            acnSocket.SendRdm(setUniverse, new RdmEndPoint(endpoint,0), endpoint.Id);
+            Socket.SendRdm(setUniverse, new RdmEndPoint(endpoint,0), endpoint.Id);
         }
 
         private void SetEndpointLabel(RdmNetEndPoint endpoint)
@@ -233,7 +235,7 @@ namespace StreamingAcn.RdmNet
             setLabel.EndpointID = (short)endpoint.Port;
             setLabel.Label = endpoint.PortLabel;
 
-            acnSocket.SendRdm(setLabel, new RdmEndPoint(endpoint, 0), endpoint.Id);
+            Socket.SendRdm(setLabel, new RdmEndPoint(endpoint, 0), endpoint.Id);
         }
 
         #region RDM Message Handlers
@@ -341,22 +343,22 @@ namespace StreamingAcn.RdmNet
         private void InterogateEndpoint(UId targetId, RdmNetEndPoint endpoint)
         {
             ManufacturerLabel.Get getManufacturerLabel = new ManufacturerLabel.Get();
-            acnSocket.SendRdm(getManufacturerLabel, new RdmEndPoint(endpoint, 0), targetId);
+            Socket.SendRdm(getManufacturerLabel, new RdmEndPoint(endpoint, 0), targetId);
 
             DeviceLabel.Get getDeviceLabel = new DeviceLabel.Get();
-            acnSocket.SendRdm(getDeviceLabel, new RdmEndPoint(endpoint, 0), targetId);
+            Socket.SendRdm(getDeviceLabel, new RdmEndPoint(endpoint, 0), targetId);
 
             EndpointLabel.Get getLabel = new EndpointLabel.Get();
             getLabel.EndpointID = (short) endpoint.Universe;
-            acnSocket.SendRdm(getLabel, new RdmEndPoint(endpoint, 0), targetId);
+            Socket.SendRdm(getLabel, new RdmEndPoint(endpoint, 0), targetId);
 
             EndpointMode.Get getMode = new EndpointMode.Get();
             getMode.EndpointID = (short)endpoint.Universe;
-            acnSocket.SendRdm(getMode, new RdmEndPoint(endpoint, 0), targetId);
+            Socket.SendRdm(getMode, new RdmEndPoint(endpoint, 0), targetId);
 
             EndpointToUniverse.Get getUniverse = new EndpointToUniverse.Get();
             getUniverse.EndpointID = (short)endpoint.Universe;
-            acnSocket.SendRdm(getUniverse, new RdmEndPoint(endpoint, 0), targetId);
+            Socket.SendRdm(getUniverse, new RdmEndPoint(endpoint, 0), targetId);
         }
 
         #endregion

@@ -16,6 +16,7 @@ using Acn;
 using Acn.Helpers;
 using StreamingAcn.RdmNet;
 using Acn.Rdm.Packets.Net;
+using System.Net.Sockets;
 
 namespace StreamingAcn
 {
@@ -103,7 +104,10 @@ namespace StreamingAcn
                     for (int n = 0; n < ipProperties.UnicastAddresses.Count; n++)
                     {
                         CardInfo card = new CardInfo(adapter, n);
-                        networkCardSelect.Items.Add(card);
+                        if(card.IpAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            networkCardSelect.Items.Add(card);
+                        }
 
                         firstCard = card;
                     }
@@ -196,24 +200,24 @@ namespace StreamingAcn
         }
 
         void portGrid_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-
-            RdmNetEndPoint endpoint = portGrid.Rows[e.RowIndex].DataBoundItem as RdmNetEndPoint;
-            if (endpoint != null)
+        {            
+            if(e.RowIndex >=0)
             {
-                if (e.ColumnIndex == portGrid.Columns["Patched"].Index)
+                RdmNetEndPoint endpoint = portGrid.Rows[e.RowIndex].DataBoundItem as RdmNetEndPoint;
+                if (endpoint != null)
                 {
-                    if (endpoint.AcnUniverse == 0)
-                        endpoint.AcnUniverse = endpoint.Universe;
-                    else
-                        endpoint.AcnUniverse = 0;
-                }                    
+                    if (e.ColumnIndex == portGrid.Columns["Patched"].Index)
+                    {
+                        if (endpoint.AcnUniverse == 0)
+                            endpoint.AcnUniverse = endpoint.Universe;
+                        else
+                            endpoint.AcnUniverse = 0;
+                    }                    
 
-                if (e.ColumnIndex == portGrid.Columns["Identify"].Index)
-                    endpoint.Identify = !endpoint.Identify;
+                    if (e.ColumnIndex == portGrid.Columns["Identify"].Index)
+                        endpoint.Identify = !endpoint.Identify;
+                }
             }
-
         }
 
 
@@ -282,8 +286,16 @@ namespace StreamingAcn
             {
                 ReadOnlyCollection<int> universes = socket.DmxUniverses;
 
-                Stop();
-                Start(networkCard, universes);
+                try
+                {
+                    Stop();
+                    Start(networkCard, universes);
+                }
+                catch (SocketException)
+                {
+                    MessageBox.Show("Unable to use selected Network interface.");
+                }
+
             }
         }
 
