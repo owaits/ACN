@@ -61,9 +61,11 @@ namespace StreamingAcn
             {
                 if (portLabel != value)
                 {
-                    RaisePropertySet("PortLabel", portLabel, value);
+                    string oldValue = portLabel;                    
 
                     portLabel = value;
+
+                    RaisePropertySet("PortLabel", oldValue, value);
                     RaisePropertyChanged("PortLabel");
                 }
             }
@@ -108,9 +110,11 @@ namespace StreamingAcn
             {
                 if (direction != value)
                 {
-                    RaisePropertySet("Direction", direction, value);
+                    EndpointMode.EndpointModes? oldValue = direction;                    
 
                     direction = value;
+
+                    RaisePropertySet("Direction", oldValue, value);
                     RaisePropertyChanged("Direction");
                 }
             }
@@ -125,11 +129,13 @@ namespace StreamingAcn
             {
                 if (acnUniverse != value)
                 {
-                    RaisePropertySet("AcnUniverse", acnUniverse, value);
+                    int? oldValue = acnUniverse;
+                    
 
                     acnUniverse = value;
                     Patched = (acnUniverse == 0 ? "No" : "Yes");
 
+                    RaisePropertySet("AcnUniverse", oldValue, value);
                     RaisePropertyChanged("AcnUniverse");
                 }
             }
