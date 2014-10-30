@@ -414,5 +414,21 @@ namespace StreamingAcn
 
         #endregion
 
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+            acnPortExplorer.ReadOnly = !acnPortExplorer.ReadOnly;
+
+            toolStripButton1.Text = acnPortExplorer.ReadOnly ? "Read Only" : "Edit";
+        }
+
+        private void portGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (acnPortExplorer.ReadOnly)
+            {
+                MessageBox.Show("Editting has been disabled, Read Only is selected.");
+                e.Cancel = true;
+            }
+        }
+
     }
 }

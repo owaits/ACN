@@ -194,10 +194,19 @@ namespace StreamingAcn.RdmNet
 
         }
 
+        private bool readOnly = true;
+
+        public bool ReadOnly
+        {
+            get { return readOnly; }
+            set { readOnly = value; }
+        }
+
+
         void endpoint_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             RdmNetEndPoint endpoint = sender as RdmNetEndPoint;
-            if(endpoint != null)
+            if(endpoint != null && !ReadOnly)
             {
                 if (e.PropertyName == "AcnUniverse")
                     SetEndpointUniverse(endpoint);
@@ -222,20 +231,27 @@ namespace StreamingAcn.RdmNet
 
         private void SetEndpointUniverse(RdmNetEndPoint endpoint)
         {
-            EndpointToUniverse.Set setUniverse = new EndpointToUniverse.Set();
-            setUniverse.EndpointID = (short) endpoint.Universe;
-            setUniverse.UniverseNumber = (short) endpoint.AcnUniverse;
+            if(endpoint.AcnUniverse != null)
+            {
+                EndpointToUniverse.Set setUniverse = new EndpointToUniverse.Set();
+                setUniverse.EndpointID = (short) endpoint.Universe;
+                setUniverse.UniverseNumber = (short) endpoint.AcnUniverse;
 
-            Socket.SendRdm(setUniverse, new RdmEndPoint(endpoint,0), endpoint.Id);
+                Socket.SendRdm(setUniverse, new RdmEndPoint(endpoint,0), endpoint.Id);
+            }
         }
 
         private void SetEndpointLabel(RdmNetEndPoint endpoint)
         {
-            EndpointLabel.Set setLabel = new EndpointLabel.Set();
-            setLabel.EndpointID = (short)endpoint.Port;
-            setLabel.Label = endpoint.PortLabel;
+            if(endpoint.PortLabel != null)
+            {
+                EndpointLabel.Set setLabel = new EndpointLabel.Set();
+                setLabel.EndpointID = (short)endpoint.Port;
+                setLabel.Label = endpoint.PortLabel;
 
-            Socket.SendRdm(setLabel, new RdmEndPoint(endpoint, 0), endpoint.Id);
+                Socket.SendRdm(setLabel, new RdmEndPoint(endpoint, 0), endpoint.Id);
+            }
+
         }
 
         #region RDM Message Handlers

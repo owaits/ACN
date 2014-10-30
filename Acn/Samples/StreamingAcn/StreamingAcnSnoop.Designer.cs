@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StreamingAcnSnoop));
             this.dataTabs = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.portGrid = new System.Windows.Forms.DataGridView();
             this.recieveTab = new System.Windows.Forms.TabPage();
             this.channelArea = new System.Windows.Forms.FlowLayoutPanel();
             this.sendTab = new System.Windows.Forms.TabPage();
@@ -45,16 +47,15 @@
             this.networkCardSelect = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.portGrid = new System.Windows.Forms.DataGridView();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.dataTabs.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.portGrid)).BeginInit();
             this.recieveTab.SuspendLayout();
             this.sendTab.SuspendLayout();
             this.levelGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.levelBar)).BeginInit();
             this.toolStrip1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.portGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // dataTabs
@@ -69,13 +70,34 @@
             this.dataTabs.Size = new System.Drawing.Size(747, 396);
             this.dataTabs.TabIndex = 0;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.portGrid);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(739, 370);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Ports";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // portGrid
+            // 
+            this.portGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.portGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.portGrid.Location = new System.Drawing.Point(3, 3);
+            this.portGrid.Name = "portGrid";
+            this.portGrid.Size = new System.Drawing.Size(733, 364);
+            this.portGrid.TabIndex = 0;
+            this.portGrid.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.portGrid_CellBeginEdit);
+            // 
             // recieveTab
             // 
             this.recieveTab.Controls.Add(this.channelArea);
             this.recieveTab.Location = new System.Drawing.Point(4, 22);
             this.recieveTab.Name = "recieveTab";
             this.recieveTab.Padding = new System.Windows.Forms.Padding(3);
-            this.recieveTab.Size = new System.Drawing.Size(557, 317);
+            this.recieveTab.Size = new System.Drawing.Size(739, 370);
             this.recieveTab.TabIndex = 0;
             this.recieveTab.Text = "Recieve";
             this.recieveTab.UseVisualStyleBackColor = true;
@@ -86,7 +108,7 @@
             this.channelArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.channelArea.Location = new System.Drawing.Point(3, 3);
             this.channelArea.Name = "channelArea";
-            this.channelArea.Size = new System.Drawing.Size(551, 311);
+            this.channelArea.Size = new System.Drawing.Size(733, 364);
             this.channelArea.TabIndex = 0;
             // 
             // sendTab
@@ -96,7 +118,7 @@
             this.sendTab.Location = new System.Drawing.Point(4, 22);
             this.sendTab.Name = "sendTab";
             this.sendTab.Padding = new System.Windows.Forms.Padding(3);
-            this.sendTab.Size = new System.Drawing.Size(557, 317);
+            this.sendTab.Size = new System.Drawing.Size(739, 370);
             this.sendTab.TabIndex = 1;
             this.sendTab.Text = "Send";
             this.sendTab.UseVisualStyleBackColor = true;
@@ -107,7 +129,7 @@
             this.sendChannelArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sendChannelArea.Location = new System.Drawing.Point(52, 3);
             this.sendChannelArea.Name = "sendChannelArea";
-            this.sendChannelArea.Size = new System.Drawing.Size(502, 311);
+            this.sendChannelArea.Size = new System.Drawing.Size(684, 364);
             this.sendChannelArea.TabIndex = 1;
             // 
             // levelGroup
@@ -119,7 +141,7 @@
             this.levelGroup.Enabled = false;
             this.levelGroup.Location = new System.Drawing.Point(3, 3);
             this.levelGroup.Name = "levelGroup";
-            this.levelGroup.Size = new System.Drawing.Size(49, 311);
+            this.levelGroup.Size = new System.Drawing.Size(49, 364);
             this.levelGroup.TabIndex = 0;
             this.levelGroup.TabStop = false;
             this.levelGroup.Text = "Level";
@@ -131,7 +153,7 @@
             this.levelBar.Maximum = 255;
             this.levelBar.Name = "levelBar";
             this.levelBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.levelBar.Size = new System.Drawing.Size(43, 218);
+            this.levelBar.Size = new System.Drawing.Size(43, 271);
             this.levelBar.TabIndex = 2;
             this.levelBar.TickFrequency = 16;
             this.levelBar.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -140,7 +162,7 @@
             // levelZero
             // 
             this.levelZero.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.levelZero.Location = new System.Drawing.Point(3, 271);
+            this.levelZero.Location = new System.Drawing.Point(3, 324);
             this.levelZero.Name = "levelZero";
             this.levelZero.Size = new System.Drawing.Size(43, 37);
             this.levelZero.TabIndex = 1;
@@ -168,7 +190,8 @@
             this.toolStripSeparator1,
             this.networkCardSelect,
             this.toolStripLabel1,
-            this.toolStripTextBox1});
+            this.toolStripTextBox1,
+            this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(747, 38);
@@ -222,25 +245,15 @@
             this.toolStripTextBox1.Text = "1";
             this.toolStripTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox1_KeyDown);
             // 
-            // tabPage1
+            // toolStripButton1
             // 
-            this.tabPage1.Controls.Add(this.portGrid);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(739, 370);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Ports";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // portGrid
-            // 
-            this.portGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.portGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.portGrid.Location = new System.Drawing.Point(3, 3);
-            this.portGrid.Name = "portGrid";
-            this.portGrid.Size = new System.Drawing.Size(733, 364);
-            this.portGrid.TabIndex = 0;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(65, 35);
+            this.toolStripButton1.Text = "Read Only";
+            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click_1);
             // 
             // StreamingAcnSnoop
             // 
@@ -253,6 +266,8 @@
             this.Text = "sACN Snoop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StreamingAcnSnoop_FormClosing);
             this.dataTabs.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.portGrid)).EndInit();
             this.recieveTab.ResumeLayout(false);
             this.sendTab.ResumeLayout(false);
             this.levelGroup.ResumeLayout(false);
@@ -260,8 +275,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.levelBar)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.portGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,6 +300,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView portGrid;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 
