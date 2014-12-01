@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
 EndProject
@@ -49,9 +49,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version", "Version", "{64BF
 		ProductVersion.cs = ProductVersion.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlitchDetector", "Samples\GlitchDetector\GlitchDetector.csproj", "{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -95,6 +97,10 @@ Global
 		SccProjectUniqueName11 = Midi\\Midi.csproj
 		SccProjectName11 = Midi
 		SccLocalPath11 = Midi
+		SccProjectUniqueName12 = Samples\\GlitchDetector\\GlitchDetector.csproj
+		SccProjectTopLevelParentUniqueName12 = Acn.sln
+		SccProjectName12 = Samples/GlitchDetector
+		SccLocalPath12 = Samples\\GlitchDetector
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AndroidRelease|Any CPU = AndroidRelease|Any CPU
@@ -271,6 +277,21 @@ Global
 		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{04895AE4-595D-4694-8C90-7AD0919C2C6E}.Release|x86.ActiveCfg = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.AndroidRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.AndroidRelease|Any CPU.Build.0 = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.AndroidRelease|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.AndroidRelease|Mixed Platforms.Build.0 = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.AndroidRelease|x86.ActiveCfg = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -283,6 +304,7 @@ Global
 		{0F28564B-B395-404F-9B3B-7A395FC4BEC5} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{1E304772-DE8A-421E-8E97-DF72AF01E434} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{2926CA41-3C26-4A38-87FB-A0DBE530997E} = {75B56461-B574-43AE-B1D1-04C31933E735}
+		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Acn.vsmdi
