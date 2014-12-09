@@ -283,7 +283,7 @@ namespace Acn.ArtNet.Packets
 
             if (SubSwitch > 0)
             {
-                universe = (SubSwitch & 0x7F00) << 8;
+                universe = (SubSwitch & 0x7F00);
                 universe += (SubSwitch & 0x0F) << 4;
                 universe += (outPorts ? SwOut[portIndex] : SwIn[portIndex]) & 0xF;
             }
