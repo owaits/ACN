@@ -269,6 +269,34 @@ namespace Acn.ArtNet.Packets
 	
         #endregion
 
+        #region Packet Helpers
+
+        /// <summary>
+        /// Interprets the universe address to ensure compatibility with ArtNet I, II and III devices.
+        /// </summary>
+        /// <param name="outPorts">Whether to get the address for in or out ports.</param>
+        /// <param name="portIndex">The port index to obtain the universe for.</param>
+        /// <returns>The 15 Bit universe address</returns>
+        public int UniverseAddress(bool outPorts, int portIndex)
+        {
+            int universe;
+
+            if (SubSwitch > 0)
+            {
+                universe = (SubSwitch & 0x7F00) << 8;
+                universe += (SubSwitch & 0x0F) << 4;
+                universe += (outPorts ? SwOut[portIndex] : SwIn[portIndex]) & 0xF;
+            }
+            else
+            {
+                universe = (outPorts ? SwOut[portIndex] : SwIn[portIndex]);
+            }
+
+            return universe;
+        }
+
+        #endregion
+
         public override void ReadData(ArtNetBinaryReader data)
         {
             base.ReadData(data);
@@ -333,7 +361,5 @@ namespace Acn.ArtNet.Packets
             data.Write(Status2);
             data.Write(new byte[208]);
         }
-	
-
     }
 }
