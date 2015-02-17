@@ -378,6 +378,7 @@
     <Compile Include="Sockets\RdmReliableSocket.cs" />
     <Compile Include="RdmNet\Sockets\RdmNetSocket.cs" />
     <Compile Include="Sockets\StreamingAcnSocket.cs" />
+    <Compile Include="TestTools\AcnListener.cs" />
     <Compile Include="TestTools\AssertDmx.cs" />
     <Compile Include="TFtp\TFTPServer.cs" />
   </ItemGroup>
