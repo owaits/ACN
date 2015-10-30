@@ -5,6 +5,7 @@ using System.Text;
 using Acn.Rdm;
 using System.ComponentModel;
 using System.Threading;
+using System.Net.Sockets;
 
 namespace Acn.Sockets
 {
@@ -268,7 +269,15 @@ namespace Acn.Sockets
 
             foreach (Transaction transaction in retryTransactions)
             {
-                socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
+                try
+                {
+                    socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
+                }
+                catch (SocketException)
+                {
+                    //If the connection has failed, remove the transaction from the queue to prevent further communications.
+                    transactionQueue.Remove(transaction.Id);
+                }                
             }
 
             lock (transactionQueue)

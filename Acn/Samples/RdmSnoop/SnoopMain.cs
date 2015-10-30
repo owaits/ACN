@@ -18,6 +18,7 @@ using RdmNetworkMonitor;
 using RdmSnoop.Tools;
 using Acn.Rdm.Routing;
 using Acn.Rdm.Packets;
+using System.Net.Sockets;
 
 namespace RdmSnoop
 {
@@ -228,18 +229,27 @@ namespace RdmSnoop
                 snoopTransport.SubnetMask = selectedNetworkAdapter.SubnetMask;
             }
 
-            Transport.Start();
-
-            IRdmSocket socket = Transport.Socket;
-            socket.NewRdmPacket += transport_NewRdmPacket;
-            socket.RdmPacketSent += transport_NewRdmPacket;
-
-            RdmReliableSocket reliableSocket = socket as RdmReliableSocket;
-            if (reliableSocket != null)
+            try
             {
-                reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
-                UpdatePacketCount(reliableSocket);
+                Transport.Start();
+
+                IRdmSocket socket = Transport.Socket;
+                socket.NewRdmPacket += transport_NewRdmPacket;
+                socket.RdmPacketSent += transport_NewRdmPacket;
+
+                RdmReliableSocket reliableSocket = socket as RdmReliableSocket;
+                if (reliableSocket != null)
+                {
+                    reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
+                    UpdatePacketCount(reliableSocket);
+                }
             }
+            catch (SocketException)
+            {
+                //oops
+            }
+
+
         }
 
         void reliableSocket_PropertyChanged(object sender, PropertyChangedEventArgs e)
