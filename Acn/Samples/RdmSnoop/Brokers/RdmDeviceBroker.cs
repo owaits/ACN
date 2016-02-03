@@ -24,19 +24,23 @@ namespace RdmNetworkMonitor
 {
     public class RdmDeviceBroker:RdmMessageBroker, INotifyPropertyChanged
     {
-        IRdmSocket socket = null;
+        IEnumerable<IRdmSocket> sockets = null;
 
         #region Setup and Iniiaalisation
                
-        public RdmDeviceBroker(IRdmSocket socket, UId id, RdmEndPoint address)
+        public RdmDeviceBroker(IEnumerable<IRdmSocket> sockets, UId id, RdmEndPoint address)
         {
             Id = id;
             Address = address;
-            this.socket = socket;
+            this.sockets = sockets;
 
             RegisterHandlers(this);
-            
-            socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<RdmPacket>>(socket_NewRdmPacket);
+
+            foreach (var socket in sockets)
+            {
+                socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<RdmPacket>>(socket_NewRdmPacket);
+            }
+
         }
 
         #endregion
@@ -112,7 +116,8 @@ namespace RdmNetworkMonitor
 
                     DeviceLabel.Set setLabel = new DeviceLabel.Set();
                     setLabel.Label = value;
-                    socket.SendRdm(setLabel, Address, Id);
+                    foreach (var socket in sockets)
+                        socket.SendRdm(setLabel, Address, Id);
 
                     RaisePropertyChanged("Label");
                 }
@@ -200,7 +205,8 @@ namespace RdmNetworkMonitor
 
                     PanInvert.Set invert = new PanInvert.Set();
                     invert.Inverted = value;
-                    socket.SendRdm(invert, Address, Id);
+                    foreach (var socket in sockets)
+                        socket.SendRdm(invert, Address, Id);
 
                     RaisePropertyChanged("PanInvert");
                 }
@@ -221,7 +227,8 @@ namespace RdmNetworkMonitor
 
                     TiltInvert.Set invert = new TiltInvert.Set();
                     invert.Inverted = value;
-                    socket.SendRdm(invert, Address, Id);
+                    foreach (var socket in sockets)
+                        socket.SendRdm(invert, Address, Id);
 
                     RaisePropertyChanged("TiltInvert");
                 }
@@ -242,7 +249,8 @@ namespace RdmNetworkMonitor
 
                     PanTiltSwap.Set invert = new PanTiltSwap.Set();
                     invert.Swapped = value;
-                    socket.SendRdm(invert, Address, Id);
+                    foreach (var socket in sockets)
+                        socket.SendRdm(invert, Address, Id);
 
                     RaisePropertyChanged("PanTiltSwap");
                 }
@@ -339,40 +347,46 @@ namespace RdmNetworkMonitor
         {
             IdentifyDevice.Set identify = new IdentifyDevice.Set();
             identify.IdentifyEnabled = enabled;
-            socket.SendRdm(identify, Address, Id);
+            foreach (var socket in sockets)
+                socket.SendRdm(identify, Address, Id);
         }
 
         public void SetDmxAddress(int address)
         {
             DmxStartAddress.Set setAddress = new DmxStartAddress.Set();
             setAddress.DmxAddress = (short) address;
-            socket.SendRdm(setAddress, Address, Id);
+            foreach (var socket in sockets)
+                socket.SendRdm(setAddress, Address, Id);
         }
 
         public void SetMode(int mode)
         {
             DmxPersonality.Set setMode = new DmxPersonality.Set();
             setMode.PersonalityIndex = (byte)mode;
-            socket.SendRdm(setMode, Address, Id);
+            foreach (var socket in sockets)
+                socket.SendRdm(setMode, Address, Id);
         }
 
         public void Reset()
         {
             ResetDevice.Set reset = new ResetDevice.Set();
-            socket.SendRdm(reset, Address, Id);
+            foreach (var socket in sockets)
+                socket.SendRdm(reset, Address, Id);
         }
 
         public void SelfTest()
         {
             PerformSelfTest.Set test = new PerformSelfTest.Set();
-            socket.SendRdm(test, Address, Id);
+            foreach (var socket in sockets)
+                socket.SendRdm(test, Address, Id);
         }
 
         public void Power(PowerState.States state)
         {
             PowerState.Set power = new PowerState.Set();
             power.State = state;
-            socket.SendRdm(power, Address, Id);
+            foreach (var socket in sockets)
+                socket.SendRdm(power, Address, Id);
         }
 
 
@@ -392,7 +406,8 @@ namespace RdmNetworkMonitor
 
             if (replyPacket != null)
             {
-                socket.SendRdm(replyPacket, Address, Id);
+                foreach (var socket in sockets)
+                    socket.SendRdm(replyPacket, Address, Id);
             }
                 
 
@@ -415,7 +430,7 @@ namespace RdmNetworkMonitor
                         SubDevices.Clear();
                         for (short n = 1; n <= info.SubDeviceCount; n++)
                         {
-                            RdmDeviceBroker subDeviceBroker = new RdmDeviceBroker(socket, new SubDeviceUId(Id, n), Address);
+                            RdmDeviceBroker subDeviceBroker = new RdmDeviceBroker(sockets, new SubDeviceUId(Id, n), Address);
                             SubDevices.Add(subDeviceBroker);
                             subDeviceBroker.Interogate();
                         }
@@ -576,7 +591,8 @@ namespace RdmNetworkMonitor
                     //Request the slot description.
                     SlotDescription.Get slotDescription = new SlotDescription.Get();
                     slotDescription.SlotOffset = slot.Offset;
-                    socket.SendRdm(slotDescription, Address, Id);
+                    foreach (var socket in sockets)
+                        socket.SendRdm(slotDescription, Address, Id);
                 }
             }
 
@@ -608,7 +624,8 @@ namespace RdmNetworkMonitor
                 {
                     ParameterDescription.Get descriptionPacket = new ParameterDescription.Get();
                     descriptionPacket.ParameterId = pid;
-                    socket.SendRdm(descriptionPacket, Address, Id);
+                    foreach (var socket in sockets)
+                        socket.SendRdm(descriptionPacket, Address, Id);
                 }
             }
 
@@ -635,7 +652,8 @@ namespace RdmNetworkMonitor
             {
                 SetParameterStatus(packet.Header.ParameterId, ParameterStatus.Pending);
                 //packet.Header.PortOrResponseType = (byte) Address.Universe;
-                socket.SendRdm(packet, Address, Id);
+                foreach(var socket in sockets)
+                    socket.SendRdm(packet, Address, Id);
             }
         }
         

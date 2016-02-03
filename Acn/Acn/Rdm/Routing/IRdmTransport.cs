@@ -43,6 +43,6 @@ namespace Acn.Rdm.Routing
         /// <returns>The DMX universe that this address resolves to.</returns>
         int ResolveEndpointToUniverse(RdmEndPoint address);
 
-        IRdmSocket Socket { get; }
+        IEnumerable<IRdmSocket> Sockets { get; }
     }
 }

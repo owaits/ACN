@@ -12,7 +12,7 @@ namespace Acn.Rdm.Routing
 
         public RdmRouter()
         {
-            socket = new RdmRoutingSocket(this);
+            sockets.Add(new RdmRoutingSocket(this));
         }
 
         private bool running = false;
@@ -22,11 +22,11 @@ namespace Acn.Rdm.Routing
             get { return running; }
         }
 
-        private RdmRoutingSocket socket;
+        private List<RdmRoutingSocket> sockets = new List<RdmRoutingSocket>();
         
-        public IRdmSocket Socket
+        public IEnumerable<IRdmSocket> Sockets
         {
-            get { return socket; }
+            get { return sockets; }
         }
 
         public void Start()
@@ -58,13 +58,26 @@ namespace Acn.Rdm.Routing
         internal void Bind(RdmRouteBinding binding)
         {
             if(running)
-                socket.Bind(binding.Transport.Socket);
+            {
+                foreach (IRdmSocket transportSocket in binding.Transport.Sockets)
+                {
+                    foreach(var socket in sockets)
+                        socket.Bind(transportSocket);
+                }                    
+            }
+                
         }
 
         internal void UnBind(RdmRouteBinding binding)
         {
             if (running)
-                socket.UnBind(binding.Transport.Socket);
+            {
+                foreach(IRdmSocket transportSocket in binding.Transport.Sockets)
+                {
+                    foreach(var socket in sockets)
+                        socket.UnBind(transportSocket);
+                }                    
+            }  
         }
 
         #endregion

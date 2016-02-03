@@ -88,14 +88,14 @@ namespace RdmSnoop.Transports
 
         private RdmReliableSocket reliableSocket = null;
 
-        public IRdmSocket Socket
+        public IEnumerable<IRdmSocket> Sockets
         {
             get 
             {
                 if (reliableSocket == null && socket != null)
                     reliableSocket = new RdmReliableSocket(socket);
 
-                return reliableSocket; 
+                return Enumerable.Repeat(reliableSocket,1); 
             }
         }
 
