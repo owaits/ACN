@@ -184,14 +184,14 @@ namespace RdmSnoop.Transports
 
         private RdmReliableSocket reliableSocket = null;
 
-        public IRdmSocket Socket
+        public IEnumerable<IRdmSocket> Sockets
         {
             get 
             {
                 if (reliableSocket == null && rdmNetSocket != null)
                     reliableSocket = new RdmReliableSocket(rdmNetSocket);
 
-                return reliableSocket;
+                return Enumerable.Repeat(reliableSocket,1);
             }
         }
 
@@ -229,7 +229,9 @@ namespace RdmSnoop.Transports
 
                     EndpointDevices.Get request = new EndpointDevices.Get();
                     request.EndpointID = (short) endpointId;
-                    if(Socket != null) Socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
+
+                    foreach(var socket in Sockets)
+                        socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
                 }
             }
         }
@@ -259,13 +261,14 @@ namespace RdmSnoop.Transports
         private void ProcessDeviceListChange(IPEndPoint endpoint, RdmPacket packet)
         {
             EndpointDeviceListChange.Reply reply = packet as EndpointDeviceListChange.Reply;
-            if (reply != null && Socket != null)
+            if (reply != null)
             {
                 RdmEndPoint source = new RdmEndPoint(endpoint, reply.EndpointID);
 
                 EndpointDevices.Get request = new EndpointDevices.Get();
                 request.EndpointID = reply.EndpointID;
-                Socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
+                foreach(var socket in Sockets)
+                    socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
             }
         }
 

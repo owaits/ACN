@@ -233,15 +233,17 @@ namespace RdmSnoop
             {
                 Transport.Start();
 
-                IRdmSocket socket = Transport.Socket;
-                socket.NewRdmPacket += transport_NewRdmPacket;
-                socket.RdmPacketSent += transport_NewRdmPacket;
-
-                RdmReliableSocket reliableSocket = socket as RdmReliableSocket;
-                if (reliableSocket != null)
+                foreach(IRdmSocket socket in Transport.Sockets)
                 {
-                    reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
-                    UpdatePacketCount(reliableSocket);
+                    socket.NewRdmPacket += transport_NewRdmPacket;
+                    socket.RdmPacketSent += transport_NewRdmPacket;
+                    
+                    RdmReliableSocket reliableSocket = socket as RdmReliableSocket;
+                    if (reliableSocket != null)
+                    {
+                        reliableSocket.PropertyChanged += new PropertyChangedEventHandler(reliableSocket_PropertyChanged);
+                        UpdatePacketCount(reliableSocket);
+                    }
                 }
             }
             catch (SocketException)
@@ -311,7 +313,7 @@ namespace RdmSnoop
         {
             if (!devices.ContainsKey(id))
             {
-                RdmDeviceModel device = new RdmDeviceModel(new TreeNode(id.ToString()), Transport.Socket, id, address);
+                RdmDeviceModel device = new RdmDeviceModel(new TreeNode(id.ToString()), Transport.Sockets, id, address);
                 devices[id] = device;
                 rdmDevices.Nodes.Add(device.Node);
 
@@ -571,7 +573,11 @@ namespace RdmSnoop
                 if (customMessage == null)
                     MessageBox.Show("Invalid message format!");
                 else
-                    Transport.Socket.SendRdm(message.Message, SelectedDevice.Address, SelectedDevice.Id);
+                {
+                    foreach(var socket in Transport.Sockets)
+                        socket.SendRdm(message.Message, SelectedDevice.Address, SelectedDevice.Id);
+                }
+                    
             }
         }
 

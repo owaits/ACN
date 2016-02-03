@@ -67,7 +67,8 @@ namespace Acn.Rdm.Routing
             //Send the packet on all transports.
             foreach (RdmRouteBinding binding in transportsToUse)
             {
-                binding.Transport.Socket.SendRdm(packet, targetAddress, targetId);
+                foreach(IRdmSocket socket in binding.Transport.Sockets)
+                    socket.SendRdm(packet, targetAddress, targetId);
             }
         }
 
@@ -78,7 +79,8 @@ namespace Acn.Rdm.Routing
             //Send the packet on all transports.
             foreach (RdmRouteBinding binding in transportsToUse)
             {
-                binding.Transport.Socket.SendRdm(packet, targetAddress, targetId, sourceId);
+                foreach (IRdmSocket socket in binding.Transport.Sockets)
+                    socket.SendRdm(packet, targetAddress, targetId, sourceId);
             }
         }
         #endregion
