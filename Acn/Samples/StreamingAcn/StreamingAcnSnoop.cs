@@ -289,7 +289,7 @@ namespace StreamingAcn
                 try
                 {
                     Stop();
-                    Start(networkCard, universes);
+                    Start(networkCard, new List<int>(){ selectedUniverse});
                 }
                 catch (SocketException)
                 {

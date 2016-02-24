@@ -28,6 +28,14 @@ namespace Acn.Sockets
             RegisterProtocolFilter(this);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            foreach (int universe in DmxUniverses.ToList())
+                DropDmxUniverse(universe);
+
+            base.Dispose(disposing);
+        }
+
         #endregion
 
         #region Information
