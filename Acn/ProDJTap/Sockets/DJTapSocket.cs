@@ -23,8 +23,6 @@ namespace ProDJTap.Sockets
     /// <seealso cref="System.Net.Sockets.Socket" />
     public class DJTapSocket:Socket
     {
-        //public const int Port = 60000;
-        //public const int TimecodeStreamPort = 60002;
         public const int Port = 60000;
         public const int TimecodeStreamPort = 60002;
 
