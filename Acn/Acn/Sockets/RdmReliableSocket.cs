@@ -199,6 +199,11 @@ namespace Acn.Sockets
             }
         }
 
+        /// <summary>
+        /// Gets or sets whether RDM packets are blocked by this socket.
+        /// </summary>
+        public bool BlockRDM { get; set; }
+
         private void RegisterTransaction(RdmPacket packet, RdmEndPoint address, UId id)
         {
             lock (transactionQueue)
@@ -327,6 +332,9 @@ namespace Acn.Sockets
         
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
         {
+            if (BlockRDM)
+                return;
+
             //Queue this packet for sending.
             RegisterTransaction(packet, targetAddress, targetId);
 
@@ -335,6 +343,9 @@ namespace Acn.Sockets
 
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
+            if (BlockRDM)
+                return;
+
             //Queue this packet for sending.
             RegisterTransaction(packet, targetAddress, targetId);
 

@@ -80,6 +80,11 @@ namespace Acn.ArtNet.Sockets
             protected set { lastPacket = value; }
         }
 
+        /// <summary>
+        /// Gets or sets whether RDM packets are blocked by this socket.
+        /// </summary>
+        public bool BlockRDM { get; set; }
+
         #endregion
         
 	
@@ -187,6 +192,9 @@ namespace Acn.ArtNet.Sockets
 
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
+            if (BlockRDM)
+                return;
+
             //Fill in addition details
             packet.Header.SourceId = sourceId;
             packet.Header.DestinationId = targetId;
@@ -219,6 +227,9 @@ namespace Acn.ArtNet.Sockets
 
         public void SendRdm(List<RdmPacket> packets, RdmEndPoint targetAddress, UId targetId)
         {
+            if (BlockRDM)
+                return;
+
             if(packets.Count <1)
                 throw new ArgumentException("Rdm packets list is empty.");
 

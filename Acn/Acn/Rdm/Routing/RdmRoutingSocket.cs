@@ -15,6 +15,11 @@ namespace Acn.Rdm.Routing
             this.router = router; 
         }
 
+        /// <summary>
+        /// Gets or sets whether RDM packets are blocked by this socket.
+        /// </summary>
+        public bool BlockRDM { get; set; }
+
         public void Bind(IRdmSocket socket)
         {
             socket.NewRdmPacket += Socket_NewRdmPacket;
@@ -62,6 +67,9 @@ namespace Acn.Rdm.Routing
 
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
         {
+            if (BlockRDM)
+                return;
+
             List<RdmRouteBinding> transportsToUse = router.GetTransportsRoutes(targetId);
 
             //Send the packet on all transports.
@@ -74,6 +82,9 @@ namespace Acn.Rdm.Routing
 
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
+            if (BlockRDM)
+                return;
+
             List<RdmRouteBinding> transportsToUse = router.GetTransportsRoutes(targetId);
 
             //Send the packet on all transports.
