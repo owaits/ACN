@@ -69,6 +69,11 @@ namespace Acn.RdmNet.Sockets
 
         public string SourceName { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether RDM packets are blocked by this socket.
+        /// </summary>
+        public bool BlockRDM { get; set; }
+
         #endregion
 
         protected void RaiseNewRdmPacket(RdmEndPoint source, RdmPacket packet)
@@ -84,6 +89,9 @@ namespace Acn.RdmNet.Sockets
 
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
+            if (BlockRDM)
+                return; 
+
             //Fill in addition details
             packet.Header.SourceId = sourceId;
             packet.Header.DestinationId = targetId;
