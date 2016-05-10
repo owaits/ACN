@@ -22,6 +22,21 @@ namespace Acn.Sockets
         private Dictionary<int, Transaction> transactionQueue = new Dictionary<int, Transaction>();
         private Timer retryTimer;
 
+        /// <summary>
+        /// Occurs when an unhandled exception ocurrs in this object.
+        /// </summary>
+        public event UnhandledExceptionEventHandler UnhandledException;
+
+        /// <summary>
+        /// Raises the unhandled exception.
+        /// </summary>
+        /// <param name="ex">The ex.</param>
+        protected void RaiseUnhandledException(Exception ex)
+        {
+            if (UnhandledException != null)
+                UnhandledException(this, new UnhandledExceptionEventArgs(ex, false));
+        }
+
         private class Transaction
         {
             public Transaction(int transactionId, RdmPacket packet, RdmEndPoint address, UId id)
@@ -233,60 +248,79 @@ namespace Acn.Sockets
         /// <param name="state">Thread State</param>
         private void Retry(object state)
         {
-            DateTime timeStamp = DateTime.Now;
-            List<Transaction> failedTransactions = new List<Transaction>();
-            HashSet<Transaction> retryTransactions = new HashSet<Transaction>(new TransactionUniverseComparer());
-            int droppedPackets = 0;
-
-            lock (transactionQueue)
+            try
             {
-                //Go through all queued transactions and determine what can be sent again.
-                foreach (Transaction transaction in transactionQueue.Values)
-                {
-                    //Only process this transaction if it has exceeded the retry interval.
-                    if(transaction.LastAttempt == DateTime.MinValue || timeStamp.Subtract(transaction.LastAttempt) > RetryInterval)
-                    {
-                        //We only send one packet per retry to each unique DMX port.
-                        //The retryTransactions hash set is used to ensure only one transaction is sent to each port. The rest have to wait.
-                        if (transaction.Attempts > RetryAttempts)
-                            failedTransactions.Add(transaction);
-                        else if(!retryTransactions.Contains(transaction))
-                        {
-                            //If we have already tried to send this transaction then increment the dropped packet count.
-                            if(transaction.Attempts!= 0)
-                                droppedPackets++;
 
-                            //Queue this transaction for sending
-                            retryTransactions.Add(transaction);
-                            transaction.Attempts++;
-                            transaction.LastAttempt = timeStamp;
+                DateTime timeStamp = DateTime.Now;
+                List<Transaction> failedTransactions = new List<Transaction>();
+                HashSet<Transaction> retryTransactions = new HashSet<Transaction>(new TransactionUniverseComparer());
+                int droppedPackets = 0;
+
+                lock (transactionQueue)
+                {
+                    //Go through all queued transactions and determine what can be sent again.
+                    foreach (Transaction transaction in transactionQueue.Values)
+                    {
+                        //Only process this transaction if it has exceeded the retry interval.
+                        if(transaction.LastAttempt == DateTime.MinValue || timeStamp.Subtract(transaction.LastAttempt) > RetryInterval)
+                        {
+                            //We only send one packet per retry to each unique DMX port.
+                            //The retryTransactions hash set is used to ensure only one transaction is sent to each port. The rest have to wait.
+                            if (transaction.Attempts > RetryAttempts)
+                                failedTransactions.Add(transaction);
+                            else if(!retryTransactions.Contains(transaction))
+                            {
+                                //If we have already tried to send this transaction then increment the dropped packet count.
+                                if(transaction.Attempts!= 0)
+                                    droppedPackets++;
+
+                                //Queue this transaction for sending
+                                retryTransactions.Add(transaction);
+                                transaction.Attempts++;
+                                transaction.LastAttempt = timeStamp;
+                            }
                         }
                     }
+
+                    //Remove all transactions that have perminantly failed.
+                    foreach (Transaction transaction in failedTransactions)
+                        transactionQueue.Remove(transaction.Id);
                 }
 
-                //Remove all transactions that have perminantly failed.
-                foreach (Transaction transaction in failedTransactions)
-                    transactionQueue.Remove(transaction.Id);
+                PacketsDropped += droppedPackets + failedTransactions.Count;
+                TransactionsFailed += failedTransactions.Count;
+
+                foreach (Transaction transaction in retryTransactions)
+                {
+                    try
+                    {
+                        socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
+                    }
+                    catch(ObjectDisposedException)
+                    {
+                        //The socket is no longer usable.
+                        Dispose();
+                        break;
+                    }
+                    catch (SocketException)
+                    {
+                        //If the connection has failed, remove the transaction from the queue to prevent further communications.
+                        transactionQueue.Remove(transaction.Id);
+                    }                
+                }
+
+                lock (transactionQueue)
+                {
+                    if(retryTimer != null)
+                        retryTimer.Change(TransmitInterval, TimeSpan.Zero);
+                }
             }
-
-            PacketsDropped += droppedPackets + failedTransactions.Count;
-            TransactionsFailed += failedTransactions.Count;
-
-            foreach (Transaction transaction in retryTransactions)
+            catch (Exception ex)
             {
-                try
-                {
-                    socket.SendRdm(transaction.Packet, transaction.TargetAddress, transaction.TargetId);
-                }
-                catch (SocketException)
-                {
-                    //If the connection has failed, remove the transaction from the queue to prevent further communications.
-                    transactionQueue.Remove(transaction.Id);
-                }                
+                //If an exception ocurrs, log the error but do not process any more of the queue.
+                RaiseUnhandledException(ex);
             }
 
-            lock (transactionQueue)
-                retryTimer.Change(TransmitInterval, TimeSpan.Zero);
         }
 
         void socket_RdmPacketSent(object sender, NewPacketEventArgs<RdmPacket> e)
@@ -365,7 +399,10 @@ namespace Acn.Sockets
         }
 
         #endregion
-        
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             if (retryTimer != null)
@@ -373,6 +410,9 @@ namespace Acn.Sockets
                 retryTimer.Dispose();
                 retryTimer = null;
             }
+
+            lock (transactionQueue)
+                transactionQueue.Clear();
         }
     }
 }
