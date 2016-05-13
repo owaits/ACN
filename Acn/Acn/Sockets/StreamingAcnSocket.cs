@@ -73,12 +73,21 @@ namespace Acn.Sockets
             get { return dmxUniverses.AsReadOnly(); }
         }
 
-        public static IPAddress GetUniverseAddress(int universe)
+        /// <summary>
+        /// Gets the base address used before universe offset is calculated.
+        /// </summary>
+        /// <returns>The starting multi-cast address to use.</returns>
+        protected virtual byte[] GetBaseAddress()
+        {
+            return new byte[] { 239, 255, 0, 0 };
+        }
+
+        public IPAddress GetUniverseAddress(int universe)
         {
             if (universe < 0 || universe > 63999)
                 throw new InvalidOperationException("Unable to determine multicast group because the universe must be between 1 and 64000. Universes outside this range are not allowed.");
 
-            byte[] group = new byte[] { 239, 255, 0, 0 };
+            byte[] group = GetBaseAddress();
 
             group[2] = (byte)((universe >> 8) & 0xff);     //Universe Hi Byte
             group[3] = (byte)(universe & 0xff);           //Universe Lo Byte
@@ -86,9 +95,9 @@ namespace Acn.Sockets
             return new IPAddress(group);
         }
 
-        public static IPEndPoint GetUniverseEndPoint(int universe)
+        public IPEndPoint GetUniverseEndPoint(int universe)
         {
-            return new IPEndPoint(GetUniverseAddress(universe), 5568);
+            return new IPEndPoint(GetUniverseAddress(universe), Port);
         }
 
         #endregion
@@ -152,6 +161,7 @@ namespace Acn.Sockets
             IncrementSequenceNumber(universe);
 
             StreamingAcnDmxPacket packet = new StreamingAcnDmxPacket();
+            if (OverrideRootLayer) packet.Root = GetRootLayer();
             packet.Framing.SourceName = SourceName;
             packet.Framing.Universe = (short)universe;
             packet.Framing.Priority = priority;

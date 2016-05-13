@@ -9,7 +9,17 @@ namespace Acn
     public class AcnRootLayer
     {
         public AcnRootLayer()
+            : this("ASC-E1.17")
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AcnRootLayer"/> class.
+        /// </summary>
+        /// <param name="packetId">The packet identifier.</param>
+        protected AcnRootLayer(string packetId)
+        {
+            this.packetId = packetId;
             PreambleSize = 16;
             PostambleSize = 0;
             Flags = 0x7;
@@ -23,9 +33,11 @@ namespace Acn
 
         public int BlockSize { get; set; }
 
+        private readonly string packetId;
+
         public string PacketId 
         { 
-            get { return "ASC-E1.17"; } 
+            get { return packetId; } 
         }
 
         public byte Flags { get; set; }
