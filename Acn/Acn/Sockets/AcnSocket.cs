@@ -195,9 +195,26 @@ namespace Acn.Sockets
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether to override the default root layer.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> to override root layer; otherwise, <c>false</c>.
+        /// </value>
+        protected virtual bool OverrideRootLayer { get { return false; } }
+
+        /// <summary>
+        /// Allows the root layer part of the ACN packet to be edited.
+        /// </summary>
+        /// <returns>The root layer of the packet.</returns>
+        protected virtual AcnRootLayer GetRootLayer()
+        {
+            return new AcnRootLayer();
+        }
+
         private void ProcessAcnPacket(IPEndPoint source, AcnBinaryReader data)
         {
-            AcnRootLayer rootLayer = new AcnRootLayer();
+            AcnRootLayer rootLayer = GetRootLayer();
             rootLayer.ReadData(data, TcpTraffic);
 
             IProtocolFilter filter;

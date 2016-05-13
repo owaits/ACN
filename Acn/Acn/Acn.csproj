@@ -373,6 +373,7 @@
     <Compile Include="Sntp\Sockets\SntpSocket.cs" />
     <Compile Include="Sockets\AcnSocket.cs" />
     <Compile Include="Sockets\IRdmSocket.cs" />
+    <Compile Include="Sockets\MultiStreamingAcnSocket.cs" />
     <Compile Include="Sockets\RdmEndPoint.cs" />
     <Compile Include="Sockets\NewPacketEventArgs.cs" />
     <Compile Include="Sockets\RdmReliableSocket.cs" />
