@@ -77,7 +77,9 @@ namespace Acn.Sockets
         /// </summary>
         public void SetAllNetworkAdapters()
         {
-            SetNetworkAdapters(NetworkInterface.GetAllNetworkInterfaces().Select(ni => ni.GetIPProperties()).Where(ip => ip != null).SelectMany(ip => ip.UnicastAddresses).Select(a => a.Address));
+            SetNetworkAdapters(NetworkInterface.GetAllNetworkInterfaces().Select(ni => ni.GetIPProperties())
+               .Where(ip => ip != null).SelectMany(ip => ip.UnicastAddresses)
+               .Where(a => a.Address.AddressFamily == AddressFamily.InterNetwork && !IPAddress.IsLoopback(a.Address)).Select(a => a.Address));
         }
 
         /// <summary>
