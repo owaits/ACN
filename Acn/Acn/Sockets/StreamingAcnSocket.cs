@@ -63,14 +63,14 @@ namespace Acn.Sockets
 
 
 
-        private List<int> dmxUniverses = new List<int>();
+        private HashSet<int> dmxUniverses = new HashSet<int>();
 
         /// <summary>
         /// Gets a list of dmx universes this socket has joined to.
         /// </summary>
-        public ReadOnlyCollection<int> DmxUniverses
+        public IEnumerable<int> DmxUniverses
         {
-            get { return dmxUniverses.AsReadOnly(); }
+            get { return dmxUniverses; }
         }
 
         /// <summary>

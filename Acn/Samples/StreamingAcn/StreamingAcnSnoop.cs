@@ -284,8 +284,6 @@ namespace StreamingAcn
 
             if (networkCard != null)
             {
-                ReadOnlyCollection<int> universes = socket.DmxUniverses;
-
                 try
                 {
                     Stop();
