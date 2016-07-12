@@ -26,7 +26,7 @@ namespace Acn.Sockets
         /// <summary>
         /// The currently active Streaming ACN sockets.
         /// </summary>
-        private readonly List<StreamingAcnSocket> streamingAcnSockets = new List<StreamingAcnSocket>();
+        private readonly Dictionary<IPAddress, T> streamingAcnSockets = new Dictionary<IPAddress, T>();
         /// <summary>
         /// The network adapter addresses to use.
         /// </summary>
@@ -102,7 +102,7 @@ namespace Acn.Sockets
             if (streamingAcnSockets.Count == 0)
             {
                 IEnumerable<IPAddress> ipAddresses = UseLoopback ? networkAdapterAddresses.Union(Enumerable.Repeat(IPAddress.Loopback, 1)) : networkAdapterAddresses;
-                foreach (IPAddress ipAddress in ipAddresses)
+                foreach (IPAddress ipAddress in ipAddresses.Distinct())
                 {
                     T dmxSocket = null;
                     try
@@ -119,7 +119,7 @@ namespace Acn.Sockets
                             dmxSocket.Open(new IPEndPoint(ipAddress, 0));
                         }
 
-                        streamingAcnSockets.Add(dmxSocket);
+                        streamingAcnSockets[ipAddress] = dmxSocket;
                     }
                     catch (SocketException ex)
                     {
@@ -140,7 +140,7 @@ namespace Acn.Sockets
         /// </summary>
         public void Stop()
         {
-            foreach (StreamingAcnSocket socket in streamingAcnSockets)
+            foreach (StreamingAcnSocket socket in streamingAcnSockets.Values)
             {
                 socket.Shutdown(System.Net.Sockets.SocketShutdown.Both);
                 socket.Close();
@@ -223,9 +223,10 @@ namespace Acn.Sockets
         /// <param name="dmxData">The DMX data.</param>
         public void SendDmx(int universe, byte[] dmxData)
         {
-            foreach (StreamingAcnSocket socket in streamingAcnSockets)
+            foreach (StreamingAcnSocket socket in streamingAcnSockets.Values)
             {
-                socket.SendDmx(universe, dmxData);
+                if (socket.DmxUniverses.Contains(universe))
+                    socket.SendDmx(universe, dmxData);
             }
         }
 
@@ -237,9 +238,10 @@ namespace Acn.Sockets
         /// <param name="priority">The priority.</param>
         public void SendDmx(int universe, byte[] dmxData, byte priority)
         {
-            foreach (StreamingAcnSocket socket in streamingAcnSockets)
+            foreach (StreamingAcnSocket socket in streamingAcnSockets.Values)
             {
-                socket.SendDmx(universe, dmxData, priority);
+                if (socket.DmxUniverses.Contains(universe))
+                    socket.SendDmx(universe, dmxData, priority);
             }
         }
 
@@ -252,9 +254,10 @@ namespace Acn.Sockets
         /// <param name="priority">The priority.</param>
         public void SendDmx(int universe, byte startCode, byte[] dmxData, byte priority)
         {
-            foreach (StreamingAcnSocket socket in streamingAcnSockets)
+            foreach (StreamingAcnSocket socket in streamingAcnSockets.Values)
             {
-                socket.SendDmx(universe, startCode, dmxData, priority);
+                if (socket.DmxUniverses.Contains(universe))
+                    socket.SendDmx(universe, startCode, dmxData, priority);
             }
         }
 
@@ -270,7 +273,7 @@ namespace Acn.Sockets
         /// </value>
         public IEnumerable<int> DmxUniverses
         {
-            get { return streamingAcnSockets.Select(socket => socket.DmxUniverses).FirstOrDefault(); }
+            get { return streamingAcnSockets.SelectMany(kvp => kvp.Value.DmxUniverses).Distinct(); }
         }
 
         /// <summary>
@@ -279,10 +282,21 @@ namespace Acn.Sockets
         /// <param name="universe">The universe.</param>
         public void JoinDmxUniverse(int universe)
         {
-            foreach (StreamingAcnSocket socket in streamingAcnSockets)
+            foreach (StreamingAcnSocket socket in streamingAcnSockets.Values)
             {
-                socket.JoinDmxUniverse(universe);
+                if (!socket.DmxUniverses.Contains(universe))
+                    socket.JoinDmxUniverse(universe);
             }
+        }
+
+        /// <summary>
+        /// Joins a DMX universe for an address.
+        /// </summary>
+        /// <param name="universe">The universe.</param>
+        /// <param name="address">The address.</param>
+        public void JoinDmxUniverse(int universe, IPAddress address)
+        {
+            streamingAcnSockets[address].JoinDmxUniverse(universe);
         }
 
         /// <summary>
@@ -291,9 +305,66 @@ namespace Acn.Sockets
         /// <param name="universe">The universe.</param>
         public void DropDmxUniverse(int universe)
         {
-            foreach (StreamingAcnSocket socket in streamingAcnSockets)
+            foreach (StreamingAcnSocket socket in streamingAcnSockets.Values)
+            {
+                if (socket.DmxUniverses.Contains(universe))
+                    socket.DropDmxUniverse(universe);
+            }
+        }
+
+        /// <summary>
+        /// Drops a DMX universe from an address.
+        /// </summary>
+        /// <param name="universe">The universe.</param>
+        /// <param name="address">The address.</param>
+        public void DropDmxUniverse(int universe, IPAddress address)
+        {
+            streamingAcnSockets[address].DropDmxUniverse(universe);
+        }
+
+        /// <summary>
+        /// Sets the DMX universes.
+        /// </summary>
+        /// <param name="addressUniverses">The universes for each address.</param>
+        public void SetDmxUniverses(ILookup<IPAddress, int> addressUniverses)
+        {
+            foreach (IGrouping<IPAddress, int> address in addressUniverses)
+            {
+                SetDmxUniverses(address.Key, address);
+            }
+        }
+
+        /// <summary>
+        /// Sets the DMX universes.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="universes">The universes.</param>
+        public void SetDmxUniverses(IPAddress address, IEnumerable<int> universes)
+        {
+            T socket = streamingAcnSockets[address];
+            HashSet<int> oldUniverses = new HashSet<int>(socket.DmxUniverses);
+            foreach (int universe in universes)
+            {
+                if (!oldUniverses.Remove(universe))
+                {
+                    socket.JoinDmxUniverse(universe);
+                }
+            }
+            foreach (int universe in oldUniverses)
             {
                 socket.DropDmxUniverse(universe);
+            }
+        }
+
+        /// <summary>
+        /// Sets the DMX universes.
+        /// </summary>
+        /// <param name="universes">The universes.</param>
+        public void SetDmxUniverses(IEnumerable<int> universes)
+        {
+            foreach (IPAddress address in streamingAcnSockets.Keys)
+            {
+                SetDmxUniverses(address, universes);
             }
         }
 
