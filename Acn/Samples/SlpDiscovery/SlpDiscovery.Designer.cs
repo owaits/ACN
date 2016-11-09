@@ -31,22 +31,24 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.deviceList = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.urlText = new System.Windows.Forms.TextBox();
             this.scopeSelect = new System.Windows.Forms.ComboBox();
             this.find = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.devicesGrid = new System.Windows.Forms.DataGridView();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.update = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.urlColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.attributeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lastSeenColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.update = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.urlText = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.devicesGrid)).BeginInit();
             this.panel2.SuspendLayout();
@@ -93,16 +95,6 @@
             this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.panel1.Size = new System.Drawing.Size(629, 26);
             this.panel1.TabIndex = 5;
-            // 
-            // urlText
-            // 
-            this.urlText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.urlText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.urlText.Location = new System.Drawing.Point(0, 0);
-            this.urlText.Name = "urlText";
-            this.urlText.Size = new System.Drawing.Size(438, 21);
-            this.urlText.TabIndex = 0;
-            this.urlText.Text = "service:e133.esta";
             // 
             // scopeSelect
             // 
@@ -158,37 +150,6 @@
             this.devicesGrid.Size = new System.Drawing.Size(629, 203);
             this.devicesGrid.TabIndex = 1;
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.update);
-            this.panel2.Controls.Add(this.button1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(629, 26);
-            this.panel2.TabIndex = 0;
-            // 
-            // update
-            // 
-            this.update.Location = new System.Drawing.Point(81, 0);
-            this.update.Name = "update";
-            this.update.Size = new System.Drawing.Size(75, 27);
-            this.update.TabIndex = 1;
-            this.update.Text = "Update Now";
-            this.update.UseVisualStyleBackColor = true;
-            this.update.Click += new System.EventHandler(this.update_Click);
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(74, 26);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Start / Stop";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // urlColumn
             // 
             this.urlColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -220,6 +181,51 @@
             this.StateColumn.ReadOnly = true;
             this.StateColumn.Width = 57;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.update);
+            this.panel2.Controls.Add(this.button1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(629, 26);
+            this.panel2.TabIndex = 0;
+            // 
+            // update
+            // 
+            this.update.Location = new System.Drawing.Point(81, 0);
+            this.update.Name = "update";
+            this.update.Size = new System.Drawing.Size(75, 27);
+            this.update.TabIndex = 1;
+            this.update.Text = "Update Now";
+            this.update.UseVisualStyleBackColor = true;
+            this.update.Click += new System.EventHandler(this.update_Click);
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(74, 26);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Start / Stop";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // urlText
+            // 
+            this.urlText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.urlText.FormattingEnabled = true;
+            this.urlText.Items.AddRange(new object[] {
+            "service:e133.esta",
+            "service:titannode.avolites",
+            "service:titanserver.avolites"});
+            this.urlText.Location = new System.Drawing.Point(0, 0);
+            this.urlText.Name = "urlText";
+            this.urlText.Size = new System.Drawing.Size(438, 21);
+            this.urlText.TabIndex = 3;
+            this.urlText.Text = "service:e133.esta";
+            // 
             // SlpDiscovery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -232,9 +238,10 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SlpDiscovery_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.devicesGrid)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -247,7 +254,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListBox deviceList;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox urlText;
         private System.Windows.Forms.ComboBox scopeSelect;
         private System.Windows.Forms.Button find;
         private System.Windows.Forms.SplitContainer splitContainer2;
@@ -259,6 +265,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn attributeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn lastSeenColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StateColumn;
+        private System.Windows.Forms.ComboBox urlText;
 
     }
 }
