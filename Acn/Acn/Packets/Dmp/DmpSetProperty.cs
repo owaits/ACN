@@ -39,7 +39,7 @@ namespace Acn.Packets.Dmp
             set { addressIncrement = value; }
         }
 
-        public short PropertyLength
+        public virtual short PropertyLength
         {
             get { return (short) PropertyData.Length; }
         }
