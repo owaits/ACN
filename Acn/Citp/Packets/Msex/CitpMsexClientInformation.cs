@@ -55,7 +55,7 @@ namespace Citp.Packets.Msex
         {
             base.WriteData(data);
 
-            data.Write(SupportedMSEXVersions.Count);
+            data.Write((byte)SupportedMSEXVersions.Count);
 
             foreach (ushort version in SupportedMSEXVersions)
                 data.Write(version);
