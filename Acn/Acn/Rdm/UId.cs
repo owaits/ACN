@@ -139,6 +139,22 @@ namespace Acn.Rdm
             return base.Equals(obj);
         }
 
+        public static bool operator ==(UId a, UId b)
+        {
+            if (System.Object.ReferenceEquals(a, b))
+                return true;
+
+            if (((object)a == null) || ((object)b == null))
+                return false;
+
+            return a.ManufacturerId == b.ManufacturerId && a.DeviceId == b.DeviceId;
+        }
+
+        public static bool operator !=(UId a, UId b)
+        {
+            return !(a == b);
+        }
+
         #region IComparable Members
 
         public int CompareTo(object obj)
