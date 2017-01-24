@@ -257,8 +257,9 @@ namespace Acn.Sockets
         ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// </PermissionSet>
-        protected new void Close()
+        public new void Close()
         {
+            // Reset the PortOpen flag when the socket is closed
             PortOpen = false;
             base.Close();
         }
@@ -272,8 +273,9 @@ namespace Acn.Sockets
         ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" />
         ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" />
         /// </PermissionSet>
-        protected new void Close(int timeout)
+        public new void Close(int timeout)
         {
+            // Reset the PortOpen flag when the socket is closed
             PortOpen = false;
             base.Close(timeout);
         }
