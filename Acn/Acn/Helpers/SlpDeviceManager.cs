@@ -410,13 +410,11 @@ namespace Acn.Helpers
         private static IEnumerable<System.Net.IPAddress> GetAllIpAddresses()
         {
 #if ANDROID
-
             return Java.Net.NetworkInterface.NetworkInterfaces.
-                ToEnumberable<Java.Net.NetworkInterface>().
+                Cast<Java.Net.NetworkInterface>().
                 Where(i => i.IsUp && !i.IsLoopback).
-                SelectMany(i => i.InetAddresses.ToEnumberable<Java.Net.InetAddress>()).
-                Where(a => a is Java.Net.Inet4Address).
-                Select(a => System.Net.IPAddress.Parse(a.HostAddress));
+                SelectMany(i => i.InetAddresses.OfType<Java.Net.Inet4Address>()).
+                Select(a => a.ToIPAddress());
 #else
             return NetworkInterface.GetAllNetworkInterfaces()
 				// On IOS all the interface status are marked a Unknown
@@ -660,12 +658,13 @@ namespace Acn.Helpers
     public static class AndroidExtensions
     {
         /// <summary>
-        /// Converts a IEnumeration to an IEnumerable<typeparamref name="T"/>
+        /// Cast a IEnumeration to an IEnumerable<typeparamref name="T" />. Will throw an InvalidCastException if any element in the enumeration cannot be cast.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type of the elements.</typeparam>
         /// <param name="enumeration">The enumeration.</param>
-        /// <returns></returns>
-        public static IEnumerable<T> ToEnumberable<T>(this Java.Util.IEnumeration enumeration)
+        /// <returns>An enumerable with elements of the specified type.</returns>
+        /// <exception cref="System.InvalidCastException">If one of the elements cannot be cast.</exception>
+        public static IEnumerable<T> Cast<T>(this Java.Util.IEnumeration enumeration)
             where T : Java.Lang.Object
         {
             while (enumeration.HasMoreElements)
@@ -674,6 +673,53 @@ namespace Acn.Helpers
             }
         }
 
+        /// <summary>
+        /// Return an IEnumerable<typeparamref name="T"/> with all the elements in the IEnumeration which match the required type, other elements are ignored.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements.</typeparam>
+        /// <param name="enumeration">The enumeration.</param>
+        /// <returns>An enumerable with elements that match the specified type.</returns>
+        public static IEnumerable<T> OfType<T>(this Java.Util.IEnumeration enumeration)
+            where T : Java.Lang.Object
+        {
+            while (enumeration.HasMoreElements)
+            {
+                Java.Lang.Object element = enumeration.NextElement();
+                if (element is T)
+                    yield return (T)element;
+            }
+        }
+
+        /// <summary>
+        /// Convert Java InetAddress to .Net IPAddress.
+        /// </summary>
+        /// <param name="inetAddress">The InetAddress object.</param>
+        /// <returns>The equivalent .Net IPAddress object.</returns>
+        /// <exception cref="System.ArgumentException">Failed to parse InetAddress: ...</exception>
+        public static System.Net.IPAddress ToIPAddress(this Java.Net.InetAddress inetAddress)
+        {
+            if (inetAddress == null)
+                return null;
+
+            // Use get the bytes and create an IP address from that
+            if (inetAddress.GetAddress() != null && inetAddress.GetAddress().Length > 0)
+                return new System.Net.IPAddress(inetAddress.GetAddress());
+
+            // Use the host name string which should be in the standard "1.2.3.4" format
+            System.Net.IPAddress ipAddress;
+            if (System.Net.IPAddress.TryParse(inetAddress.HostAddress, out ipAddress))
+                return ipAddress;
+
+            // In Android 7 (Nougat) both of the above return null for IPv4 addresses however ToString still appears to work
+
+            // The IP address should be the bit following the slash
+            string str = inetAddress.ToString().Split('/').LastOrDefault();
+            if (System.Net.IPAddress.TryParse(str, out ipAddress))
+                return ipAddress;
+
+            // Don't know what else to try
+            throw new ArgumentException(string.Format("Failed to parse InetAddress: {0}", inetAddress.ToString()));
+        }
     }
 
     #endif
