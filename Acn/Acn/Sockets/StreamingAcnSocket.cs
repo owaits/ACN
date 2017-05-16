@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +13,20 @@ using System.Collections.ObjectModel;
 
 namespace Acn.Sockets
 {
-    public class StreamingAcnSocket:AcnSocket, IProtocolFilter
+    [ComVisible(true)]
+    [Guid("C1E567CA-D546-45DD-A17B-D65339FF69EE")]
+    [ClassInterface(ClassInterfaceType.None)]
+    [ComSourceInterfaces(typeof(IStreamingAcnSocket))]
+    public class StreamingAcnSocket:AcnSocket,IStreamingAcnSocket, IProtocolFilter
     {
         public event EventHandler<NewPacketEventArgs<StreamingAcnDmxPacket>> NewPacket;
 
         #region Setup and Initialisation
+
+        public StreamingAcnSocket()
+            : base(Guid.Empty)
+        {
+        }
 
         public StreamingAcnSocket(Guid sourceId, string sourceName)
             : base(sourceId)
