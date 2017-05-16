@@ -271,6 +271,24 @@ namespace Citp.Packets
                 case CaExContentCodes.LeaveShow:
                     packet = new CaExLeaveShow();
                     break;
+                case CaExContentCodes.FixtureConsoleStatus:
+                    packet = new CaExFixtureConsoleStatus();
+                    break;
+                case CaExContentCodes.FixtureListRequest:
+                    packet = new CaExFixtureListRequest();
+                    break;
+                case CaExContentCodes.FixtureList:
+                    packet = new CaExFixtureList();
+                    break;
+                case CaExContentCodes.FixtureModify:
+                    packet = new CaExFixtureModify();
+                    break;
+                case CaExContentCodes.FixtureRemove:
+                    packet = new CaExFixtureRemove();
+                    break;
+                case CaExContentCodes.FixtureSelection:
+                    packet = new CaExFixtureSelection();
+                    break;
                 default:
                     return null;
             }

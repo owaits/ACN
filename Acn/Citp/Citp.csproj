@@ -49,10 +49,17 @@
     </Compile>
     <Compile Include="CitpMessageHandler.cs" />
     <Compile Include="CitpStreamSession.cs" />
+    <Compile Include="CitpTrace.cs" />
     <Compile Include="DmxDescriptor.cs" />
     <Compile Include="IO\CitpBinaryReader.cs" />
     <Compile Include="IO\CitpBinaryWriter.cs" />
     <Compile Include="Packets\CaEx\CaExContentCodes.cs" />
+    <Compile Include="Packets\CaEx\CaExFixtureConsoleStatus.cs" />
+    <Compile Include="Packets\CaEx\CaExFixtureList.cs" />
+    <Compile Include="Packets\CaEx\CaExFixtureListRequest.cs" />
+    <Compile Include="Packets\CaEx\CaExFixtureModify.cs" />
+    <Compile Include="Packets\CaEx\CaExFixtureRemove.cs" />
+    <Compile Include="Packets\CaEx\CaExFixtureSelection.cs" />
     <Compile Include="Packets\CaEx\CaExLeaveShow.cs" />
     <Compile Include="Packets\CaEx\CaExGetLiveViewImage.cs" />
     <Compile Include="Packets\CaEx\CaExGetLiveViewStatus.cs" />
