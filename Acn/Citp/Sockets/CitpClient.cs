@@ -58,28 +58,34 @@ namespace Citp.Sockets
 
             try
             {
-                if (recieveState != null && client != null && client.Connected)
+                lock(this)
                 {
-                    recieveState.SetLength((recieveState.Length - recieveState.ReadNibble) + client.Client.EndReceive(state));
-
-                    if (recieveState.Length > 0 && !IsDisposed())
+                    if (recieveState != null && client != null && client.Connected)
                     {
-                        //We want to start the recieve again to listen for more data.
-                        //Only do this when the client is in a position to do so.
-                        restartRecieve = true;
+                        recieveState.SetLength((recieveState.Length - recieveState.ReadNibble) + client.Client.EndReceive(state));
 
-                        if (NewPacket != null)
+                        if (recieveState.Length > 0 && !IsDisposed())
                         {
-                            while (CitpPacketBuilder.TryBuild(recieveState, out newPacket))
-                            {
-                                recieveState.ReadPosition += (int)((CitpHeader)newPacket).MessageSize;
+                            //We want to start the recieve again to listen for more data.
+                            //Only do this when the client is in a position to do so.
+                            restartRecieve = true;
 
-                                //Packet has been read successfully.
-                                NewPacket(this, new CitpNewPacketEventArgs((IPEndPoint)client.Client.LocalEndPoint, (IPEndPoint) client.Client.RemoteEndPoint, newPacket));
+                            if (NewPacket != null)
+                            {
+                                while (CitpPacketBuilder.TryBuild(recieveState, out newPacket))
+                                {
+                                    recieveState.ReadPosition += (int)((CitpHeader)newPacket).MessageSize;
+
+                                    CitpTrace.RxPacket((IPEndPoint)client.Client.RemoteEndPoint, newPacket);
+
+                                    //Packet has been read successfully.
+                                    NewPacket(this, new CitpNewPacketEventArgs((IPEndPoint)client.Client.LocalEndPoint, (IPEndPoint) client.Client.RemoteEndPoint, newPacket));
+                                }
                             }
                         }
                     }
                 }
+
             }
             catch (SocketException)
             {
@@ -101,13 +107,18 @@ namespace Citp.Sockets
 
         public void BeginSend(CitpPacket citpMessage)
         {
-            MemoryStream data = new MemoryStream();
-            CitpBinaryWriter writer = new CitpBinaryWriter(data);
+            if(client != null)
+            {
+                MemoryStream data = new MemoryStream();
+                CitpBinaryWriter writer = new CitpBinaryWriter(data);
 
-            citpMessage.WriteData(writer);
-            ((CitpHeader)citpMessage).WriteMessageSize(writer);
+                citpMessage.WriteData(writer);
+                ((CitpHeader)citpMessage).WriteMessageSize(writer);
 
-            client.Client.BeginSend(data.GetBuffer(), 0, (int) data.Length, SocketFlags.None, new AsyncCallback(OnSendCompleted), null);
+                client.Client.BeginSend(data.GetBuffer(), 0, (int) data.Length, SocketFlags.None, new AsyncCallback(OnSendCompleted), null);
+
+                CitpTrace.TxPacket((IPEndPoint)client.Client.RemoteEndPoint,citpMessage);
+            }
         }
 
         private void OnSendCompleted(IAsyncResult result)
@@ -129,11 +140,15 @@ namespace Citp.Sockets
         public virtual void Dispose()
         {
             disposed = true;
-            if (client != null)
+
+            lock(this)
             {
-                client.Close();
-                client = null;
-            }            
+                if (client != null)
+                {
+                    client.Close();
+                    client = null;
+                }  
+            }          
         }
     }
 }

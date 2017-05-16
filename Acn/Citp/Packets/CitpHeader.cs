@@ -87,7 +87,10 @@ namespace Citp.Packets
 
         #endregion
 
-
+        public override string ToString()
+        {
+            return ContentType;
+        }
 
     }
 }

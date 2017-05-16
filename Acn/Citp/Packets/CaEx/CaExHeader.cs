@@ -46,5 +46,10 @@ namespace Citp.Packets.CaEx
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return base.ToString() + " " + ContentCode;
+        }
     }
 }

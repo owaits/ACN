@@ -18,6 +18,19 @@ namespace Citp.Packets.CaEx
         SetRecorderClearingCapabilities = 0x10300,
         ClearRecorder = 0x10400,
         EnterShow = 0x20100,
-        LeaveShow = 0x20101
+        LeaveShow = 0x20101,
+        FixtureListRequest = 0x20200,
+        FixtureList = 0x20201,
+        FixtureModify = 0x20202,
+        FixtureRemove = 0x20203,
+        FixtureSelection = 0x20300,
+        FixtureConsoleStatus = 0x20400
+    }
+
+    public struct Coordinate
+    {
+        public float X;
+        public float Y;
+        public float Z;
     }
 }

@@ -133,6 +133,8 @@ namespace Citp.Sockets
                                 if (CitpPacketBuilder.TryBuild(recieveState, out newPacket))
                                 {
                                     NewPacket(this, new CitpNewPacketEventArgs((IPEndPoint) LocalEndPoint ,(IPEndPoint) remoteEndPoint,newPacket));
+
+                                    CitpTrace.RxPacket((IPEndPoint)remoteEndPoint, newPacket);
                                 }
                             }
                         }
@@ -163,7 +165,10 @@ namespace Citp.Sockets
             citpMessage.WriteData(writer);
             citpMessage.WriteMessageSize(writer);
 
-            BeginSendTo(data.GetBuffer(), 0, (int) data.Length, SocketFlags.None, new IPEndPoint(MulticastGroup, Port), null, null);
+            IPEndPoint targetEndpoint = new IPEndPoint(MulticastGroup, Port);
+            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, targetEndpoint, null, null);
+
+            CitpTrace.RxPacket(targetEndpoint, citpMessage);
         }
 
         protected override void Dispose(bool disposing)
