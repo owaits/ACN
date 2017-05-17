@@ -23,6 +23,7 @@ namespace Citp.Packets.CaEx
         FixtureList = 0x20201,
         FixtureModify = 0x20202,
         FixtureRemove = 0x20203,
+        FixtureIdentify = 0x20204,
         FixtureSelection = 0x20300,
         FixtureConsoleStatus = 0x20400
     }

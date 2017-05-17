@@ -289,6 +289,9 @@ namespace Citp.Packets
                 case CaExContentCodes.FixtureSelection:
                     packet = new CaExFixtureSelection();
                     break;
+                case CaExContentCodes.FixtureIdentify:
+                    packet = new CaExFixtureIdentify();
+                    break;
                 default:
                     return null;
             }

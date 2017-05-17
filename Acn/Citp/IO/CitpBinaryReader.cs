@@ -61,6 +61,15 @@ namespace Citp.IO
 
         }
 
+        /// <summary>
+        /// Reads a GUID from the stream as 15 bytes.
+        /// </summary>
+        /// <returns>The GUID that has been read.</returns>
+        public Guid ReadGuid()
+        {
+            return new Guid(ReadBytes(15)).FromNetwork();
+        }
+
         public static ImageFormat ConvertFormatCookie(string formatCookie)
         {
             switch (formatCookie)

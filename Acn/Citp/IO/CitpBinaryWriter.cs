@@ -33,6 +33,15 @@ namespace Citp.IO
             Write((UInt16)0);
         }
 
+        /// <summary>
+        /// Writes a GUID to the stream as 15 bytes.
+        /// </summary>
+        /// <param name="value">The GUID to write to the stream.</param>
+        public void WriteGuid(Guid value)
+        {
+            Write(value.ToNetwork().ToByteArray());
+        }
+
         public void WriteMsexLibraryId(CitpMsexLibraryId id)
         {
             Write(id.Level);
