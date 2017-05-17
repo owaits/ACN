@@ -19,19 +19,31 @@ namespace Citp.Packets.CaEx
         RDMDeviceModelId = 0,
         RDMPersonalityId = 1,
         AtlaBaseFixtureId = 2,
-        AtlaBaseModeId = 3
+        AtlaBaseModeId = 3,
+        CaptureId = 4
     };
 
     public class FixtureLink
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FixtureLink"/> class.
+        /// </summary>
         public FixtureLink()
         {
 
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FixtureLink"/> class.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="id">The identifier.</param>
         public FixtureLink(FixtureLinkType type, Guid id)
         {
-            Type = FixtureLinkType.AtlaBaseModeId;           
-            Data = id.ToByteArray();
+            Type = type;
+
+            byte[] guidAsBytes = id.ToByteArray();
+            Data = id.ToNetwork().ToByteArray();
         }
 
         public FixtureLinkType Type;
@@ -40,7 +52,7 @@ namespace Citp.Packets.CaEx
 
         public Guid ValueAsGuid()
         {
-            return new Guid(new byte[] { Data[3], Data[2], Data[1], Data[0],Data[5], Data[4], Data[7], Data[6],   Data[8], Data[9], Data[10], Data[11],Data[12], Data[13],Data[14], Data[15]});
+            return new Guid(Data).FromNetwork();
         }
     }
 
