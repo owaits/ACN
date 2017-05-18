@@ -27,6 +27,8 @@ namespace Citp.Packets.Msex
 
         #region Packet Content
 
+        public string MediaServerUid { get; set; }
+
         public UInt16 SourceIdentifier { get; set; }
 
         public string FrameFormat { get; set; }
@@ -44,7 +46,10 @@ namespace Citp.Packets.Msex
         public override void ReadData(CitpBinaryReader data)
         {
             base.ReadData(data);
-
+            if (MsexVersion > CitpMsexVersions.Msex11Version)
+            {
+                MediaServerUid = data.ReadUcs1();
+            }
             SourceIdentifier = data.ReadUInt16();
             FrameFormat = data.ReadCookie();
             FrameWidth = data.ReadUInt16();
@@ -57,6 +62,11 @@ namespace Citp.Packets.Msex
         public override void WriteData(CitpBinaryWriter data)
         {
             base.WriteData(data);
+
+            if (MsexVersion > CitpMsexVersions.Msex11Version)
+            {
+                data.WriteUcs1(MediaServerUid);
+            }
 
             data.Write(SourceIdentifier);
             data.WriteCookie(FrameFormat);

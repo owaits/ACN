@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Citp.IO;
+using Citp.Packets.Msex;
 
 namespace Citp.Packets
 {
     public class CitpMsexHeader : CitpHeader
     {
-        public const string PacketType = "MSEX";
+        public const string PacketType = "MSEX";        
 
         public CitpMsexHeader():base(PacketType)
         {
-            MsexVersion = 1.0f;
-        }
+            MsexVersion = CitpMsexVersions.Msex10Version;
+        }        
 
         #region Packet Content
 
-        public double MsexVersion { get; set; }
+        /// <summary>
+        /// Gets or sets the msex version.
+        /// </summary>
+        /// <value>
+        /// The msex version.
+        /// </value>
+        public Version MsexVersion { get; set; }        
 
         public string LayerContentType { get; set; }
 
@@ -28,9 +35,9 @@ namespace Citp.Packets
         public override void ReadData(CitpBinaryReader data)
         {
             base.ReadData(data);
-
-            MsexVersion = data.ReadByte();
-            MsexVersion += (float) data.ReadByte() / 10;
+            byte majorVersion = data.ReadByte();
+            byte minorVersion = data.ReadByte();
+            MsexVersion = new Version(majorVersion, minorVersion);
             LayerContentType = data.ReadCookie();
         }
 
@@ -38,10 +45,19 @@ namespace Citp.Packets
         {
             base.WriteData(data);
 
-            byte majorVersion = (byte)MsexVersion;
-            byte minorVersion = (byte) ((MsexVersion - (float) majorVersion) * 10);
-            data.Write(majorVersion);
-            data.Write(minorVersion);
+            //Write out the Msex version, if it isn't set send as 1.0.
+            if (MsexVersion != null)
+            {
+                data.Write(((byte)MsexVersion.Major));
+                data.Write(((byte)MsexVersion.Minor));
+            }
+            else
+            {
+                byte majorVersion = 1;
+                byte minorVersion = 0;
+                data.Write(majorVersion);
+                data.Write(minorVersion);
+            }
             data.WriteCookie(LayerContentType);
         }
 

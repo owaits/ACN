@@ -75,12 +75,12 @@ namespace Citp.Packets.Msex
         {
             base.ReadData(data);
 
-            if (MsexVersion > 1.1)  UUID = data.ReadUcs1();
+            if (MsexVersion > CitpMsexVersions.Msex11Version) UUID = data.ReadUcs1();
             ProductName = data.ReadUcs2();
             ProductVersionMajor = data.ReadByte();
             ProductVersionMinor = data.ReadByte();
 
-            if (MsexVersion > 1.1)
+            if (MsexVersion > CitpMsexVersions.Msex11Version)
             {
                 ProductVersionBugfix = data.ReadByte();
 
@@ -113,12 +113,12 @@ namespace Citp.Packets.Msex
         {
             base.WriteData(data);
 
-            if (MsexVersion > 1.1) data.WriteUcs1(UUID);
+            if (MsexVersion > CitpMsexVersions.Msex11Version) data.WriteUcs1(UUID);
             data.WriteUcs2(ProductName);
             data.Write(ProductVersionMajor);
             data.Write(ProductVersionMinor);
 
-            if (MsexVersion > 1.1)
+            if (MsexVersion > CitpMsexVersions.Msex11Version)
             {
                 data.Write(ProductVersionBugfix);
 
@@ -130,16 +130,25 @@ namespace Citp.Packets.Msex
 
                 data.Write((byte) ThumbnailFormats.Count);
                 foreach (string format in ThumbnailFormats)
-                    data.WriteCookie(format);
+                    data.WriteCookie(format.PadRight(4, ' '));
 
                 data.Write((byte) StreamFormats.Count);
                 foreach (string format in StreamFormats)
-                    data.WriteCookie(format);
+                    data.WriteCookie(format.PadRight(4, ' '));
             }
 
             data.Write((byte) DmxLayers.Count);
-            foreach (DmxDescriptor layer in DmxLayers)
-                data.WriteUcs1(layer.ToString());
+
+            if (MsexVersion > CitpMsexVersions.Msex11Version)
+            {
+                foreach (DmxDescriptor layer in DmxLayers)
+                    data.WriteUcs1(layer.ToVersion1_2String());
+            }
+            else
+            {
+                foreach (DmxDescriptor layer in DmxLayers)
+                    data.WriteUcs1(layer.ToString());
+            }
         }
 
         #endregion

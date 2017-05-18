@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.12
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
 EndProject
@@ -54,6 +54,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProDJTap", "ProDJTap\ProDJTap.csproj", "{F06ABD30-9481-4D85-B080-108640C2AA33}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProDJTapViewer", "Samples\ProDJTap\ProDJTapViewer.csproj", "{29091ED8-BAB1-43CD-8532-D0BE3B26DB55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citp.Test", "Citp.Test\Citp.Test.csproj", "{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -251,6 +253,24 @@ Global
 		{29091ED8-BAB1-43CD-8532-D0BE3B26DB55}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{29091ED8-BAB1-43CD-8532-D0BE3B26DB55}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{29091ED8-BAB1-43CD-8532-D0BE3B26DB55}.Release|x86.ActiveCfg = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.AndroidRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.AndroidRelease|Any CPU.Build.0 = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.AndroidRelease|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.AndroidRelease|Mixed Platforms.Build.0 = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.AndroidRelease|x86.ActiveCfg = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.AndroidRelease|x86.Build.0 = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Debug|x86.Build.0 = Debug|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|x86.ActiveCfg = Release|Any CPU
+		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -267,7 +287,7 @@ Global
 		{29091ED8-BAB1-43CD-8532-D0BE3B26DB55} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 15
+		SccNumberOfProjects = 16
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -322,6 +342,9 @@ Global
 		SccProjectTopLevelParentUniqueName14 = Acn.sln
 		SccProjectName14 = Samples/ProDJTap
 		SccLocalPath14 = Samples\\ProDJTap
+		SccProjectUniqueName15 = Citp.Test\\Citp.Test.csproj
+		SccProjectName15 = Citp.Test
+		SccLocalPath15 = Citp.Test
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Acn.vsmdi

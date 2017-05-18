@@ -41,8 +41,9 @@ namespace Citp.Packets.Msex
             { 
             }
 
-            public LayerStatus(CitpBinaryReader data)
+            public LayerStatus(CitpBinaryReader data, Version msexVersion)
             {
+                MsexVersion = msexVersion;
                 ReadData(data);
             }
 
@@ -70,8 +71,23 @@ namespace Citp.Packets.Msex
 
             public override void ReadData(CitpBinaryReader data)
             {
-
-                
+                LayerNumber = data.ReadByte();
+                PhysicalOutput = data.ReadByte();
+                if (MsexVersion < CitpMsexVersions.Msex12Version)
+                {
+                    MediaLibraryNumber = data.ReadByte();
+                }
+                else
+                {
+                    MediaLibraryType = data.ReadByte();
+                    MediaLibraryId = data.ReadMsexLibraryId();
+                }
+                MediaNumber = data.ReadByte();
+                MediaName = data.ReadUcs2();
+                MediaPosition = data.ReadUInt32();
+                MediaLength = data.ReadUInt32();
+                MediaFPS = data.ReadByte();
+                LayerStatusFlags = data.ReadUInt32();
             }
 
             public override void WriteData(CitpBinaryWriter data)
@@ -79,7 +95,7 @@ namespace Citp.Packets.Msex
                 data.Write(LayerNumber);
                 data.Write(PhysicalOutput);
 
-                if (MsexVersion < 1.2)
+                if (MsexVersion < CitpMsexVersions.Msex12Version)
                 {
                     data.Write(MediaLibraryNumber);
                 }
@@ -109,7 +125,7 @@ namespace Citp.Packets.Msex
             byte layerCount = data.ReadByte();
             for(int n=0;n<layerCount;n++)
             {
-                Layers.Add(new LayerStatus(data));
+                Layers.Add(new LayerStatus(data, MsexVersion));
             }            
         }
 
@@ -120,7 +136,10 @@ namespace Citp.Packets.Msex
             data.Write((byte) Layers.Count);
 
             foreach (LayerStatus layer in Layers)
+            {
+                layer.MsexVersion = MsexVersion; //Avoid the layers sending a different version to the packet.
                 layer.WriteData(data);
+            }
             
         }
 

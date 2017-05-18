@@ -40,8 +40,9 @@ namespace Citp.Packets.Msex
             {
             }
 
-            public SourceInformation(CitpBinaryReader data)
+            public SourceInformation(CitpBinaryReader data, Version msexVersion)
             {
+                MsexVersion = msexVersion;
                 ReadData(data);
             }
 
@@ -61,7 +62,13 @@ namespace Citp.Packets.Msex
 
             public override void ReadData(CitpBinaryReader data)
             {
-
+                SourceIdentifier = data.ReadUInt16();
+                SourceName = data.ReadUcs2();
+                PhysicalOutput = data.ReadByte();
+                LayerNumber = data.ReadByte();
+                Flags = data.ReadUInt16();
+                Width = data.ReadUInt16();
+                Height = data.ReadUInt16();
             }
 
             public override void WriteData(CitpBinaryWriter data)
@@ -83,6 +90,12 @@ namespace Citp.Packets.Msex
         public override void ReadData(CitpBinaryReader data)
         {
             base.ReadData(data);
+
+            UInt16 sourceCount = data.ReadUInt16();
+            for (int i = 0; i < sourceCount; i++)
+            {
+                Sources.Add(new SourceInformation(data, MsexVersion));
+            }
         }
 
         public override void WriteData(CitpBinaryWriter data)

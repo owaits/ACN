@@ -12,6 +12,11 @@ namespace Citp.Packets.FInf
         public const string PacketType = "FINF";
 
         #region Setup and Initialisation
+        public FInfHeader()
+            : base(PacketType)
+        {
+
+        }
 
         public FInfHeader(string contentType)
             : base(PacketType)

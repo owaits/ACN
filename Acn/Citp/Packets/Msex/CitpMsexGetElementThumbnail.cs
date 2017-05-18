@@ -12,7 +12,7 @@ namespace Citp.Packets.Msex
         None = 0,
         PreserveAspectRatio = 1
     }
-    public class CitpMsexGetElementThumbnail:CitpMsexHeader
+    public class CitpMsexGetElementThumbnail : CitpMsexGetElementThumbnailBase
     {
         public const string PacketType = "GETh";
 
@@ -32,28 +32,7 @@ namespace Citp.Packets.Msex
 
         #region Packet Content
 
-        public string ThmbnailFormat { get; set; }
-
-        public UInt16 ThumbnailWidth { get; set; }
-
-        public UInt16 ThumbnailHeight { get; set; }
-
-        public ThumbnailOptions ThumbnailFlags { get; set; }
-
-        public MsexElementType LibraryType { get; set; }
-
-        public byte LibraryNumber 
-        {
-            get { return LibraryId.ToNumber(); }                
-        }
-
-        private CitpMsexLibraryId libraryId = new CitpMsexLibraryId();
-
-        public CitpMsexLibraryId LibraryId 
-        {
-            get { return libraryId;  }
-            set { libraryId = value; }
-        }
+        public CitpMsexLibraryId LibraryId { get; set; }
 
         private List<byte> elementNumbers = new List<byte>();
 
@@ -70,18 +49,18 @@ namespace Citp.Packets.Msex
         {
             base.ReadData(data);
 
-            ThmbnailFormat = data.ReadCookie();
+            ThumbnailFormat = data.ReadCookie();
             ThumbnailWidth = data.ReadUInt16();
             ThumbnailHeight = data.ReadUInt16();
             ThumbnailFlags = (ThumbnailOptions) data.ReadByte();
             LibraryType = (MsexElementType) data.ReadByte();
 
-            if (MsexVersion < 1.1)
-                LibraryId.ParseNumber(data.ReadByte());
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
+                LibraryId = new CitpMsexLibraryId(data.ReadByte());
             else
                 LibraryId = data.ReadMsexLibraryId();
 
-            int elementCount = (MsexVersion < 1.2) ? data.ReadByte() : data.ReadUInt16();
+            int elementCount = (MsexVersion < CitpMsexVersions.Msex12Version) ? data.ReadByte() : data.ReadUInt16();
             for(int n=0;n<elementCount;n++)
                 ElementNumbers.Add(data.ReadByte());
         }
@@ -90,18 +69,18 @@ namespace Citp.Packets.Msex
         {
             base.WriteData(data);
 
-            data.WriteCookie(ThmbnailFormat);
+            data.WriteCookie(ThumbnailFormat);
             data.Write(ThumbnailWidth);
             data.Write(ThumbnailHeight);
-            data.Write((byte) ThumbnailFlags);
+            data.Write((byte)ThumbnailFlags);
             data.Write((byte)LibraryType);
 
-            if (MsexVersion < 1.1)
-                data.Write(LibraryNumber);
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
+                data.Write(LibraryId.ToNumber());
             else
                 data.WriteMsexLibraryId(LibraryId);
 
-            if (MsexVersion < 1.2)
+            if (MsexVersion < CitpMsexVersions.Msex12Version)
                 data.Write((byte) ElementNumbers.Count);
             else
                 data.Write((UInt16) ElementNumbers.Count);

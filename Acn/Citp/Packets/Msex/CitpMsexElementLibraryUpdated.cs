@@ -101,14 +101,14 @@ namespace Citp.Packets.Msex
 
             LibraryType = (MsexElementType)data.ReadByte();
 
-            if (MsexVersion < 1.1)
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
                 LibraryId.ParseNumber(data.ReadByte());
             else
                 LibraryId = data.ReadMsexLibraryId();
 
             UpdateFlags = (MsexUpdateFlags) data.ReadByte();
 
-            if (MsexVersion >= 1.2)
+            if (MsexVersion >= CitpMsexVersions.Msex12Version)
             {
                 AffectedElements = new BitArray(data.ReadBytes(32));
                 AffectedLibraries = new BitArray(data.ReadBytes(32));
@@ -121,14 +121,14 @@ namespace Citp.Packets.Msex
 
             data.Write((byte)LibraryType);
 
-            if (MsexVersion < 1.1)
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
                 data.Write(LibraryNumber);
             else
                 data.WriteMsexLibraryId(LibraryId);
 
             data.Write((byte) UpdateFlags);
 
-            if (MsexVersion >= 1.2)
+            if (MsexVersion >= CitpMsexVersions.Msex12Version)
             {
                 byte[] elementsData = new byte[32];
                 AffectedElements.CopyTo(elementsData,0);
