@@ -65,11 +65,27 @@ namespace Citp
         {
             string str = Protocol;
 
-            if (Net != INVALID) str += '/' + Net.ToString();
+            if (Net != INVALID && Protocol.ToLower() != "bsre1.31") str += '/' + Net.ToString();
             if (Universe != INVALID) str += '/' + Universe.ToString();
             if (Channel != INVALID) str += '/' + Channel.ToString();
 
             return str;
+        }
+
+        /// <summary>
+        /// Generates the MSEX version 1.2 DMX string with the personality ID.
+        /// </summary>
+        /// <returns></returns>
+        public string ToVersion1_2String()
+        {
+            string dmxSource = ToString();
+
+            if (PersonalityID != null && PersonalityID != Guid.Empty)
+            {
+                dmxSource += "/PersonalityID/{" + PersonalityID.ToString() + "}";
+            }
+
+            return dmxSource;
         }
     }
 }

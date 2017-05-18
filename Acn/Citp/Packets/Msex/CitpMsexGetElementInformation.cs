@@ -59,12 +59,12 @@ namespace Citp.Packets.Msex
 
             LibraryType = (MsexElementType)data.ReadByte();
 
-            if (MsexVersion < 1.1)
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
                 LibraryId.ParseNumber(data.ReadByte());
             else
                 LibraryId = data.ReadMsexLibraryId();
 
-            int elementCount = (MsexVersion < 1.2) ? data.ReadByte() : data.ReadUInt16();
+            int elementCount = (MsexVersion < CitpMsexVersions.Msex12Version) ? data.ReadByte() : data.ReadUInt16();
 
             for(int n=0;n<elementCount;n++)
                 ElementNumbers.Add(data.ReadByte());
@@ -76,12 +76,12 @@ namespace Citp.Packets.Msex
 
             data.Write((byte) LibraryType);
 
-            if (MsexVersion < 1.1)
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
                 data.Write(LibraryNumber);
             else
                 data.WriteMsexLibraryId(LibraryId);
 
-            if (MsexVersion < 1.2)
+            if (MsexVersion < CitpMsexVersions.Msex12Version)
                 data.Write((byte) ElementNumbers.Count);
             else
                 data.Write((UInt16) ElementNumbers.Count);

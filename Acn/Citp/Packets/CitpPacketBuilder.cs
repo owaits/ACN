@@ -11,6 +11,9 @@ using Citp.Packets.PInf;
 using Citp.Packets.SDmx;
 using Citp.Packets.FPtc;
 using Citp.Packets.FSel;
+using System.Runtime.CompilerServices;
+using Citp.Packets.FInf;
+[assembly: InternalsVisibleTo("Citp.Test")]
 
 namespace Citp.Packets
 {
@@ -66,6 +69,9 @@ namespace Citp.Packets
                     
                     case CaExHeader.PacketType:
                         packet = BuildCaEx(data);
+                        break;
+                    case FInfHeader.PacketType:
+                        packet = BuildFInf(data);
                         break;
                     default:
                         return false;
@@ -300,5 +306,28 @@ namespace Citp.Packets
             return packet;
 
         }
+
+        /// <summary>
+        /// Builds the f inf.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        private static CitpPacket BuildFInf(CitpRecieveData data)
+        {
+            FInfHeader header = new FInfHeader();
+            header.ReadData(data.GetReader());
+
+            switch (header.ContentType)
+            {
+                case FInfFrames.PacketType:
+                    return new FInfFrames(data.GetReader());
+                case FInfSendFrames.PacketType:
+                    return new FInfSendFrames(data.GetReader());
+            }
+
+            return null;
+
+        }
+
     }
 }

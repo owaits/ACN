@@ -16,6 +16,7 @@ namespace Citp.Packets.Msex
         public CitpMsexNack()
             : base()
         {
+            MsexVersion = new Version(1, 2);
             LayerContentType = PacketType;
         }
 
@@ -27,7 +28,7 @@ namespace Citp.Packets.Msex
         #endregion
 
         #region Packet Content
-
+        public string ReceivedContentType { get; set; }
         #endregion
 
         #region Read/Write
@@ -35,11 +36,17 @@ namespace Citp.Packets.Msex
         public override void ReadData(CitpBinaryReader data)
         {
             base.ReadData(data);
+            ReceivedContentType = data.ReadCookie();
+            
         }
 
         public override void WriteData(CitpBinaryWriter data)
         {
             base.WriteData(data);
+            if (ReceivedContentType != null)
+            {
+                data.WriteCookie(ReceivedContentType);
+            }
         }
 
         #endregion

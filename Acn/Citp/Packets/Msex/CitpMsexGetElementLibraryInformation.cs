@@ -49,11 +49,11 @@ namespace Citp.Packets.Msex
             base.ReadData(data);
 
             LibraryType = (MsexElementType) data.ReadByte();
-            
-            if (MsexVersion > 1.0) LibraryParentId = data.ReadMsexLibraryId();
+
+            if (MsexVersion > CitpMsexVersions.Msex10Version) LibraryParentId = data.ReadMsexLibraryId();
 
             int libraryCount = 0;
-            if (MsexVersion < 1.2)
+            if (MsexVersion < CitpMsexVersions.Msex12Version)
                 libraryCount = data.ReadByte();
             else
                 libraryCount = data.ReadUInt16();
@@ -68,11 +68,12 @@ namespace Citp.Packets.Msex
             base.WriteData(data);
 
             data.Write((byte) LibraryType);
-            if (MsexVersion > 1.0) data.WriteMsexLibraryId(LibraryParentId);
-            if (MsexVersion < 1.2)
+            if (MsexVersion > CitpMsexVersions.Msex10Version) data.WriteMsexLibraryId(LibraryParentId);
+
+            if (MsexVersion < CitpMsexVersions.Msex12Version)
                 data.Write((byte)LibraryNumbers.Count);
             else
-                data.Write((byte)LibraryNumbers.Count);
+                data.Write((UInt16)LibraryNumbers.Count);
 
             foreach (byte number in LibraryNumbers)
                 data.Write(number);

@@ -53,8 +53,9 @@ namespace Citp.Packets.Msex
             {
             }
 
-            public MediaInformation(CitpBinaryReader data)
+            public MediaInformation(CitpBinaryReader data, Version msexVersion)
             {
+                MsexVersion = msexVersion;
                 ReadData(data);
             }
 
@@ -81,6 +82,10 @@ namespace Citp.Packets.Msex
             public override void ReadData(CitpBinaryReader data)
             {
                 Number = data.ReadByte();
+                if (MsexVersion == CitpMsexVersions.Msex12Version)
+                {
+                    SerialNumber = data.ReadUInt32();
+                }
                 DmxRangeMin = data.ReadByte();
                 DmxRangeMax = data.ReadByte();
                 MediaName = data.ReadUcs2();
@@ -94,6 +99,10 @@ namespace Citp.Packets.Msex
             public override void WriteData(CitpBinaryWriter data)
             {
                 data.Write(Number);
+                if (MsexVersion == CitpMsexVersions.Msex12Version)
+                {
+                    data.Write(SerialNumber);
+                }
                 data.Write(DmxRangeMin);
                 data.Write(DmxRangeMax);
                 data.WriteUcs2(MediaName);
@@ -113,33 +122,36 @@ namespace Citp.Packets.Msex
         {
             base.ReadData(data);
 
-            if (MsexVersion < 1.1)
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
                 LibraryId.ParseNumber(data.ReadByte());
             else
                 LibraryId = data.ReadMsexLibraryId();
 
-            int elementCount = MsexVersion < 1.2 ? data.ReadByte() : data.ReadUInt16();
+            int elementCount = MsexVersion < CitpMsexVersions.Msex12Version ? data.ReadByte() : data.ReadUInt16();
 
             for (int n = 0; n < elementCount; n++)
-                Elements.Add(new MediaInformation(data));
+                Elements.Add(new MediaInformation(data, MsexVersion));
         }
 
         public override void WriteData(CitpBinaryWriter data)
         {
             base.WriteData(data);
 
-            if (MsexVersion < 1.1)
+            if (MsexVersion < CitpMsexVersions.Msex11Version)
                 data.Write(LibraryNumber);
             else
                 data.WriteMsexLibraryId(LibraryId);
 
-            if (MsexVersion < 1.2)
+            if (MsexVersion < CitpMsexVersions.Msex12Version)
                 data.Write((byte)Elements.Count);
             else
                 data.Write((UInt16)Elements.Count);
 
             foreach (MediaInformation info in Elements)
+            {
+                info.MsexVersion = MsexVersion;
                 info.WriteData(data);
+            }
         }
 
         #endregion

@@ -18,6 +18,11 @@ namespace Citp.Packets.FInf
         {
         }
 
+        public FInfFrames(CitpBinaryReader data)
+        {
+            ReadData(data);
+        }
+
         #endregion
 
         #region Packet Content

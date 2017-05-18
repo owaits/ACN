@@ -102,6 +102,7 @@
     <Compile Include="Packets\Msex\CitpMsexGetElementLibraryInformation.cs" />
     <Compile Include="Packets\Msex\CitpMsexGetElementLibraryThumbnail.cs" />
     <Compile Include="Packets\Msex\CitpMsexGetElementThumbnail.cs" />
+    <Compile Include="Packets\Msex\CitpMsexGetElementThumbnailBase.cs" />
     <Compile Include="Packets\Msex\CitpMsexGetVideoSources.cs" />
     <Compile Include="Packets\Msex\CitpMsexHeader.cs" />
     <Compile Include="Packets\Msex\CitpMsexLayerStatus.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Packets\Msex\CitpMsexRequestStream.cs" />
     <Compile Include="Packets\Msex\CitpMsexServerInformation.cs" />
     <Compile Include="Packets\Msex\CitpMsexStreamFrame.cs" />
+    <Compile Include="Packets\Msex\CitpMsexVersions.cs" />
     <Compile Include="Packets\Msex\CitpMsexVideoSources.cs" />
     <Compile Include="Packets\OMEx\DeviceInformation.cs" />
     <Compile Include="Packets\OMEx\OMExClearDMXDeviceStatus.cs" />

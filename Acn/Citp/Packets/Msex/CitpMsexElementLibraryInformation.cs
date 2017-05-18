@@ -43,8 +43,9 @@ namespace Citp.Packets.Msex
             {
             }
 
-            public ElementLibraryInformation(CitpBinaryReader data)
+            public ElementLibraryInformation(CitpBinaryReader data, Version msexVersion)
             {
+                MsexVersion = msexVersion;
                 ReadData(data);
             }
 
@@ -82,46 +83,46 @@ namespace Citp.Packets.Msex
 
             public override void ReadData(CitpBinaryReader data)
             {
-                if (MsexVersion < 1.1)
+                if (MsexVersion < CitpMsexVersions.Msex11Version)
                     LibraryNumber = data.ReadByte();
                 else
                     LibraryId = data.ReadMsexLibraryId();
 
-                if (MsexVersion > 1.1)
+                if (MsexVersion > CitpMsexVersions.Msex11Version)
                     SerialNumber = data.ReadUInt32();
 
                 DmxRangeMin = data.ReadByte();
                 DmxRangeMax = data.ReadByte();
                 Name = data.ReadUcs2();
 
-                if (MsexVersion > 1.0)
+                if (MsexVersion > CitpMsexVersions.Msex10Version)
                 {
-                    LibraryCount = MsexVersion < 1.2 ? data.ReadByte() : data.ReadUInt16();
+                    LibraryCount = MsexVersion < CitpMsexVersions.Msex12Version ? data.ReadByte() : data.ReadUInt16();
                 }
 
-                ElementCount = MsexVersion < 1.2 ? data.ReadByte() : data.ReadUInt16();
+                ElementCount = MsexVersion < CitpMsexVersions.Msex12Version ? data.ReadByte() : data.ReadUInt16();
             }
 
             public override void WriteData(CitpBinaryWriter data)
             {
-                if (MsexVersion < 1.1)
+                if (MsexVersion < CitpMsexVersions.Msex11Version)
                     data.Write(LibraryNumber);
                 else
                     data.WriteMsexLibraryId(LibraryId);
 
-                if (MsexVersion > 1.1)
+                if (MsexVersion > CitpMsexVersions.Msex11Version)
                     data.Write(SerialNumber);
 
                 data.Write(DmxRangeMin);
                 data.Write(DmxRangeMax);
                 data.WriteUcs2(Name);
 
-                if (MsexVersion >= 1.2)
+                if (MsexVersion >= CitpMsexVersions.Msex12Version)
                 {
                     data.Write(LibraryCount);
                     data.Write(ElementCount);
                 }
-                else if (MsexVersion == 1.1)
+                else if (MsexVersion == CitpMsexVersions.Msex11Version)
                 {
                     data.Write((byte) LibraryCount);
                     data.Write((byte) ElementCount);
@@ -141,10 +142,10 @@ namespace Citp.Packets.Msex
 
             LibraryType = (MsexElementType) data.ReadByte();
 
-            int libraryCount = MsexVersion < 1.2 ? data.ReadByte() : data.ReadUInt16();
+            int libraryCount = MsexVersion < CitpMsexVersions.Msex12Version ? data.ReadByte() : data.ReadUInt16();
 
             for (int n = 0; n < libraryCount; n++)
-                Libraries.Add(new ElementLibraryInformation(data));
+                Libraries.Add(new ElementLibraryInformation(data, MsexVersion));
             
         }
 
@@ -154,13 +155,16 @@ namespace Citp.Packets.Msex
 
             data.Write((byte) LibraryType);
 
-            if(MsexVersion <1.2)
+            if (MsexVersion < CitpMsexVersions.Msex12Version)
                 data.Write((byte) Libraries.Count);
             else
                 data.Write((UInt16) Libraries.Count);
 
-            foreach(ElementLibraryInformation info in Libraries)
+            foreach (ElementLibraryInformation info in Libraries)
+            {
+                info.MsexVersion = MsexVersion;
                 info.WriteData(data);
+            }
 
         }
 
