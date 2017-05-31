@@ -20,12 +20,10 @@ namespace Citp.Test
         public void CitpMsexClientInformationTest()
         {
             CitpMsexClientInformation clientInformation = new CitpMsexClientInformation();
-            clientInformation.SupportedMSEXVersions.Add(0x0100);
-            clientInformation.SupportedMSEXVersions.Add(0x0101);
-            clientInformation.SupportedMSEXVersions.Add(0x0102);
-            CitpMsexClientInformation received = CitpPacketTester.SendAndReceiveMsexVersionedPacket(clientInformation, new Version(1,0)) as CitpMsexClientInformation;
+            clientInformation.SupportedMSEXVersions.AddRange(CitpMsexVersions.AllVersions);
+            CitpMsexClientInformation received = CitpPacketTester.SendAndReceiveMsexVersionedPacket(clientInformation, CitpMsexVersions.Msex10Version) as CitpMsexClientInformation;
 
-            foreach (ushort version in clientInformation.SupportedMSEXVersions)
+            foreach (Version version in clientInformation.SupportedMSEXVersions)
             {
                 Assert.IsTrue(received.SupportedMSEXVersions.Contains(version), string.Format("Missing supported MSEX version {0}.", version));
             }
@@ -43,9 +41,7 @@ namespace Citp.Test
             serverInfo.ProductVersionMajor = 10;
             serverInfo.ProductVersionMinor = 1;
             serverInfo.ProductVersionBugfix = 42;
-            serverInfo.SupportedMsexVersions.Add(0x0100);
-            serverInfo.SupportedMsexVersions.Add(0x0101);
-            serverInfo.SupportedMsexVersions.Add(0x0102);
+            serverInfo.SupportedMsexVersions.AddRange(CitpMsexVersions.AllVersions);
             serverInfo.SupportedLibraryTypes = 1;
             serverInfo.ThumbnailFormats.Add("RGB8");
             serverInfo.ThumbnailFormats.Add("JPEG");
@@ -116,7 +112,7 @@ namespace Citp.Test
             CitpMsexNack sentPacket = new CitpMsexNack();
             sentPacket.ReceivedContentType = "GELT";
 
-            CitpMsexNack receivedPacket = CitpPacketTester.SendAndReceiveMsexVersionedPacket(sentPacket, new Version(1,2)) as CitpMsexNack;
+            CitpMsexNack receivedPacket = CitpPacketTester.SendAndReceiveMsexVersionedPacket(sentPacket, CitpMsexVersions.Msex12Version) as CitpMsexNack;
             Assert.AreEqual(sentPacket.ReceivedContentType, receivedPacket.ReceivedContentType, "Received content type is incorrect");
         }
 

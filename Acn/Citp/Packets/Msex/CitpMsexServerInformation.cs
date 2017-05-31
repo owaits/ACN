@@ -37,9 +37,9 @@ namespace Citp.Packets.Msex
 
         public byte ProductVersionBugfix { get; set; }
 
-        private List<UInt16> supportedMsexVersions = new List<ushort>();
+        private List<Version> supportedMsexVersions = new List<Version>();
 
-        public List<UInt16> SupportedMsexVersions 
+        public List<Version> SupportedMsexVersions 
         {
             get { return supportedMsexVersions; }
         }
@@ -86,7 +86,7 @@ namespace Citp.Packets.Msex
 
                 int versionCount = data.ReadByte();
                 for (int n = 0; n < versionCount; n++)
-                    SupportedMsexVersions.Add(data.ReadUInt16());
+                    SupportedMsexVersions.Add(data.ReadUInt16().ToMsexVersion());
 
                 SupportedLibraryTypes = data.ReadUInt16();
 
@@ -123,8 +123,8 @@ namespace Citp.Packets.Msex
                 data.Write(ProductVersionBugfix);
 
                 data.Write((byte) SupportedMsexVersions.Count);
-                foreach (UInt16 version in SupportedMsexVersions)
-                    data.Write(version);
+                foreach (Version version in SupportedMsexVersions)
+                    data.Write(version.ToMsexShort());
 
                 data.Write(SupportedLibraryTypes);
 

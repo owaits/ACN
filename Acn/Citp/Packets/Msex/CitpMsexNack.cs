@@ -16,7 +16,7 @@ namespace Citp.Packets.Msex
         public CitpMsexNack()
             : base()
         {
-            MsexVersion = new Version(1, 2);
+            MsexVersion = CitpMsexVersions.Msex10Version;
             LayerContentType = PacketType;
         }
 
