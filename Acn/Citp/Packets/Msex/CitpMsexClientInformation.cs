@@ -28,9 +28,9 @@ namespace Citp.Packets.Msex
 
         #region Packet Content
 
-        private List<ushort> supportedMSEXVersions = new List<ushort>();
+        private List<Version> supportedMSEXVersions = new List<Version>();
 
-        public List<ushort> SupportedMSEXVersions
+        public List<Version> SupportedMSEXVersions
         {
             get { return supportedMSEXVersions; }
         }
@@ -47,7 +47,7 @@ namespace Citp.Packets.Msex
 
             for (int n = 0; n < count; n++)
             {
-                SupportedMSEXVersions.Add(data.ReadUInt16());
+                SupportedMSEXVersions.Add(data.ReadUInt16().ToMsexVersion());
             }
         }
 
@@ -57,8 +57,8 @@ namespace Citp.Packets.Msex
 
             data.Write((byte)SupportedMSEXVersions.Count);
 
-            foreach (ushort version in SupportedMSEXVersions)
-                data.Write(version);
+            foreach (Version version in SupportedMSEXVersions)
+                data.Write(version.ToMsexShort());
         }
 
         #endregion

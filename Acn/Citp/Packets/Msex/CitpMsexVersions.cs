@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Citp.Packets.Msex
 {
+    /// <summary>
+    /// Definitions for standard CITP MSEX versions and extension methods for converting between <see cref="Version"/> and <see cref="ushort"/> representations.
+    /// </summary>
     public static class CitpMsexVersions
     {
 
@@ -68,6 +71,42 @@ namespace Citp.Packets.Msex
                 }
                 return CitpMsexVersions.msex12Version;
             }
+        }
+
+        /// <summary>
+        /// Gets all known versions.
+        /// </summary>
+        /// <value>
+        /// All versions.
+        /// </value>
+        public static IEnumerable<Version> AllVersions
+        {
+            get
+            {
+                yield return Msex10Version;
+                yield return Msex11Version;
+                yield return Msex12Version;
+            }
+        }
+
+        /// <summary>
+        /// Converts the MSEX version to unsigned short.
+        /// </summary>
+        /// <param name="version">Version object representing an MSEX version.</param>
+        /// <returns>The MSEX version as a UInt16.</returns>
+        public static ushort ToMsexShort(this Version version)
+        {
+            return (ushort)((version.Major << 8) | version.Minor);
+        }
+
+        /// <summary>
+        /// Converts the unsigned short to an MSEX version.
+        /// </summary>
+        /// <param name="version">Unsigned short representing an MSEX version.</param>
+        /// <returns>The MSEX version as a version object.</returns>
+        public static Version ToMsexVersion(this ushort version)
+        {
+            return new Version(version >> 8, version & 0xff);
         }
     }
 }
