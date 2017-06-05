@@ -27,7 +27,12 @@ namespace Citp.Packets.CaEx
 
         #region Packet Content
 
-        public List<RecordCueOption> Options { get; set; }
+        private List<RecordCueOption> options = new List<RecordCueOption>(); 
+
+        public List<RecordCueOption> Options {
+            get { return options; }
+            set { options = value; }
+        }
 
         #endregion
 

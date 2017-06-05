@@ -1,5 +1,6 @@
 ﻿using Citp.IO;
 using Citp.Packets;
+using Citp.Packets.CaEx;
 using Citp.Packets.PInf;
 using Citp.Sockets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,6 +33,20 @@ namespace Citp.Test
         }
 
         /// <summary>
+        /// Sends and receives an Msex packet.
+        /// Performs some basic asserts on the header.
+        /// </summary>
+        /// <param name="citpMessage">The citp message.</param>
+        /// <returns>The read packet.</returns>
+        public static CitpPacket SendAndReceiveCaExPacket(CaExHeader citpMessage)
+        {
+            CaExHeader received = SendAndReceivePacket(citpMessage) as CaExHeader;
+            Assert.AreEqual(received.ContentCode, citpMessage.ContentCode);
+            Assert.AreEqual(received.ContentType, citpMessage.ContentType);
+            return received;
+        }
+
+        /// <summary>
         /// Sends and receives a Peer Information packet.
         /// Performs some basic asserts on the header.
         /// </summary>
@@ -55,6 +70,8 @@ namespace Citp.Test
             CitpRecieveData messageStream = WriteToMemoryStream(citpMessage);
             CitpHeader received = ReceiveFromStream(messageStream);
             Assert.AreEqual(received.ContentType, citpMessage.ContentType);
+            Assert.AreEqual(received.VersionMajor, citpMessage.VersionMajor);
+            Assert.AreEqual(received.VersionMinor, citpMessage.VersionMinor);
             return received;
         }
 
