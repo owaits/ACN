@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CitpCaExPacketTests.cs" />
     <Compile Include="CitpFixtureInfoTests.cs" />
     <Compile Include="CitpMsexPacketTests.cs" />
     <Compile Include="CitpPacketTester.cs" />
