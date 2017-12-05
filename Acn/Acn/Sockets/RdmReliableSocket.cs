@@ -281,14 +281,7 @@ namespace Acn.Sockets
                             }
                         }
                     }
-
-                    //Remove all transactions that have perminantly failed.
-                    foreach (Transaction transaction in failedTransactions)
-                        transactionQueue.Remove(transaction.Id);
                 }
-
-                PacketsDropped += droppedPackets + failedTransactions.Count;
-                TransactionsFailed += failedTransactions.Count;
 
                 foreach (Transaction transaction in retryTransactions)
                 {
@@ -305,19 +298,26 @@ namespace Acn.Sockets
                     catch (SocketException)
                     {
                         //If the connection has failed, remove the transaction from the queue to prevent further communications.
-                        transactionQueue.Remove(transaction.Id);
+                        failedTransactions.Add(transaction);
                     }                
                 }
 
+                PacketsDropped += droppedPackets + failedTransactions.Count;
+                TransactionsFailed += failedTransactions.Count;
+
                 lock (transactionQueue)
                 {
+                    //Remove all transactions that have permanently failed.
+                    foreach (Transaction transaction in failedTransactions)
+                        transactionQueue.Remove(transaction.Id);
+
                     if(retryTimer != null)
                         retryTimer.Change(TransmitInterval, TimeSpan.Zero);
                 }
             }
             catch (Exception ex)
             {
-                //If an exception ocurrs, log the error but do not process any more of the queue.
+                //If an exception occurs, log the error but do not process any more of the queue.
                 RaiseUnhandledException(ex);
             }
 
