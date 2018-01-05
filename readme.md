@@ -15,8 +15,8 @@ This implementation of ACN is intended to be used by projects which wish to add 
 
 This project is under continuous development and further protocols will be added. Here is a list of the current support provided by this library.
 
-| Protocol Name | Standard | Implementation Status | Comments
-| --- | --- |
+| Protocol Name | Standard | Implementation Status | Comments |
+| --- | --- | ---| --- |
 | Root Layer Protocol (RLP) | ANSI E1.17 | Complete	
 | Session Data Transport Protocol (SDT) | ANSI E1.17 | Not Implemented | Coming soon...
 | Service Location Protocol (SLP) |	RFC 2609	Complete	Directory Agent Not Included
@@ -32,7 +32,7 @@ This project is under continuous development and further protocols will be added
 
 As well as implementing the ACN protocol this project also includes some samples which demonstrate the use of the library and provide tools for testing ACN,RDM and ArtNet devices. Even if you are not intending to use the library these tools may prove useful when developing ACN devices. Here is a list of the samples available.
 
-| Name | Description
+| Name | Description |
 | --- | --- |
 | RDM Snoop	| Discovers RDM devices and gives full control over the devices through ArtNet or RDMNet. Provides a packet log of all RDM traffic. Ideal for setting up RDM devices or diagnosing RDM faults.
 | Streaming ACN Snoop | A simple application for sending and recieving sACN data.
