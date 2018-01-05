@@ -48,6 +48,9 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.lockIndicator = new System.Windows.Forms.ToolStripLabel();
             this.dataTabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.portGrid)).BeginInit();
@@ -191,7 +194,10 @@
             this.networkCardSelect,
             this.toolStripLabel1,
             this.toolStripTextBox1,
-            this.toolStripButton1});
+            this.toolStripLabel2,
+            this.toolStripTextBox2,
+            this.toolStripButton1,
+            this.lockIndicator});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(747, 38);
@@ -255,6 +261,29 @@
             this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click_1);
             // 
+            // toolStripTextBox2
+            // 
+            this.toolStripTextBox2.Name = "toolStripTextBox2";
+            this.toolStripTextBox2.Size = new System.Drawing.Size(50, 38);
+            this.toolStripTextBox2.Text = "0";
+            this.toolStripTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox2_KeyDown);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(83, 35);
+            this.toolStripLabel2.Text = "Sync Universe:";
+            // 
+            // lockIndicator
+            // 
+            this.lockIndicator.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lockIndicator.BackColor = System.Drawing.Color.Red;
+            this.lockIndicator.ForeColor = System.Drawing.Color.Red;
+            this.lockIndicator.Name = "lockIndicator";
+            this.lockIndicator.Size = new System.Drawing.Size(32, 35);
+            this.lockIndicator.Text = "Lock";
+            this.lockIndicator.Visible = false;
+            // 
             // StreamingAcnSnoop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -301,6 +330,9 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView portGrid;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
+        private System.Windows.Forms.ToolStripLabel lockIndicator;
     }
 }
 

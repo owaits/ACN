@@ -33,8 +33,12 @@ namespace StreamingAcn
         private void Start(CardInfo networkCard, IEnumerable<int> universes)
         {
             socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
-            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.StreamingAcnDmxPacket>>(socket_NewPacket);
+            socket.SynchronizationAddress = SynchronizationUniverse;
+            socket.NewPacket += socket_NewPacket;
+            socket.NewSynchronize += socket_NewSynchronize;
+            socket.NewDiscovery += socket_NewDiscovery;
             socket.Open(networkCard.IpAddress);
+            socket.StartDiscovery();
 
             foreach (int universe in universes)
                 socket.JoinDmxUniverse(universe);
@@ -47,6 +51,13 @@ namespace StreamingAcn
             acnPortExplorer.NewEndpointFound += acnPortExplorer_NewEndpointFound;
             acnPortExplorer.Start();
 
+        }
+
+        private int lockAddress = 0;
+
+        void socket_NewSynchronize(object sender, NewPacketEventArgs<StreamingAcnSynchronizationPacket> e)
+        {
+            lockAddress = e.Packet.Framing.SynchronizationAddress;
         }
 
         private void Stop()
@@ -221,13 +232,46 @@ namespace StreamingAcn
         }
 
 
+        void socket_NewDiscovery(object sender, NewPacketEventArgs<StreamingAcnDiscoveryPacket> e)
+        {
+            if (e.Packet != null)
+            {
+                AvailableUniverses = new HashSet<int>(e.Packet.UniverseDiscovery.Universes);
+            }
+        }
+
+        private bool locked = false;
+
+        public bool Locked 
+        { 
+            get { return locked;}
+            set 
+            { 
+                if(locked != value)
+                {
+                    locked = value; 
+                    BeginInvoke(new Action(UpdateLock));   
+                }                
+            }
+        }
+
         void socket_NewPacket(object sender, NewPacketEventArgs<StreamingAcnDmxPacket> e)
         {
+            bool isLocked = false;
+
             StreamingAcnDmxPacket dmxPacket = e.Packet as StreamingAcnDmxPacket;
             if (dmxPacket != null)
             {
                 recieveData.DmxData = dmxPacket.Dmx.Data;
+                isLocked = (lockAddress != 0 && lockAddress == dmxPacket.Framing.SyncPacketAddress);
             }
+
+            Locked = isLocked;
+        }
+
+        private void UpdateLock()
+        {
+            lockIndicator.Visible= Locked;
         }
 
         private void StreamingAcnSnoop_FormClosing(object sender, FormClosingEventArgs e)
@@ -259,6 +303,31 @@ namespace StreamingAcn
                     dmxOutput.AddUniverse(sendData.Universe);
                 }
             }
+        }
+
+        private int synchronizationUniverse = 0;
+
+        public int SynchronizationUniverse
+        {
+            get { return synchronizationUniverse; }
+            set 
+            { 
+                if(synchronizationUniverse != value)
+                {
+                    synchronizationUniverse = value;
+                    if (socket != null)
+                        socket.SynchronizationAddress = value;
+                }
+                
+            }
+        }
+
+        private HashSet<int> availableUniverses = new HashSet<int>();
+
+        public HashSet<int> AvailableUniverses
+        {
+            get { return availableUniverses; }
+            set { availableUniverses = value; }
         }
 
 
@@ -425,6 +494,22 @@ namespace StreamingAcn
             {
                 MessageBox.Show("Editting has been disabled, Read Only is selected.");
                 e.Cancel = true;
+            }
+        }
+
+        private void toolStripTextBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    SynchronizationUniverse = int.Parse(toolStripTextBox2.Text);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message, "Set Universe");
+                }
+
             }
         }
 

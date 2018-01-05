@@ -18,10 +18,56 @@ namespace RdmSnoop.Transports
 
         public event EventHandler<DeviceFoundEventArgs> NewDeviceFound;
 
+        #region Setup and Initialisation
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArtNet"/> class.
+        /// </summary>
         public ArtNet()
         {
         }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Stop();
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Occurs when [starting].
+        /// </summary>
+        public event EventHandler Starting;
+
+        /// <summary>
+        /// Raises the starting.
+        /// </summary>
+        protected void RaiseStarting()
+        {
+            if (Starting != null)
+                Starting(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Occurs when [stoping].
+        /// </summary>
+        public event EventHandler Stoping;
+
+        /// <summary>
+        /// Raises the stoping.
+        /// </summary>
+        protected void RaiseStoping()
+        {
+            if (Starting != null)
+                Starting(this, EventArgs.Empty);
+        }
+
+        #endregion
 
         void socket_NewPacket(object sender, Acn.Sockets.NewPacketEventArgs<ArtNetPacket> e)
         {
@@ -98,6 +144,11 @@ namespace RdmSnoop.Transports
                 return Enumerable.Repeat(reliableSocket,1); 
             }
         }
+        
+        public int ResolveEndpointToUniverse(RdmEndPoint address)
+        {
+            throw new NotImplementedException();
+        }
 
         #region Art Net
 
@@ -160,19 +211,6 @@ namespace RdmSnoop.Transports
 
         #endregion
 
-        public void Dispose()
-        {
-            Stop();
-        }
 
-        public event EventHandler Starting;
-
-        public event EventHandler Stoping;
-
-
-        public int ResolveEndpointToUniverse(RdmEndPoint address)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

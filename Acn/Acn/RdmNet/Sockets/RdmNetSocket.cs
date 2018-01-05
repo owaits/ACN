@@ -132,11 +132,23 @@ namespace Acn.RdmNet.Sockets
 
         #region IProtocolFilter Members
 
-        int IProtocolFilter.ProtocolId
+        /// <summary>
+        /// Gets a list of protocol ID's that this filter supports.
+        /// </summary>
+        IEnumerable<int> IProtocolFilter.ProtocolId
         {
-            get { return (int) ProtocolIds.RdmNet; }
+            get { return new []{(int) ProtocolIds.RdmNet}; }
         }
 
+        /// <summary>
+        /// Processes the packet that have been recieved and allocated to this filter.
+        /// </summary>
+        /// <param name="source">The source IP address of the packet.</param>
+        /// <param name="header">The header information for the ACN packet.</param>
+        /// <param name="data">The data reader for the remaining packet data.</param>
+        /// <remarks>
+        /// Only packets that have supported protocol ID's will be sent to this function.
+        /// </remarks>
         void IProtocolFilter.ProcessPacket(IPEndPoint source, AcnRootLayer header, AcnBinaryReader data)
         {
             RdmNetPacket newPacket = AcnPacket.ReadPacket(header,data) as RdmNetPacket;

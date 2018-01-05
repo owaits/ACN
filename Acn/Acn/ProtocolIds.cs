@@ -30,6 +30,11 @@ namespace Acn
         /// <summary>
         /// Null packet used in RDMNet for Heartbeat.
         /// </summary>
-        Null = 0x6
+        Null = 0x6,
+
+        /// <summary>
+        /// The streaming ACN extensions such as discovery and synchronization.
+        /// </summary>
+        sACNExtended = 0x08
     }
 }

@@ -74,7 +74,8 @@ namespace Acn.Sockets
 
         public void RegisterProtocolFilter(IProtocolFilter filter)
         {
-            filters.Add(filter.ProtocolId, filter);
+            foreach(int protocol in filter.ProtocolId)
+                filters.Add(protocol, filter);
         }
 
         #endregion

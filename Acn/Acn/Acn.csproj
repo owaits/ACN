@@ -146,6 +146,7 @@
     <Compile Include="ArtNet\Sockets\ArtNetSocket.cs" />
     <Compile Include="Helpers\DmxStreamer.cs" />
     <Compile Include="Helpers\DmxUniverse.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\SlpDeviceEventArgs.cs" />
     <Compile Include="Helpers\SlpDeviceInformation.cs" />
     <Compile Include="Helpers\SlpDeviceManager.cs" />
@@ -162,7 +163,9 @@
     <Compile Include="Packets\RdmNet\RdmNetStatusPacket.cs" />
     <Compile Include="Packets\RdmNet\RdmNetPdu.cs" />
     <Compile Include="Packets\RdmNet\RdmNetFramingPdu.cs" />
+    <Compile Include="Packets\sAcn\E131Extended.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnDmxPdu.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnDiscoveryPacket.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnSynchronizationPacket.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnDmxPacket.cs" />
     <Compile Include="Packets\sAcn\StreamingAcnFramingPdu.cs" />
