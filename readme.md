@@ -5,6 +5,8 @@ Architecture for Control Networks (ACN) is a network control protocol which is u
 
 This open source project aims to provide a full implementation of this standard and many of the sub protocols associated with ACN.
 
+This project was moved from Codeplex after codeplex shutdown, all development has been moved to GitHub. You can find the codeplex project at https://acn.codeplex.com.
+
 ## Introduction
 
 The ACN protocol is a suite of standards being developed by the lighting industry for control of lighting fixtures and other devices used by the entertainment industry. The first release of the protocol is ANSI E1.17 and other stndards have been released which form part of the suite. You can find out more about ACN on wikipedia or on the PLASA Technical Standardswebsite.
