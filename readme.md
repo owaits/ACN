@@ -15,18 +15,18 @@ This implementation of ACN is intended to be used by projects which wish to add 
 
 This project is under continuous development and further protocols will be added. Here is a list of the current support provided by this library.
 
-| Protocol Name | Standard | Implementation Status | Comments |
-| --- | --- | ---| --- |
-| Root Layer Protocol (RLP) | ANSI E1.17 | Complete	
-| Session Data Transport Protocol (SDT) | ANSI E1.17 | Not Implemented | Coming soon...
-| Service Location Protocol (SLP) |	RFC 2609	Complete	Directory Agent Not Included
-| Simple Network Time Protocol (SNTP) |	RFC 2030 ANSI E1.30-3 - 2009	Complete	
-| Trivial File Transfer Protocol (TFTP) | RFC 1350	Not Implemented	
-| Device Description Language (DDL) | ANSI E1.17	Not Implemented	
-| Device Management Protocol (DMP) | ANSI E1.17	Partial	Only parts required for SACN have been completed.
-| Streaming ACN (sACN) | ANSI E1.31 - 2016 | Complete | Updated to E1.31 2016	
-| RDM Extension (RDMNet) | ANSI E1.33 |	Complete | Draft Edition of Standard, should only use for prototyping purposes!
-| Remote Device Management (RDM) | ANSI E1.20 | Complete|	
+| Protocol Name                          | Standard                      | Implementation Status | Comments     |
+| -------------------------------------- | ----------------------------- | --------------------- | ------------ |
+| Root Layer Protocol (RLP)              | ANSI E1.17                    | Complete	             |
+| Session Data Transport Protocol (SDT)  | ANSI E1.17                    | Not Implemented       | Coming soon...
+| Service Location Protocol (SLP)        | RFC 2609	                     | Complete              | Directory Agent Not Included
+| Simple Network Time Protocol (SNTP)    | RFC 2030 ANSI E1.30-3 - 2009	 | Complete	             |
+| Trivial File Transfer Protocol (TFTP)  | RFC 1350	                     | Not Implemented	     |
+| Device Description Language (DDL)      | ANSI E1.17	                   | Not Implemented	     |
+| Device Management Protocol (DMP)       | ANSI E1.17	                   | Partial	             | Only parts required for SACN have been completed.
+| Streaming ACN (sACN)                   | ANSI E1.31 - 2016             | Complete              | Updated to E1.31 2016	
+| RDM Extension (RDMNet)                 | ANSI E1.33                    | Complete              | Draft Edition of Standard, should only use for prototyping purposes!
+| Remote Device Management (RDM)         | ANSI E1.20                    | Complete              |	
 
 ## Samples
 
