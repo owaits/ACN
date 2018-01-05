@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcnDroid", "AcnDroid.csproj", "{7A83178C-11B3-4CDD-96EF-CEF5A5B4381B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acn", "..\Acn\Acn.csproj", "{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AcnDroid.csproj
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = ..\\Acn\\Acn.csproj
+		SccProjectName2 = ../Acn
+		SccLocalPath2 = ..\\Acn
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		AndroidDebug|Any CPU = AndroidDebug|Any CPU
+		AndroidRelease|Any CPU = AndroidRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A83178C-11B3-4CDD-96EF-CEF5A5B4381B}.AndroidDebug|Any CPU.ActiveCfg = AndroidDebug|Any CPU
+		{7A83178C-11B3-4CDD-96EF-CEF5A5B4381B}.AndroidDebug|Any CPU.Build.0 = AndroidDebug|Any CPU
+		{7A83178C-11B3-4CDD-96EF-CEF5A5B4381B}.AndroidDebug|Any CPU.Deploy.0 = AndroidDebug|Any CPU
+		{7A83178C-11B3-4CDD-96EF-CEF5A5B4381B}.AndroidRelease|Any CPU.ActiveCfg = AndroidRelease|Any CPU
+		{7A83178C-11B3-4CDD-96EF-CEF5A5B4381B}.AndroidRelease|Any CPU.Build.0 = AndroidRelease|Any CPU
+		{7A83178C-11B3-4CDD-96EF-CEF5A5B4381B}.AndroidRelease|Any CPU.Deploy.0 = AndroidRelease|Any CPU
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.AndroidDebug|Any CPU.ActiveCfg = AndroidDebug|Any CPU
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.AndroidDebug|Any CPU.Build.0 = AndroidDebug|Any CPU
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.AndroidRelease|Any CPU.ActiveCfg = AndroidRelease|Any CPU
+		{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}.AndroidRelease|Any CPU.Build.0 = AndroidRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

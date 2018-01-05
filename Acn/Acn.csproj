@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9F69B278-176F-4E9C-A9EA-8CB7BCC611A4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Acn</RootNamespace>
+    <AssemblyName>Acn</AssemblyName>
+    <TargetFrameworkVersion Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' ">v4.0</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion Condition=" '$(Configuration)' == 'AndroidDebug' or '$(Configuration)' == 'AndroidRelease' ">v4.4</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\Acn.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AndroidDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\AndroidDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AndroidRelease|AnyCPU'">
+    <OutputPath>bin\AndroidRelease\</OutputPath>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Acn.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AcnProjectKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' ">
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)' == 'AndroidDebug' or '$(Configuration)' == 'AndroidRelease' ">
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\ProductVersion.cs">
+      <Link>ProductVersion.cs</Link>
+    </Compile>
+    <Compile Include="AcnPdu.cs" />
+    <Compile Include="AcnRootLayer.cs" />
+    <Compile Include="AcnPacket.cs" />
+    <Compile Include="ArtNet\ArtNetOpCodes.cs" />
+    <Compile Include="ArtNet\IO\ArtNetBinaryReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ArtNet\IO\ArtNetBinaryWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ArtNet\IO\ArtNetRecieveData.cs" />
+    <Compile Include="ArtNet\Packets\ArtNetDmxPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtNetPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtPollPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtPollReplyPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtRdmPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtRdmSubPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtTodControlPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtTodDataPacket.cs" />
+    <Compile Include="ArtNet\Packets\ArtTodRequestPacket.cs" />
+    <Compile Include="ArtNet\Sockets\ArtNetSocket.cs" />
+    <Compile Include="Helpers\DmxStreamer.cs" />
+    <Compile Include="Helpers\DmxUniverse.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\SlpDeviceEventArgs.cs" />
+    <Compile Include="Helpers\SlpDeviceInformation.cs" />
+    <Compile Include="Helpers\SlpDeviceManager.cs" />
+    <Compile Include="InvalidPacketException.cs" />
+    <Compile Include="IProtocolFilter.cs" />
+    <Compile Include="Packets\Dmp\DmpGetProperty.cs" />
+    <Compile Include="Packets\Dmp\DmpGetPropertyReply.cs" />
+    <Compile Include="Packets\Dmp\DmpMessages.cs" />
+    <Compile Include="Packets\Dmp\DmpSetProperty.cs" />
+    <Compile Include="IO\AcnBinaryReader.cs" />
+    <Compile Include="IO\AcnBinaryWriter.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetHeartbeat.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetStatusPdu.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetStatusPacket.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetPdu.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetFramingPdu.cs" />
+    <Compile Include="Packets\sAcn\E131Extended.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnDmxPdu.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnDiscoveryPacket.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnSynchronizationPacket.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnDmxPacket.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnFramingPdu.cs" />
+    <Compile Include="Packets\RdmNet\RdmNetPacket.cs" />
+    <Compile Include="Packets\Sdt\Addresses\IPv4Address.cs" />
+    <Compile Include="Packets\Sdt\Addresses\IPv6Address.cs" />
+    <Compile Include="Packets\Sdt\Addresses\StdAddress.cs" />
+    <Compile Include="Packets\Sdt\ChannelParameterBlock.cs" />
+    <Compile Include="Packets\Sdt\ReasonCodes.cs" />
+    <Compile Include="Packets\Sdt\Addresses\NullAddress.cs" />
+    <Compile Include="Packets\Sdt\StdConnect.cs" />
+    <Compile Include="Packets\Sdt\StdConnectAccept.cs" />
+    <Compile Include="Packets\Sdt\StdConnectRefuse.cs" />
+    <Compile Include="Packets\Sdt\StdDisconnect.cs" />
+    <Compile Include="Packets\Sdt\StdDisconnecting.cs" />
+    <Compile Include="Packets\Sdt\StdLeave.cs" />
+    <Compile Include="Packets\Sdt\StdGetSessions.cs" />
+    <Compile Include="Packets\Sdt\StdAck.cs" />
+    <Compile Include="Packets\Sdt\StdChannelParams.cs" />
+    <Compile Include="Packets\Sdt\StdSessions.cs" />
+    <Compile Include="Packets\Sdt\StdNak.cs" />
+    <Compile Include="Packets\Sdt\StdLeaving.cs" />
+    <Compile Include="Packets\Sdt\StdJoinRefuse.cs" />
+    <Compile Include="Packets\Sdt\StdJoinAccept.cs" />
+    <Compile Include="Packets\Sdt\StdJoin.cs" />
+    <Compile Include="Packets\Sdt\StdUnreliableWrapper.cs" />
+    <Compile Include="Packets\Sdt\StdReliableWrapper.cs" />
+    <Compile Include="Packets\Sdt\StdVectors.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AcnPacketFactory.cs" />
+    <Compile Include="ProtocolIds.cs" />
+    <Compile Include="RdmNet\Sockets\HealthCheckedTcpSocket.cs" />
+    <Compile Include="RdmNet\Sockets\RdmNetMeshSocket.cs" />
+    <Compile Include="RdmNet\Sockets\RdmNetDeviceSocket.cs" />
+    <Compile Include="Rdm\Broker\RdmDiscovery.cs" />
+    <Compile Include="Rdm\Broker\RdmMessageAttribute.cs" />
+    <Compile Include="Rdm\Broker\RdmPersonality.cs" />
+    <Compile Include="Rdm\Broker\RdmSlot.cs" />
+    <Compile Include="Rdm\DmxStartCodes.cs" />
+    <Compile Include="Rdm\Packets\Configuration\LockPin.cs" />
+    <Compile Include="Rdm\Packets\Configuration\LockStateDescription.cs" />
+    <Compile Include="Rdm\Packets\Configuration\LockState.cs" />
+    <Compile Include="Rdm\Packets\Configuration\RealTimeClock.cs" />
+    <Compile Include="Rdm\Packets\Configuration\PanTiltSwap.cs" />
+    <Compile Include="Rdm\Packets\Configuration\TiltInvert.cs" />
+    <Compile Include="Rdm\Packets\Configuration\PanInvert.cs" />
+    <Compile Include="Rdm\Packets\Control\CapturePreset.cs" />
+    <Compile Include="Rdm\Packets\Control\PresetMergeMode.cs" />
+    <Compile Include="Rdm\Packets\Control\PresetStatus.cs" />
+    <Compile Include="Rdm\Packets\Control\PresetInfo.cs" />
+    <Compile Include="Rdm\Packets\Control\PowerOnSelfTest.cs" />
+    <Compile Include="Rdm\Packets\Control\IdentifyMode.cs" />
+    <Compile Include="Rdm\Packets\Control\PresetPlayback.cs" />
+    <Compile Include="Rdm\Packets\Control\SelfTestDescription.cs" />
+    <Compile Include="Rdm\Packets\Control\PerformSelfTest.cs" />
+    <Compile Include="Rdm\Packets\Control\PowerState.cs" />
+    <Compile Include="Rdm\Packets\Control\ResetDevice.cs" />
+    <Compile Include="Rdm\Packets\Control\IdentifyDevice.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\ModulationFrequencyDescription.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\ModulationFrequency.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\OutputResponseTimeDescription.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\OutputResponseTme.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\CurveDescription.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\Curve.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\MaximumLevel.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\MinimumLevel.cs" />
+    <Compile Include="Rdm\Packets\Dimmer\DimmerInfo.cs" />
+    <Compile Include="Rdm\Packets\Discovery\DiscoveryUnMute.cs" />
+    <Compile Include="Rdm\Packets\Discovery\DiscoveryMute.cs" />
+    <Compile Include="Rdm\Packets\Discovery\DiscoveryUniqueBranch.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxStartupMode.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxFailMode.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxBlockAddress.cs" />
+    <Compile Include="Rdm\Packets\Management\RdmAckTimer.cs" />
+    <Compile Include="Rdm\Packets\Management\NackReason.cs" />
+    <Compile Include="Rdm\Packets\Management\RdmNack.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundQueuedStatusPolicy.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundQueuedStatusPolicyDescription.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundStatusType.cs" />
+    <Compile Include="Rdm\Packets\Net\TcpCommsStatus.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointDevices.cs" />
+    <Compile Include="Rdm\Packets\Net\QueuedStatusUIDCollection.cs" />
+    <Compile Include="Rdm\Packets\Net\QueuedStatusEndpointCollection.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointDeviceListChange.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointListChange.cs" />
+    <Compile Include="Rdm\Packets\Parameters\ParameterDescription.cs" />
+    <Compile Include="Rdm\Packets\Parameters\SupportedParameters.cs" />
+    <Compile Include="Rdm\Packets\Display\DisplayLevel.cs" />
+    <Compile Include="Rdm\Packets\Display\DisplayInvert.cs" />
+    <Compile Include="Rdm\Packets\DMX\DefaultSlotValue.cs" />
+    <Compile Include="Rdm\Packets\DMX\SlotDescription.cs" />
+    <Compile Include="Rdm\Packets\DMX\SlotInfo.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxPersonalityDescription.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxPersonality.cs" />
+    <Compile Include="Rdm\Packets\DMX\DmxStartAddress.cs" />
+    <Compile Include="Rdm\Packets\Management\CommsStatus.cs" />
+    <Compile Include="Rdm\Packets\Management\ProxiedDeviceCount.cs" />
+    <Compile Include="Rdm\Packets\Management\ProxiedDevices.cs" />
+    <Compile Include="Rdm\Packets\Net\BackgroundDiscovery.cs" />
+    <Compile Include="Rdm\Packets\Net\BindingControlFields.cs" />
+    <Compile Include="Rdm\Packets\Net\DiscoveryState.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointMode.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointLabel.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointTiming.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointTimingDescription.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointToUniverse.cs" />
+    <Compile Include="Rdm\Packets\Net\IdentifyEndpoint.cs" />
+    <Compile Include="Rdm\Packets\Net\EndpointList.cs" />
+    <Compile Include="Rdm\Packets\Net\RdmTrafficEnable.cs" />
+    <Compile Include="Rdm\IO\RdmBinaryReader.cs" />
+    <Compile Include="Rdm\IO\RdmBinaryWriter.cs" />
+    <Compile Include="Rdm\Packets\Power\DevicePowerCycles.cs" />
+    <Compile Include="Rdm\Packets\Power\LampOnMode.cs" />
+    <Compile Include="Rdm\Packets\Power\LampState.cs" />
+    <Compile Include="Rdm\Packets\Power\LampStrikes.cs" />
+    <Compile Include="Rdm\Packets\Power\LampHours.cs" />
+    <Compile Include="Rdm\Packets\Power\DeviceHours.cs" />
+    <Compile Include="Rdm\Packets\Power\BurnIn.cs" />
+    <Compile Include="Rdm\Packets\Product\BootSoftwareVersionId.cs" />
+    <Compile Include="Rdm\Packets\Product\BootSoftwareVersionLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\Language.cs" />
+    <Compile Include="Rdm\Packets\Product\FactoryDefaults.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\ProductCategories.cs" />
+    <Compile Include="Rdm\Packets\Product\SoftwareVersionLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\LanguageCapabilities.cs" />
+    <Compile Include="Rdm\Packets\Product\ManufacturerLabel.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceModelDescription.cs" />
+    <Compile Include="Rdm\Packets\Product\ProductDetailIdList.cs" />
+    <Compile Include="Rdm\Packets\Product\DeviceInfo.cs" />
+    <Compile Include="Rdm\Packets\RdmRawPacket.cs" />
+    <Compile Include="Rdm\Packets\Sensors\RecordSensor.cs" />
+    <Compile Include="Rdm\Packets\Sensors\SensorValue.cs" />
+    <Compile Include="Rdm\Packets\Sensors\SensorDefinition.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusTypes.cs" />
+    <Compile Include="Rdm\Packets\Status\SubDeviceStatusReportThreshold.cs" />
+    <Compile Include="Rdm\Packets\Status\ClearStatusId.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusIdDescription.cs" />
+    <Compile Include="Rdm\Packets\Status\StatusMessages.cs" />
+    <Compile Include="Rdm\Packets\Status\QueuedMessage.cs" />
+    <Compile Include="Rdm\RdmCommands.cs" />
+    <Compile Include="Rdm\RdmHeader.cs" />
+    <Compile Include="Rdm\Broker\RdmMessageBroker.cs" />
+    <Compile Include="Rdm\RdmNackCodes.cs" />
+    <Compile Include="Rdm\RdmPacket.cs" />
+    <Compile Include="Rdm\RdmPacketFactory.cs" />
+    <Compile Include="Rdm\RdmParameters.cs" />
+    <Compile Include="Rdm\RdmRequestPacket.cs" />
+    <Compile Include="Rdm\RdmResponsePacket.cs" />
+    <Compile Include="Rdm\RdmResponseTypes.cs" />
+    <Compile Include="Rdm\Routing\DeviceFoundEventArgs.cs" />
+    <Compile Include="Rdm\Routing\IRdmTransport.cs" />
+    <Compile Include="Rdm\Routing\RdmRouter.cs" />
+    <Compile Include="Rdm\Routing\RdmRouteBinding.cs" />
+    <Compile Include="Rdm\Routing\RdmRoutingSocket.cs" />
+    <Compile Include="Rdm\SubDeviceUId.cs" />
+    <Compile Include="Rdm\UId.cs" />
+    <Compile Include="Packets\sAcn\StreamingAcnPacket.cs" />
+    <Compile Include="Rdm\UnknownRdmPacketException.cs" />
+    <Compile Include="Slp\AttributeReplyEventArgs.cs" />
+    <Compile Include="Slp\AuthenticationBlock.cs" />
+    <Compile Include="Slp\DirectoryAgentInformation.cs" />
+    <Compile Include="Slp\IO\SlpBinaryWriter.cs" />
+    <Compile Include="Slp\IO\SlpBinaryReader.cs" />
+    <Compile Include="Slp\Packets\AttributeRequestPacket.cs" />
+    <Compile Include="Slp\Packets\AttributeReplyPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceTypeRequestPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceTypeReplyPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceAgentAdvertPacket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Slp\Packets\ServiceDeregistrationPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceRegistrationPacket.cs" />
+    <Compile Include="Slp\Packets\DirectoryAgentAdvertPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceAcknowledgePacket.cs" />
+    <Compile Include="Slp\Packets\ServiceReplyPacket.cs" />
+    <Compile Include="Slp\Packets\ServiceRequestPacket.cs" />
+    <Compile Include="Slp\Packets\SlpHeaderPacket.cs" />
+    <Compile Include="Slp\Packets\SlpPacket.cs" />
+    <Compile Include="Slp\Packets\SlpRequestPacket.cs" />
+    <Compile Include="Slp\UrlEntry.cs" />
+    <Compile Include="Slp\ServiceFoundEventArgs.cs" />
+    <Compile Include="Slp\SlpAgent.cs" />
+    <Compile Include="Slp\SlpDiscoveryAgent.cs" />
+    <Compile Include="Slp\SlpErrorCode.cs" />
+    <Compile Include="Slp\SlpException.cs" />
+    <Compile Include="Slp\SlpFunctionId.cs" />
+    <Compile Include="Slp\SlpServiceAgent.cs" />
+    <Compile Include="Slp\SlpUserAgent.cs" />
+    <Compile Include="Slp\Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Slp\Sockets\SlpSocket.cs" />
+    <Compile Include="Sntp\NtpData.cs" />
+    <Compile Include="Sntp\SntpClient.cs" />
+    <Compile Include="Sntp\SntpServer.cs" />
+    <Compile Include="Sntp\Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Sntp\Sockets\SntpSocket.cs" />
+    <Compile Include="Sockets\AcnSocket.cs" />
+    <Compile Include="Sockets\IRdmSocket.cs" />
+    <Compile Include="Sockets\MultiStreamingAcnSocket.cs" />
+    <Compile Include="Sockets\IStreamingAcnSocket.cs" />
+    <Compile Include="Sockets\RdmEndPoint.cs" />
+    <Compile Include="Sockets\NewPacketEventArgs.cs" />
+    <Compile Include="Sockets\RdmReliableSocket.cs" />
+    <Compile Include="RdmNet\Sockets\RdmNetSocket.cs" />
+    <Compile Include="Sockets\StreamingAcnSocket.cs" />
+    <Compile Include="TFtp\TFTPServer.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' ">
+    <Compile Include="TestTools\AcnListener.cs" />
+    <Compile Include="TestTools\AssertDmx.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AcnProjectKey.snk" />
+  </ItemGroup>
+  <Import Condition=" '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' " Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Condition=" '$(Configuration)' == 'AndroidDebug' or '$(Configuration)' == 'AndroidRelease' " Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

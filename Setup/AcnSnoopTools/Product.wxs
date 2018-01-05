@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Codepage="1252" Language="1033" Manufacturer="Avolites" Name="ACN Snoop Tools" UpgradeCode="{BCBD3379-2474-4D0C-84F5-CF28A2B3E645}" Version="!(bind.FileVersion.RdmSnoop.exe)">
+    <Package Compressed="yes" InstallerVersion="200" Languages="1033" Manufacturer="Avolites" />
+    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+    <Media Id="1" Cabinet="AcnSnoopTools.cab" EmbedCab="yes" />
+
+    <!-- Setup Icons -->
+    <Icon Id="StreamingAcn.exe" SourceFile="$(var.StreamingAcn.TargetDir)StreamingAcn.exe" />
+    <Icon Id="RdmSnoop.exe" SourceFile="$(var.RdmSnoop.TargetDir)RdmSnoop.exe" />
+      
+    <!-- Installer Files -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id='ProgramFilesFolder' Name='ProgramFiles'>
+        <Directory Id='INSTALLDIR' Name='ACN Snoop Tools'>
+          <Directory Id='RdmSnoopFolder' Name='Rdm Snoop'>
+
+            <Component Id="rdmSnoop" Guid="{07A5E578-CB03-4F1A-B3EB-058C36F2266B}" Permanent="no" Shared="no">
+              <File Id="RdmSnoop.exe" Name="RdmSnoop.exe" Source="$(var.RdmSnoop.TargetDir)RdmSnoop.exe" KeyPath="yes" >
+                <Shortcut Id="startMenu_RdmSnoop" Directory="acnToolsProgramMenu" Name="RDM Snoop" Icon="RdmSnoop.exe" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
+              </File>
+              <File Id="RdmSnoop.exe.config" Name="RdmSnoop.exe.config" Source="$(var.RdmSnoop.TargetDir)RdmSnoop.exe.config"/>
+              <File Id="RdmSnoopAcn" Name="Acn.dll" Source="$(var.Acn.TargetDir)Acn.dll"/>
+              <File Id="Mono.Zeroconf.dll" Name="Mono.Zeroconf.dll" Source="$(var.RdmSnoop.TargetDir)Mono.Zeroconf.dll"/>
+              <File Id="Mono.Zeroconf.Providers.Bonjour.dll" Name="Mono.Zeroconf.Providers.Bonjour.dll" Source="$(var.RdmSnoop.TargetDir)Mono.Zeroconf.Providers.Bonjour.dll"/>
+            </Component>
+          </Directory>
+
+          <Directory Id='sAcnSnoopFolder' Name='Streaming ACN Snoop'>
+            <Component Id="streamingAcnSnoop" Guid="{DD185F08-AB25-4EA5-8165-BFE6155DDD59}" Permanent="no" Shared="no">
+              <File Id="StreamingAcn.exe" Name="StreamingAcn.exe" Source="$(var.StreamingAcn.TargetDir)StreamingAcn.exe" KeyPath="yes"  >
+                <Shortcut Id="startMenu_StreamingAcn" Directory="acnToolsProgramMenu" Name="Streaming ACN Snoop" Icon="StreamingAcn.exe" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
+              </File>
+              <File Id="streamingAcnSnoopAcn" Name="Acn.dll" Source="$(var.Acn.TargetDir)Acn.dll"/>
+              <File Id="streamingAcn.Mono.Zeroconf.dll" Name="Mono.Zeroconf.dll" Source="$(var.StreamingAcn.TargetDir)Mono.Zeroconf.dll"/>
+              <File Id="streamingAcn.Mono.Zeroconf.Providers.Bonjour.dll" Name="Mono.Zeroconf.Providers.Bonjour.dll" Source="$(var.StreamingAcn.TargetDir)Mono.Zeroconf.Providers.Bonjour.dll"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    
+      <Directory Id="ProgramMenuFolder" SourceName="User's Programs Menu">
+        <Directory Id="acnToolsProgramMenu" Name="ACN Snoop Tools" >
+          <Component Id="acnToolsProgramMenu" Guid="{19B69A7B-DDE1-4CD7-94A2-8228A42960F3}" Permanent="no" Shared="no">
+            <RemoveFolder Id='acnToolsProgramMenu' On='uninstall' />
+            <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+    
+    <!-- Setup Features -->
+    <Feature Id="acnGateway" Level="1">
+      <ComponentRef Id="rdmSnoop" />
+      <ComponentRef Id="streamingAcnSnoop" />
+      <ComponentRef Id="acnToolsProgramMenu" />
+    </Feature>
+
+    <!-- UI -->
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="ALLUSERS" Value="1"/>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+	</Product>
+</Wix>
