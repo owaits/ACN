@@ -1,0 +1,65 @@
+﻿<Window x:Class="AcnDataMatrix.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Name="grdNetwork">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="2*" />
+                <!--<ColumnDefinition Width="*" />-->
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+            <!--Title Column-->
+            <Label Content="Adapter" Grid.Row="0" Grid.Column="0"/>
+            <Label Content="Network Interface"  Grid.Row="0" Grid.Column="1"/>
+            <Label Content="Universe Count"  Grid.Row="0" Grid.Column="2"/>
+            <!--<Label Content="Start Universe"  Grid.Row="0" Grid.Column="3" />-->
+            <!--Adapter 1-->
+            <CheckBox Content="Adapter 1" IsChecked="{Binding Path=Net1Enabled, Mode=TwoWay}" Grid.Row="1" Grid.Column="0"/>
+            <ComboBox Name="Net1" ItemsSource="{Binding NetworkCards}" SelectedItem="{Binding Net1}" Grid.Row="1" Grid.Column="1"/>
+            <TextBox Name="net1UniverseCount" Text="{Binding Net1UniverseCount}"  Grid.Row="1" Grid.Column="2" />
+            <!--<TextBox Name="net1StartUniverse" Text="{Binding Net1StartUniverse}"  Grid.Row="1" Grid.Column="3"/>-->
+            <!--Adapter 2-->
+            <CheckBox Content="Adapter 2" IsChecked="{Binding Path=Net2Enabled, Mode=TwoWay}" Grid.Row="2" Grid.Column="0"/>
+            <ComboBox Name="Net2" ItemsSource="{Binding NetworkCards}" SelectedItem="{Binding Net2}"  Grid.Row="2" Grid.Column="1"/>
+            <TextBox Name="net2UniverseCount" Text="{Binding Net2UniverseCount}"  Grid.Row="2" Grid.Column="2"/>
+            <!--<TextBox Name="net2StartUniverse" Text="{Binding Net2StartUniverse}"  Grid.Row="2" Grid.Column="3"/>-->
+        </Grid>
+        <Grid Grid.Row="1" Name="grdWindowSettings">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Width" />
+            <TextBox Text="{Binding Width}" />
+            <Label Content="Height" />
+            <TextBox Text="{Binding Height}" />
+            <CheckBox Content="Lock Aspect" IsChecked="{Binding LockAspect}" />
+            <Button Name="btnApplySize" Content="Apply" Click="Button_Click" />
+        </Grid>
+        <Grid Grid.Row="2" Name="grdStats">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+        <Label Content="FPS (updated every 500ms):" Grid.Column="0" />
+        <TextBox Name="lostPacket" Text="{Binding FrameRate}"  Grid.Column="1"/>
+        </Grid>
+        <Button Name="btnStartApp" Content="Start Matrix" Click="btnStartApp_Click" Grid.Row="3" BorderThickness="10"/>
+    </Grid>
+</Window>

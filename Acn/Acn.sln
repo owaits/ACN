@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
 EndProject
@@ -56,6 +56,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProDJTapViewer", "Samples\ProDJTap\ProDJTapViewer.csproj", "{29091ED8-BAB1-43CD-8532-D0BE3B26DB55}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citp.Test", "Citp.Test\Citp.Test.csproj", "{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcnDataMatrix", "Samples\AcnDataMatrix\AcnDataMatrix.csproj", "{5A5C7B02-55EB-4B09-8434-19BED38386C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -271,6 +273,22 @@ Global
 		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}.Release|x86.Build.0 = Release|Any CPU
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.AndroidRelease|Any CPU.ActiveCfg = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.AndroidRelease|Any CPU.Build.0 = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.AndroidRelease|Mixed Platforms.ActiveCfg = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.AndroidRelease|Mixed Platforms.Build.0 = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.AndroidRelease|x86.ActiveCfg = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.AndroidRelease|x86.Build.0 = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Debug|x86.ActiveCfg = Debug|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Debug|x86.Build.0 = Debug|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Release|Any CPU.ActiveCfg = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Release|x86.ActiveCfg = Release|x86
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -285,66 +303,7 @@ Global
 		{2926CA41-3C26-4A38-87FB-A0DBE530997E} = {75B56461-B574-43AE-B1D1-04C31933E735}
 		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{29091ED8-BAB1-43CD-8532-D0BE3B26DB55} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 16
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Acn\\Acn.csproj
-		SccProjectName1 = Acn
-		SccLocalPath1 = Acn
-		SccProjectUniqueName2 = Samples\\SlpDiscovery\\SlpDiscovery.csproj
-		SccProjectTopLevelParentUniqueName2 = Acn.sln
-		SccProjectName2 = Samples/SlpDiscovery
-		SccLocalPath2 = Samples\\SlpDiscovery
-		SccProjectUniqueName3 = Samples\\SandboxAcnDevice\\SandboxAcnDevice.csproj
-		SccProjectTopLevelParentUniqueName3 = Acn.sln
-		SccProjectName3 = Samples/SandboxAcnDevice
-		SccLocalPath3 = Samples\\SandboxAcnDevice
-		SccProjectUniqueName4 = Samples\\StreamingAcn\\StreamingAcn.csproj
-		SccProjectTopLevelParentUniqueName4 = Acn.sln
-		SccProjectName4 = Samples/StreamingAcn
-		SccLocalPath4 = Samples\\StreamingAcn
-		SccProjectUniqueName5 = Samples\\RdmSnoop\\RdmSnoop.csproj
-		SccProjectTopLevelParentUniqueName5 = Acn.sln
-		SccProjectName5 = Samples/RdmSnoop
-		SccLocalPath5 = Samples\\RdmSnoop
-		SccProjectUniqueName6 = Acn.Test\\Acn.Test.csproj
-		SccProjectName6 = Acn.Test
-		SccLocalPath6 = Acn.Test
-		SccProjectUniqueName7 = SntpUpdate\\SntpUpdate.csproj
-		SccProjectTopLevelParentUniqueName7 = Acn.sln
-		SccProjectName7 = SntpUpdate
-		SccLocalPath7 = SntpUpdate
-		SccProjectUniqueName8 = SntpServer\\SntpServer.csproj
-		SccProjectTopLevelParentUniqueName8 = Acn.sln
-		SccProjectName8 = SntpServer
-		SccLocalPath8 = SntpServer
-		SccProjectUniqueName9 = Setup\\AcnSnoopTools\\AcnSnoopTools.wixproj
-		SccProjectTopLevelParentUniqueName9 = Acn.sln
-		SccProjectName9 = Setup/AcnSnoopTools
-		SccLocalPath9 = Setup\\AcnSnoopTools
-		SccProjectUniqueName10 = Citp\\Citp.csproj
-		SccProjectName10 = Citp
-		SccLocalPath10 = Citp
-		SccProjectUniqueName11 = Midi\\Midi.csproj
-		SccProjectName11 = Midi
-		SccLocalPath11 = Midi
-		SccProjectUniqueName12 = Samples\\GlitchDetector\\GlitchDetector.csproj
-		SccProjectTopLevelParentUniqueName12 = Acn.sln
-		SccProjectName12 = Samples/GlitchDetector
-		SccLocalPath12 = Samples\\GlitchDetector
-		SccProjectUniqueName13 = ProDJTap\\ProDJTap.csproj
-		SccProjectName13 = ProDJTap
-		SccLocalPath13 = ProDJTap
-		SccProjectUniqueName14 = Samples\\ProDJTap\\ProDJTapViewer.csproj
-		SccProjectTopLevelParentUniqueName14 = Acn.sln
-		SccProjectName14 = Samples/ProDJTap
-		SccLocalPath14 = Samples\\ProDJTap
-		SccProjectUniqueName15 = Citp.Test\\Citp.Test.csproj
-		SccProjectName15 = Citp.Test
-		SccLocalPath15 = Citp.Test
+		{5A5C7B02-55EB-4B09-8434-19BED38386C1} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Acn.vsmdi
