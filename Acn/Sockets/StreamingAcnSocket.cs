@@ -242,12 +242,15 @@ namespace Acn.Sockets
         /// </remarks>
         public void SendSynchronize()
         {
+            if (SynchronizationAddress == 0)
+                throw new InvalidOperationException("An attempt was made to send a synchronize message on an sACN socket not configured for synchronization. Please set SynchronizationAddress on the socket to a non zero universe.");
+
             StreamingAcnSynchronizationPacket packet = new StreamingAcnSynchronizationPacket();
             if (OverrideRootLayer) packet.Root = GetRootLayer();
             packet.Framing.SequenceNumber = (byte)GetSequenceNumber(SynchronizationAddress);
             packet.Framing.SynchronizationAddress = (short)SynchronizationAddress;
 
-            SendPacket(packet, GetUniverseEndPoint(DiscoveryUniverse));
+            SendPacket(packet, GetUniverseEndPoint(SynchronizationAddress));
         }
 
         /// <summary>

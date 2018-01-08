@@ -79,7 +79,8 @@ namespace AcnDataMatrix
                         adapter1Handler = new AcnHandler(Settings.Net1, Settings.Net1StartUniverse, Settings.Net1UniverseCount);
                         foreach (StreamingAcnSocket socket in adapter1Handler.Sockets)
                         {
-                            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.StreamingAcnDmxPacket>>(socket_NewPacket);
+                            socket.NewPacket += socket_NewPacket;
+                            socket.NewSynchronize += Socket_NewSynchronize;
                         }
                     });
                     socket1Thread.Start();
@@ -91,7 +92,8 @@ namespace AcnDataMatrix
                         adapter2Handler = new AcnHandler(Settings.Net2, Settings.Net2StartUniverse, Settings.Net2UniverseCount);
                         foreach (StreamingAcnSocket socket in adapter2Handler.Sockets)
                         {
-                            socket.NewPacket += new EventHandler<NewPacketEventArgs<Acn.Packets.sAcn.StreamingAcnDmxPacket>>(socket_NewPacket);
+                            socket.NewPacket += socket_NewPacket;
+                            socket.NewSynchronize += Socket_NewSynchronize;
                         }
                     });
                     socket2Thread.Start();
@@ -106,6 +108,11 @@ namespace AcnDataMatrix
 
                 aTimer.Start();
             
+        }
+
+        private void Socket_NewSynchronize(object sender, NewPacketEventArgs<StreamingAcnSynchronizationPacket> e)
+        {
+            example.Draw(TimeSpan.Zero);
         }
 
         private void Socket_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -198,7 +205,10 @@ namespace AcnDataMatrix
             StreamingAcnDmxPacket dmxPacket = e.Packet as StreamingAcnDmxPacket;
             if (example != null)
             {
-                example.UpdateData(dmxPacket.Framing.Universe - 1, dmxPacket.Dmx.Data);               
+                example.UpdateData(dmxPacket.Framing.Universe - 1, dmxPacket.Dmx.Data);
+
+                if (dmxPacket.Framing.SyncPacketAddress == 0)
+                    example.Draw(TimeSpan.FromMilliseconds(10));
             }            
         }       
 

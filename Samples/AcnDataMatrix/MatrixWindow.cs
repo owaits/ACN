@@ -74,7 +74,8 @@ namespace AcnDataMatrix
             get { return updateTime; }
             set { updateTime = value; }
         }
-        
+
+        private byte[] cacheData;
         private byte[] channelData; 
 
         /// <summary>
@@ -86,6 +87,7 @@ namespace AcnDataMatrix
         {
             this.universeCount = universeCount;
             channelData = new byte[universeCount*fixtureCount*3];
+            cacheData = new byte[universeCount * fixtureCount * 3];
             singleUniverseLock = new List<object>();
             dataWindow = new List<UniverseData>(windowSize);
             for(int j =0; j < windowSize; j++)
@@ -191,6 +193,8 @@ namespace AcnDataMatrix
 
         #region RenderLoop
 
+        private TimeSpan renderPause = TimeSpan.Zero;
+
         void RenderLoop()
         {
             MakeCurrent(); // The context now belongs to this thread. No other thread may use it!
@@ -220,7 +224,7 @@ namespace AcnDataMatrix
                 waitData.WaitOne(500);
                 //give some cpu time back. 
                 //Also wait here rather than the end of the loop to give any other universes time to arrive
-                Thread.Sleep(10);
+                Thread.Sleep(renderPause);
                 /*if (GetData(watchWindow))
                 {
                     watchWindow = watchWindow == windowSize ? 0 : watchWindow + 1;
@@ -305,14 +309,11 @@ namespace AcnDataMatrix
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
-            //dataLock.EnterWriteLock();
-            //try{
+
+            lock(channelData)
+            {
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, fixtureCount, universeCount, 0, OpenTK.Graphics.OpenGL.PixelFormat.Rgb, PixelType.UnsignedByte, channelData);
-            //}
-            //finally
-            //{
-            //    dataLock.ExitWriteLock();
-            //}
+            }
       
             GL.Begin(PrimitiveType.Quads);
 
@@ -332,11 +333,45 @@ namespace AcnDataMatrix
         #endregion
         
         int currentWindow = 0;
+        int recievedUniverses = 0;
+
+        byte[] pattern = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+        byte[] testData = new byte[512];
+        int position = 1;
 
         public void UpdateData(int universe, byte[] data)
-        {            
-            waitData.Set();                    
-            Array.Copy(data, 1, channelData, universe * fixtureCount * 3, fixtureCount * 3);
+        {          
+            lock(cacheData)
+            {
+                Array.Copy(data, 1, cacheData, universe * fixtureCount * 3, fixtureCount * 3);
+                //Array.Copy(testData, 1, cacheData, universe * fixtureCount * 3, fixtureCount * 3);
+                recievedUniverses++;
+            }
+
+        }
+
+        public void Draw(TimeSpan pauseBeforeRender)
+        {
+            lock (cacheData)
+            {
+                lock(channelData)
+                {
+                    //Flip the buffers
+                    Array.Copy(cacheData, channelData, cacheData.Length);
+                    Console.WriteLine(recievedUniverses);
+                    recievedUniverses = 0;
+
+                    Array.Clear(testData, 0, 512);
+                    Array.Copy(pattern,0, testData, position, pattern.Length);
+
+                    position+=18;
+                    if (position > (512 - pattern.Length))
+                        position = 1;
+                }
+            }
+
+            renderPause = pauseBeforeRender;
+            waitData.Set();  
         }
         
         private bool GetData(int sourceWindow){
