@@ -352,6 +352,9 @@ namespace AcnDataMatrix
 
         public void Draw(TimeSpan pauseBeforeRender)
         {
+            if (recievedUniverses == 0)
+                return;
+
             lock (cacheData)
             {
                 lock(channelData)
