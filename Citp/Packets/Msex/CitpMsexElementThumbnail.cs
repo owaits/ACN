@@ -9,7 +9,7 @@ using Citp.Packets.Msex;
 
 namespace Citp.Packets.Msex
 {
-    public class CitpMsexElementThumbnail : CitpMsexElementLibraryThumbnail
+    public class CitpMsexElementThumbnail : CitpMsexHeader
     {
         public const string PacketType = "EThn";
 
@@ -29,7 +29,30 @@ namespace Citp.Packets.Msex
 
         #region Packet Content
                 
-        public byte ElementNumber { get; set; }  
+        public byte ElementNumber { get; set; }
+
+        public MsexElementType LibraryType { get; set; }
+
+        public byte LibraryNumber
+        {
+            get { return LibraryId.ToNumber(); }
+        }
+
+        private CitpMsexLibraryId libraryId = new CitpMsexLibraryId();
+
+        public CitpMsexLibraryId LibraryId
+        {
+            get { return libraryId; }
+            set { libraryId = value; }
+        }
+
+        public string ThumbnailFormat { get; set; }
+
+        public UInt16 ThumbnailWidth { get; set; }
+
+        public UInt16 ThumbnailHeight { get; set; }
+
+        public byte[] ThumbnailBuffer { get; set; }
 
         #endregion
 
