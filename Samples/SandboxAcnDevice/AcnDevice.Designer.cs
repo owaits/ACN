@@ -103,7 +103,7 @@
             this.serviceTypeText.Name = "serviceTypeText";
             this.serviceTypeText.Size = new System.Drawing.Size(403, 20);
             this.serviceTypeText.TabIndex = 0;
-            this.serviceTypeText.Text = "service:rdmnet-device";
+            this.serviceTypeText.Text = "service:e133.esta";
             this.serviceTypeText.TextChanged += new System.EventHandler(this.serviceTypeText_TextChanged);
             // 
             // uidText

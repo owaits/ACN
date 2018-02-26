@@ -40,6 +40,7 @@ namespace Acn.Slp
         public SlpServiceAgent()
         {
             Attributes = new Dictionary<string, string>();
+            UseDirectoryAgents = true;
         }
 
         #endregion
@@ -115,6 +116,14 @@ namespace Acn.Slp
         /// The address.
         /// </value>
         public string ServiceAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether we can use a directory agent if available.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [use directory agents]; otherwise, <c>false</c>.
+        /// </value>
+        public bool UseDirectoryAgents { get; set; }
 
         /// <summary>
         /// Gets or sets the full service URL including all the parts.
@@ -388,7 +397,7 @@ namespace Acn.Slp
                 return false;
 
             //Check that we are not subscribed to a DA
-            if (DirectoryAgents.Count > 0)
+            if (UseDirectoryAgents && DirectoryAgents.Count > 0)
                 return false;
 
             //Does the scope match the scope of this service.
