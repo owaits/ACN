@@ -25,7 +25,8 @@ namespace Citp.Packets.CaEx
         FixtureRemove = 0x20203,
         FixtureIdentify = 0x20204,
         FixtureSelection = 0x20300,
-        FixtureConsoleStatus = 0x20400
+        FixtureConsoleStatus = 0x20400,
+        GetLaserFeedList = 0x30100
     }
 
     public struct Coordinate

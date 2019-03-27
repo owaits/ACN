@@ -40,8 +40,8 @@ namespace Citp.Sockets
         {
             try
             {
-                recieveState.SetLength(recieveState.ReadPosition + recieveState.ReadNibble);
-                client.Client.BeginReceive(recieveState.GetBuffer(), recieveState.ReadPosition, recieveState.ReadNibble, SocketFlags.None, new AsyncCallback(OnRecieve), recieveState);
+                recieveState.SetLength(recieveState.WritePosition + recieveState.ReadNibble);
+                client.Client.BeginReceive(recieveState.GetBuffer(), (int) recieveState.WritePosition, recieveState.ReadNibble, SocketFlags.None, new AsyncCallback(OnRecieve), recieveState);
             }
             catch (Exception ex)
             {
@@ -72,10 +72,9 @@ namespace Citp.Sockets
 
                             if (NewPacket != null)
                             {
-                                while (CitpPacketBuilder.TryBuild(recieveState, out newPacket))
+                                recieveState.WritePosition = recieveState.Length;
+                                while (CitpPacketBuilder.TryBuild(recieveState, out newPacket) && newPacket != null)
                                 {
-                                    recieveState.ReadPosition += (int)((CitpHeader)newPacket).MessageSize;
-
                                     CitpTrace.RxPacket((IPEndPoint)client.Client.RemoteEndPoint, newPacket);
 
                                     //Packet has been read successfully.

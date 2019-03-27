@@ -64,8 +64,7 @@ namespace Citp.Packets
                         break;
                     case CitpMsexHeader.PacketType:
                         packet = BuildMsex(data);
-                        break;
-                    
+                        break;                    
                     case CaExHeader.PacketType:
                         packet = BuildCaEx(data);
                         break;
@@ -73,15 +72,20 @@ namespace Citp.Packets
                         packet = BuildFInf(data);
                         break;
                     default:
-                        return false;
+                        packet = null;
+                        break;
                 }
+
+                //Advance the read and write pointers past the successfully read packet.
+                data.ReadPosition += header.MessageSize;
             }
             catch (EndOfStreamException)
             {
                 return false;
             }
 
-            return packet != null;
+            //We have managed to read the packet even if it was unknown and set to null so lets return true
+            return true;
         }
 
         private static CitpPacket BuildPInf(CitpRecieveData data)
@@ -297,6 +301,9 @@ namespace Citp.Packets
                 case CaExContentCodes.FixtureIdentify:
                     packet = new CaExFixtureIdentify();
                     break;
+                case CaExContentCodes.GetLaserFeedList:
+                    //Not implemented yet, left here as placeholder.
+                    return null;
                 default:
                     return null;
             }

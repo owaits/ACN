@@ -13,7 +13,16 @@ namespace Citp.Sockets
         private CitpBinaryReader reader = null;
 
         public int ReadNibble = 64000;
-        public int ReadPosition = 0;
+
+        /// <summary>
+        /// Gets or sets the position in the buffer where we are reading packets.
+        /// </summary>
+        public long ReadPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the position in the buffer at which we are filling data from.
+        /// </summary>
+        public long WritePosition { get; set; }
 
         public CitpRecieveData()
         {
@@ -45,6 +54,7 @@ namespace Citp.Sockets
         {
             SetLength(0);
             ReadPosition = 0;
+            WritePosition = 0;
         }
     }
 }
