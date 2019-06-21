@@ -123,8 +123,6 @@ namespace AcnDataMatrix
                     
                 }
             };
-
-            
         }
 
         #region OnLoad
@@ -135,9 +133,11 @@ namespace AcnDataMatrix
         /// <param name="e">Not used.</param>
         protected override void OnLoad(EventArgs e)
         {
-            
             Context.MakeCurrent(null); // Release the OpenGL context so it can be used on the new thread.
-            
+
+
+            GL.GenTextures(1, out _texture);
+
             rendering_thread = new Thread(RenderLoop);
             rendering_thread.IsBackground = true;
             rendering_thread.Start();
@@ -157,6 +157,8 @@ namespace AcnDataMatrix
             rendering_thread.Join();
 
             base.OnUnload(e);
+
+            GL.DeleteTextures(1, ref _texture);
             //debugInput.Close();
         }
 
@@ -193,6 +195,9 @@ namespace AcnDataMatrix
 
         #region RenderLoop
 
+        /// <summary>
+        /// The length of time the render loop should pause for on each pass.
+        /// </summary>
         private TimeSpan renderPause = TimeSpan.Zero;
 
         void RenderLoop()
@@ -200,22 +205,13 @@ namespace AcnDataMatrix
             MakeCurrent(); // The context now belongs to this thread. No other thread may use it!
 
             VSync = VSyncMode.On;
-            
-                        
-            //Context.SwapInterval = 10;
-
-            //set up the pixel matrix
-            //SetUpPixels();
-
-            
+                       
             GL.ClearColor(Color.Black);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.PointSmooth);
 
             Stopwatch update_watch = new Stopwatch();
-
-            int watchWindow = 0;
-                        
+                                    
             while (!exit)
             {
                 update_watch.Start();
@@ -224,32 +220,14 @@ namespace AcnDataMatrix
                 waitData.WaitOne(500);
                 //give some cpu time back. 
                 //Also wait here rather than the end of the loop to give any other universes time to arrive
-                Thread.Sleep(renderPause);
-                /*if (GetData(watchWindow))
-                {
-                    watchWindow = watchWindow == windowSize ? 0 : watchWindow + 1;
-                }*/
+                Thread.Sleep(renderPause);                
 
-                Update();
                 Render();
-
-                //dataLock.EnterWriteLock();
-                //try{
-                    SwapBuffers();
-                //}
-                //finally
-                //{
-                 //  dataLock.ExitWriteLock();
-                //}
-
-                
-                
-                
+                SwapBuffers();
+                                
                 UpdateTime1 = update_watch.ElapsedMilliseconds;
                 update_watch.Reset();
-                waitData.Reset();
-
-                
+                waitData.Reset();                
             }
 
             Context.MakeCurrent(null);
@@ -257,17 +235,14 @@ namespace AcnDataMatrix
 
         #endregion
 
-        #region Update
 
-        void Update()
-        {
-
-        }
-
-        #endregion
+        /// <summary>
+        /// Refernce to the texture used in the render loop.
+        /// </summary>
+        private int _texture;
 
         #region Render
-
+        //private Matrix4 perspective = Matrix4.CreateOrthographic(2, 2, -1, 1);
         /// <summary>
         /// This is our main rendering function, which executes on the rendering thread.
         /// </summary>
@@ -280,25 +255,14 @@ namespace AcnDataMatrix
                     GL.Viewport(0, 0, viewport_width, viewport_height);
                     viewport_changed = false;
                 }
-            }
-
-            Matrix4 perspective =
-                Matrix4.CreateOrthographic(2, 2, -1, 1);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadMatrix(ref perspective);
+            }                        
 
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            int _texture;
-            
             GL.Enable(EnableCap.Texture2D);
-
-            
-
-            GL.GenTextures(1, out _texture);
             GL.BindTexture(TextureTarget.Texture2D, _texture);
             
             //next 2 lines seem to unintentionally make the texture brighter.
@@ -325,31 +289,38 @@ namespace AcnDataMatrix
             GL.Vertex2((float)1, (float)-1);
             GL.TexCoord2(0, 1);
             GL.Vertex2((float)-1, (float)-1);
-            
+
             GL.End();
             GL.Disable(EnableCap.Texture2D);
         }
 
         #endregion
-        
-        int currentWindow = 0;
+
+        /// <summary>
+        /// The recieved universes
+        /// </summary>
         int recievedUniverses = 0;
 
-        byte[] pattern = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
-        byte[] testData = new byte[512];
-        int position = 1;
 
+        /// <summary>
+        /// Updates the data.
+        /// </summary>
+        /// <param name="universe">The universe.</param>
+        /// <param name="data">The data.</param>
         public void UpdateData(int universe, byte[] data)
         {          
             lock(cacheData)
             {
                 Array.Copy(data, 1, cacheData, universe * fixtureCount * 3, fixtureCount * 3);
-                //Array.Copy(testData, 1, cacheData, universe * fixtureCount * 3, fixtureCount * 3);
                 recievedUniverses++;
             }
 
         }
 
+        /// <summary>
+        /// Swaps the buffers over. 
+        /// </summary>
+        /// <param name="pauseBeforeRender">The pause before render.</param>
         public void Draw(TimeSpan pauseBeforeRender)
         {
             if (recievedUniverses == 0)
@@ -363,57 +334,11 @@ namespace AcnDataMatrix
                     Array.Copy(cacheData, channelData, cacheData.Length);
                     Console.WriteLine(recievedUniverses);
                     recievedUniverses = 0;
-
-                    Array.Clear(testData, 0, 512);
-                    Array.Copy(pattern,0, testData, position, pattern.Length);
-
-                    position+=18;
-                    if (position > (512 - pattern.Length))
-                        position = 1;
                 }
             }
 
             renderPause = pauseBeforeRender;
             waitData.Set();  
-        }
-        
-        private bool GetData(int sourceWindow){
-
-            if (dataWindow.Count > sourceWindow)
-            {
-                UniverseData window = dataWindow[sourceWindow];
-                if (window.Ready)
-                {
-                    int universe = 0;
-                    //lock (data_lock)
-                    {
-                        foreach (UniverseData.ChannelData currChannels in window.Data)
-                        {
-                            if (currChannels.Set)
-                            {
-                                Array.Copy(currChannels.Data, 1, channelData, universe * fixtureCount * 3, fixtureCount * 3);
-                                currChannels.Set = false;
-                            }
-                            
-                            universe++;
-                        }
-                    }
-                        window.Ready = false;
-                    
-                
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                dataWindow.Add(new UniverseData(universeCount));
-                dataWindow[currentWindow].ArrivalTime = DateTime.UtcNow.Ticks;
-            }
-
-            return true;
         }
     }
 }

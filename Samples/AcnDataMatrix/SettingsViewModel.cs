@@ -33,15 +33,14 @@ namespace AcnDataMatrix
             {
                 if (adapter.SupportsMulticast)
                 {
-                    IPInterfaceProperties ipProperties = adapter.GetIPProperties();
-
+                    IPInterfaceProperties ipProperties = adapter.GetIPProperties();                    
                     for (int n = 0; n < ipProperties.UnicastAddresses.Count; n++)
                     {
                         CardInfo card = new CardInfo(adapter, n);
-                        NetworkCards.Add(card);
+                        if (card.IpAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !string.IsNullOrEmpty(card.IpAddress.ToString()))
+                        {                            
+                            NetworkCards.Add(card);
 
-                        if (card.IpAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                        {
                             if (index == 0)
                             {
                                 Net1 = card;

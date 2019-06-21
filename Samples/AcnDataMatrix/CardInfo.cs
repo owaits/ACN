@@ -34,13 +34,20 @@ namespace AcnDataMatrix
         {
             get
             {
-                return Interface.GetIPProperties().UnicastAddresses[AddressIndex].Address;
+                if (Interface.GetIPProperties().UnicastAddresses.Count > AddressIndex)
+                {
+                    return Interface.GetIPProperties().UnicastAddresses[AddressIndex].Address;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
         public override string ToString()
         {
-            return string.Format("{1}:  {0}", Interface.Description, IpAddress.ToString());
+            return string.Format("{1}:  {0}", Interface.Description, IpAddress?.ToString());
         }
 
         public void SetUpInterfaceFromId(string netInterfaceId)

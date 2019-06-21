@@ -57,57 +57,57 @@ namespace AcnDataMatrix
 
         private void btnStartApp_Click(object sender, RoutedEventArgs e)
         {
-                windowReady.Reset();
-                if (Settings.Net1Enabled)
-                {
-                    universes += Settings.Net1UniverseCount;
-                }
+            windowReady.Reset();
+            universes = 0;
+            if (Settings.Net1Enabled)
+            {
+                universes += Settings.Net1UniverseCount;
+            }
 
-                if (Settings.Net2Enabled)
-                {
-                    universes += Settings.Net2UniverseCount;
-                }
+            if (Settings.Net2Enabled)
+            {
+                universes += Settings.Net2UniverseCount;
+            }
 
-                gameThread = new Thread(GameWindowThread);
-                gameThread.IsBackground = true;
-                gameThread.Start();
-                windowReady.WaitOne();    
+            gameThread = new Thread(GameWindowThread);
+            gameThread.IsBackground = true;
+            gameThread.Start();
+            windowReady.WaitOne();    
 
-                if (Settings.Net1Enabled)
-                {
-                    socket1Thread = new Thread(() => {
-                        adapter1Handler = new AcnHandler(Settings.Net1, Settings.Net1StartUniverse, Settings.Net1UniverseCount);
-                        foreach (StreamingAcnSocket socket in adapter1Handler.Sockets)
-                        {
-                            socket.NewPacket += socket_NewPacket;
-                            socket.NewSynchronize += Socket_NewSynchronize;
-                        }
-                    });
-                    socket1Thread.Start();
-                }
+            if (Settings.Net1Enabled)
+            {
+                socket1Thread = new Thread(() => {
+                    adapter1Handler = new AcnHandler(Settings.Net1, Settings.Net1StartUniverse, Settings.Net1UniverseCount);
+                    foreach (StreamingAcnSocket socket in adapter1Handler.Sockets)
+                    {
+                        socket.NewPacket += socket_NewPacket;
+                        socket.NewSynchronize += Socket_NewSynchronize;
+                    }
+                });
+                socket1Thread.Start();
+            }
 
-                if (Settings.Net2Enabled)
-                {
-                    socket2Thread = new Thread(() => {
-                        adapter2Handler = new AcnHandler(Settings.Net2, Settings.Net2StartUniverse, Settings.Net2UniverseCount);
-                        foreach (StreamingAcnSocket socket in adapter2Handler.Sockets)
-                        {
-                            socket.NewPacket += socket_NewPacket;
-                            socket.NewSynchronize += Socket_NewSynchronize;
-                        }
-                    });
-                    socket2Thread.Start();
+            if (Settings.Net2Enabled)
+            {
+                socket2Thread = new Thread(() => {
+                    adapter2Handler = new AcnHandler(Settings.Net2, Settings.Net2StartUniverse, Settings.Net2UniverseCount);
+                    foreach (StreamingAcnSocket socket in adapter2Handler.Sockets)
+                    {
+                        socket.NewPacket += socket_NewPacket;
+                        socket.NewSynchronize += Socket_NewSynchronize;
+                    }
+                });
+                socket2Thread.Start();
                     
-                }
+            }
                 
-                // Create a timer with a 500ms second interval.
-                aTimer = new System.Timers.Timer(500);
+            // Create a timer with a 500ms second interval.
+            aTimer = new System.Timers.Timer(500);
 
-                // Hook up the Elapsed event for the timer.
-                aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            // Hook up the Elapsed event for the timer.
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
 
-                aTimer.Start();
-            
+            aTimer.Start();            
         }
 
         private void Socket_NewSynchronize(object sender, NewPacketEventArgs<StreamingAcnSynchronizationPacket> e)
