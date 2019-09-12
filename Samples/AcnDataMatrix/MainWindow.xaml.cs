@@ -110,9 +110,50 @@ namespace AcnDataMatrix
             aTimer.Start();            
         }
 
+        /// <summary>
+        /// A list of the Sync IP address that we have seen. We wait for a sync packet from all of these before rendering
+        /// </summary>
+        List<string> SyncIps = new List<string>();
+
+        /// <summary>
+        /// A list of IP addresses of nodes that we have seeen sync packets from since the last render
+        /// </summary>
+        List<string> SeenIps = new List<string>();
+
+        /// <summary>
+        /// Called when a new sync packet is recieved
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Socket_NewSynchronize(object sender, NewPacketEventArgs<StreamingAcnSynchronizationPacket> e)
         {
-            example.Draw(TimeSpan.Zero);
+            string sourceIp = e.Source.Address.ToString();
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (!SyncIps.Contains(sourceIp))
+                    SyncIps.Add(sourceIp);
+
+                if (!SeenIps.Contains(sourceIp))
+                    SeenIps.Add(sourceIp);
+
+                if (SeenIps.Count == SyncIps.Count)
+                {
+                    example.Draw(TimeSpan.Zero);
+                    SeenIps = new List<string>();
+                }
+            }));
+        }
+
+        /// <summary>
+        /// Called when the reset sync button is clicked
+        /// Clears out the list of IPs we're waiting for syncs from
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetSync_Click(object sender, RoutedEventArgs e)
+        {
+            SyncIps = new List<string>();
         }
 
         private void Socket_UnhandledException(object sender, UnhandledExceptionEventArgs e)
