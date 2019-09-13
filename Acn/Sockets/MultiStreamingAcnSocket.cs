@@ -150,9 +150,9 @@ namespace Acn.Sockets
                 if (OpenReceive)
                 {
                     socket.NewPacket -= OnNewPacket;
-                }
-                socket.UnhandledException -= OnUnhandledException;
+                }                
                 socket.Dispose();
+                socket.UnhandledException -= OnUnhandledException;
             }
             streamingAcnSockets.Clear();
         }
