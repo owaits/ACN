@@ -5,19 +5,19 @@ using System.Text;
 using System.IO;
 using System.Net;
 
-namespace ProDJTap.IO
+namespace LXProtocols.TCNet.IO
 {
     /// <summary>
     /// Provides extended stream reading capability for the DJTap protocol.
     /// </summary>
     /// <seealso cref="System.IO.BinaryReader" />
-    public class DJTapBinaryReader:BinaryReader
+    public class TCNetBinaryReader:BinaryReader
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DJTapBinaryReader"/> class.
+        /// Initializes a new instance of the <see cref="TCNetBinaryReader"/> class.
         /// </summary>
         /// <param name="input">A stream.</param>
-        public DJTapBinaryReader(Stream input)
+        public TCNetBinaryReader(Stream input)
             : base(input)
         { }
 

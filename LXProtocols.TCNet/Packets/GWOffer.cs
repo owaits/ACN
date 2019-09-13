@@ -1,11 +1,11 @@
-﻿using ProDJTap.IO;
+﻿using LXProtocols.TCNet.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProDJTap.Packets
+namespace LXProtocols.TCNet.Packets
 {
     /// <summary>
     /// Sent by devices wishing to take part in the DJ Tap network.
@@ -15,7 +15,7 @@ namespace ProDJTap.Packets
     /// be present on the network.
     /// </remarks>
     /// <seealso cref="ProDJTap.Packets.DJTapHeader" />
-    public class GWOffer:DJTapHeader
+    public class GWOffer:TCNetHeader
     {
         #region Setup and Initialisation
 
@@ -65,7 +65,7 @@ namespace ProDJTap.Packets
         /// <remarks>
         /// Decodes the raw data into usable information.
         /// </remarks>
-        public override void ReadData(DJTapBinaryReader data)
+        public override void ReadData(TCNetBinaryReader data)
         {
             base.ReadData(data);
 
@@ -77,7 +77,7 @@ namespace ProDJTap.Packets
         /// Writes the contents of this packet into a memory buffer.
         /// </summary>
         /// <param name="data">The data buffer to write the packet contents to.</param>
-        public override void WriteData(DJTapBinaryWriter data)
+        public override void WriteData(TCNetBinaryWriter data)
         {
             base.WriteData(data);
 

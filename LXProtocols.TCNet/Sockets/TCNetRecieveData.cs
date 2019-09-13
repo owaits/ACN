@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using ProDJTap.IO;
-using ProDJTap.Packets;
+using LXProtocols.TCNet.IO;
+using LXProtocols.TCNet.Packets;
 using System.Net.Sockets;
 
-namespace Citp.Sockets
+namespace LXProtocols.TCNet
 {
     /// <summary>
     /// Recieve data for DJ Tap packets used as a container while receiving data.
     /// </summary>
     /// <seealso cref="System.IO.MemoryStream" />
-    public class DJTapRecieveData:MemoryStream
+    public class TCNetRecieveData:MemoryStream
     {
-        private DJTapBinaryReader reader = null;
+        private TCNetBinaryReader reader = null;
 
         public int ReadNibble = 1500;
         public int ReadPosition = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DJTapRecieveData"/> class.
+        /// Initializes a new instance of the <see cref="TCNetRecieveData"/> class.
         /// </summary>
-        public DJTapRecieveData()
+        public TCNetRecieveData()
         {
             this.Capacity = ReadNibble;
         }
@@ -51,22 +51,22 @@ namespace Citp.Sockets
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="DJTapRecieveData"/> is valid.
+        /// Gets a value indicating whether this <see cref="TCNetRecieveData"/> is valid.
         /// </summary>
         public bool Valid
         {
-            get { return Length - ReadPosition > DJTapHeader.PacketSize; }
+            get { return Length - ReadPosition > TCNetHeader.PacketSize; }
         }
 
         /// <summary>
         /// Gets a data reader for the data inside this buffer.
         /// </summary>
         /// <returns>A reader for the recieved data.</returns>
-        public DJTapBinaryReader GetReader()
+        public TCNetBinaryReader GetReader()
         {
             if (reader == null)
             {
-                reader = new DJTapBinaryReader(this);
+                reader = new TCNetBinaryReader(this);
             }
 
             Seek(ReadPosition, SeekOrigin.Begin);

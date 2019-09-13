@@ -1,4 +1,4 @@
-﻿using ProDJTap.IO;
+﻿using LXProtocols.TCNet.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProDJTap.Packets
+namespace LXProtocols.TCNet.Packets
 {
     /// <summary>
     /// The track play state of the deck.
@@ -29,14 +29,14 @@ namespace ProDJTap.Packets
     /// This packet is sent continuously by devices publishing timecode data to the network.
     /// </summary>
     /// <seealso cref="ProDJTap.Packets.DJTapHeader" />
-    public class Timecode: DJTapHeader
+    public class TCNetTime: TCNetHeader
     {        
         #region Setup and Initialisation
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Timecode"/> class.
+        /// Initializes a new instance of the <see cref="TCNetTime"/> class.
         /// </summary>
-        public Timecode():base(MessageTypes.Timecode)
+        public TCNetTime():base(MessageTypes.Timecode)
         {
         }
 
@@ -166,7 +166,7 @@ namespace ProDJTap.Packets
         /// <remarks>
         /// Decodes the raw data into usable information.
         /// </remarks>
-        public override void ReadData(DJTapBinaryReader data)
+        public override void ReadData(TCNetBinaryReader data)
         {
             base.ReadData(data);
 
@@ -198,7 +198,7 @@ namespace ProDJTap.Packets
         /// Writes the contents of this packet into a memory buffer.
         /// </summary>
         /// <param name="data">The data buffer to write the packet contents to.</param>
-        public override void WriteData(DJTapBinaryWriter data)
+        public override void WriteData(TCNetBinaryWriter data)
         {
             base.WriteData(data);
 

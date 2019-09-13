@@ -1,5 +1,4 @@
-﻿using Citp.Sockets;
-using ProDJTap.Packets;
+﻿using LXProtocols.TCNet.Packets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProDJTap
+namespace LXProtocols.TCNet
 {
     /// <summary>
     /// Creates packets from the header information.
     /// </summary>
-    public class DJTapPacketBuilder
+    public class TCNetPacketBuilder
     {
         /// <summary>
         /// Tries to create a packet from the header information.
@@ -21,9 +20,9 @@ namespace ProDJTap
         /// <param name="timeStamp">The time stamp.</param>
         /// <param name="packet">The packet.</param>
         /// <returns></returns>
-        internal static bool TryBuild(DJTapRecieveData data,DateTime timeStamp ,out DJTapPacket packet)
+        internal static bool TryBuild(TCNetRecieveData data,DateTime timeStamp ,out TCNetPacket packet)
         {
-            DJTapHeader header = new DJTapHeader(MessageTypes.None);
+            TCNetHeader header = new TCNetHeader(MessageTypes.None);
             packet = header;
 
             try
@@ -36,7 +35,7 @@ namespace ProDJTap
                 }
 
                 //Check we have enough data to construct the header.
-                if (data.Length - data.ReadPosition < DJTapHeader.PacketSize)
+                if (data.Length - data.ReadPosition < TCNetHeader.PacketSize)
                     return false;
 
                 //Read the packet header.
@@ -57,7 +56,7 @@ namespace ProDJTap
                         packet = new GWOffer();                        
                         break;
                     case MessageTypes.Timecode:
-                        packet = new Timecode();                        
+                        packet = new TCNetTime();                        
                         break;
                     default:
                         return false;

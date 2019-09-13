@@ -1,4 +1,4 @@
-﻿using ProDJTap.IO;
+﻿using LXProtocols.TCNet.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,13 +6,13 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProDJTap.Packets
+namespace LXProtocols.TCNet.Packets
 {
     /// <summary>
     /// The DJ Tap header for all DJ Tap packets. Contains common data to all packets.
     /// </summary>
-    /// <seealso cref="ProDJTap.Packets.DJTapPacket" />
-    public class DJTapHeader:DJTapPacket
+    /// <seealso cref="LXProtocols.TCNet.Packets.TCNetPacket" />
+    public class TCNetHeader:TCNetPacket
     {
         /// <summary>
         /// The header size.
@@ -20,10 +20,10 @@ namespace ProDJTap.Packets
         public const int PacketSize = 8;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DJTapHeader"/> class.
+        /// Initializes a new instance of the <see cref="TCNetHeader"/> class.
         /// </summary>
         /// <param name="contentType">Type of the content.</param>
-        public DJTapHeader(MessageTypes contentType)
+        public TCNetHeader(MessageTypes contentType)
         {
             IdentifierNumber = 0x0800;
             FirmwareVersion = 0x1;
@@ -80,7 +80,7 @@ namespace ProDJTap.Packets
         /// <remarks>
         /// Decodes the raw data into usable information.
         /// </remarks>
-        public override void ReadData(DJTapBinaryReader data)
+        public override void ReadData(TCNetBinaryReader data)
         {
             IdentifierNumber = data.ReadUInt16();
             FirmwareVersion = data.ReadUInt16();
@@ -92,7 +92,7 @@ namespace ProDJTap.Packets
         /// Writes the contents of this packet into a memory buffer.
         /// </summary>
         /// <param name="data">The data buffer to write the packet contents to.</param>
-        public override void WriteData(DJTapBinaryWriter data)
+        public override void WriteData(TCNetBinaryWriter data)
         {
             data.WriteToNetwork(IdentifierNumber);
             data.WriteToNetwork(FirmwareVersion);

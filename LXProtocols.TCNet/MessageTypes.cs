@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProDJTap
+namespace LXProtocols.TCNet
 {
     /// <summary>
     /// The DJ Tap packet types.

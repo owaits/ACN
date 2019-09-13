@@ -1,5 +1,5 @@
-﻿using ProDJTap.Packets;
-using ProDJTap.Sockets;
+﻿using LXProtocols.TCNet.Packets;
+using LXProtocols.TCNet.Sockets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,11 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ProDJTapViewer
+namespace LXProtocols.TCNetViewer
 {
     public partial class ProDJTapViewer : Form
     {
-        private ProDJTap.Sockets.DJTapSocket socket= new ProDJTap.Sockets.DJTapSocket();
+        private LXProtocols.TCNet.Sockets.DJTapSocket socket= new LXProtocols.TCNet.Sockets.DJTapSocket();
         public ProDJTapViewer()
         {
             InitializeComponent();

@@ -5,7 +5,7 @@ using System.Text;
 using System.Net;
 using System.Net.NetworkInformation;
 
-namespace ProDJTapViewer
+namespace LXProtocols.TCNetViewer
 {
     public class CardInfo
     {

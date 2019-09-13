@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
 EndProject
@@ -46,12 +46,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Midi", "Midi\Midi.csproj", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version", "Version", "{64BF5B96-D7A7-48EF-AE8A-952D18775A85}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		ProductVersion.cs = ProductVersion.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlitchDetector", "Samples\GlitchDetector\GlitchDetector.csproj", "{46F6CDC1-2AA5-4222-B5C9-D653398E77BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProDJTap", "ProDJTap\ProDJTap.csproj", "{F06ABD30-9481-4D85-B080-108640C2AA33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LXProtocols.TCNet", "ProDJTap\LXProtocols.TCNet.csproj", "{F06ABD30-9481-4D85-B080-108640C2AA33}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProDJTapViewer", "Samples\ProDJTap\ProDJTapViewer.csproj", "{29091ED8-BAB1-43CD-8532-D0BE3B26DB55}"
 EndProject
@@ -304,6 +305,9 @@ Global
 		{46F6CDC1-2AA5-4222-B5C9-D653398E77BD} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{29091ED8-BAB1-43CD-8532-D0BE3B26DB55} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{5A5C7B02-55EB-4B09-8434-19BED38386C1} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BD20257-C52C-4087-B13F-AE61789B7FE1}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Acn.vsmdi

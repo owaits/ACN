@@ -1,16 +1,16 @@
-﻿using ProDJTap.IO;
+﻿using LXProtocols.TCNet.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProDJTap.Packets
+namespace LXProtocols.TCNet.Packets
 {
     /// <summary>
     /// The base class to be used by all DJ Tap packets.
     /// </summary>
-    public abstract class DJTapPacket
+    public abstract class TCNetPacket
     {
         #region Information
 
@@ -28,12 +28,12 @@ namespace ProDJTap.Packets
         /// Decodes the raw data into usable information.
         /// </remarks>
         /// <param name="data">The data to be read.</param>
-        public abstract void ReadData(DJTapBinaryReader data);
+        public abstract void ReadData(TCNetBinaryReader data);
 
         /// <summary>
         /// Writes the contents of this packet into a memory buffer.
         /// </summary>
         /// <param name="data">The data buffer to write the packet contents to.</param>
-        public abstract void WriteData(DJTapBinaryWriter data);
+        public abstract void WriteData(TCNetBinaryWriter data);
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProDJTapViewer.Properties {
+namespace LXProtocols.TCNetViewer.Properties {
     using System;
     
     

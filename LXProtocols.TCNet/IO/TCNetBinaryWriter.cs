@@ -5,19 +5,19 @@ using System.Text;
 using System.IO;
 using System.Net;
 
-namespace ProDJTap.IO
+namespace LXProtocols.TCNet.IO
 {
     /// <summary>
     /// Provides extended stream writing capability for the DJTap protocol.
     /// </summary>
     /// <seealso cref="System.IO.BinaryWriter" />
-    public class DJTapBinaryWriter:BinaryWriter
+    public class TCNetBinaryWriter:BinaryWriter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DJTapBinaryWriter"/> class.
+        /// Initializes a new instance of the <see cref="TCNetBinaryWriter"/> class.
         /// </summary>
         /// <param name="input">The input.</param>
-        public DJTapBinaryWriter(Stream input)
+        public TCNetBinaryWriter(Stream input)
             : base(input)
         { }
 

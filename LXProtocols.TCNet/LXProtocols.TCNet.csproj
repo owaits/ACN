@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F06ABD30-9481-4D85-B080-108640C2AA33}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LXProtocols.TCNet</RootNamespace>
+    <AssemblyName>LXProtocols.TCNet</AssemblyName>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>D:\GitHub\ACN\Backup\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <Version>2.0.0</Version>
+    <Authors>Oliver Waits</Authors>
+    <Description>Implements the TCNet protcol that allows you to talk to Pioneer DJ equipment and obtain information such as the Tack Information, BPM, Waveform Data and current play state. The authentication mechanism is not covered by this implementation and would have to be implemented seperately to access Pioneer devices. This protocol requires you to have the Pro DJ Link Bridge running on the network.</Description>
+    <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
+    <PackageTags>ACN, TCNet, Lighting</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <Target Name="NugetAdd" AfterTargets="Pack" Condition="$(IsPublishable) == 'true'">
+    <Message Text="Publish to Nuget Repo." Importance="high" />
+    <Exec Condition=" '$(NuGetApiKey)' == '' " Command="$(NugetPackageRoot)NuGet.CommandLine\5.1.0\tools\nuget add bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg -Source &quot;$(NuGetPublishSource)&quot;" />
+    <Exec Condition=" '$(NuGetApiKey)' != '' " Command="$(NugetPackageRoot)NuGet.CommandLine\5.1.0\tools\nuget push bin\$(Configuration)\$(PackageId).$(PackageVersion).nupkg -Source &quot;$(NuGetPublishSource)&quot; -ApiKey $(NuGetApiKey)" />
+  </Target>
+</Project>

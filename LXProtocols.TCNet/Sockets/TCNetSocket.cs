@@ -1,7 +1,5 @@
-﻿using Acn.Sockets;
-using Citp.Sockets;
-using ProDJTap.IO;
-using ProDJTap.Packets;
+﻿using LXProtocols.TCNet.IO;
+using LXProtocols.TCNet.Packets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProDJTap.Sockets
+namespace LXProtocols.TCNet.Sockets
 {
     /// <summary>
     /// The network socket for sending and recieving data in teh DJ Tap protocol.
@@ -21,23 +19,23 @@ namespace ProDJTap.Sockets
     /// This socket allows you to connect to the network, advertise your prescence and send and recieve data.
     /// </remarks>
     /// <seealso cref="System.Net.Sockets.Socket" />
-    public class DJTapSocket:Socket
+    public class TCNetSocket:Socket
     {
         public const int Port = 60000;
         public const int TimecodeStreamPort = 60002;
 
 
         public event UnhandledExceptionEventHandler UnhandledException;
-        public event EventHandler<NewPacketEventArgs<DJTapPacket>> NewPacket;
+        public event EventHandler<NewPacketEventArgs<TCNetPacket>> NewPacket;
 
         private Socket timecodeStreamSocket;
 
         #region Setup and Initialisation
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DJTapSocket"/> class.
+        /// Initializes a new instance of the <see cref="TCNetSocket"/> class.
         /// </summary>
-        public DJTapSocket()
+        public TCNetSocket()
             : base(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
         {
             timecodeStreamSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -202,7 +200,7 @@ namespace ProDJTap.Sockets
             try
             {
                 EndPoint localPort = new IPEndPoint(IPAddress.Any, port);
-                DJTapRecieveData recieveState = new DJTapRecieveData()
+                TCNetRecieveData recieveState = new TCNetRecieveData()
                 {
                     Socket = socket,
                     Port = port
@@ -226,7 +224,7 @@ namespace ProDJTap.Sockets
 
             if (PortOpen)
             {
-                DJTapRecieveData recieveState = (DJTapRecieveData)(state.AsyncState);
+                TCNetRecieveData recieveState = (TCNetRecieveData)(state.AsyncState);
                 if (recieveState != null)
                 {
                     try
@@ -238,14 +236,14 @@ namespace ProDJTap.Sockets
                             {
                                 LastPacket = DateTime.UtcNow;
 
-                                DJTapPacket newPacket;
-                                while (DJTapPacketBuilder.TryBuild(recieveState, (DateTime) LastPacket, out newPacket))
+                                TCNetPacket newPacket;
+                                while (TCNetPacketBuilder.TryBuild(recieveState, (DateTime) LastPacket, out newPacket))
                                 {
                                     recieveState.ReadPosition = (int) recieveState.Position;
 
                                     //Packet has been read successfully.
                                     if (NewPacket != null)
-                                        NewPacket(this, new NewPacketEventArgs<DJTapPacket>((IPEndPoint) remoteEndPoint, newPacket));
+                                        NewPacket(this, new NewPacketEventArgs<TCNetPacket>((IPEndPoint) remoteEndPoint, newPacket));
                                 }
                             }
 
@@ -270,10 +268,10 @@ namespace ProDJTap.Sockets
         /// Sends the specified packet using UDP broadcast to all DJ Tap devices.
         /// </summary>
         /// <param name="packet">The packet to send on the network.</param>
-        public void Send(DJTapPacket packet)
+        public void Send(TCNetPacket packet)
         {
             MemoryStream data = new MemoryStream();
-            DJTapBinaryWriter writer = new DJTapBinaryWriter(data);
+            TCNetBinaryWriter writer = new TCNetBinaryWriter(data);
 
             packet.WriteData(writer);
             SendTo(data.ToArray(), new IPEndPoint(BroadcastAddress, Port));
@@ -284,10 +282,10 @@ namespace ProDJTap.Sockets
         /// </summary>
         /// <param name="packet">The packet to send on the network.</param>
         /// <param name="address">The address of the device to send the packet to.</param>
-        public void Send(DJTapPacket packet, RdmEndPoint address)
+        public void Send(TCNetPacket packet, TCNetEndPoint address)
         {
             MemoryStream data = new MemoryStream();
-            DJTapBinaryWriter writer = new DJTapBinaryWriter(data);
+            TCNetBinaryWriter writer = new TCNetBinaryWriter(data);
 
             packet.WriteData(writer);
             SendTo(data.ToArray(), new IPEndPoint(address.IpAddress, Port));
