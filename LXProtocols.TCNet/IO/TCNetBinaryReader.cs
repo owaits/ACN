@@ -27,7 +27,7 @@ namespace LXProtocols.TCNet.IO
         /// <returns>The resulting 16Bit Value</returns>
         public ushort ReadNetwork16()
         {
-            return (ushort) IPAddress.HostToNetworkOrder(ReadInt16());
+            return ReadUInt16();
         }
 
         /// <summary>
@@ -40,12 +40,40 @@ namespace LXProtocols.TCNet.IO
         }
 
         /// <summary>
+        /// Reads 64Bit values using the ProDJ tap format.
+        /// </summary>
+        /// <returns>The resulting 64Bit Value</returns>
+        public ulong ReadNetwork64()
+        {
+            return ReadUInt64();
+        }
+
+        /// <summary>
         /// Reads 16Bit values using the ProDJ tap format.
         /// </summary>
         /// <returns>The resulting 16Bit Value</returns>
         public float ReadNetworkSingle()
         {
             return ReadSingle();
+        }
+
+        /// <summary>
+        /// Reads a string of the specified length from the network stream.
+        /// </summary>
+        /// <returns></returns>
+        public string ReadNetworkString(int length)
+        {
+            return Encoding.ASCII.GetString(ReadBytes(length));
+        }
+
+        /// <summary>
+        /// Reads the TCNet time from binary data.
+        /// </summary>
+        /// <returns>The time that was read.</returns>
+        public TimeSpan ReadNetworkTime()
+        {
+            uint milliseconds = ReadNetwork32();
+            return TimeSpan.FromMilliseconds(milliseconds);
         }
     }
 }

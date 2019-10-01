@@ -27,7 +27,44 @@ namespace LXProtocols.TCNet.IO
         /// <param name="value">The 16Bit value to write.</param>
         public void WriteToNetwork(ushort value)
         {
-            Write((short)value);
+            Write(value);
+        }
+
+        /// <summary>
+        /// Writes UInt16 to network.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        public void WriteToNetwork(uint value)
+        {
+            Write(value);
+        }
+
+        /// <summary>
+        /// Writes UInt32 to network.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        public void WriteToNetwork(ulong value)
+        {
+            Write(value);
+        }
+
+        /// <summary>
+        /// Reads a string of the specified length from the network stream.
+        /// </summary>
+        /// <returns></returns>
+        public void WriteToNetwork(string value,int length)
+        {
+            value = (value == null ? string.Empty :value);
+            Write(Encoding.ASCII.GetBytes(value.PadRight(length,'\0').Substring(0,length)));
+        }
+
+        /// <summary>
+        /// Writes TCNet to to network.
+        /// </summary>
+        /// <param name="time">The time.</param>
+        public void WriteToNetwork(TimeSpan time)
+        {
+            WriteToNetwork((uint) time.TotalMilliseconds);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 using LXProtocols.TCNet.IO;
 using LXProtocols.TCNet.Packets;
 using System.Net.Sockets;
+using LXProtocols.TCNet.Sockets;
 
 namespace LXProtocols.TCNet
 {
@@ -17,7 +18,7 @@ namespace LXProtocols.TCNet
     {
         private TCNetBinaryReader reader = null;
 
-        public int ReadNibble = 1500;
+        public int ReadNibble = TCNetSocket.MaxPacketSize;
         public int ReadPosition = 0;
 
         /// <summary>
@@ -40,6 +41,11 @@ namespace LXProtocols.TCNet
         /// This is used to ensure the next recieve is started on the correct port.
         /// </remarks>
         public int Port { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether this recieve session is unicast or broadcast.
+        /// </summary>
+        public bool Unicast { get; set; }
 
         /// <summary>
         /// Determines if we have reached the end of the recieved data.

@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProDJTapViewer</RootNamespace>
     <AssemblyName>ProDJTapViewer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -88,7 +89,7 @@
       <Project>{9f69b278-176f-4e9c-a9ea-8cb7bcc611a4}</Project>
       <Name>Acn</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ProDJTap\LXProtocols.TCNet.csproj">
+    <ProjectReference Include="..\..\LXProtocols.TCNet\LXProtocols.TCNet.csproj">
       <Project>{f06abd30-9481-4d85-b080-108640c2aa33}</Project>
       <Name>LXProtocols.TCNet</Name>
     </ProjectReference>

@@ -7,21 +7,23 @@ using System.Threading.Tasks;
 namespace LXProtocols.TCNet
 {
     /// <summary>
-    /// The DJ Tap packet types.
+    /// The TCNet packet types.
     /// </summary>
-    public enum MessageTypes
+    public enum MessageTypes:byte
     {
-        /// <summary>
-        /// Not Set
-        /// </summary>
         None = 0,
-        /// <summary>
-        /// The sent by devices whhiching to advertise opn the DJ Tap network.
-        /// </summary>
-        GWOffer = 0x200,
-        /// <summary>
-        /// The timecode data for a deck.
-        /// </summary>
-        Timecode = 0xFF00
+        OptIn = 2,
+        OptOut = 3,
+        TimeSync = 10,
+        Error = 13,
+        DataRequest = 20,
+        ApplicationSpecificData = 30,
+        ControlMessages = 101,
+        TextData = 128,
+        KeyboardData = 132,
+        Data = 200,
+        LowResArtwork = 204,
+        DataFile = 204,
+        Time = 254
     }
 }

@@ -1,57 +1,41 @@
 ﻿using LXProtocols.TCNet.IO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LXProtocols.TCNet.Packets
 {
     /// <summary>
-    /// Sent by devices wishing to take part in the DJ Tap network.
+    /// Request Data from other Node
     /// </summary>
     /// <remarks>
-    /// This packet must be sent at least every 2 seconds or the device will be deemed to no longer
-    /// be present on the network.
+    /// Request is send to a master or repeater node. As result the node will send back a packet containing small wave data or a request error message.
     /// </remarks>
-    /// <seealso cref="ProDJTap.Packets.DJTapHeader" />
-    public class GWOffer:TCNetHeader
+    /// <seealso cref="LXProtocols.TCNet.Packets.TCNetHeader" />
+    public class TCNetDataRequest:TCNetHeader
     {
         #region Setup and Initialisation
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GWOffer"/> class.
+        /// Initializes a new instance of the <see cref="TCNetDataRequest"/> class.
         /// </summary>
-        public GWOffer():base(MessageTypes.GWOffer)
+        public TCNetDataRequest() : base(MessageTypes.DataRequest)
         {
-
         }
 
         #endregion
 
         #region Packet Content
 
-        private string brand = string.Empty;
+        /// <summary>
+        /// Gets or sets the type of the data we want to recieve from the remote node.
+        /// </summary>
+        public DataTypes DataType { get; set; }
 
         /// <summary>
-        /// Gets or sets the manufacturer of the transmitting decide.
+        /// Layer where Data is requested for
         /// </summary>
-        public string Brand
-        {
-            get { return brand; }
-            set { brand = value; }
-        }
-
-        private string model = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the model of the transmitting device.
-        /// </summary>
-        public string Model
-        {
-            get { return model; }
-            set { model = value; }
-        }
+        public byte LayerID { get; set; }
 
 
         #endregion
@@ -69,8 +53,8 @@ namespace LXProtocols.TCNet.Packets
         {
             base.ReadData(data);
 
-            Brand = ASCIIEncoding.ASCII.GetString(data.ReadBytes(8));
-            Model = ASCIIEncoding.ASCII.GetString(data.ReadBytes(8));
+            DataType = (DataTypes) data.ReadByte();
+            LayerID = data.ReadByte();
         }
 
         /// <summary>
@@ -81,12 +65,10 @@ namespace LXProtocols.TCNet.Packets
         {
             base.WriteData(data);
 
-            data.Write(ASCIIEncoding.ASCII.GetBytes(Brand.PadRight(8)));
-            data.Write(ASCIIEncoding.ASCII.GetBytes(Model.PadRight(8)));
-            data.Write((byte)0);
+            data.Write((byte) DataType);
+            data.Write(LayerID);
         }
 
         #endregion
-
     }
 }

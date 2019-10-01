@@ -12,8 +12,8 @@ namespace LXProtocols.TCNet.Sockets
         {
         }
 
-        public TCNetEndPoint(IPAddress ipAddress, int universe)
-            : this(ipAddress, 0, universe)
+        public TCNetEndPoint(IPAddress ipAddress, int nodeId)
+            : this(ipAddress, 0, nodeId)
         {
         }
 
@@ -22,52 +22,20 @@ namespace LXProtocols.TCNet.Sockets
         {
         }
 
-        public TCNetEndPoint(IPEndPoint ipEndPoint, int universe)
-            : this(ipEndPoint.Address, ipEndPoint.Port, universe)
+        public TCNetEndPoint(IPEndPoint ipEndPoint, int nodeId)
+            : this(ipEndPoint.Address, ipEndPoint.Port, nodeId)
         {
         }
 
         public TCNetEndPoint(IPAddress ipAddress, int port, int universe) : base(ipAddress, port)
         {
-            IpAddress = ipAddress;
-            Universe = universe;
         }
 
-        private IPAddress ipAddress = IPAddress.Any;
-
-        public IPAddress IpAddress
-        {
-            get { return ipAddress; }
-            set { ipAddress = value; }
-        }
-
-        //private UId id = UId.Empty;
-
-        //public UId Id
-        //{
-        //    get { return id; }
-        //    set { id = value; }
-        //}
-
-        //private UId gatewayId = UId.Empty;
-
-        //public UId GatewayId
-        //{
-        //    get { return gatewayId; }
-        //    set { gatewayId = value; }
-        //}
-
-        private int universe = 0;
-
-        public int Universe
-        {
-            get { return universe; }
-            set { universe = value; }
-        }
+        public int NodeID { get; set; }
 
         public override string ToString()
         {
-            return IpAddress.ToString();
+            return this.Address.ToString();
         }
     }
 }

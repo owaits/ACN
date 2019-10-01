@@ -7,15 +7,15 @@ namespace LXProtocols.TCNet.Sockets
 {
     public class NewPacketEventArgs<TPacketType> : EventArgs
     {
-        public NewPacketEventArgs(IPEndPoint source, TPacketType packet)
+        public NewPacketEventArgs(TCNetEndPoint source, TPacketType packet)
         {
             Source = source;
             Packet = packet;
         }
 
-        private IPEndPoint source;
+        private TCNetEndPoint source;
 
-        public IPEndPoint Source
+        public TCNetEndPoint Source
         {
             get { return source; }
             protected set { source = value; }

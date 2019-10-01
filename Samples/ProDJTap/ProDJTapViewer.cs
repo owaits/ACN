@@ -1,13 +1,16 @@
-﻿using LXProtocols.TCNet.Packets;
+﻿using LXProtocols.TCNet;
+using LXProtocols.TCNet.Packets;
 using LXProtocols.TCNet.Sockets;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,10 +19,14 @@ namespace LXProtocols.TCNetViewer
 {
     public partial class ProDJTapViewer : Form
     {
-        private LXProtocols.TCNet.Sockets.DJTapSocket socket= new LXProtocols.TCNet.Sockets.DJTapSocket();
+        private TCNetSocket socket= new TCNetSocket(NodeType.Slave);
+
         public ProDJTapViewer()
         {
             InitializeComponent();
+
+            downloadLayerSelect.SelectedIndex = 1;
+            layerSelect.SelectedIndex = 1;
 
             CardInfo firstCard = null;
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
@@ -47,25 +54,60 @@ namespace LXProtocols.TCNetViewer
 
         private void Start(CardInfo networkCard)
         {
-            socket = new DJTapSocket();
-            socket.Brand = "GW-AVOLP";
-            socket.Model = "GW-TCSSN";
+            socket = new TCNetSocket(NodeType.Slave);
+            socket.NodeName = "TITAN01";
+            socket.VendorName = "AVOLITES";
+            socket.DeviceName = "TITAN";
+            socket.DeviceVersion = Assembly.GetEntryAssembly().GetName().Version;
             socket.NewPacket += socket_NewPacket;
+            socket.NewDeviceFound += Socket_NewDeviceFound;
+            socket.DeviceLost += Socket_DeviceLost;
+
             socket.Open(networkCard.IpAddress,networkCard.SubnetMask);
+
+        }
+
+        private void Socket_DeviceLost(object sender, TCNetDeviceEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new EventHandler<TCNetDeviceEventArgs>(Socket_NewDeviceFound), sender, e);
+                return;
+            }
+
+            deviceSelect.Items.Remove(e.Device);
+        }
+
+        private void Socket_NewDeviceFound(object sender, TCNetDeviceEventArgs e)
+        {
+            if(InvokeRequired)
+            {
+                BeginInvoke(new EventHandler<TCNetDeviceEventArgs>(Socket_NewDeviceFound), sender, e);
+                return;
+            }
+
+            if (e.Device.NodeType != NodeType.Slave)
+            {
+                deviceSelect.Items.Add(e.Device);
+
+                if (deviceSelect.Items.Count == 1)
+                    deviceSelect.SelectedItem = e.Device;
+            }
+                
         }
 
         private void Stop()
         {
             if (socket != null)
             {
-                socket.Close();
+                socket.Dispose();
                 socket = null;
             }
         }
 
-        private Timecode timecodePacket = null;
+        private TCNetTime timecodePacket = null;
 
-        public Timecode TimecodePacket
+        public TCNetTime TimecodePacket
         {
             get { return timecodePacket;  }
             set
@@ -82,13 +124,36 @@ namespace LXProtocols.TCNetViewer
 
         private void UpdateTCInfo()
         {
-             tcInfo.SelectedObject = TimecodePacket;
+            tcInfo.SelectedObject = TimecodePacket;
+            tcInfo.ExpandAllGridItems();
         }
 
-        void socket_NewPacket(object sender, Acn.Sockets.NewPacketEventArgs<DJTapPacket> e)
+        void socket_NewPacket(object sender, NewPacketEventArgs<TCNetPacket> e)
         {
-            if(e.Packet is Timecode)
-                TimecodePacket = (Timecode) e.Packet;
+            if(e.Packet is TCNetTime)
+                TimecodePacket = (TCNetTime) e.Packet;
+            if (e.Packet is TCNetError)
+                BeginInvoke(new Action<TCNetError>(ProcessError),e.Packet);
+
+            if (e.Packet is TCNetBigWaveform)
+                DumpWaveform("BigWaveform.txt",((TCNetBigWaveform) e.Packet).WaveformData);
+
+            if (e.Packet is TCNetSmallWaveform)
+                DumpWaveform("SmallWaveform.txt", ((TCNetSmallWaveform)e.Packet).WaveformData);
+
+
+        }
+
+        private void DumpWaveform(string filename, byte[] data)
+        {
+            File.AppendAllText(@"d:\temp\" + filename, string.Join(",", data.Select(b => "0x" + b.ToString("X"))));
+        }
+
+        private void ProcessError(TCNetError error)
+        {
+            //Filter out authentication success errors.
+            if(error.Code != 0xFF)
+                 MessageBox.Show($"Error {error.Code} reported on layer {error.LayerID} for data {error.DataType}");
         }
 
         private void networkCardSelect_SelectedIndexChanged(object sender, EventArgs e)
@@ -108,6 +173,109 @@ namespace LXProtocols.TCNetViewer
                 }
 
             }
+        }
+
+        private void PlayButton_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+            socket.Send(device, new TCNetControl()
+            {
+                Step = TCNetControl.Steps.Initialize,
+                ControlPath = $"layer/{layerSelect.SelectedIndex}/state={((int)DeckState.Playing).ToString()};"
+            });
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+            socket.Send(device, new TCNetControl()
+            {
+                Step = TCNetControl.Steps.Initialize,
+                ControlPath = $"layer/{layerSelect.SelectedIndex}/state={((int) DeckState.Paused).ToString()};"
+            });
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+            socket.Send(device, new TCNetControl()
+            {
+                Step = TCNetControl.Steps.Initialize,
+                ControlPath = $"layer/{layerSelect.SelectedIndex}/state={((int) DeckState.Stopped).ToString()};"
+            });
+        }
+
+        private void MetricsDownload_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+            socket.Send(device, new TCNetDataRequest()
+            {
+                DataType = DataTypes.Metrics,
+                LayerID = (byte)downloadLayerSelect.SelectedIndex
+            });
+        }
+
+        private void DownloadMetaData_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+            socket.Send(device, new TCNetDataRequest()
+            {
+                DataType = DataTypes.MetaData,
+                LayerID = (byte)downloadLayerSelect.SelectedIndex
+            });
+        }
+
+        private void DownloadSmallWaveform_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+
+            if (device == null)
+                MessageBox.Show("Please select a device?");
+
+            socket.Send(device, new TCNetDataRequest()
+            {
+                DataType = DataTypes.SmallWaveform,
+                LayerID = (byte)downloadLayerSelect.SelectedIndex
+            });
+
+        }
+
+        private void DownloadBigWaveform_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+            socket.Send(device, new TCNetDataRequest()
+            {
+                DataType = DataTypes.BigWaveform,
+                LayerID = (byte)downloadLayerSelect.SelectedIndex
+            });
+        }
+
+        private void BeatGrid_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+
+            if (device == null)
+                MessageBox.Show("Please select a device?");
+
+            socket.Send(device, new TCNetDataRequest()
+            {
+                DataType = DataTypes.BeatGrid,
+                LayerID = (byte)downloadLayerSelect.SelectedIndex
+            });
+        }
+
+        private void CueData_Click(object sender, EventArgs e)
+        {
+            TCNetDevice device = deviceSelect.SelectedItem as TCNetDevice;
+
+            if (device == null)
+                MessageBox.Show("Please select a device?");
+
+            socket.Send(device, new TCNetDataRequest()
+            {
+                DataType = DataTypes.Cue,
+                LayerID = (byte)downloadLayerSelect.SelectedIndex
+            });
         }
     }
 }

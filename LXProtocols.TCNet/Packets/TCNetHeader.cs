@@ -17,7 +17,7 @@ namespace LXProtocols.TCNet.Packets
         /// <summary>
         /// The header size.
         /// </summary>
-        public const int PacketSize = 8;
+        public const int PacketSize = 24;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TCNetHeader"/> class.
@@ -25,36 +25,55 @@ namespace LXProtocols.TCNet.Packets
         /// <param name="contentType">Type of the content.</param>
         public TCNetHeader(MessageTypes contentType)
         {
-            IdentifierNumber = 0x0800;
-            FirmwareVersion = 0x1;
-            Timer = 0;
-            ContentType = contentType;
+            ProtocolVersion = new Version(3, 6);
+            Header = "TCN";
+            MessageType = contentType;
+            Timestamp = TimeSpan.Zero;
+
         }
 
         #region Packet Content
 
         /// <summary>
-        /// Gets or sets the protocol identifier number.
+        /// Protocol Version of sending device.
         /// </summary>
-        public ushort IdentifierNumber { get; set; }
+        public Version ProtocolVersion { get; set; }
 
         /// <summary>
-        /// Gets or sets the firmware version of the transmitting device.
+        /// TCNet Protocol Header.
         /// </summary>
-        public ushort FirmwareVersion { get; set; }
+        public string Header { get; set; }
 
         /// <summary>
-        /// Gets or sets a counter that is incremented by the sender after every packet.
+        /// Gets or sets the Message type of packet.
         /// </summary>
-        /// <remarks>
-        /// The counter is incremented from 0 to 999
-        /// </remarks>
-        public ushort Timer { get; set; }
+        public MessageTypes MessageType { get; private set; }
 
         /// <summary>
-        /// Gets or sets the content type of this packet.
+        /// Gets or sets the name of the node.
         /// </summary>
-        public MessageTypes ContentType { get; set; }
+        public string NodeName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sequence number of this packet with respect to other packets.
+        /// </summary>
+        public byte SequenceNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the node such as master, slave etc.
+        /// </summary>
+        public NodeType NodeType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the node options.
+        /// </summary>
+        public NodeOptions NodeOptions { get; set; }
+
+        /// <summary>
+        /// Timestamp in microseconds that is used to calculate network latency.
+        /// </summary>
+        public TimeSpan Timestamp { get; set; }
+
 
         #endregion
 
@@ -82,10 +101,15 @@ namespace LXProtocols.TCNet.Packets
         /// </remarks>
         public override void ReadData(TCNetBinaryReader data)
         {
-            IdentifierNumber = data.ReadUInt16();
-            FirmwareVersion = data.ReadUInt16();
-            Timer = data.ReadUInt16();
-            ContentType = (MessageTypes) data.ReadUInt16();        
+            NodeID = data.ReadNetwork16();
+            ProtocolVersion = new Version(data.ReadByte(), data.ReadByte());
+            Header = data.ReadNetworkString(3);
+            MessageType = (MessageTypes)data.ReadByte();
+            NodeName = data.ReadNetworkString(8);
+            SequenceNumber = data.ReadByte();
+            NodeType = (NodeType)data.ReadByte();
+            NodeOptions = (NodeOptions)data.ReadNetwork16();
+            Timestamp = TimeSpan.FromTicks(data.ReadNetwork32() * (TimeSpan.TicksPerSecond / 1000000));
         }
 
         /// <summary>
@@ -94,10 +118,16 @@ namespace LXProtocols.TCNet.Packets
         /// <param name="data">The data buffer to write the packet contents to.</param>
         public override void WriteData(TCNetBinaryWriter data)
         {
-            data.WriteToNetwork(IdentifierNumber);
-            data.WriteToNetwork(FirmwareVersion);
-            data.WriteToNetwork(Timer);
-            data.WriteToNetwork((ushort) ContentType);
+            data.WriteToNetwork(NodeID);
+            data.Write((byte) ProtocolVersion.Major);
+            data.Write((byte) ProtocolVersion.Minor);
+            data.WriteToNetwork(Header,3);
+            data.Write((byte) MessageType);
+            data.WriteToNetwork(NodeName,8);
+            data.Write(SequenceNumber);
+            data.Write((byte)NodeType);
+            data.WriteToNetwork((ushort)NodeOptions);
+            data.WriteToNetwork((uint)(Timestamp.Milliseconds * 1000));
         }
 
         #endregion

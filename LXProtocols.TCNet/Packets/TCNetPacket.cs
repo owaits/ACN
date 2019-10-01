@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,9 +16,22 @@ namespace LXProtocols.TCNet.Packets
         #region Information
 
         /// <summary>
+        /// Gets or sets the network ID which is generated from the IP address and node ID.
+        /// </summary>
+        /// <remarks>
+        /// This is a network unique ID that you can use to identify a device.
+        /// </remarks>
+        public int NetworkID { get; set; }
+
+        /// <summary>
+        /// Node ID of sending device.
+        /// </summary>
+        public ushort NodeID { get; set; }
+
+        /// <summary>
         /// Gets or sets the time stamp assigned at the moment the packet was recieved.
         /// </summary>
-        public DateTime TimeStamp { get; set; }
+        public DateTime RXTimeStamp { get; set; }
 
         #endregion
 
@@ -35,5 +49,10 @@ namespace LXProtocols.TCNet.Packets
         /// </summary>
         /// <param name="data">The data buffer to write the packet contents to.</param>
         public abstract void WriteData(TCNetBinaryWriter data);
+
+        public static int BuildNetworkID(IPEndPoint endpoint, int nodeId)
+        {
+            return new Tuple<IPAddress, int>(endpoint.Address, nodeId).GetHashCode();
+        }
     }
 }

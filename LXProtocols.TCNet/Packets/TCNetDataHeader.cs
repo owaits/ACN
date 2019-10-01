@@ -5,37 +5,33 @@ using System.Text;
 
 namespace LXProtocols.TCNet.Packets
 {
-    /// <summary>
-    /// Notifies other nodes that node leaves network.
-    /// </summary>
-    /// <remarks>
-    /// Broadcast once when leaving network.
-    /// </remarks>
-    /// <seealso cref="LXProtocols.TCNet.Packets.TCNetHeader" />
-    public class TCNetOptOut:TCNetHeader
+    public class TCNetDataHeader:TCNetHeader
     {
         #region Setup and Initialisation
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TCNetOptIn"/> class.
-        /// </summary>
-        public TCNetOptOut() : base(MessageTypes.OptOut)
+        public TCNetDataHeader(DataTypes data) :base(MessageTypes.Data)
         {
+            DataType = data;
         }
 
         #endregion
 
-        #region Packet Content
+        #region Packet Contents
 
         /// <summary>
-        /// Number of nodes registered by system
+        /// Gets the type of the data contained in this packet.
         /// </summary>
-        public ushort NodeCount { get; set; }
+        public DataTypes DataType { get; private set; }
 
         /// <summary>
-        /// Listener port of node (Used to receive unicast messages)
+        /// Gets or sets the deck or master that this timecode refers to.
         /// </summary>
-        public ushort NodeListenerPort { get; set; }
+        /// <remarks>
+        /// 1 to 4 = Decks 1-4
+        /// 6,7 = Layer A, Layer B
+        /// 8 = Master
+        /// </remarks>
+        public byte LayerID { get; set; }
 
         #endregion
 
@@ -51,9 +47,8 @@ namespace LXProtocols.TCNet.Packets
         public override void ReadData(TCNetBinaryReader data)
         {
             base.ReadData(data);
-
-            NodeCount = data.ReadNetwork16();
-            NodeListenerPort = data.ReadNetwork16();
+            DataType = (DataTypes) data.ReadByte();
+            LayerID = data.ReadByte();
         }
 
         /// <summary>
@@ -63,9 +58,8 @@ namespace LXProtocols.TCNet.Packets
         public override void WriteData(TCNetBinaryWriter data)
         {
             base.WriteData(data);
-
-            data.WriteToNetwork(NodeCount);
-            data.WriteToNetwork(NodeListenerPort);
+            data.Write((byte) DataType);
+            data.Write(LayerID);
         }
 
         #endregion
