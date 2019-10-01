@@ -52,7 +52,10 @@
             <CheckBox Content="Lock Aspect" IsChecked="{Binding LockAspect}" />
             <Button Name="btnApplySize" Content="Apply" Click="Button_Click" />
         </Grid>
-        <Grid Grid.Row="2" Name="grdStats">
+        <Grid Grid.Row="2">
+            <Button HorizontalAlignment="Left" Click="ResetSync_Click" Width="100">Reset Sync</Button>
+        </Grid>
+        <Grid Grid.Row="3" Name="grdStats">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
