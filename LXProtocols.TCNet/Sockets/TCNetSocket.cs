@@ -761,6 +761,11 @@ namespace LXProtocols.TCNet.Sockets
                         RequestTimeSync(device);
                 }
             }
+            catch (Exception ex)
+            {
+                StopTimeSync();
+                OnUnhandledException(new ApplicationException("Socket error during time sync. Stopping time sync.", ex));
+            }
             finally
             {
                 if(timeSyncTimer != null)
