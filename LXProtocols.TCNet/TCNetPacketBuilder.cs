@@ -54,7 +54,7 @@ namespace LXProtocols.TCNet
         static TCNetPacketBuilder()
         {
             TCNetPacketBuilder.RegisterPacket(MessageTypes.OptIn, (() => new TCNetOptIn()));
-            TCNetPacketBuilder.RegisterPacket(MessageTypes.OptIn, (() => new TCNetOptOut()));
+            TCNetPacketBuilder.RegisterPacket(MessageTypes.OptOut, (() => new TCNetOptOut()));
             TCNetPacketBuilder.RegisterPacket(MessageTypes.TimeSync, (() => new TCNetTimeSync()));
             TCNetPacketBuilder.RegisterPacket(MessageTypes.Error, (() => new TCNetError()));
             TCNetPacketBuilder.RegisterPacket(MessageTypes.DataRequest, (() => new TCNetDataRequest()));
