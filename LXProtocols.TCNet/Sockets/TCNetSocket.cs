@@ -467,7 +467,14 @@ namespace LXProtocols.TCNet.Sockets
             }
 
             packet.WriteData(writer);
-            socket.SendTo(data.ToArray(), new IPEndPoint(BroadcastAddress, localEndpoint.Port));
+            try
+            {
+                socket.SendTo(data.ToArray(), new IPEndPoint(BroadcastAddress, localEndpoint.Port));
+            }
+            catch (SocketException ex)
+            {
+                OnUnhandledException(new ApplicationException("Socket error broadcasting PioneerDJ integration.", ex));
+            }
         }
 
         /// <summary>
@@ -501,7 +508,15 @@ namespace LXProtocols.TCNet.Sockets
             }
 
             packet.WriteData(writer);
-            unicastTXSocket.SendTo(data.ToArray(), new IPEndPoint(address.Address, address.Port));
+            try
+            {
+                unicastTXSocket.SendTo(data.ToArray(), new IPEndPoint(address.Address, address.Port));
+            }
+            catch (SocketException ex)
+            {
+                OnUnhandledException(new ApplicationException("Socket error unicast PioneerDJ integration.", ex));
+            }
+
         }
 
         /// <summary>
