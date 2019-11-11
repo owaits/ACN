@@ -473,7 +473,7 @@ namespace LXProtocols.TCNet.Sockets
             }
             catch (SocketException ex)
             {
-                OnUnhandledException(new ApplicationException("Socket error broadcasting PioneerDJ integration.", ex));
+                OnUnhandledException(new ApplicationException("Socket error broadcasting TCNet integration.", ex));
             }
         }
 
@@ -514,7 +514,7 @@ namespace LXProtocols.TCNet.Sockets
             }
             catch (SocketException ex)
             {
-                OnUnhandledException(new ApplicationException("Socket error unicast PioneerDJ integration.", ex));
+                OnUnhandledException(new ApplicationException("Socket error unicast TCNet integration.", ex));
             }
 
         }
