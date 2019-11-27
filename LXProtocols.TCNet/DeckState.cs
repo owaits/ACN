@@ -20,6 +20,7 @@ namespace LXProtocols.TCNet
         FastForward = 9,
         FastRewind = 10,
         Hold = 11,
+        End = 17,
         EmergencyLoop = 18
     }
 }
