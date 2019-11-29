@@ -400,10 +400,10 @@ namespace LXProtocols.TCNet.Sockets
                 TCNetRecieveData recieveState = (TCNetRecieveData)(state.AsyncState);
                 if (recieveState != null)
                 {
-                    IPEndPoint localEndpoint = (IPEndPoint)recieveState.Socket.LocalEndPoint;
-
                     try
                     {
+                        IPEndPoint localEndpoint = (IPEndPoint)recieveState.Socket.LocalEndPoint;
+
                         SocketError socketError;
                         int dataRecieved;
                         
