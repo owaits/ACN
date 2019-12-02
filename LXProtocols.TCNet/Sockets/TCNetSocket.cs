@@ -122,6 +122,7 @@ namespace LXProtocols.TCNet.Sockets
         /// <param name="disposing">true to release both managed and unmanaged resources; false to releases only unmanaged resources.</param>
         public void Dispose()
         {
+            StopTimeSync();
             StopAdvertising();
             PortOpen = false;
 
@@ -770,10 +771,17 @@ namespace LXProtocols.TCNet.Sockets
         {
             try
             {
-                foreach (TCNetDevice device in devices.Values.ToList())
+                if (PortOpen)
                 {
-                    if(device.NodeType == NodeType.Master)
-                        RequestTimeSync(device);
+                    foreach (TCNetDevice device in devices.Values.ToList())
+                    {
+                        if(device.NodeType == NodeType.Master)
+                            RequestTimeSync(device);
+                    }
+                }
+                else
+                {
+                    StopTimeSync();
                 }
             }
             catch (Exception ex)
