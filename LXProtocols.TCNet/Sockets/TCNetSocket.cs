@@ -403,8 +403,8 @@ namespace LXProtocols.TCNet.Sockets
                 {
                     try
                     {
-                        IPEndPoint localEndpoint = (IPEndPoint)recieveState.Socket.LocalEndPoint;
-
+		    	IPEndPoint localEndpoint = (IPEndPoint)recieveState.Socket.LocalEndPoint;
+			
                         SocketError socketError;
                         int dataRecieved;
                         
@@ -431,6 +431,12 @@ namespace LXProtocols.TCNet.Sockets
                         }
 
                     }
+		    catch (ObjectDisposedException ex)
+		    {
+		    	//It is possible for the socket to become disposed
+			OnUnhandledException(ex);
+			PortOpen = false;
+		    }
                     catch (Exception ex)
                     {
                         OnUnhandledException(ex);
