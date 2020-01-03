@@ -278,6 +278,7 @@ namespace Acn.Slp
             register.Url = new UrlEntry(ServiceUrl);
             register.ServiceType = ServiceType;
             register.ScopeList = Scope;
+            register.AttrList = AttributeString;
 
             socket.Send(source, register);
         }
