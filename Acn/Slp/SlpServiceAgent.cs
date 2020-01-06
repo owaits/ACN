@@ -262,6 +262,11 @@ namespace Acn.Slp
 
         private void ProcessDAAdvert(DirectoryAgentAdvertPacket da, IPEndPoint source)
         {
+            //We should only register with directory agents that either support our scope or those which support all scopes (the scope list is empty).
+            if (da.ScopeList.Count != 0 && !da.ScopeList.Contains(Scope))
+                return;
+
+            //Determine if we have previously registered with this DA and if not raise a new DA found event.
             if (!DirectoryAgents.ContainsKey(da.Url))
             {
                 //Add this DA to the list of DAs we subscribe to.
@@ -402,7 +407,7 @@ namespace Acn.Slp
                 return false;
 
             //Does the scope match the scope of this service.
-            if (request.ScopeList != Scope)
+            if (request.Scope != Scope)
                 return false;
 
             //Check that we are not in the exemption list.

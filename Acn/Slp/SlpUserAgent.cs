@@ -130,7 +130,7 @@ namespace Acn.Slp
             ServiceRequestPacket request = new ServiceRequestPacket();
             FillHeader(request.Header, NewTransactionId());
             request.ServiceType = serviceType;
-            request.ScopeList = scope;
+            request.Scope = scope;
 
             if (DirectoryAgent == null)
                 //Multicast the service request.
@@ -188,7 +188,7 @@ namespace Acn.Slp
         {
             AttributeRequestPacket request = new AttributeRequestPacket();
             FillHeader(request.Header, NewTransactionId());
-            request.ScopeList = scope;
+            request.Scope = scope;
             request.Url = url;
             return request;
         }

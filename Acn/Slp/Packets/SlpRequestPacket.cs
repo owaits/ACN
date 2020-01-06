@@ -54,13 +54,24 @@ namespace Acn.Slp.Packets
             protected set { prList = value; }
         }
 
+        private string scope = string.Empty;
+
         /// <summary>
         /// Gets or sets the scope list.
         /// </summary>
-        /// <value>
-        /// The scope list.
-        /// </value>
-        public string ScopeList { get; set; }
+        public string Scope 
+        { 
+            get { return scope;  }
+            set
+            {
+                if(scope != value)
+                {
+                    if (scope.IndexOfAny(new char[] { '/', ',', ':' }) != -1)
+                        throw new ArgumentException($"The scope '{value}' contains an invalid character. See RFC2165 section 5.4 for more information.");
+                    scope = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the SLP Security Parameter Index.

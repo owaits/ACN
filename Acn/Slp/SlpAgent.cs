@@ -138,7 +138,7 @@ namespace Acn.Slp
             ServiceRequestPacket request = new ServiceRequestPacket();
             FillHeader(request.Header, NewTransactionId());
             request.ServiceType = "service:directory-agent";
-            request.ScopeList = Scope;
+            request.Scope = Scope;
 
             socket.Send(request);
         }

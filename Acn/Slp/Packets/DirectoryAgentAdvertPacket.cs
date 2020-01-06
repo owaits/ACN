@@ -50,7 +50,7 @@ namespace Acn.Slp.Packets
 
         public string Url { get; set; }
 
-        public string ScopeList { get; set; }
+        public List<string> ScopeList { get; set; }
 
         public string AttrList { get; set; }
 
@@ -63,7 +63,7 @@ namespace Acn.Slp.Packets
             ErrorCode = (SlpErrorCode)data.ReadNetwork16();
             Timestamp = data.ReadNetwork32();
             Url = data.ReadNetworkString();
-            ScopeList = data.ReadNetworkString();
+            ScopeList = data.ReadNetworkString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
             AttrList = data.ReadNetworkString();
         }
 
@@ -72,7 +72,7 @@ namespace Acn.Slp.Packets
             data.WriteNetwork((short) ErrorCode);
             data.WriteNetwork(Timestamp);
             data.WriteNetworkString(Url);
-            data.WriteNetworkString(ScopeList);
+            data.WriteNetworkString(string.Join(",",ScopeList));
             data.WriteNetworkString(AttrList);
         }
 

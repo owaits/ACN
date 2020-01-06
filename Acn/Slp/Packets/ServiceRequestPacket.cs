@@ -62,7 +62,7 @@ namespace Acn.Slp.Packets
         {
             PRList.AddRange(data.ReadNetworkStringList());
             ServiceType = data.ReadNetworkString();
-            ScopeList = data.ReadNetworkString();
+            Scope = data.ReadNetworkString();
             Predicate = data.ReadNetworkString();
             SlpSpi = data.ReadNetworkString();            
         }
@@ -71,7 +71,7 @@ namespace Acn.Slp.Packets
         {
             data.Write(PRList);
             data.WriteNetworkString(ServiceType);
-            data.WriteNetworkString(ScopeList);
+            data.WriteNetworkString(Scope);
             data.WriteNetworkString(Predicate);
             data.WriteNetworkString(SlpSpi);
         }
