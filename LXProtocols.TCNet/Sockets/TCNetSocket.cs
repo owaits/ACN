@@ -1,4 +1,5 @@
-﻿using LXProtocols.TCNet.IO;
+﻿using LXProtocols.TCNet.Exceptions;
+using LXProtocols.TCNet.IO;
 using LXProtocols.TCNet.Packets;
 using System;
 using System.Collections.Generic;
@@ -384,7 +385,7 @@ namespace LXProtocols.TCNet.Sockets
             }
             catch (Exception ex)
             {
-                OnUnhandledException(new ApplicationException("An error ocurred while trying to start recieving ArtNet.",ex));
+                OnUnhandledException(new TCNetSocketException(this,"An error ocurred while trying to start recieving TCNet.",ex));
             }
         }
 
@@ -480,7 +481,10 @@ namespace LXProtocols.TCNet.Sockets
             }
             catch (SocketException ex)
             {
-                OnUnhandledException(new ApplicationException("Socket error broadcasting TCNet integration.", ex));
+                var broadcastError = new TCNetSocketException(this, "TCNet socket error while broadcasting. See inner exception for more details.", ex);
+                broadcastError.Data["LocalPort"] = localEndpoint.Port;
+                broadcastError.Data["Port"] = localEndpoint.Port;
+                OnUnhandledException(broadcastError);
             }
         }
 
@@ -521,7 +525,7 @@ namespace LXProtocols.TCNet.Sockets
             }
             catch (SocketException ex)
             {
-                OnUnhandledException(new ApplicationException("Socket error unicast TCNet integration.", ex));
+                OnUnhandledException(new TCNetSocketException(this,"Socket error unicast TCNet integration.", ex));
             }
 
         }
@@ -601,7 +605,7 @@ namespace LXProtocols.TCNet.Sockets
             catch(SocketException ex)
             {
                 StopAdvertising();
-                OnUnhandledException(new ApplicationException("Socket error while advertising ProDJTap, advertising will stop.", ex));
+                OnUnhandledException(new TCNetSocketException(this, "Socket error while advertising TCNet, advertising will stop.", ex));
             }
 	        finally
 	        {
