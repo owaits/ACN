@@ -366,6 +366,7 @@ namespace LXProtocols.TCNet.Sockets
         /// </summary>
         /// <param name="socket">The socket to recieve data on.</param>
         /// <param name="port">The port to recieve data on.</param>
+        /// <param name="unicast">Whether we are recieving unicast or broadcast data.</param>
         protected void StartRecieve(Socket socket,int port, bool unicast)
         {
             try
