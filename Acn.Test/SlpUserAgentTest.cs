@@ -82,7 +82,7 @@ namespace Acn.Test
             expected["Tea"] = "Happiness";
 
             Dictionary<string, string> actual;
-            actual = SlpUserAgent_Accessor.SplitAttributeList(attributeList);
+            actual = SlpUserAgent.SplitAttributeList(attributeList);
             CollectionAssert.AreEquivalent(expected, actual, "Dictionarys didn't match"); 
            
         }

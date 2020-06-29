@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{75B56461
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AcnSnoopTools", "Setup\AcnSnoopTools\AcnSnoopTools.wixproj", "{2926CA41-3C26-4A38-87FB-A0DBE530997E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citp", "Citp\Citp.csproj", "{945047A9-0F25-4388-A46A-0D53F9440F80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LXProtocols.Citp", "Citp\LXProtocols.Citp.csproj", "{945047A9-0F25-4388-A46A-0D53F9440F80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{A1C78856-4FD9-4F2C-AD5E-E78A840620FB}"
 	ProjectSection(SolutionItems) = preProject

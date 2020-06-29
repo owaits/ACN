@@ -301,7 +301,7 @@ namespace Acn.Slp
         /// <returns>
         ///   <c>true</c> if reply is required; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsReplyRequired(ServiceRequestPacket request)
+        public bool IsReplyRequired(ServiceRequestPacket request)
         {
             if (!IsReplyRequired((SlpRequestPacket)request))
             {
@@ -350,7 +350,7 @@ namespace Acn.Slp
         /// <param name="serviceConcreteType">Type of the service concrete (eg lpr).</param>
         /// <param name="serviceAddress">The service URL (eg 10.0.0.5/hp1010).</param>
         /// <returns>True if the request matches the abstract type, the concrete type or the full url</returns>
-        private static bool CheckUrlMatch(string requestUrl, string serviceAbstractType, string serviceConcreteType, string serviceAddress)
+        public static bool CheckUrlMatch(string requestUrl, string serviceAbstractType, string serviceConcreteType, string serviceAddress)
         {
             if (string.IsNullOrEmpty(requestUrl))
             {

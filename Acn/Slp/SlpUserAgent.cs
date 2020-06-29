@@ -261,7 +261,7 @@ namespace Acn.Slp
         /// </summary>
         /// <param name="attributeList">The attribute list.</param>
         /// <returns>A dictionary of string pairs</returns>
-        static protected Dictionary<string, string> SplitAttributeList(string attributeList)
+        public static Dictionary<string, string> SplitAttributeList(string attributeList)
         {
             Dictionary<string, string> attributes = new Dictionary<string, string>();
 

@@ -97,15 +97,15 @@ namespace Acn.Test
         [DeploymentItem("Acn.dll")]
         public void CheckUrlMatchTest()
         {
-            Assert.IsFalse(SlpServiceAgent_Accessor.CheckUrlMatch("", "", "", ""));
-            Assert.IsTrue(SlpServiceAgent_Accessor.CheckUrlMatch("service:printer:lpr://igore.wco.ftp.com:515/draft", "printer", "lpr", "igore.wco.ftp.com:515/draft"));
-            Assert.IsFalse(SlpServiceAgent_Accessor.CheckUrlMatch("service:printer:lpr://igore.wco.ftp.com:515/draft", "printer", "lpr", "10.0.0.1:515/draft"));
-            Assert.IsFalse(SlpServiceAgent_Accessor.CheckUrlMatch("service:printer:lpr://igore.wco.ftp.com:515/draft", "e133.esta", "lpr", "igore.wco.ftp.com:515/draft"));
-            Assert.IsTrue(SlpServiceAgent_Accessor.CheckUrlMatch("service:e133.esta", "e133.esta", string.Empty, "2.4.9.8:5568/0xaabb11223344"));
-            Assert.IsTrue(SlpServiceAgent_Accessor.CheckUrlMatch("service:e133.esta://2.4.9.8:5568/0xaabb11223344", "e133.esta", string.Empty, "2.4.9.8:5568/0xaabb11223344"));
-            Assert.IsFalse(SlpServiceAgent_Accessor.CheckUrlMatch("service:e133.esta://2.7.9.8:5568/0xaabb11223344", "e133.esta", string.Empty, "2.4.9.8:5568/0xaabb11223344"));
-            Assert.IsTrue(SlpServiceAgent_Accessor.CheckUrlMatch("nfs://max.net/znoo", "filestore", "nfs", "max.net/znoo"));
-            Assert.IsFalse(SlpServiceAgent_Accessor.CheckUrlMatch("nfs://max.org/znoo", "filestore", "nfs", "max.net/znoo"));
+            Assert.IsFalse(SlpServiceAgent.CheckUrlMatch("", "", "", ""));
+            Assert.IsTrue(SlpServiceAgent.CheckUrlMatch("service:printer:lpr://igore.wco.ftp.com:515/draft", "printer", "lpr", "igore.wco.ftp.com:515/draft"));
+            Assert.IsFalse(SlpServiceAgent.CheckUrlMatch("service:printer:lpr://igore.wco.ftp.com:515/draft", "printer", "lpr", "10.0.0.1:515/draft"));
+            Assert.IsFalse(SlpServiceAgent.CheckUrlMatch("service:printer:lpr://igore.wco.ftp.com:515/draft", "e133.esta", "lpr", "igore.wco.ftp.com:515/draft"));
+            Assert.IsTrue(SlpServiceAgent.CheckUrlMatch("service:e133.esta", "e133.esta", string.Empty, "2.4.9.8:5568/0xaabb11223344"));
+            Assert.IsTrue(SlpServiceAgent.CheckUrlMatch("service:e133.esta://2.4.9.8:5568/0xaabb11223344", "e133.esta", string.Empty, "2.4.9.8:5568/0xaabb11223344"));
+            Assert.IsFalse(SlpServiceAgent.CheckUrlMatch("service:e133.esta://2.7.9.8:5568/0xaabb11223344", "e133.esta", string.Empty, "2.4.9.8:5568/0xaabb11223344"));
+            Assert.IsTrue(SlpServiceAgent.CheckUrlMatch("nfs://max.net/znoo", "filestore", "nfs", "max.net/znoo"));
+            Assert.IsFalse(SlpServiceAgent.CheckUrlMatch("nfs://max.org/znoo", "filestore", "nfs", "max.net/znoo"));
     
         }
 
@@ -173,8 +173,8 @@ namespace Acn.Test
         [DeploymentItem("Acn.dll")]
         public void IsReplyRequiredTest()
         {
-            SlpServiceAgent_Accessor target = new SlpServiceAgent_Accessor() { ServiceUrl = "service:e133.esta://2.4.3.127/0xaabb11223344" };
-            ServiceRequestPacket request = new ServiceRequestPacket() { ServiceType = "service:e133.esta", ScopeList = target.Scope }; 
+            SlpServiceAgent target = new SlpServiceAgent() { ServiceUrl = "service:e133.esta://2.4.3.127/0xaabb11223344" };
+            ServiceRequestPacket request = new ServiceRequestPacket() { ServiceType = "service:e133.esta", Scope = target.Scope }; 
             Assert.IsTrue(target.IsReplyRequired(request));
             request.ServiceType = "service:directory-agent";
             Assert.IsFalse(target.IsReplyRequired(request));
