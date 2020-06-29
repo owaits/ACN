@@ -78,6 +78,9 @@ namespace Acn.ArtNet.Packets
 
         public override void WriteData(ArtNetBinaryWriter data)
         {
+            if (DmxData == null)
+                throw new ArgumentNullException("DmxData", "Please set the DMX data before attempting to write the packet to a data buffer..");
+
             base.WriteData(data);
             
             data.Write(Sequence);
