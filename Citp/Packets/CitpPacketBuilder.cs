@@ -280,6 +280,9 @@ namespace Citp.Packets
                 case CaExContentCodes.LeaveShow:
                     packet = new CaExLeaveShow();
                     break;
+                case CaExContentCodes.SetFixtureTransformationSpace:
+                    packet = new CaExSetFixtureTransformationSpace();
+                    break;
                 case CaExContentCodes.FixtureConsoleStatus:
                     packet = new CaExFixtureConsoleStatus();
                     break;

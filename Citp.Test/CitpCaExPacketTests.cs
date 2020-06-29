@@ -235,6 +235,18 @@ namespace Citp.Test
         }
 
         /// <summary>
+        /// Tests the leave show message.
+        /// </summary>
+        [TestMethod, TestCategory("CitpCaEx")]
+        public void CitpCaExSetFixtureTransformationSpace()
+        {
+            CaExSetFixtureTransformationSpace sentPacket = new CaExSetFixtureTransformationSpace() {  TransformationSpace = TransformSpaces.PanHome };
+            CaExSetFixtureTransformationSpace received = CitpPacketTester.SendAndReceiveCaExPacket(sentPacket) as CaExSetFixtureTransformationSpace;
+            Assert.IsNotNull(received, "No message received");
+            Assert.AreEqual(TransformSpaces.PanHome, received.TransformationSpace);
+        }
+
+        /// <summary>
         /// Tests the fixture list request message.
         /// </summary>
         [TestMethod, TestCategory("CitpCaEx")]

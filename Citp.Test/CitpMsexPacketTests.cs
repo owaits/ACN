@@ -728,6 +728,24 @@ namespace Citp.Test
             }
         }
 
+        private void AssertCitpMsexElementThumbnail(CitpMsexElementThumbnail sent, CitpMsexElementThumbnail received, Version version)
+        {
+            Assert.AreEqual(sent.LibraryType, received.LibraryType, "LibraryType is note equal.");
+            Assert.AreEqual(sent.ThumbnailFormat, received.ThumbnailFormat, "Thumbnail formats are note equal.");
+            Assert.AreEqual(sent.ThumbnailWidth, received.ThumbnailWidth, "Thumbnail width is note equal.");
+            Assert.AreEqual(sent.ThumbnailHeight, received.ThumbnailHeight, "Thumbnail height is note equal.");
+            Assert.IsTrue(sent.ThumbnailBuffer.SequenceEqual(received.ThumbnailBuffer), "Thumbnail buffer is note equal.");
+
+            if (sent.MsexVersion < CitpMsexVersions.Msex11Version)
+            {
+                Assert.AreEqual(sent.LibraryNumber, received.LibraryNumber, "Library numbers are not equal.");
+            }
+            else
+            {
+                Assert.IsTrue(sent.LibraryId == received.LibraryId, "Library IDs are not equal");
+            }
+        }
+
         /// <summary>
         /// Tests the element thumbnail message.
         /// </summary>
@@ -745,12 +763,12 @@ namespace Citp.Test
 
             Version msexVersion = CitpMsexVersions.Msex10Version;
             CitpMsexElementThumbnail receivedPacket = CitpPacketTester.SendAndReceiveMsexVersionedPacket(sentPacket, msexVersion) as CitpMsexElementThumbnail;
-            AssertCitpMsexElementLibraryThumbnail(sentPacket, receivedPacket, msexVersion);
+            AssertCitpMsexElementThumbnail(sentPacket, receivedPacket, msexVersion);
             Assert.AreEqual(sentPacket.ElementNumber, receivedPacket.ElementNumber, "Element number is not equal in version 1.0.");
 
             msexVersion = CitpMsexVersions.Msex11Version;
             receivedPacket = CitpPacketTester.SendAndReceiveMsexVersionedPacket(sentPacket, msexVersion) as CitpMsexElementThumbnail;
-            AssertCitpMsexElementLibraryThumbnail(sentPacket, receivedPacket, msexVersion);
+            AssertCitpMsexElementThumbnail(sentPacket, receivedPacket, msexVersion);
             Assert.AreEqual(sentPacket.ElementNumber, receivedPacket.ElementNumber, "Element number is not equal in version 1.1.");
         }
 
