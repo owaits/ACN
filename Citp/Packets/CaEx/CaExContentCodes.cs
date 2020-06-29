@@ -19,6 +19,10 @@ namespace Citp.Packets.CaEx
         ClearRecorder = 0x10400,
         EnterShow = 0x20100,
         LeaveShow = 0x20101,
+        /// <summary>
+        /// This message is sent unsolicited by the peer to Capture in order to choose which transformation space to use for fixtures. (0x20150)
+        /// </summary>
+        SetFixtureTransformationSpace = 0x20150,
         FixtureListRequest = 0x20200,
         FixtureList = 0x20201,
         FixtureModify = 0x20202,
