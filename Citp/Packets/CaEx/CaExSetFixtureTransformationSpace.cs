@@ -16,11 +16,11 @@ namespace Citp.Packets.CaEx
         /// <summary>
         /// Fixtures are hung with a direction along (0, -1, 0). Conventional fixtures have their up along (0, 0, -1) and moving heads have their display in (0, 0, 1).
         /// </summary>
-        Native = 1,
+        Native = 0,
         /// <summary>
         /// As Native, but moving heads have their neutral pan "home" along (0, 0, -1).
         /// </summary>
-        PanHome = 2    
+        PanHome = 1    
     }
 
     /// <summary>
