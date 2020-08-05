@@ -58,16 +58,27 @@ namespace Acn.Slp.Sockets
 
         #region Traffic
 
-        public void Open(IPAddress ipAddress)
+        /// <summary>
+        /// Opens the this socket and starts recieving data, if multicast then the multicast group is joined.
+        /// </summary>
+        /// <param name="localEndPoint">The local end point to bind to, this specifies the network adapter to use.</param>
+        /// <param name="multicast">When true the socket will be setup to recieve and send multicast data.</param>
+        public void Open(IPAddress ipAddress, bool multicast)
         {
-            Open(new IPEndPoint(ipAddress, Port));
+            Open(new IPEndPoint(ipAddress, Port), multicast);
         }
 
-        public void Open(IPEndPoint localEndPoint)
+        /// <summary>
+        /// Opens the this socket and starts recieving data, if multicast then the multicast group is joined.
+        /// </summary>
+        /// <param name="localEndPoint">The local end point to bind to, this specifies the etwork adapter and port to use.</param>
+        /// <param name="multicast">When true the socket will be setup to recieve and send multicast data.</param>
+        public void Open(IPEndPoint localEndPoint, bool multicast)
         {
             SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             Bind(localEndPoint);
-            JoinMulticastGroup();
+            if(multicast)
+                JoinMulticastGroup();
             PortOpen = true;
 
             StartRecieve();
@@ -89,7 +100,7 @@ namespace Acn.Slp.Sockets
         {
             try
             {
-                EndPoint remotePort = new IPEndPoint(IPAddress.Any, Port);
+                EndPoint remotePort = new IPEndPoint(IPAddress.Any, 0);
                 MemoryStream recieveState = new MemoryStream(SlpPacket.MaxSize);
                 recieveState.SetLength(SlpPacket.MaxSize);
                 BeginReceiveFrom(recieveState.GetBuffer(), 0, (int)recieveState.Length, SocketFlags.None, ref remotePort, new AsyncCallback(OnRecieve), recieveState);

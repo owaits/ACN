@@ -36,6 +36,7 @@ namespace Acn.Slp
     public abstract class SlpAgent : IDisposable
     {
         protected SlpSocket socket = null;
+        protected SlpSocket multicastListenSocket = null;
 
         #region Setup and Initialisation
 
@@ -95,15 +96,23 @@ namespace Acn.Slp
 
         public virtual void Open()
         {
+            //Open the socket on any available port, this will be used for all unicast communication. 
+            //Using an assigned port rather than 427 ensures we are discoverable on a system running multiple SLP clients.
             if (socket == null)
             {
                 socket = new SlpSocket();
                 socket.NewPacket += new EventHandler<NewPacketEventArgs>(socket_NewPacket);
 
-                if(this is SlpUserAgent)
-                    socket.Open(new IPEndPoint(NetworkAdapter,0));
-                else
-                    socket.Open(NetworkAdapter);
+                socket.Open(new IPEndPoint(NetworkAdapter,0),false);
+            }
+
+            //Open a socket to listen to multicast traffic on port 427, this socket is only used to listen for multicast traffic.
+            //As unicast traffic is not able to share port 427 we only use this socket to recieve multicast.
+            if(multicastListenSocket == null)
+            {
+                multicastListenSocket = new SlpSocket();
+                multicastListenSocket.NewPacket += new EventHandler<NewPacketEventArgs>(socket_NewPacket);
+                multicastListenSocket.Open(NetworkAdapter, true);
             }
         }
 
@@ -113,6 +122,12 @@ namespace Acn.Slp
             {
                 socket.Close();
                 socket = null;
+            }
+
+            if (multicastListenSocket != null)
+            {
+                multicastListenSocket.Close();
+                multicastListenSocket = null;
             }
         }
 
