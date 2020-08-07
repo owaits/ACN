@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.FSel
 {
     public class FSelDeselect:FSelHeader
     {
-        public const string PacketType = "DeSe";
+        public new const string PacketType = "DeSe";
 
         #region Setup and Initialisation
 

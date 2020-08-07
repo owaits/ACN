@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LXProtocols.Acn"  />
+    <PackageReference Include="LXProtocols.Acn"  Version="3.0" />
   </ItemGroup>
 
   <ItemGroup>

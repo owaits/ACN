@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.PInf
 {
     public class CitpPInfPeerLocation : CitpPInfHeader
     {
-        public const string PacketType = "PLoc";
+        public new const string PacketType = "PLoc";
 
         #region Constructors
 

@@ -14,7 +14,7 @@ namespace LXProtocols.Citp.Packets.Msex
     }
     public class CitpMsexGetElementThumbnail : CitpMsexGetElementThumbnailBase
     {
-        public const string PacketType = "GETh";
+        public new const string PacketType = "GETh";
 
         #region Constructors
 

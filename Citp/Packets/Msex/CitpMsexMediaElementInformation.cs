@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexMediaElementInformation:CitpMsexHeader
     {
-        public const string PacketType = "MEIn";
+        public new const string PacketType = "MEIn";
 
         #region Constructors
 

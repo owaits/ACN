@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.PInf
 {
     public class CitpPInfPeerName:CitpPInfHeader
     {
-        public const string PacketType = "PNam";
+        public new const string PacketType = "PNam";
 
         #region Constructors
 

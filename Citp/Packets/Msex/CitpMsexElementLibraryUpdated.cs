@@ -10,7 +10,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexElementLibraryUpdated:CitpMsexHeader
     {
-        public const string PacketType = "ELUp";
+        public new const string PacketType = "ELUp";
 
         #region Constructors
 

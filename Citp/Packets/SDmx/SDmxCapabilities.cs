@@ -19,7 +19,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 
     public class SDmxCapabilities : SDmxHeader
     {
-        public const string PacketType = "Capa";
+        public new const string PacketType = "Capa";
 
                 #region Setup and Initialisation
 

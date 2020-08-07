@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.FInf
 {
     public class FInfSendFrames : FInfHeader
     {
-        public const string PacketType = "SFra";
+        public new const string PacketType = "SFra";
 
         #region Setup and Initialisation
 

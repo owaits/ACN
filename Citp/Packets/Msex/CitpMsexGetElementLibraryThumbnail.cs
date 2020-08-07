@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexGetElementLibraryThumbnail : CitpMsexGetElementThumbnailBase
     {
-        public const string PacketType = "GELT";
+        public new const string PacketType = "GELT";
 
         #region Constructors
 

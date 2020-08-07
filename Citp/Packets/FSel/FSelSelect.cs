@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.FSel
 {
     public class FSelSelect:FSelHeader
     {
-        public const string PacketType = "Sele";
+        public new const string PacketType = "Sele";
 
         #region Setup and Initialisation
 

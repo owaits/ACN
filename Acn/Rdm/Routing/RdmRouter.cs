@@ -245,8 +245,19 @@ namespace LXProtocols.Acn.Rdm.Routing
 
         public event EventHandler Starting;
 
+        protected void RaiseStarting()
+        {
+            if (Starting != null)
+                Starting(this, EventArgs.Empty);
+        }
+
         public event EventHandler Stoping;
 
+        protected void RaiseStoping()
+        {
+            if (Stoping != null)
+                Stoping(this, EventArgs.Empty);
+        }
 
         /// <summary>
         /// Gets the universe index for a specific endpoint address.

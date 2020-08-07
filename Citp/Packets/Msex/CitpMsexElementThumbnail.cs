@@ -11,7 +11,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexElementThumbnail : CitpMsexHeader
     {
-        public const string PacketType = "EThn";
+        public new const string PacketType = "EThn";
 
         #region Constructors
 

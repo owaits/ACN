@@ -103,6 +103,7 @@ namespace LXProtocols.Acn.Slp
         /// Results will be returned via the AttributeReply event
         /// This version targets a specific IP which can cut down the noise on replies.
         /// </summary>
+        /// <param name="target">The IP Address and port of the target device to send this request to.</param>
         /// <param name="url">The URL.</param>
         /// <returns>
         /// An id for this request which can be used to match it to the reply

@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.OMEx
 {
     public class OMExSignalDMXDeviceStatus:OMExHeader
     {
-        public const string PacketType = "SDDS";
+        public new const string PacketType = "SDDS";
 
         #region Setup and Initialisation
 

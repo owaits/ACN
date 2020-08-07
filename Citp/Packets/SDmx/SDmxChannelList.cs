@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 {
     public class SDmxChannelList:SDmxHeader
     {
-        public const string PacketType = "ChLs";
+        public new const string PacketType = "ChLs";
 
         #region Setup and Initialisation
 

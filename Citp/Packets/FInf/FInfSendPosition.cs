@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.FInf
 {
     public class FInfSendPosition : FInfHeader
     {
-        public const string PacketType = "SPos";
+        public new const string PacketType = "SPos";
 
         #region Setup and Initialisation
 

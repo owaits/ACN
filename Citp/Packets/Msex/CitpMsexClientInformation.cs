@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexClientInformation:CitpMsexHeader
     {
-        public const string PacketType = "CInf";
+        public new const string PacketType = "CInf";
 
         #region Constructors
 

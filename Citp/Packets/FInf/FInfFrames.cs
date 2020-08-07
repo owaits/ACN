@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.FInf
 {
     public class FInfFrames:FInfHeader
     {
-        public const string PacketType = "Fram";
+        public new const string PacketType = "Fram";
 
         #region Setup and Initialisation
 

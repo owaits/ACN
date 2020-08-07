@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.FPtc
 {
     public class FPtcSendPatch : FPtcHeader
     {
-        public const string PacketType = "SPtc";
+        public new const string PacketType = "SPtc";
 
         #region Setup and Initialisation
 

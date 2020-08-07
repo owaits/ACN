@@ -10,7 +10,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexElementLibraryInformation:CitpMsexHeader
     {
-        public const string PacketType = "ELIn";
+        public new const string PacketType = "ELIn";
 
         #region Constructors
 

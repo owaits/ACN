@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexStreamFrame:CitpMsexHeader
     {
-        public const string PacketType = "StFr";
+        public new const string PacketType = "StFr";
 
         #region Constructors
 

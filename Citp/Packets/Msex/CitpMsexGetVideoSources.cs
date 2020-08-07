@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexGetVideoSources:CitpMsexHeader
     {
-        public const string PacketType = "GVSr";
+        public new const string PacketType = "GVSr";
 
         #region Constructors
 

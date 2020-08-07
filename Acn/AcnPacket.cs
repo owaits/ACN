@@ -103,6 +103,7 @@ namespace LXProtocols.Acn
         /// <remarks>
         /// This will create the correct packet class from the registerd packet formats in the packet factory.
         /// </remarks>
+        /// <param name="header">The header information for the packet to be read.</param>
         /// <param name="data">The recieved packet data.</param>
         /// <returns>The packet information, cast to the desired packet type.</returns>
         public static AcnPacket ReadPacket(AcnRootLayer header, AcnBinaryReader data)

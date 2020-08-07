@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 {
     public class SDmxSetExternalUniverseSource:SDmxHeader
     {
-        public const string PacketType = "SXUS";
+        public new const string PacketType = "SXUS";
 
         #region Setup and Initialisation
 

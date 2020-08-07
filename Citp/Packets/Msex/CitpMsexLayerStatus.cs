@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexLayerStatus:CitpMsexHeader
     {
-        public const string PacketType = "LSta";
+        public new const string PacketType = "LSta";
 
         #region Constructors
 

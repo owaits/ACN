@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexGetElementInformation:CitpMsexHeader
     {
-        public const string PacketType = "GEIn";
+        public new const string PacketType = "GEIn";
 
         #region Constructors
 

@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexGetElementLibraryInformation:CitpMsexHeader
     {
-        public const string PacketType = "GELI";
+        public new const string PacketType = "GELI";
 
         #region Constructors
 

@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 {
     public class SDmxChannelBlock:SDmxHeader
     {
-        public const string PacketType = "ChBk";
+        public new const string PacketType = "ChBk";
 
         #region Setup and Initialisation
 

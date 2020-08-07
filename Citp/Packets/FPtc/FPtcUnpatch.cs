@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.FPtc
 {
     public class FPtcUnpatch : FPtcHeader
     {
-        public const string PacketType = "UPtc";
+        public new const string PacketType = "UPtc";
 
         #region Setup and Initialisation
 

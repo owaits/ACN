@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 {
     public class SDmxUniverseName:SDmxHeader
     {
-        public const string PacketType = "UNam";
+        public new const string PacketType = "UNam";
 
         #region Setup and Initialisation
 

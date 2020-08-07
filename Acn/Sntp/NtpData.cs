@@ -367,7 +367,7 @@ namespace LXProtocols.Acn.Sntp
                                                  NTPData[offReferenceID + 3].ToString();
                                 try
                                 {
-                                    IPHostEntry Host = Dns.GetHostByAddress(Address);
+                                    IPHostEntry Host = Dns.GetHostEntry(Address);
                                     val = Host.HostName + " (" + Address + ")";
                                 }
                                 catch (Exception)
@@ -378,7 +378,7 @@ namespace LXProtocols.Acn.Sntp
                             case 4: // Version 4, Reference ID is the timestamp of last update
                                 DateTime time = ComputeDate(GetMilliSeconds(offReferenceID));
                                 // Take care of the time zone
-                                TimeSpan offspan = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
+                                TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
                                 val = (time + offspan).ToString();
                                 break;
                             default:
@@ -418,7 +418,7 @@ namespace LXProtocols.Acn.Sntp
             {
                 DateTime time = ComputeDate(GetMilliSeconds(offReferenceTimestamp));
                 // Take care of the time zone
-                TimeSpan offspan = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
+                TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
                 return time + offspan;
             }
         }
@@ -447,7 +447,7 @@ namespace LXProtocols.Acn.Sntp
             {
                 DateTime time = ComputeDate(GetMilliSeconds(offReceiveTimestamp));
                 // Take care of the time zone
-                TimeSpan offspan = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
+                TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
                 return time + offspan;
             }
             set
@@ -468,7 +468,7 @@ namespace LXProtocols.Acn.Sntp
             {
                 DateTime time = ComputeDate(GetMilliSeconds(offTransmitTimestamp));
                 // Take care of the time zone
-                TimeSpan offspan = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
+                TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
                 return time + offspan;
             }
             set

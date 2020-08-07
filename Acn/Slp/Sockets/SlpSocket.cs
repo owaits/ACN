@@ -61,7 +61,7 @@ namespace LXProtocols.Acn.Slp.Sockets
         /// <summary>
         /// Opens the this socket and starts recieving data, if multicast then the multicast group is joined.
         /// </summary>
-        /// <param name="localEndPoint">The local end point to bind to, this specifies the network adapter to use.</param>
+        /// <param name="ipAddress">The local end point to bind to, this specifies the network adapter to use.</param>
         /// <param name="multicast">When true the socket will be setup to recieve and send multicast data.</param>
         public void Open(IPAddress ipAddress, bool multicast)
         {

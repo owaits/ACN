@@ -20,7 +20,7 @@ namespace LXProtocols.Citp.Packets.FInf
 
     public class FInfPosition : FInfHeader
     {
-        public const string PacketType = "Posi";
+        public new const string PacketType = "Posi";
 
         #region Setup and Initialisation
 

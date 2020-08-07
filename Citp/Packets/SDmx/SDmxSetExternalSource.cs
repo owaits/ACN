@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 {
     public class SDmxSetExternalSource:SDmxHeader
     {
-        public const string PacketType = "SXSr";
+        public new const string PacketType = "SXSr";
 
         #region Setup and Initialisation
 

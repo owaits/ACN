@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexNack:CitpMsexHeader
     {
-        public const string PacketType = "Nack";
+        public new const string PacketType = "Nack";
 
         #region Constructors
 

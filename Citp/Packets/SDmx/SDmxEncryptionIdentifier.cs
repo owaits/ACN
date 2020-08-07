@@ -9,7 +9,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 {
     public class SDmxEncryptionIdentifier:SDmxHeader
     {
-        public const string PacketType = "EnId";
+        public new const string PacketType = "EnId";
 
         #region Setup and Initialisation
 

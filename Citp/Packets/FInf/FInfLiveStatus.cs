@@ -43,7 +43,7 @@ namespace LXProtocols.Citp.Packets.FInf
 
     public class FInfLiveStatus : FInfHeader
     {
-        public const string PacketType = "LSta";
+        public new const string PacketType = "LSta";
 
         #region Setup and Initialisation
 

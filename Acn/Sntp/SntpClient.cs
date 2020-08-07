@@ -151,7 +151,7 @@ namespace LXProtocols.Acn.Sntp
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NTPClient"/> class.
+        /// Initializes a new instance of the <see cref="SntpClient"/> class.
         /// </summary>
         /// <param name="host">The host.</param>
         public SntpClient(string host)
