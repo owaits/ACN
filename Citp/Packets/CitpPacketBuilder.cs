@@ -12,7 +12,7 @@ using LXProtocols.Citp.Packets.FPtc;
 using LXProtocols.Citp.Packets.FSel;
 using System.Runtime.CompilerServices;
 using LXProtocols.Citp.Packets.FInf;
-[assembly: InternalsVisibleTo("Citp.Test")]
+[assembly: InternalsVisibleTo("LXProtocols.Citp.Test")]
 
 namespace LXProtocols.Citp.Packets
 {
