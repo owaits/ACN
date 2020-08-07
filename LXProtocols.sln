@@ -62,6 +62,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LXProtocols.TCNet", "LXProt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{226A8059-4791-46C3-B762-608A99A0B291}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LXProtocols.ArtNet", "LXProtocols.ArtNet\LXProtocols.ArtNet.csproj", "{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LXProtocols.ArtNet.Test", "Tests\LXProtocols.ArtNet.Test\LXProtocols.ArtNet.Test.csproj", "{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AndroidRelease|Any CPU = AndroidRelease|Any CPU
@@ -297,6 +301,42 @@ Global
 		{F06ABD30-9481-4D85-B080-108640C2AA33}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F06ABD30-9481-4D85-B080-108640C2AA33}.Release|x86.ActiveCfg = Release|Any CPU
 		{F06ABD30-9481-4D85-B080-108640C2AA33}.Release|x86.Build.0 = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.AndroidRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.AndroidRelease|Any CPU.Build.0 = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.AndroidRelease|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.AndroidRelease|Mixed Platforms.Build.0 = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.AndroidRelease|x86.ActiveCfg = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.AndroidRelease|x86.Build.0 = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}.Release|x86.Build.0 = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.AndroidRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.AndroidRelease|Any CPU.Build.0 = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.AndroidRelease|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.AndroidRelease|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.AndroidRelease|x86.ActiveCfg = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.AndroidRelease|x86.Build.0 = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -314,6 +354,7 @@ Global
 		{29091ED8-BAB1-43CD-8532-D0BE3B26DB55} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
 		{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98} = {226A8059-4791-46C3-B762-608A99A0B291}
 		{5A5C7B02-55EB-4B09-8434-19BED38386C1} = {8F840668-B7F4-4822-9DFF-9E3C2B53BADC}
+		{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD} = {226A8059-4791-46C3-B762-608A99A0B291}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BD20257-C52C-4087-B13F-AE61789B7FE1}

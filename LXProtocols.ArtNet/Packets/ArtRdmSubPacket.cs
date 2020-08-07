@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Acn.Rdm;
-using Acn.ArtNet.IO;
+using LXProtocols.ArtNet.IO;
 
-namespace Acn.ArtNet.Packets
+namespace LXProtocols.ArtNet.Packets
 {
     public class ArtRdmSubPacket : ArtNetPacket
     {

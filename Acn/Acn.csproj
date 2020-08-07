@@ -126,24 +126,6 @@
     <Compile Include="AcnPdu.cs" />
     <Compile Include="AcnRootLayer.cs" />
     <Compile Include="AcnPacket.cs" />
-    <Compile Include="ArtNet\ArtNetOpCodes.cs" />
-    <Compile Include="ArtNet\IO\ArtNetBinaryReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ArtNet\IO\ArtNetBinaryWriter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ArtNet\IO\ArtNetRecieveData.cs" />
-    <Compile Include="ArtNet\Packets\ArtNetDmxPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtNetPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtPollPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtPollReplyPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtRdmPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtRdmSubPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtTodControlPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtTodDataPacket.cs" />
-    <Compile Include="ArtNet\Packets\ArtTodRequestPacket.cs" />
-    <Compile Include="ArtNet\Sockets\ArtNetSocket.cs" />
     <Compile Include="Helpers\DmxStreamer.cs" />
     <Compile Include="Helpers\DmxUniverse.cs" />
     <Compile Include="Helpers\Extensions.cs" />

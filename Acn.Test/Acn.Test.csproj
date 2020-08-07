@@ -45,7 +45,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArtNet\ArtNetDmxTests.cs" />
     <Compile Include="NtpDataTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlpServiceAgentTest.cs" />

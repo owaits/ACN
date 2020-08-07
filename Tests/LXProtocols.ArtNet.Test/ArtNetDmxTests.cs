@@ -1,5 +1,5 @@
-﻿using Acn.ArtNet.IO;
-using Acn.ArtNet.Packets;
+﻿using LXProtocols.ArtNet.IO;
+using LXProtocols.ArtNet.Packets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

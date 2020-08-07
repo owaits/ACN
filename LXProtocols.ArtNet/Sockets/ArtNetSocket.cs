@@ -7,10 +7,10 @@ using Acn.Rdm;
 using System.IO;
 using Acn.Packets.sAcn;
 using Acn.Sockets;
-using Acn.ArtNet.Packets;
-using Acn.ArtNet.IO;
+using LXProtocols.ArtNet.Packets;
+using LXProtocols.ArtNet.IO;
 
-namespace Acn.ArtNet.Sockets
+namespace LXProtocols.ArtNet.Sockets
 {
     public class ArtNetSocket : Socket, IRdmSocket
     {
@@ -86,9 +86,6 @@ namespace Acn.ArtNet.Sockets
         public bool BlockRDM { get; set; }
 
         #endregion
-        
-	
-	
 
         public void Open(IPAddress localIp, IPAddress localSubnetMask)
         {

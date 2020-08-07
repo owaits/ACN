@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Acn.ArtNet.IO
+namespace LXProtocols.ArtNet.IO
 {
     public class ArtNetRecieveData
     {

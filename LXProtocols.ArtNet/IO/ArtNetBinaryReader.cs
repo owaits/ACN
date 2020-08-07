@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 
-namespace Acn.ArtNet.IO
+namespace LXProtocols.ArtNet.IO
 {
     public class ArtNetBinaryReader:BinaryReader
     {

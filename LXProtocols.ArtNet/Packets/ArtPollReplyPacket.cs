@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
-using Acn.ArtNet.IO;
-using Acn.ArtNet.Sockets;
+using LXProtocols.ArtNet.IO;
+using LXProtocols.ArtNet.Sockets;
 
-namespace Acn.ArtNet.Packets
+namespace LXProtocols.ArtNet.Packets
 {
     [Flags]
     public enum PollReplyStatus

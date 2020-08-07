@@ -1,28 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}</ProjectGuid>
+    <ProjectGuid>{EA40BFE9-9952-4FC4-A411-EBEE3B6D5BBD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LXProtocols.Citp.Test</RootNamespace>
-    <AssemblyName>LXProtocols.Citp.Test</AssemblyName>
+    <RootNamespace>LXProtocols.ArtNet.Test</RootNamespace>
+    <AssemblyName>LXProtocols.ArtNet.Test</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,24 +39,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CitpCaExPacketTests.cs" />
-    <Compile Include="CitpFixtureInfoTests.cs" />
-    <Compile Include="CitpMsexPacketTests.cs" />
-    <Compile Include="CitpPacketTester.cs" />
-    <Compile Include="CitpPinfPacketTests.cs" />
+    <Compile Include="ArtNetDmxTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Acn\Acn.csproj">
-      <Project>{9f69b278-176f-4e9c-a9ea-8cb7bcc611a4}</Project>
-      <Name>Acn</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Citp\LXProtocols.Citp.csproj">
-      <Project>{945047a9-0f25-4388-a46a-0d53f9440f80}</Project>
-      <Name>LXProtocols.Citp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
@@ -69,6 +52,12 @@
     <PackageReference Include="MSTest.TestFramework">
       <Version>2.1.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LXProtocols.ArtNet\LXProtocols.ArtNet.csproj">
+      <Project>{58fe4a04-5a54-4564-b6c4-add38c3c31ca}</Project>
+      <Name>LXProtocols.ArtNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
