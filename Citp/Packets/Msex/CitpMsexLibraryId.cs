@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Citp.Packets.Msex
+namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexLibraryId
     {

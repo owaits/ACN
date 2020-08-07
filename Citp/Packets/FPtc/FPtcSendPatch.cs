@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Citp.IO;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Packets.FPtc
+namespace LXProtocols.Citp.Packets.FPtc
 {
     public class FPtcSendPatch : FPtcHeader
     {

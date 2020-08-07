@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Citp.IO;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Packets.PInf
+namespace LXProtocols.Citp.Packets.PInf
 {
     public class CitpPInfHeader : CitpHeader
     {

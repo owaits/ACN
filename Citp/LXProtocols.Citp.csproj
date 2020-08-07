@@ -6,9 +6,16 @@
     <ProjectGuid>{945047A9-0F25-4388-A46A-0D53F9440F80}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Citp</RootNamespace>
-    <AssemblyName>Citp</AssemblyName>
+    <RootNamespace>LXProtocols.Citp</RootNamespace>
+    <AssemblyName>LXProtocols.Citp</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>Copyright © Oliver Waits 2020</Copyright>
+    <PackageProjectUrl>https://github.com/owaits/ACN</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>CITP, Lighting</PackageTags>
+    <Description>Provides an implementation of the CITP network protocol used to allow coimmunication between light consoles, visualisers and media servers.</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

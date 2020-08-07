@@ -1,4 +1,4 @@
-﻿using Citp.Packets.CaEx;
+﻿using LXProtocols.Citp.Packets.CaEx;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp.Test
+namespace LXProtocols.Citp.Test
 {
     /// <summary>
     /// Tests for the capture extension packets.

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Citp.IO;
-using Citp;
+using LXProtocols.Citp.IO;
+using LXProtocols.Citp;
 
-namespace Citp.Packets.CaEx
+namespace LXProtocols.Citp.Packets.CaEx
 {
     public struct RecordCueOption
     {

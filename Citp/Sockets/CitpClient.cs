@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Sockets;
-using Citp.Packets;
+using LXProtocols.Citp.Packets;
 using System.IO;
-using Citp.Packets.Msex;
-using Citp.Sockets;
+using LXProtocols.Citp.Packets.Msex;
+using LXProtocols.Citp.Sockets;
 using System.Net;
-using Citp.IO;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Sockets
+namespace LXProtocols.Citp.Sockets
 {
     public class CitpClient:IDisposable
     {

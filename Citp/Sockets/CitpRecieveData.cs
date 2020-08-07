@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Citp.Packets;
-using Citp.IO;
+using LXProtocols.Citp.Packets;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Sockets
+namespace LXProtocols.Citp.Sockets
 {
     public class CitpRecieveData:MemoryStream
     {

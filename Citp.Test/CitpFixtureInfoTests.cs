@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Citp.Packets.FInf;
+using LXProtocols.Citp.Packets.FInf;
 
-namespace Citp.Test
+namespace LXProtocols.Citp.Test
 {
     /// <summary>
     /// Tests for CITP Fixture Info messages. Data is written out to memory then read back in again.

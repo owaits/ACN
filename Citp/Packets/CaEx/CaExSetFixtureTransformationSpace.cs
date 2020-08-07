@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Citp;
-using Citp.IO;
+using LXProtocols.Citp;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Packets.CaEx
+namespace LXProtocols.Citp.Packets.CaEx
 {
     /// <summary>
     /// The different types or position/orientation space to use with reference to fixture position and orientation

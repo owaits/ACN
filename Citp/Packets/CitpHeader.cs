@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
-using Citp.IO;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Packets
+namespace LXProtocols.Citp.Packets
 {
     /// <summary>
     /// The standard CITP header packet from which packets wanting to use a CITP header should derive.

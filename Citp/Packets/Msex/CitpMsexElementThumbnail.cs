@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Citp.Packets;
-using Citp.IO;
-using Citp.Packets.Msex;
+using LXProtocols.Citp.Packets;
+using LXProtocols.Citp.IO;
+using LXProtocols.Citp.Packets.Msex;
 
-namespace Citp.Packets.Msex
+namespace LXProtocols.Citp.Packets.Msex
 {
     public class CitpMsexElementThumbnail : CitpMsexHeader
     {

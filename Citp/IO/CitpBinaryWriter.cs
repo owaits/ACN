@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Citp.Packets.Msex;
+using LXProtocols.Citp.Packets.Msex;
 using System.Net;
 
-namespace Citp.IO
+namespace LXProtocols.Citp.IO
 {
     public class CitpBinaryWriter:BinaryWriter
     {

@@ -1,11 +1,11 @@
-﻿using Citp.IO;
+﻿using LXProtocols.Citp.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp.Packets.SDmx
+namespace LXProtocols.Citp.Packets.SDmx
 {
     public enum DmxCapabilities
     {

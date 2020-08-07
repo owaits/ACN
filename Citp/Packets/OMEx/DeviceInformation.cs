@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp.Packets.OMEx
+namespace LXProtocols.Citp.Packets.OMEx
 {
     public struct DeviceInformation
     {

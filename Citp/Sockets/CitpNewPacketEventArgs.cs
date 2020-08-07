@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Citp.Packets;
+using LXProtocols.Citp.Packets;
 
-namespace Citp.Sockets
+namespace LXProtocols.Citp.Sockets
 {
     public class CitpNewPacketEventArgs:EventArgs
     {

@@ -1,8 +1,8 @@
-﻿using Citp.IO;
-using Citp.Packets;
-using Citp.Packets.CaEx;
-using Citp.Packets.PInf;
-using Citp.Sockets;
+﻿using LXProtocols.Citp.IO;
+using LXProtocols.Citp.Packets;
+using LXProtocols.Citp.Packets.CaEx;
+using LXProtocols.Citp.Packets.PInf;
+using LXProtocols.Citp.Sockets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp.Test
+namespace LXProtocols.Citp.Test
 {
     /// <summary>
     /// Test helpers to send and receive packets by writing the packets to a memory stream and reading them back.

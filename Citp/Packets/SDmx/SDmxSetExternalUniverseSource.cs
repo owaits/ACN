@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Citp.IO;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Packets.SDmx
+namespace LXProtocols.Citp.Packets.SDmx
 {
     public class SDmxSetExternalUniverseSource:SDmxHeader
     {

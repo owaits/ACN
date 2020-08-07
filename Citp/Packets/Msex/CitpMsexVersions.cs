@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp.Packets.Msex
+namespace LXProtocols.Citp.Packets.Msex
 {
     /// <summary>
     /// Definitions for standard CITP MSEX versions and extension methods for converting between <see cref="Version"/> and <see cref="ushort"/> representations.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp.Packets.CaEx
+namespace LXProtocols.Citp.Packets.CaEx
 {
     public enum CaExContentCodes:uint
     {

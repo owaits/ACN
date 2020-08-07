@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Citp.Packets.Msex;
-using Citp.Packets;
+using LXProtocols.Citp.Packets.Msex;
+using LXProtocols.Citp.Packets;
 using System.IO;
-using Citp.IO;
-using Citp.Sockets;
-using Citp.Packets.PInf;
+using LXProtocols.Citp.IO;
+using LXProtocols.Citp.Sockets;
+using LXProtocols.Citp.Packets.PInf;
 
-namespace Citp.Test
+namespace LXProtocols.Citp.Test
 {
     /// <summary>
     /// Tests for the Peer Information packets

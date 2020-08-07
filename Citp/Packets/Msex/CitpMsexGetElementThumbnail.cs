@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Citp.IO;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Packets.Msex
+namespace LXProtocols.Citp.Packets.Msex
 {
     public enum ThumbnailOptions
     {

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
-using Citp.Packets;
+using LXProtocols.Citp.Packets;
 using System.IO;
-using Citp.Sockets;
-using Citp.IO;
+using LXProtocols.Citp.Sockets;
+using LXProtocols.Citp.IO;
 
-namespace Citp.Sockets
+namespace LXProtocols.Citp.Sockets
 {
     public class CitpMulticastSocket:Socket, IDisposable
     {

@@ -1,4 +1,4 @@
-﻿using Citp.Packets;
+﻿using LXProtocols.Citp.Packets;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp
+namespace LXProtocols.Citp
 {
     public static class CitpTrace
     {

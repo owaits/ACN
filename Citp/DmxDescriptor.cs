@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Citp
+namespace LXProtocols.Citp
 {
     /// <summary>
     /// Contains information about the patching of a CITP Device

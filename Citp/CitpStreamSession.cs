@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Citp
+namespace LXProtocols.Citp
 {
     public delegate void StreamFrameHandler(CitpStreamSession session);
 

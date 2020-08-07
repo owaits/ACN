@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Citp.Packets.Msex;
-using Citp.Packets.CaEx;
-using Citp.Sockets;
-using Citp.Packets.PInf;
-using Citp.Packets.SDmx;
-using Citp.Packets.FPtc;
-using Citp.Packets.FSel;
+using LXProtocols.Citp.Packets.Msex;
+using LXProtocols.Citp.Packets.CaEx;
+using LXProtocols.Citp.Sockets;
+using LXProtocols.Citp.Packets.PInf;
+using LXProtocols.Citp.Packets.SDmx;
+using LXProtocols.Citp.Packets.FPtc;
+using LXProtocols.Citp.Packets.FSel;
 using System.Runtime.CompilerServices;
-using Citp.Packets.FInf;
+using LXProtocols.Citp.Packets.FInf;
 [assembly: InternalsVisibleTo("Citp.Test")]
 
-namespace Citp.Packets
+namespace LXProtocols.Citp.Packets
 {
     public class CitpPacketBuilder
     {

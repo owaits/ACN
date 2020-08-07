@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Citp.Packets.Msex
+namespace LXProtocols.Citp.Packets.Msex
 {
     public enum MsexElementType
     {
