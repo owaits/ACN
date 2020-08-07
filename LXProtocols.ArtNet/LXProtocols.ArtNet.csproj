@@ -7,7 +7,7 @@
     <PackageProjectUrl>https://github.com/owaits/ACN</PackageProjectUrl>
     <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
     <PackageTags>ArtNet, Lighting</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
