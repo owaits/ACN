@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 using System.IO;
-using Acn.Rdm;
+using LXProtocols.Acn.Rdm;
 
-namespace Acn.Packets.RdmNet
+namespace LXProtocols.Acn.Packets.RdmNet
 {
     public class RdmNetStatusPdu:AcnPdu
     {

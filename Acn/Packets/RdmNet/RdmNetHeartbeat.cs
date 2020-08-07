@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acn.Packets.RdmNet
+namespace LXProtocols.Acn.Packets.RdmNet
 {
     public class RdmNetHeartbeat : AcnPacket
     {

@@ -4,14 +4,18 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Provides an implementation of the ArtNet standard used to send DMX data and other lighting specific information between devices on a lighting network.</Description>
     <Copyright>Copyright © Oliver Waits 2020</Copyright>
-    <PackageProjectUrl>https://github.com/owaits/ACN</PackageProjectUrl>
+    <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
     <PackageTags>ArtNet, Lighting</PackageTags>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Acn\Acn.csproj" />
+    <ProjectReference Include="..\Acn\LXProtocols.Acn.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LXProtocols.Acn"  />
   </ItemGroup>
 
   <ItemGroup>

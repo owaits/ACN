@@ -4,5 +4,6 @@
     <Version>3.0.1</Version>
     <Authors>Oliver Waits</Authors>
     <Company>Oliver Waits</Company>
+    <Copyright>Copyright © Oliver Waits 2020</Copyright>
   </PropertyGroup>
 </Project>

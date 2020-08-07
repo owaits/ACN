@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Control
+namespace LXProtocols.Acn.Rdm.Packets.Control
 {
     /// <summary>
     /// This parameter is used for the user to physically identify the device represented by the UID.

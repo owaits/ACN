@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Power
+namespace LXProtocols.Acn.Rdm.Packets.Power
 {
     /// <summary>
     /// This parameter is used to retrieve the number of lamp hours or to set the counter in the device to

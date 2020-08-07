@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Parameters
+namespace LXProtocols.Acn.Rdm.Packets.Parameters
 {
     /// <summary>
     /// The SUPPORTED PARAMETERS message is used to retrieve a packed list of supported PIDs.

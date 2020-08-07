@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 using System.IO;
-using Acn.Packets.sAcn;
-using Acn.Packets.Dmp;
+using LXProtocols.Acn.Packets.sAcn;
+using LXProtocols.Acn.Packets.Dmp;
 
-namespace Acn.Packets.sAcn
+namespace LXProtocols.Acn.Packets.sAcn
 {
     public abstract class StreamingAcnPacket : AcnPacket
     {

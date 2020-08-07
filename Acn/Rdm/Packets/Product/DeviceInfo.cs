@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Product
+namespace LXProtocols.Acn.Rdm.Packets.Product
 {
     /// <summary>
     /// This parameter is used to retrieve a variety of information about the device that is normally

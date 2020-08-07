@@ -26,7 +26,7 @@ namespace SntpServer
             InitializeComponent();
         }
 
-        Acn.Sntp.SntpServer server;
+        LXProtocols.Acn.Sntp.SntpServer server;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -40,7 +40,7 @@ namespace SntpServer
 
             ListenAddress = localAddress;
 
-            server = new Acn.Sntp.SntpServer() { NetworkAdapter = localAddress };
+            server = new LXProtocols.Acn.Sntp.SntpServer() { NetworkAdapter = localAddress };
             server.Open();
 
             spinner.IsIndeterminate = server.IsOpen();

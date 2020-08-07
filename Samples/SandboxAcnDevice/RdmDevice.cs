@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Sockets;
-using Acn.Rdm.Packets;
+using LXProtocols.Acn.Sockets;
+using LXProtocols.Acn.Rdm.Packets;
 using System.Net;
-using Acn.Rdm.Packets.Net;
-using Acn.Rdm;
-using Acn.Rdm.Broker;
-using Acn.RdmNet.Sockets;
+using LXProtocols.Acn.Rdm.Packets.Net;
+using LXProtocols.Acn.Rdm;
+using LXProtocols.Acn.Rdm.Broker;
+using LXProtocols.Acn.RdmNet.Sockets;
 
 namespace SandboxAcnDevice
 {
@@ -24,7 +24,7 @@ namespace SandboxAcnDevice
 
             SetupBroker();
 
-            socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<Acn.Rdm.RdmPacket>>(socket_NewRdmPacket);
+            socket.NewRdmPacket += new EventHandler<NewPacketEventArgs<RdmPacket>>(socket_NewRdmPacket);
         }
 
         private void SetupBroker()
@@ -36,7 +36,7 @@ namespace SandboxAcnDevice
 
         }
 
-        void socket_NewRdmPacket(object sender, NewPacketEventArgs<Acn.Rdm.RdmPacket> e)
+        void socket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
         {
             RdmPacket replyPacket = broker.ProcessPacket(e.Packet);
             if (replyPacket != null)

@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using Acn.Sockets;
+using LXProtocols.Acn.Sockets;
 using System.Net;
-using Acn.Packets.sAcn;
+using LXProtocols.Acn.Packets.sAcn;
 using System.Net.NetworkInformation;
 using System.Collections.ObjectModel;
-using Acn;
-using Acn.Helpers;
+using LXProtocols.Acn;
+using LXProtocols.Acn.Helpers;
 using StreamingAcn.RdmNet;
-using Acn.Rdm.Packets.Net;
+using LXProtocols.Acn.Rdm.Packets.Net;
 using System.Net.Sockets;
 
 namespace StreamingAcn

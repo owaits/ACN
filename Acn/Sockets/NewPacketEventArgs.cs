@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace Acn.Sockets
+namespace LXProtocols.Acn.Sockets
 {
     public class NewPacketEventArgs<TPacketType> : EventArgs
     {

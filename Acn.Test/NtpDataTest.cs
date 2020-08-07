@@ -1,4 +1,4 @@
-﻿using Acn.Sntp;
+﻿using LXProtocols.Acn.Sntp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

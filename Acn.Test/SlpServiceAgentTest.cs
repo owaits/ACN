@@ -23,10 +23,10 @@
 //______________________________________________________________________________________________________________
 #endregion
 
-using Acn.Slp;
+using LXProtocols.Acn.Slp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.Packets;
 
 namespace Acn.Test
 {

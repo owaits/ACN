@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Routing
+namespace LXProtocols.Acn.Rdm.Routing
 {
     public class RdmRouteBinding
     {

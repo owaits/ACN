@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Management
+namespace LXProtocols.Acn.Rdm.Packets.Management
 {
     /// <summary>
     /// Used to collect information that may be useful in analyzing the integrity of the communication system.

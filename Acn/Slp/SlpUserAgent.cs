@@ -28,12 +28,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Acn.Slp.Packets;
-using Acn.Slp.Sockets;
+using LXProtocols.Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.Sockets;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {      
     public class SlpUserAgent:SlpAgent
     {

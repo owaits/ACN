@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using RdmNetworkMonitor;
 using System.Windows.Forms;
-using Acn.Sockets;
-using Acn.Rdm;
+using LXProtocols.Acn.Sockets;
+using LXProtocols.Acn.Rdm;
 using System.Net;
 
 namespace RdmSnoop.Models

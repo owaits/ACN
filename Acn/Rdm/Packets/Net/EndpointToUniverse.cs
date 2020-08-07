@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Net
+namespace LXProtocols.Acn.Rdm.Packets.Net
 {
     /// <summary>
     /// This parameter is used to assign an Endpoint on an E1.33 device to a specific E1.31 DMX512 Universe.

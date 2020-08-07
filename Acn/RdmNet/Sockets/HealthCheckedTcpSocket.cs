@@ -1,5 +1,5 @@
-﻿using Acn.IO;
-using Acn.Sockets;
+﻿using LXProtocols.Acn.IO;
+using LXProtocols.Acn.Sockets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,11 +8,11 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Net;
-using Acn.Rdm;
-using Acn.Packets.sAcn;
-using Acn.Packets.RdmNet;
+using LXProtocols.Acn.Rdm;
+using LXProtocols.Acn.Packets.sAcn;
+using LXProtocols.Acn.Packets.RdmNet;
 
-namespace Acn.RdmNet.Sockets
+namespace LXProtocols.Acn.RdmNet.Sockets
 {
     public class HealthCheckedTcpSocket: RdmNetSocket, IProtocolFilter
     {

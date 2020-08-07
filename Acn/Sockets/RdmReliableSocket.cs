@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Rdm;
+using LXProtocols.Acn.Rdm;
 using System.ComponentModel;
 using System.Threading;
 using System.Net.Sockets;
 
-namespace Acn.Sockets
+namespace LXProtocols.Acn.Sockets
 {
     /// <summary>
     /// This RDM socket provides a reliable means of transporting RDM packets over an unreliable network. It

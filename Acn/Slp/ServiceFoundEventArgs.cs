@@ -28,9 +28,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
-using Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.Packets;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {
     public class ServiceFoundEventArgs: EventArgs
     {

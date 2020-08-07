@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Management
+namespace LXProtocols.Acn.Rdm.Packets.Management
 {
     /// <summary>
     /// This parameter is used to identify the number of devices being represented by a proxy and

@@ -30,9 +30,9 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 
-using Acn.Slp;
+using LXProtocols.Acn.Slp;
 
-namespace Acn.Helpers
+namespace LXProtocols.Acn.Helpers
 {
     /// <summary>
     /// This class provides a helper service for software that needs to discover

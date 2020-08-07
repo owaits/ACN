@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.DMX
+namespace LXProtocols.Acn.Rdm.Packets.DMX
 {
     /// <summary>
     /// This parameter is used to set or get the DMX512 start address.

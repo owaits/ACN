@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 using System.IO;
-using Acn.Packets.sAcn;
+using LXProtocols.Acn.Packets.sAcn;
 using System.Threading;
 using System.Collections.ObjectModel;
-using Acn.Helpers;
+using LXProtocols.Acn.Helpers;
 
-namespace Acn.Sockets
+namespace LXProtocols.Acn.Sockets
 {
     [ComVisible(true)]
     [Guid("C1E567CA-D546-45DD-A17B-D65339FF69EE")]

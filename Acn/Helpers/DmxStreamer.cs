@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Sockets;
+using LXProtocols.Acn.Sockets;
 using System.Threading;
-using Acn.Helpers;
+using LXProtocols.Acn.Helpers;
 
-namespace Acn
+namespace LXProtocols.Acn
 {
     public class DmxStreamer:IDisposable
     {

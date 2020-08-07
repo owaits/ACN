@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Rdm.Packets.Discovery;
+using LXProtocols.Acn.Rdm.Packets.Discovery;
 
-namespace Acn.Rdm.Broker
+namespace LXProtocols.Acn.Rdm.Broker
 {
     public enum DiscoveryStatus
     {

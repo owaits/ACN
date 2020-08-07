@@ -12,16 +12,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
-using Acn;
-using Acn.Helpers;
-using Acn.Sockets;
+using LXProtocols.Acn;
+using LXProtocols.Acn.Helpers;
+using LXProtocols.Acn.Sockets;
 using System.Net;
-using Acn.Packets.sAcn;
-using Acn.Rdm.Packets.Net;
+using LXProtocols.Acn.Packets.sAcn;
+using LXProtocols.Acn.Rdm.Packets.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Timers;
 using System.Threading;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 
 namespace AcnDataMatrix
 {

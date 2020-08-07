@@ -29,7 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {
     public class DirectoryAgentInformation
     {

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RdmSnoop</RootNamespace>
     <AssemblyName>RdmSnoop</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -170,9 +170,13 @@
     <None Include="Resources\SearchWebHS.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Acn\Acn.csproj">
+    <ProjectReference Include="..\..\Acn\LXProtocols.Acn.csproj">
       <Project>{9f69b278-176f-4e9c-a9ea-8cb7bcc611a4}</Project>
-      <Name>Acn</Name>
+      <Name>LXProtocols.Acn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LXProtocols.ArtNet\LXProtocols.ArtNet.csproj">
+      <Project>{58FE4A04-5A54-4564-B6C4-ADD38C3C31CA}</Project>
+      <Name>LXProtocols.ArtNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

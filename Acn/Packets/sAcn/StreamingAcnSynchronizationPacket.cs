@@ -1,11 +1,11 @@
-﻿using Acn.IO;
+﻿using LXProtocols.Acn.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Packets.sAcn
+namespace LXProtocols.Acn.Packets.sAcn
 {
     /// <summary>
     /// This packet is sent by a device for every DMX frame and after all the DMX universes have been sent. It

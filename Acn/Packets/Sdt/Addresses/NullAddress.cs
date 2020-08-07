@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acn.Packets.Sdt.Addresses
+namespace LXProtocols.Acn.Packets.Sdt.Addresses
 {
     public class NullAddress:SdtAddress
     {

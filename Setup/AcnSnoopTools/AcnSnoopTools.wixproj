@@ -28,8 +28,8 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Acn\Acn.csproj">
-      <Name>Acn</Name>
+    <ProjectReference Include="..\..\Acn\LXProtocols.Acn.csproj">
+      <Name>LXProtocols.Acn</Name>
       <Project>{9f69b278-176f-4e9c-a9ea-8cb7bcc611a4}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>

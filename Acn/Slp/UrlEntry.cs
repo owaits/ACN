@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {
     public struct UrlEntry
     {

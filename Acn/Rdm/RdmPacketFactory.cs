@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Rdm.Packets.Net;
-using Acn.Rdm.Packets.DMX;
-using Acn.Rdm.Packets.Product;
-using Acn.Rdm.Packets.Parameters;
-using Acn.Rdm.Packets.Control;
-using Acn.Rdm.Packets.Status;
-using Acn.Rdm.Packets.Power;
-using Acn.Rdm.Packets.Management;
-using Acn.Rdm.Packets.Discovery;
-using Acn.Rdm.Packets.Configuration;
+using LXProtocols.Acn.Rdm.Packets.Net;
+using LXProtocols.Acn.Rdm.Packets.DMX;
+using LXProtocols.Acn.Rdm.Packets.Product;
+using LXProtocols.Acn.Rdm.Packets.Parameters;
+using LXProtocols.Acn.Rdm.Packets.Control;
+using LXProtocols.Acn.Rdm.Packets.Status;
+using LXProtocols.Acn.Rdm.Packets.Power;
+using LXProtocols.Acn.Rdm.Packets.Management;
+using LXProtocols.Acn.Rdm.Packets.Discovery;
+using LXProtocols.Acn.Rdm.Packets.Configuration;
 
-namespace Acn.Rdm
+namespace LXProtocols.Acn.Rdm
 {
     public static class RdmPacketFactory
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Sockets;
+using LXProtocols.Acn.Sockets;
 
-namespace Acn.Rdm.Routing
+namespace LXProtocols.Acn.Rdm.Routing
 {
     /// <summary>
     /// The type of discovery to perform.

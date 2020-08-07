@@ -53,9 +53,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Acn\Acn.csproj">
+    <ProjectReference Include="..\Acn\LXProtocols.Acn.csproj">
       <Project>{9f69b278-176f-4e9c-a9ea-8cb7bcc611a4}</Project>
-      <Name>Acn</Name>
+      <Name>LXProtocols.Acn</Name>
     </ProjectReference>
     <ProjectReference Include="..\Citp\LXProtocols.Citp.csproj">
       <Project>{945047a9-0f25-4388-a46a-0d53f9440f80}</Project>

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Rdm.Packets.DMX;
+using LXProtocols.Acn.Rdm.Packets.DMX;
 
-namespace Acn.Rdm.Broker
+namespace LXProtocols.Acn.Rdm.Broker
 {
     public class RdmSlot
     {

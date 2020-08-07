@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Helpers
+namespace LXProtocols.Acn.Helpers
 {
     /// <summary>
     /// Useful extension methods for the ACN library.

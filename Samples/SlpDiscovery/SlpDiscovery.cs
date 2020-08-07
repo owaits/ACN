@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Net;
-using Acn.Slp;
-using Acn.Slp.Packets;
-using Acn.Helpers;
+using LXProtocols.Acn.Slp;
+using LXProtocols.Acn.Slp.Packets;
+using LXProtocols.Acn.Helpers;
 
 namespace SlpDiscovery
 {

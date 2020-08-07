@@ -1,4 +1,4 @@
-﻿using Acn.Packets.sAcn;
+﻿using LXProtocols.Acn.Packets.sAcn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Acn.Sockets
+namespace LXProtocols.Acn.Sockets
 {
     /// <summary>
     /// Handles creating <see cref="StreamingAcnSocket"/> 

@@ -24,14 +24,14 @@
 #endregion
 
 using System.Text;
-using Acn.Slp.Sockets;
-using Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.Sockets;
+using LXProtocols.Acn.Slp.Packets;
 using System.Net;
 using System.Collections.Generic;
 using System;
 using System.Text.RegularExpressions;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {
     public class SlpServiceAgent : SlpAgent
     {

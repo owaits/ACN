@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 
-namespace Acn.Rdm
+namespace LXProtocols.Acn.Rdm
 {
     public class RdmBinaryWriter:BinaryWriter
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Management
+namespace LXProtocols.Acn.Rdm.Packets.Management
 {
     public class RdmNack:RdmPacket
     {

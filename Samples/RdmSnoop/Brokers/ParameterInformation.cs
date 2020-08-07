@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using Acn.Rdm.Packets.Parameters;
+using LXProtocols.Acn.Rdm.Packets.Parameters;
 
 namespace RdmSnoop.Brokers
 {

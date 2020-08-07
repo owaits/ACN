@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Configuration
+namespace LXProtocols.Acn.Rdm.Packets.Configuration
 {
     /// <summary>
     /// This parameter is used to retrieve or change the Display Invert setting. Invert is often used to

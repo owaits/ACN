@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace Acn.Rdm
+namespace LXProtocols.Acn.Rdm
 {
     public abstract class RdmResponsePacket:RdmPacket
     {

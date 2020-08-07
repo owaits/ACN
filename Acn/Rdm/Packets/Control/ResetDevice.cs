@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Control
+namespace LXProtocols.Acn.Rdm.Packets.Control
 {
     /// <summary>
     /// This parameter is used to instruct the responder to reset itself. This parameter shall also clear the

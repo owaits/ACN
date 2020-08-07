@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Power
+namespace LXProtocols.Acn.Rdm.Packets.Power
 {
     public class DevicePowerCycles
     {

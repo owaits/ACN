@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 using System.IO;
-using Acn.Packets.sAcn;
-using Acn.Slp.Packets;
-using Acn.Slp.IO;
+using LXProtocols.Acn.Packets.sAcn;
+using LXProtocols.Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.IO;
 
-namespace Acn.Slp.Sockets
+namespace LXProtocols.Acn.Slp.Sockets
 {
     public class SlpSocket:Socket
     {

@@ -7,8 +7,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Acn.Rdm;
-using Acn.Rdm.Packets;
+using LXProtocols.Acn.Rdm;
+using LXProtocols.Acn.Rdm.Packets;
 
 namespace RdmSnoop
 {

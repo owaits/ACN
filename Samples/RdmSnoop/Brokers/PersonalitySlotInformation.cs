@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using Acn.Rdm.Packets.DMX;
+using LXProtocols.Acn.Rdm.Packets.DMX;
 
 namespace RdmSnoop
 {

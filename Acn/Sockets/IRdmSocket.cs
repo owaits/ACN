@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Rdm;
+using LXProtocols.Acn.Rdm;
 using System.Net;
 
-namespace Acn.Sockets
+namespace LXProtocols.Acn.Sockets
 {
     public interface IRdmSocket
     {

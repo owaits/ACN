@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 
-namespace Acn.Rdm.Packets.Product
+namespace LXProtocols.Acn.Rdm.Packets.Product
 {
     /// <summary>
     /// This parameter is used to identify languages that the device supports for using the LANGUAGE

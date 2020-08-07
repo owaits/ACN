@@ -1,12 +1,12 @@
-﻿using Acn.IO;
-using Acn.Packets.Sdt.Addresses;
+﻿using LXProtocols.Acn.IO;
+using LXProtocols.Acn.Packets.Sdt.Addresses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acn.Packets.Sdt
+namespace LXProtocols.Acn.Packets.Sdt
 {
     public class StdJoin:AcnPdu
     {

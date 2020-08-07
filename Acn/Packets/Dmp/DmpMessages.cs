@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Packets.Dmp
+namespace LXProtocols.Acn.Packets.Dmp
 {
     public enum DmpMessages
     {

@@ -29,7 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {
     /// <summary>
     /// Event args for an attribute reply event.

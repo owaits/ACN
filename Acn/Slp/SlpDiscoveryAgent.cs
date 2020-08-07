@@ -27,10 +27,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Slp.Sockets;
+using LXProtocols.Acn.Slp.Sockets;
 using System.Net;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {
     public class SlpDiscoveryAgent:SlpAgent
     {

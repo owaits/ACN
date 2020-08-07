@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Control
+namespace LXProtocols.Acn.Rdm.Packets.Control
 {
     /// <summary>
     /// This parameter is used to retrieve or change the current device Power State. Power State

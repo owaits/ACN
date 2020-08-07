@@ -29,7 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace Acn.Sntp.Sockets
+namespace LXProtocols.Acn.Sntp.Sockets
 {
     /// <summary>
     /// Data from a new incomming NTP request

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.ComponentModel;
-using Acn.Rdm;
-using Acn.Sockets;
-using Acn.Rdm.Packets.Net;
+using LXProtocols.Acn.Rdm;
+using LXProtocols.Acn.Sockets;
+using LXProtocols.Acn.Rdm.Packets.Net;
 
 namespace AcnDataMatrix
 {

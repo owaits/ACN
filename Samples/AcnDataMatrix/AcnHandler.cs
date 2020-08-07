@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using Acn.Sockets;
+using LXProtocols.Acn.Sockets;
 using System.Net;
-using Acn.Packets.sAcn;
+using LXProtocols.Acn.Packets.sAcn;
 using System.Net.NetworkInformation;
-using Acn;
-using Acn.Helpers;
-using Acn.Rdm.Packets.Net;
+using LXProtocols.Acn;
+using LXProtocols.Acn.Helpers;
+using LXProtocols.Acn.Rdm.Packets.Net;
 using System.ComponentModel;
 
 namespace AcnDataMatrix

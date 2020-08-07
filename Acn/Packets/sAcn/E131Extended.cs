@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Packets.sAcn
+namespace LXProtocols.Acn.Packets.sAcn
 {
     /// <summary>
     /// The extension PDU's for E131

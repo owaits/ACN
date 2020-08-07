@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.DMX
+namespace LXProtocols.Acn.Rdm.Packets.DMX
 {
     /// <summary>
     /// This parameter is used for requesting an ASCII text description for DMX512 slot offsets.

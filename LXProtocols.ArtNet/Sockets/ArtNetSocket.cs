@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
-using Acn.Rdm;
+using LXProtocols.Acn.Rdm;
 using System.IO;
-using Acn.Packets.sAcn;
-using Acn.Sockets;
+using LXProtocols.Acn.Packets.sAcn;
+using LXProtocols.Acn.Sockets;
 using LXProtocols.ArtNet.Packets;
 using LXProtocols.ArtNet.IO;
 

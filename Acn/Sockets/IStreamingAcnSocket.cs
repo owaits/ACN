@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Sockets
+namespace LXProtocols.Acn.Sockets
 {
     [ComVisible(true)]
     [Guid("018FF255-DCCF-420F-A067-C5BD4EA2BEBF")]

@@ -1,4 +1,4 @@
-﻿using Acn.Sockets;
+﻿using LXProtocols.Acn.Sockets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Acn.TestTools
+namespace LXProtocols.TestTools
 {
     /// <summary>
     /// Testing class used to listen in on ACN streams and work out if the right thing is sending.

@@ -5,12 +5,12 @@ using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
-using Acn.IO;
-using Acn.Packets.sAcn;
+using LXProtocols.Acn.IO;
+using LXProtocols.Acn.Packets.sAcn;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Acn.Sockets
+namespace LXProtocols.Acn.Sockets
 {
     public class AcnSocket:Socket
     {

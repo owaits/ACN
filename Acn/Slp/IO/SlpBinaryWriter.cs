@@ -29,9 +29,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
-using Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.Packets;
 
-namespace Acn.Slp.IO
+namespace LXProtocols.Acn.Slp.IO
 {
     public class SlpBinaryWriter : BinaryWriter
     {

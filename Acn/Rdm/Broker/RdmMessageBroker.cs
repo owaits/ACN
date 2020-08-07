@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Sockets;
+using LXProtocols.Acn.Sockets;
 using System.Reflection;
-using Acn.Rdm.Packets.Status;
-using Acn.Rdm.Packets.Management;
-using Acn.Rdm.Packets.Parameters;
+using LXProtocols.Acn.Rdm.Packets.Status;
+using LXProtocols.Acn.Rdm.Packets.Management;
+using LXProtocols.Acn.Rdm.Packets.Parameters;
 using System.ComponentModel;
 
-namespace Acn.Rdm.Broker
+namespace LXProtocols.Acn.Rdm.Broker
 {
     public delegate RdmPacket ProcessPacketHandler(RdmPacket requestPacket);
 

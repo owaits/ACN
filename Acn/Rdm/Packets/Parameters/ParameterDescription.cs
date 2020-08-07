@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Parameters
+namespace LXProtocols.Acn.Rdm.Packets.Parameters
 {
     /// <summary>
     /// This parameter is used to retrieve the definition of some manufacturer-specific PIDs. The purpose 

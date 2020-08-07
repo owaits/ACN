@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 
-namespace Acn.IO
+namespace LXProtocols.Acn.IO
 {
     public class AcnBinaryWriter : BinaryWriter
     {

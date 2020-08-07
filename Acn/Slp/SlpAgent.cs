@@ -27,11 +27,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.Packets;
 using System.Net;
-using Acn.Slp.Sockets;
+using LXProtocols.Acn.Slp.Sockets;
 
-namespace Acn.Slp
+namespace LXProtocols.Acn.Slp
 {
     public abstract class SlpAgent : IDisposable
     {

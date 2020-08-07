@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 using System.Net;
 
-namespace Acn
+namespace LXProtocols.Acn
 {
     /// <summary>
     /// Allows a class to listen to and process ACN traffic associated with a specific protocol ID.

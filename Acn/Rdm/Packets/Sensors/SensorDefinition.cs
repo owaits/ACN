@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Sensors
+namespace LXProtocols.Acn.Rdm.Packets.Sensors
 {
     /// <summary>
     /// This parameter is used to retrieve the definition of a specific sensor.

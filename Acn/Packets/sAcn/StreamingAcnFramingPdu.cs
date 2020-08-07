@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 using System.IO;
 
-namespace Acn.Packets.sAcn
+namespace LXProtocols.Acn.Packets.sAcn
 {
     public class StreamingAcnFramingPdu : AcnPdu
     {

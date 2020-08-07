@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
-using Acn.Sockets;
-using Acn.Packets.sAcn;
+using LXProtocols.Acn.Sockets;
+using LXProtocols.Acn.Packets.sAcn;
 using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Acn.TestTools
+namespace LXProtocols.TestTools
 {
     public static class AssertDmx
     {

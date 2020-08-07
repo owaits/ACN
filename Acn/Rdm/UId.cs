@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm
+namespace LXProtocols.Acn.Rdm
 {
     public class UId:IComparable
     {

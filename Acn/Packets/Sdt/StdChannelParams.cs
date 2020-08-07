@@ -1,11 +1,11 @@
-﻿using Acn.IO;
+﻿using LXProtocols.Acn.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acn.Packets.Sdt
+namespace LXProtocols.Acn.Packets.Sdt
 {
     public class StdChannelParams : AcnPdu
     {

@@ -58,12 +58,12 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using Acn.Sntp.Sockets;
+using LXProtocols.Acn.Sntp.Sockets;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Acn.Sntp
+namespace LXProtocols.Acn.Sntp
 {
 
     /// <summary>

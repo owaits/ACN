@@ -1,6 +1,6 @@
-﻿using Acn.Packets.sAcn;
-using Acn.Rdm;
-using Acn.Sockets;
+﻿using LXProtocols.Acn.Packets.sAcn;
+using LXProtocols.Acn.Rdm;
+using LXProtocols.Acn.Sockets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Net;
 
-namespace Acn.RdmNet.Sockets
+namespace LXProtocols.Acn.RdmNet.Sockets
 {
     public class RdmNetDeviceSocket:RdmNetSocket
     {

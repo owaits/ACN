@@ -1,11 +1,11 @@
-﻿using Acn.IO;
+﻿using LXProtocols.Acn.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Packets.sAcn
+namespace LXProtocols.Acn.Packets.sAcn
 {
     /// <summary>
     /// The sACN discovery message allows devices sending DMX data to publish the universes they are transmitting. This allows recievers

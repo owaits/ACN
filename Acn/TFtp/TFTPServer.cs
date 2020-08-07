@@ -30,7 +30,7 @@ using System.Threading;
 using System.Text;
 using System.IO;
 
-namespace Acn.TFtp
+namespace LXProtocols.Acn.TFtp
 {
     #region TFTP Formats
     //	TFTP Formats

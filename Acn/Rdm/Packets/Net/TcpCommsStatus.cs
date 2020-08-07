@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Net
+namespace LXProtocols.Acn.Rdm.Packets.Net
 {
     public class TcpCommsStatus
     {

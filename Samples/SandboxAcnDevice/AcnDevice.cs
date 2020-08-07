@@ -6,12 +6,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Acn.Slp;
+using LXProtocols.Acn.Slp;
 using System.Net;
-using Acn.Sockets;
-using Acn.Rdm;
+using LXProtocols.Acn.Sockets;
+using LXProtocols.Acn.Rdm;
 using System.Net.NetworkInformation;
-using Acn.RdmNet.Sockets;
+using LXProtocols.Acn.RdmNet.Sockets;
 
 namespace SandboxAcnDevice
 {

@@ -7,17 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Net;
-using Acn.Rdm;
+using LXProtocols.Acn.Rdm;
 using RdmSnoop.Models;
 using RdmSnoop.Transports;
-using Acn.Slp;
+using LXProtocols.Acn.Slp;
 using System.Net.NetworkInformation;
 using System.Collections.ObjectModel;
-using Acn.Sockets;
+using LXProtocols.Acn.Sockets;
 using RdmNetworkMonitor;
 using RdmSnoop.Tools;
-using Acn.Rdm.Routing;
-using Acn.Rdm.Packets;
+using LXProtocols.Acn.Rdm.Routing;
+using LXProtocols.Acn.Rdm.Packets;
 using System.Net.Sockets;
 
 namespace RdmSnoop
@@ -442,22 +442,22 @@ namespace RdmSnoop
 
         private void powerOffTool_Click(object sender, EventArgs e)
         {
-            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Off);
+            selectedDevice.Power(LXProtocols.Acn.Rdm.Packets.Control.PowerState.States.Off);
         }
 
         private void shutdownTool_Click(object sender, EventArgs e)
         {
-            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Shutdown);
+            selectedDevice.Power(LXProtocols.Acn.Rdm.Packets.Control.PowerState.States.Shutdown);
         }
 
         private void powerStandbyTool_Click(object sender, EventArgs e)
         {
-            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Standby);
+            selectedDevice.Power(LXProtocols.Acn.Rdm.Packets.Control.PowerState.States.Standby);
         }
 
         private void powerOnTool_Click(object sender, EventArgs e)
         {
-            selectedDevice.Power(Acn.Rdm.Packets.Control.PowerState.States.Normal);
+            selectedDevice.Power(LXProtocols.Acn.Rdm.Packets.Control.PowerState.States.Normal);
         }
 
         private bool pause = false;

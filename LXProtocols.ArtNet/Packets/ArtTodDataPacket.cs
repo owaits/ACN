@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
-using Acn.Rdm;
+using LXProtocols.Acn.Rdm;
 using LXProtocols.ArtNet.IO;
 
 namespace LXProtocols.ArtNet.Packets

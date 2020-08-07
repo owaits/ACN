@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Helpers
+namespace LXProtocols.Acn.Helpers
 {
     /// <summary>
     /// Event args for an Slp Device Manager event

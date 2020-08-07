@@ -1,11 +1,11 @@
-﻿using Acn.Packets.Dmp;
+﻿using LXProtocols.Acn.Packets.Dmp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acn.Packets.sAcn
+namespace LXProtocols.Acn.Packets.sAcn
 {
     /// <summary>
     /// The DMX data PDU for streaming ACN.

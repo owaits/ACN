@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
-using Acn.ArtNet.Sockets;
-using Acn.Rdm;
-using Acn.ArtNet.Packets;
-using Acn.ArtNet;
-using Acn.Sockets;
-using Acn.Rdm.Routing;
+using LXProtocols.ArtNet.Sockets;
+using LXProtocols.Acn.Rdm;
+using LXProtocols.ArtNet.Packets;
+using LXProtocols.ArtNet;
+using LXProtocols.Acn.Sockets;
+using LXProtocols.Acn.Rdm.Routing;
+using LXProtocols.ArtNet.Packets;
+using LXProtocols.ArtNet;
 
 namespace RdmSnoop.Transports
 {
@@ -69,7 +71,7 @@ namespace RdmSnoop.Transports
 
         #endregion
 
-        void socket_NewPacket(object sender, Acn.Sockets.NewPacketEventArgs<ArtNetPacket> e)
+        void socket_NewPacket(object sender, NewPacketEventArgs<ArtNetPacket> e)
         {
             switch ((ArtNetOpCodes)e.Packet.OpCode)
             {
@@ -106,7 +108,7 @@ namespace RdmSnoop.Transports
                 LocalAdapter = localAdapter;
 
                 socket = new ArtNetSocket(UId.NewUId(32));
-                socket.NewPacket += new EventHandler<Acn.Sockets.NewPacketEventArgs<ArtNetPacket>>(socket_NewPacket);
+                socket.NewPacket += new EventHandler<NewPacketEventArgs<ArtNetPacket>>(socket_NewPacket);
                 socket.Open(LocalAdapter, SubnetMask);
 
                 Discover(DiscoveryType.GatewayDiscovery);

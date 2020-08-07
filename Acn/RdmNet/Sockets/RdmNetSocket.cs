@@ -28,15 +28,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Rdm;
-using Acn.Packets.sAcn;
-using Acn.IO;
+using LXProtocols.Acn.Rdm;
+using LXProtocols.Acn.Packets.sAcn;
+using LXProtocols.Acn.IO;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using Acn.Sockets;
+using LXProtocols.Acn.Sockets;
 
-namespace Acn.RdmNet.Sockets
+namespace LXProtocols.Acn.RdmNet.Sockets
 {
     public class RdmNetSocket : AcnSocket, IProtocolFilter, IRdmSocket
     {

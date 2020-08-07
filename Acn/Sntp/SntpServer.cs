@@ -36,9 +36,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using Acn.Sntp.Sockets;
+using LXProtocols.Acn.Sntp.Sockets;
 
-namespace Acn.Sntp
+namespace LXProtocols.Acn.Sntp
 {
     /// <summary>
     /// The SntpServer provides simple response to NTP time requests

@@ -28,9 +28,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Slp;
+using LXProtocols.Acn.Slp;
 
-namespace Acn.Helpers
+namespace LXProtocols.Acn.Helpers
 {
     /// <summary>
     /// Possible states of a device

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.ComponentModel;
-using Acn.Rdm.Packets.Management;
-using Acn.Rdm.Packets;
+using LXProtocols.Acn.Rdm.Packets.Management;
+using LXProtocols.Acn.Rdm.Packets;
 
-namespace Acn.Rdm
+namespace LXProtocols.Acn.Rdm
 {
     public abstract class RdmPacket
     {

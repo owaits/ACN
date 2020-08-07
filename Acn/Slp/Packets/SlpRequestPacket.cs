@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Slp.Packets
+namespace LXProtocols.Acn.Slp.Packets
 {
     /// <summary>
     /// Base class for request packets

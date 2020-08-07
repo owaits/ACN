@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Sntp;
+using LXProtocols.Acn.Sntp;
 using NDesk.Options;
 
 namespace SntpUpdate

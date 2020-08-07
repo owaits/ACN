@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Discovery
+namespace LXProtocols.Acn.Rdm.Packets.Discovery
 {
     /// <summary>
     /// This message and response are used for the device discovery process.

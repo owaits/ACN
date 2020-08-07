@@ -1,5 +1,5 @@
-﻿using Acn.Rdm;
-using Acn.Sockets;
+﻿using LXProtocols.Acn.Rdm;
+using LXProtocols.Acn.Sockets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Acn.RdmNet.Sockets
+namespace LXProtocols.Acn.RdmNet.Sockets
 {
     public class RdmNetMeshSocket:RdmNetSocket
     {

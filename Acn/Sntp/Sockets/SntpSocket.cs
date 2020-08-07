@@ -32,7 +32,7 @@ using System.Net;
 using System.IO;
 
 
-namespace Acn.Sntp.Sockets
+namespace LXProtocols.Acn.Sntp.Sockets
 {
     /// <summary>
     /// Specialised socket to support sned and recive of Sntp Packets

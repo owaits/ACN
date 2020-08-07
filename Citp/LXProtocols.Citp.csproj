@@ -10,7 +10,6 @@
     <AssemblyName>LXProtocols.Citp</AssemblyName>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Copyright>Copyright © Oliver Waits 2020</Copyright>
     <PackageProjectUrl>https://github.com/owaits/ACN</PackageProjectUrl>
     <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>

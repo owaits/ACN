@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Product
+namespace LXProtocols.Acn.Rdm.Packets.Product
 {
     /// <summary>
     /// This parameter provides a means of setting a descriptive label for each device. This may be used

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.IO;
+using LXProtocols.Acn.IO;
 
-namespace Acn.Packets.Dmp
+namespace LXProtocols.Acn.Packets.Dmp
 {
     public class DmpGetPropertyReply : AcnPdu
     {

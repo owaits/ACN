@@ -27,9 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Slp.IO;
+using LXProtocols.Acn.Slp.IO;
 
-namespace Acn.Slp.Packets
+namespace LXProtocols.Acn.Slp.Packets
 {
     public class ServiceReplyPacket:SlpPacket
     {

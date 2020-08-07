@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Acn.Slp.Packets;
+using LXProtocols.Acn.Slp.Packets;
 using System.Net;
 
-namespace Acn.Slp.Sockets
+namespace LXProtocols.Acn.Slp.Sockets
 {
     public class NewPacketEventArgs : EventArgs
     {

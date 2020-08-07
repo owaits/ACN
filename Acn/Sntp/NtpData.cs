@@ -62,7 +62,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Acn.Sntp
+namespace LXProtocols.Acn.Sntp
 {
     /// <summary>
     /// Leap indicator field values

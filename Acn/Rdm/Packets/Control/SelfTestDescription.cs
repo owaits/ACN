@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Control
+namespace LXProtocols.Acn.Rdm.Packets.Control
 {
     /// <summary>
     /// This parameter is used to get a descriptive ASCII text label for a given Self Test Operation. The

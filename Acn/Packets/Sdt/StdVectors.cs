@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Acn.Packets.Sdt
+namespace LXProtocols.Acn.Packets.Sdt
 {
     public enum StdVectors
     {

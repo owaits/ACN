@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Acn.Rdm.Packets.Net
+namespace LXProtocols.Acn.Rdm.Packets.Net
 {
     public class RdmTrafficEnable
     {
