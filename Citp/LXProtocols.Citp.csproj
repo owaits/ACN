@@ -12,7 +12,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/owaits/ACN</PackageProjectUrl>
     <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType></RepositoryType>
     <PackageTags>CITP, Lighting</PackageTags>
     <Description>Provides an implementation of the CITP network protocol used to allow coimmunication between light consoles, visualisers and media servers.</Description>
   </PropertyGroup>
