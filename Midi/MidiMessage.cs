@@ -1,11 +1,11 @@
-﻿using Midi.IO;
+﻿using LXProtocols.Midi.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Midi
+namespace LXProtocols.Midi
 {
     /// <summary>
     /// The base class for all MIDI messages.

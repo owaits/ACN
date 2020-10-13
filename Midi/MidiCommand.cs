@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Midi
+namespace LXProtocols.Midi
 {
     /// <summary>
     /// Defines all the MIDI message types.

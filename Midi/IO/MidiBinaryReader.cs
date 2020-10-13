@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 
-namespace Midi.IO
+namespace LXProtocols.Midi.IO
 {
     /// <summary>
     /// This class handles reading data from a MIDI stream.

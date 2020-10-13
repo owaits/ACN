@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Midi
+namespace LXProtocols.Midi
 {
     /// <summary>
     /// System Exclusive MIDI Message

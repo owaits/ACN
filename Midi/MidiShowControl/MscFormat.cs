@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Midi.MidiShowControl
+namespace LXProtocols.Midi.MidiShowControl
 {
     /// <summary>
     /// MIDI Show Control command formats.
