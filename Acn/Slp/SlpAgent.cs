@@ -94,7 +94,15 @@ namespace Acn.Slp
 
         #region Agent
 
-        public virtual void Open()
+        /// <summary>
+        /// Opens a unicast socket bound to any local port on <see cref="NetworkAdapter"/> for
+        /// sending and receiving SLP datagrams, and optionally also opens a socket listening to
+        /// the SLP well-known port (<see cref="SlpSocket.Port"/>) to receive multicast SLP
+        /// datagrams.
+        /// </summary>
+        /// <param name="openWellKnownPort">Whether the socket listening on the well-known port
+        /// should be opened or not.</param>
+        public virtual void Open(bool openWellKnownPort)
         {
             //Open the socket on any available port, this will be used for all unicast communication. 
             //Using an assigned port rather than 427 ensures we are discoverable on a system running multiple SLP clients.
@@ -108,7 +116,7 @@ namespace Acn.Slp
 
             //Open a socket to listen to multicast traffic on port 427, this socket is only used to listen for multicast traffic.
             //As unicast traffic is not able to share port 427 we only use this socket to recieve multicast.
-            if(multicastListenSocket == null)
+            if (openWellKnownPort && multicastListenSocket is null)
             {
                 multicastListenSocket = new SlpSocket();
                 multicastListenSocket.NewPacket += new EventHandler<NewPacketEventArgs>(socket_NewPacket);
