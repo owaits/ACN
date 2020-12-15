@@ -33,7 +33,7 @@ namespace SlpDiscovery
 
             //slpUser.NetworkAdapter = new IPAddress(new byte[] { 10, 0, 0, 1 });
             slpUser.Scope = scopeSelect.Text;
-            slpUser.Open();
+            slpUser.Open(openWellKnownPort: true);
             slpUser.Find(urlText.Text);
         }
 

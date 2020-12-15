@@ -218,7 +218,17 @@ namespace LXProtocols.Acn.Slp
 
         #region Service Agent
 
-        public override void Open()
+        /// <summary>
+        /// Opens a unicast socket bound to any local port on <see cref="NetworkAdapter"/> for
+        /// sending and receiving SLP datagrams, and optionally also opens a socket listening to
+        /// the SLP well-known port (<see cref="SlpSocket.Port"/>) to receive multicast SLP
+        /// datagrams.
+        ///
+        /// Additionally, sends a service request for available discovery agents.
+        /// </summary>
+        /// <param name="openWellKnownPort">Whether the socket listening on the well-known port
+        /// should be opened or not.</param>
+        public override void Open(bool openWellKnownPort)
         {
             if (Active)
                 throw new InvalidOperationException("The service agent is already active. Either close this agent or do not call Open while active.");
@@ -232,7 +242,7 @@ namespace LXProtocols.Acn.Slp
             if (string.IsNullOrEmpty(ServiceUrl))
                 throw new InvalidOperationException("An attempt was made to open the service without setting the ServiceUrl first.");
 
-            base.Open();
+            base.Open(openWellKnownPort);
 
             SendDARequest();
         }

@@ -86,7 +86,7 @@ namespace SandboxAcnDevice
                 slpService.Attributes["Knowledge"] = "Power";
                 slpService.Attributes["Tea"] = "Happiness";
 
-                slpService.Open();
+                slpService.Open(openWellKnownPort: true);
             }       
         }
 

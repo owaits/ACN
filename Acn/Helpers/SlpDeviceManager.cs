@@ -179,6 +179,16 @@ namespace LXProtocols.Acn.Helpers
         /// </value>
         public bool Running { get; private set; }
 
+        /// <summary>
+        /// Whether the well-known SLP port should be bound to receive SLP datagrams; this is usually
+        /// used to join SLP multicast groups. Note that the well-known port is normally port 427,
+        /// which requires elevated privileges to bind in some environments.
+        ///
+        /// Takes effect when the SLP sockets are next opened, either during a call to
+        /// <see cref="Start" /> or <see cref="RefreshAgents" />.
+        /// </summary>
+        public bool OpenWellKnownPort { get; set; } = true;
+
         #endregion
 
         #region Public interface
@@ -194,10 +204,9 @@ namespace LXProtocols.Acn.Helpers
             lock (agents)
             {
                 foreach (var agent in agents.Keys)
-                {
-                    agent.Open();
-                }
+                    agent.Open(OpenWellKnownPort);
             }
+
             UpdateDevices();
             RequestPollCallback();
         }
@@ -209,7 +218,6 @@ namespace LXProtocols.Acn.Helpers
         {
             UpdateDevices();
         }
-
 
         /// <summary>
         /// Stops polling.
@@ -238,7 +246,7 @@ namespace LXProtocols.Acn.Helpers
                 {
                     //If we are running start the agents.
                     foreach (var agent in agents.Keys)
-                        agent.Open();
+                        agent.Open(OpenWellKnownPort);
                 }
             }
         }

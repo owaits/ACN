@@ -50,7 +50,7 @@ namespace AcnDataMatrix
                 acnSocket.Open(new IPEndPoint(LocalAdapter, 0));
             }
 
-            slpUser.Open();
+            slpUser.Open(openWellKnownPort: true);
             slpUser.Find("service:rdmnet-device");
         }
 
