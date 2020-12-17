@@ -47,9 +47,9 @@ namespace LXProtocols.Acn.Helpers
         public SlpDeviceManager()
         {
             FetchAttributes = true;
-			#if !(ANDROID || IOS)
+#if !(MONOANDROID || XAMARIN_IOS)
             NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
-			#endif
+#endif
             pollTimer = new System.Threading.Timer(new System.Threading.TimerCallback(pollTimerTick), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             CreateAgents();
         }
@@ -417,7 +417,7 @@ namespace LXProtocols.Acn.Helpers
         /// <returns>An Enumerable of IP addresses</returns>
         private static IEnumerable<System.Net.IPAddress> GetAllIpAddresses()
         {
-#if ANDROID
+#if MONOANDROID
             return Java.Net.NetworkInterface.NetworkInterfaces.
                 Cast<Java.Net.NetworkInterface>().
                 Where(i => i.IsUp && !i.IsLoopback).
@@ -658,7 +658,7 @@ namespace LXProtocols.Acn.Helpers
 
     }
 
-    #if ANDROID
+    #if MONOANDROID
 
     /// <summary>
     /// Extension class to improve Android Java bindings

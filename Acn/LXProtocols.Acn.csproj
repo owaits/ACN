@@ -12,11 +12,6 @@
     <AssemblyName>LXProtocols.Acn</AssemblyName>
     <TargetFrameworks>netstandard2.0;monoandroid81;Xamarin.iOS10</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup>
-    <!-- Define Conditional Compile Conditions -->
-    <PlatformCompile Condition=" '$(TargetFramework)' == 'monoandroid81' ">ANDROID;</PlatformCompile>
-    <PlatformCompile Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">IOS;</PlatformCompile>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
