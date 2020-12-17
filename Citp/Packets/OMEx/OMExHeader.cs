@@ -16,7 +16,7 @@ namespace LXProtocols.Citp.Packets.OMEx
         public OMExHeader(string contentType)
             : base(PacketType)
         {
-            ContentType = contentType;
+            OMExContentType = contentType;
         }
 
         #endregion

@@ -111,7 +111,7 @@ namespace LXProtocols.Citp.Packets
             header.ReadData(data.GetReader());
 
             CitpPacket packet = null;
-            switch (header.ContentType)
+            switch (header.FPtcContentType)
             {
                 case FPtcPatch.PacketType:
                     packet = new FPtcPatch();
@@ -136,7 +136,7 @@ namespace LXProtocols.Citp.Packets
             header.ReadData(data.GetReader());
 
             CitpPacket packet = null;
-            switch (header.ContentType)
+            switch (header.FSelContentType)
             {
                 case FSelSelect.PacketType:
                     packet = new FSelSelect();
@@ -158,7 +158,7 @@ namespace LXProtocols.Citp.Packets
             header.ReadData(data.GetReader());
 
             CitpPacket packet = null;
-            switch (header.ContentType)
+            switch (header.SDmxContentType)
             {
                 case SDmxCapabilities.PacketType:
                     packet = new SDmxCapabilities();
@@ -326,7 +326,7 @@ namespace LXProtocols.Citp.Packets
             FInfHeader header = new FInfHeader();
             header.ReadData(data.GetReader());
 
-            switch (header.ContentType)
+            switch (header.FInfContentType)
             {
                 case FInfFrames.PacketType:
                     return new FInfFrames(data.GetReader());

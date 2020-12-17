@@ -16,7 +16,7 @@ namespace LXProtocols.Citp.Packets.FPtc
         public FPtcHeader(string contentType)
             : base(PacketType)
         {
-            ContentType = contentType;
+            FPtcContentType = contentType;
         }
 
         #endregion

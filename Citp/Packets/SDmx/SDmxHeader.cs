@@ -16,7 +16,7 @@ namespace LXProtocols.Citp.Packets.SDmx
         public SDmxHeader(string contentType)
             : base(PacketType)
         {
-            ContentType = contentType;
+            SDmxContentType = contentType;
         }
 
         #endregion

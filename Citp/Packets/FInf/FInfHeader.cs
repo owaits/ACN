@@ -21,7 +21,7 @@ namespace LXProtocols.Citp.Packets.FInf
         public FInfHeader(string contentType)
             : base(PacketType)
         {
-            ContentType = contentType;
+            FInfContentType = contentType;
         }
 
         #endregion

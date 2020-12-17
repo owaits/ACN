@@ -16,7 +16,7 @@ namespace LXProtocols.Citp.Packets.FSel
         public FSelHeader(string contentType)
             : base(PacketType)
         {
-            ContentType = contentType;
+            FSelContentType = contentType;
         }
 
         #endregion
