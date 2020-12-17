@@ -28,7 +28,7 @@ namespace LXProtocols.Citp.Packets.FInf
 
         #region Packet Content
 
-        public string ContentType { get; set; }
+        public string FInfContentType { get; set; }
 
         #endregion
 
@@ -38,13 +38,13 @@ namespace LXProtocols.Citp.Packets.FInf
         {
             base.ReadData(data);
 
-            ContentType = data.ReadCookie();
+            FInfContentType = data.ReadCookie();
         }
 
         public override void WriteData(CitpBinaryWriter data)
         {
             base.WriteData(data);
-            data.WriteCookie(ContentType);
+            data.WriteCookie(FInfContentType);
 
         }
 

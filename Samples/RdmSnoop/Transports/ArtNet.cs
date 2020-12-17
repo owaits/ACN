@@ -9,8 +9,6 @@ using LXProtocols.ArtNet.Packets;
 using LXProtocols.ArtNet;
 using LXProtocols.Acn.Sockets;
 using LXProtocols.Acn.Rdm.Routing;
-using LXProtocols.ArtNet.Packets;
-using LXProtocols.ArtNet;
 
 namespace RdmSnoop.Transports
 {

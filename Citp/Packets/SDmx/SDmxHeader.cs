@@ -23,7 +23,7 @@ namespace LXProtocols.Citp.Packets.SDmx
 
         #region Packet Content
 
-        public string ContentType { get; set; }
+        public string SDmxContentType { get; set; }
 
         #endregion
 
@@ -33,13 +33,13 @@ namespace LXProtocols.Citp.Packets.SDmx
         {
             base.ReadData(data);
 
-            ContentType = data.ReadCookie();
+            SDmxContentType = data.ReadCookie();
         }
 
         public override void WriteData(CitpBinaryWriter data)
         {
             base.WriteData(data);
-            data.WriteCookie(ContentType);
+            data.WriteCookie(SDmxContentType);
 
         }
 

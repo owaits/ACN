@@ -25,7 +25,7 @@ namespace LXProtocols.Citp.Packets.OMEx
 
         public float OMExVersion { get; set; }
 
-        public string ContentType { get; set; }
+        public string OMExContentType { get; set; }
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace LXProtocols.Citp.Packets.OMEx
 
             OMExVersion = data.ReadByte();
             OMExVersion += (float)data.ReadByte() / 10;
-            ContentType = data.ReadCookie();
+            OMExContentType = data.ReadCookie();
         }
 
         public override void WriteData(CitpBinaryWriter data)
@@ -48,7 +48,7 @@ namespace LXProtocols.Citp.Packets.OMEx
             byte minorVersion = (byte)((OMExVersion - (float)majorVersion) * 10);
             data.Write(majorVersion);
             data.Write(minorVersion);
-            data.WriteCookie(ContentType);
+            data.WriteCookie(OMExContentType);
 
         }
 

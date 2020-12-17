@@ -219,7 +219,7 @@ namespace LXProtocols.Acn.Slp
         #region Service Agent
 
         /// <summary>
-        /// Opens a unicast socket bound to any local port on <see cref="NetworkAdapter"/> for
+        /// Opens a unicast socket bound to any local port on <see cref="SlpSocket"/> for
         /// sending and receiving SLP datagrams, and optionally also opens a socket listening to
         /// the SLP well-known port (<see cref="SlpSocket.Port"/>) to receive multicast SLP
         /// datagrams.

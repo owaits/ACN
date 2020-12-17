@@ -23,7 +23,7 @@ namespace LXProtocols.Citp.Packets.FSel
 
         #region Packet Content
 
-        public string ContentType { get; set; }
+        public string FSelContentType { get; set; }
 
         #endregion
 
@@ -33,13 +33,13 @@ namespace LXProtocols.Citp.Packets.FSel
         {
             base.ReadData(data);
 
-            ContentType = data.ReadCookie();
+            FSelContentType = data.ReadCookie();
         }
 
         public override void WriteData(CitpBinaryWriter data)
         {
             base.WriteData(data);
-            data.WriteCookie(ContentType);
+            data.WriteCookie(FSelContentType);
 
         }
 

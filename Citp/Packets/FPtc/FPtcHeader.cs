@@ -23,9 +23,9 @@ namespace LXProtocols.Citp.Packets.FPtc
 
         #region Packet Content
 
-        public string ContentType { get; set; }
+        public string FPtcContentType { get; set; }
 
-        public uint ContentHint { get; set; }
+        public uint FPtcContentHint { get; set; }
 
         #endregion
 
@@ -35,15 +35,15 @@ namespace LXProtocols.Citp.Packets.FPtc
         {
             base.ReadData(data);
 
-            ContentType = data.ReadCookie();
-            ContentHint = data.ReadUInt32();
+            FPtcContentType = data.ReadCookie();
+            FPtcContentHint = data.ReadUInt32();
         }
 
         public override void WriteData(CitpBinaryWriter data)
         {
             base.WriteData(data);
-            data.WriteCookie(ContentType);
-            data.Write(ContentHint);
+            data.WriteCookie(FPtcContentType);
+            data.Write(FPtcContentHint);
         }
 
         #endregion
