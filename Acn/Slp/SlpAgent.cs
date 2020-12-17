@@ -101,7 +101,8 @@ namespace Acn.Slp
         /// datagrams.
         /// </summary>
         /// <param name="openWellKnownPort">Whether the socket listening on the well-known port
-        /// should be opened or not.</param>
+        /// should be opened or not. If false, the ephemeral port will join the multicast group
+        /// instead.</param>
         public virtual void Open(bool openWellKnownPort)
         {
             //Open the socket on any available port, this will be used for all unicast communication. 
@@ -111,7 +112,9 @@ namespace Acn.Slp
                 socket = new SlpSocket();
                 socket.NewPacket += new EventHandler<NewPacketEventArgs>(socket_NewPacket);
 
-                socket.Open(new IPEndPoint(NetworkAdapter,0),false);
+                /* If we won't be opening the well known port to join the multicast group, we should
+                 * join the multicast group with this port instead so that we do receive multicast traffic. */
+                socket.Open(new IPEndPoint(NetworkAdapter, port: 0), !openWellKnownPort);
             }
 
             //Open a socket to listen to multicast traffic on port 427, this socket is only used to listen for multicast traffic.

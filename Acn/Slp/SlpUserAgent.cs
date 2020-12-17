@@ -73,7 +73,8 @@ namespace Acn.Slp
         /// Additionally, sends a service request for available discovery agents.
         /// </summary>
         /// <param name="openWellKnownPort">Whether the socket listening on the well-known port
-        /// should be opened or not.</param>
+        /// should be opened or not. If false, the ephemeral port will join the multicast group
+        /// instead.</param>
         public override void Open(bool openWellKnownPort)
         {
             base.Open(openWellKnownPort);

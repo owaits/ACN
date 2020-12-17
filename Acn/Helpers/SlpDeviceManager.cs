@@ -184,6 +184,8 @@ namespace Acn.Helpers
         /// used to join SLP multicast groups. Note that the well-known port is normally port 427,
         /// which requires elevated privileges to bind in some environments.
         ///
+        /// If false, the ephemeral port will join the multicast group instead.
+        ///
         /// Takes effect when the SLP sockets are next opened, either during a call to
         /// <see cref="Start" /> or <see cref="RefreshAgents" />.
         /// </summary>
