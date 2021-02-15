@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,13 +14,17 @@ namespace GlitchDetector
         {
             bool show_help = false;
             int universe = 1, channel = 1, threshold = 150;
-            string ipAddress = "10.0.0.101";
+            IPAddress ipAddress = IPAddress.Any;
+            bool printTrace = false;
+            string log = null;
             var options = new OptionSet() {
                     { "u|universe:", "the universe to check" , (int t) => universe = t },
                     { "c|channel:", "the channel to listen to" , (int t) => channel = t },
                     { "t|threshold:", "The threshold in milliseconds above which to report an error" , (int t) => threshold = t },
-                    { "i|ipAddress:", "The ip address to listen on" , (string t) => ipAddress = t },
+                    { "i|ipAddress:", "The ip address to listen on" , (string t) => ipAddress = IPAddress.Parse(t) },
                     { "h|help",  "show this message", v => show_help = v != null },
+                    { "v|verbose","Print a trace of all values received",v=> printTrace = true },
+                    { "l|log:","The path to a file to log the results to.",(string path)=> log = path }
                 };
 
             try
@@ -40,7 +45,7 @@ namespace GlitchDetector
                 return;
             }
 
-            Detector detector = new Detector() { Universe = universe, Channel = channel, Threshold = threshold, IpAddress = ipAddress };
+            Detector detector = new Detector() { Universe = universe, Channel = channel, Threshold = threshold, IPAddress = ipAddress, PrintTrace = printTrace, LogFile = log };
             detector.Start();
         }
 
