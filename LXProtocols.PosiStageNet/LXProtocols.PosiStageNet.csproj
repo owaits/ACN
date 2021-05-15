@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Description>Provides an implementation of the PosiStageNet protocol developed by VYV Corporation. Using this package allows you to send and recieve PosiStageNet information such as marker positions. The markers are used to represent real world position and orientations. The protocol use UDP multicast usually on port 56565 and updates markers at 60Hz.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/owaits/ACN</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
+    <PackageTags>PosiStageNet, PSN, Lighting, Markers, Stage</PackageTags>
+    <RepositoryType>GitHub</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LXProtocols.Core\LXProtocols.Core.csproj" />
+  </ItemGroup>
+
+</Project>

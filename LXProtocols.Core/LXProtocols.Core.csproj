@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageProjectUrl>https://github.com/owaits/ACN</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/owaits/ACN</RepositoryUrl>
+    <RepositoryType>GitHUb</RepositoryType>
+    <PackageTags>Lighting, Protocols</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Collection of classes to aid with the implementation of lighting protocols. The classes are shared amongst the LXProtocols packages and contain common functionality. A number of binary readers are included to help with reading network data.</Description>
+  </PropertyGroup>
+
+</Project>
