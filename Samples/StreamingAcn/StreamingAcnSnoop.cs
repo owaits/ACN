@@ -33,6 +33,7 @@ namespace StreamingAcn
         private void Start(CardInfo networkCard, IEnumerable<int> universes)
         {
             socket = new StreamingAcnSocket(Guid.NewGuid(), "Streaming ACN Snoop");
+            socket.AllowSenderLoopback = true;
             socket.SynchronizationAddress = SynchronizationUniverse;
             socket.NewPacket += socket_NewPacket;
             socket.NewSynchronize += socket_NewSynchronize;

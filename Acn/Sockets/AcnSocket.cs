@@ -82,6 +82,16 @@ namespace LXProtocols.Acn.Sockets
 
         #region Traffic
 
+        /// <summary>
+        /// Gets or sets whether the socket allows recieving packets from the same sender ID as this socket.
+        /// </summary>
+        /// <remarks>
+        /// The default is to throw away packets that where sent from this socket and originated  the same sender ID. You can 
+        /// allow loopback so that packets recieved with the same sender ID are allowed through. The assumption is that you are not interested in any packets
+        /// sent by this socket.
+        /// </remarks>
+        public bool AllowSenderLoopback { get; set; } = false;
+
         protected virtual bool TcpTraffic
         {
             get { return false; }
@@ -218,10 +228,13 @@ namespace LXProtocols.Acn.Sockets
             AcnRootLayer rootLayer = GetRootLayer();
             rootLayer.ReadData(data, TcpTraffic);
 
-            IProtocolFilter filter;
-            if (filters.TryGetValue(rootLayer.ProtocolId, out filter))
+            if(AllowSenderLoopback || rootLayer.SenderId != SenderId)
             {
-                filter.ProcessPacket(source,rootLayer, data);
+                IProtocolFilter filter;
+                if (filters.TryGetValue(rootLayer.ProtocolId, out filter))
+                {
+                    filter.ProcessPacket(source,rootLayer, data);
+                }
             }
         }
 
