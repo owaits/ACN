@@ -45,6 +45,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ACNBinaryWriterTests.cs" />
     <Compile Include="NtpDataTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlpServiceAgentTest.cs" />
