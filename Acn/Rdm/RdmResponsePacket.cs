@@ -13,6 +13,10 @@ namespace LXProtocols.Acn.Rdm
         }
 
         [Browsable(false)]
-        public RdmResponseTypes ResponseType { get; set; }
+        public RdmResponseTypes ResponseType 
+        { 
+            get { return (RdmResponseTypes) Header.PortOrResponseType;  } 
+            set { Header.PortOrResponseType = (byte) value; } 
+        }
     }
 }

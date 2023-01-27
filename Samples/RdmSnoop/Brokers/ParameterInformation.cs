@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using LXProtocols.Acn.Rdm;
 using LXProtocols.Acn.Rdm.Packets.Parameters;
 
 namespace RdmSnoop.Brokers
@@ -11,10 +12,17 @@ namespace RdmSnoop.Brokers
     {
         private ParameterDescription.GetReply parameter = null;
 
+        public ParameterInformation(RdmParameters parameterId)
+        {
+            this.parameter = new ParameterDescription.GetReply() { ParameterId = parameterId };
+        }
+
         public ParameterInformation(ParameterDescription.GetReply parameter)
         {
             this.parameter = parameter;
         }
+
+        public RdmParameters ParameterId { get { return parameter.ParameterId;  } }
 
         [Category("Limits")]
         public int MaxValue
@@ -45,9 +53,9 @@ namespace RdmSnoop.Brokers
 
         public override string ToString()
         {
-            if (parameter != null)
+            if (!string.IsNullOrEmpty(parameter?.Description))
                 return parameter.Description;
-            return base.ToString();
+            return ParameterId.ToString();
         }
     }
 }

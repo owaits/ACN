@@ -109,11 +109,32 @@ namespace RdmSnoop
             {
                 if (selectedDevice != value)
                 {
+                    if (selectedDevice != null)
+                    {
+                        selectedDevice.PropertyChanged -= SelectedDevice_PropertyChanged;
+                    }
+
                     selectedDevice = value;
+
+                    if(selectedDevice != null)
+                    {
+                        selectedDevice.PropertyChanged += SelectedDevice_PropertyChanged;
+                    }
+
                     LoadDevice();
                 }
  
             }
+        }
+
+        private void SelectedDevice_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(RdmDeviceBroker.SelectedMode))
+            {
+                BeginInvoke(new Action(() => LoadDevice()));
+            }
+
+            BeginInvoke(new Action(() => deviceInformation.Refresh()));
         }
 
         public bool AutoInterogate
@@ -134,19 +155,16 @@ namespace RdmSnoop
 
             modeTool.DropDownItems.Clear();
 
-            if (SelectedDevice.DeviceInformation != null)
+            for (int n = 1; n <= SelectedDevice.AvailableModes; n++)
             {
-                for (int n = 1; n <= SelectedDevice.DeviceInformation.DmxPersonalityCount; n++)
-                {
-                    ToolStripMenuItem newItem = new ToolStripMenuItem(string.Format("Mode {0}", n));
-                    if (n == SelectedDevice.DeviceInformation.DmxPersonality)
-                        newItem.Checked = true;
+                ToolStripMenuItem newItem = new ToolStripMenuItem(string.Format("Mode {0}", n));
+                if (n == SelectedDevice.SelectedMode)
+                    newItem.Checked = true;
 
-                    newItem.Tag = n;
-                    modeTool.DropDownItems.Add(newItem);
+                newItem.Tag = n;
+                modeTool.DropDownItems.Add(newItem);
 
-                    newItem.Click += new EventHandler(modeTool_Click);
-                }
+                newItem.Click += new EventHandler(modeTool_Click);
             }
         }
 
@@ -426,7 +444,7 @@ namespace RdmSnoop
         {
             foreach (ToolStripMenuItem item in modeTool.DropDownItems)
             {
-                item.Checked = ((int) (item.Tag) == SelectedDevice.DeviceInformation.DmxPersonality);
+                item.Checked = ((int) (item.Tag) == SelectedDevice.SelectedMode);
             }
         }
 

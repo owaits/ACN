@@ -52,6 +52,18 @@ namespace LXProtocols.Acn.Rdm.Packets.Parameters
                 foreach (RdmParameters parameterId in ParameterIds)
                     data.WriteNetwork((ushort) parameterId);
             }
+
+            /// <summary>
+            /// Determines whether the specified parameter is reported as being supported.
+            /// </summary>
+            /// <param name="parameter">The parameter.</param>
+            /// <returns>
+            ///   <c>true</c> if the specified parameter has parameter; otherwise, <c>false</c>.
+            /// </returns>
+            public bool HasParameter(RdmParameters parameter)
+            {
+                return ParameterIds.Contains(parameter);
+            }
         }
     }
 }

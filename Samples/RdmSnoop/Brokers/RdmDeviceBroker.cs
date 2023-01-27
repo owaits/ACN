@@ -19,6 +19,7 @@ using LXProtocols.Acn.Rdm.Packets.Power;
 using RdmSnoop;
 using LXProtocols.Acn.Rdm.Packets.Parameters;
 using RdmSnoop.Brokers;
+using System.Runtime.CompilerServices;
 
 namespace RdmNetworkMonitor
 {
@@ -81,7 +82,7 @@ namespace RdmNetworkMonitor
                 if (manufacturer != value)
                 {
                     manufacturer = value;
-                    RaisePropertyChanged("Manufacturer");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -97,7 +98,7 @@ namespace RdmNetworkMonitor
                 if (model != value)
                 {
                     model = value;
-                    RaisePropertyChanged("Model");
+                    RaisePropertyChanged();
                 }                
             }
         }
@@ -119,7 +120,7 @@ namespace RdmNetworkMonitor
                     foreach (var socket in sockets)
                         socket.SendRdm(setLabel, Address, Id);
 
-                    RaisePropertyChanged("Label");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -136,7 +137,7 @@ namespace RdmNetworkMonitor
                 if (deviceInformation != value)
                 {
                     deviceInformation = value;
-                    RaisePropertyChanged("DeviceInformation");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -160,6 +161,44 @@ namespace RdmNetworkMonitor
             }
         }
 
+        private int selectedMode = 0;
+
+        [Category("DMX")]
+        public int SelectedMode
+        {
+            get { return selectedMode; }
+            protected set
+            {
+                if (selectedMode != value)
+                {
+                    selectedMode = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        private int? availableModes = null;
+
+        [Category("DMX")]
+        public int AvailableModes
+        {
+            get 
+            {
+                if (availableModes == null && deviceInformation != null)
+                    return deviceInformation.DmxPersonalityCount;
+
+                return availableModes ?? 0;
+            }
+            protected set
+            {
+                if (availableModes != value)
+                {
+                    availableModes = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private string mode = string.Empty;
 
         [Category("DMX")]
@@ -171,7 +210,7 @@ namespace RdmNetworkMonitor
                 if (mode != value)
                 {
                     mode = value;
-                    RaisePropertyChanged("Mode");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -208,7 +247,7 @@ namespace RdmNetworkMonitor
                     foreach (var socket in sockets)
                         socket.SendRdm(invert, Address, Id);
 
-                    RaisePropertyChanged("PanInvert");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -230,7 +269,7 @@ namespace RdmNetworkMonitor
                     foreach (var socket in sockets)
                         socket.SendRdm(invert, Address, Id);
 
-                    RaisePropertyChanged("TiltInvert");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -252,7 +291,7 @@ namespace RdmNetworkMonitor
                     foreach (var socket in sockets)
                         socket.SendRdm(invert, Address, Id);
 
-                    RaisePropertyChanged("PanTiltSwap");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -273,7 +312,7 @@ namespace RdmNetworkMonitor
                 if (deviceHours != value)
                 {
                     deviceHours = value;
-                    RaisePropertyChanged("DeviceHours");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -289,7 +328,7 @@ namespace RdmNetworkMonitor
                 if (lampHours != value)
                 {
                     lampHours = value;
-                    RaisePropertyChanged("LampHours");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -305,7 +344,7 @@ namespace RdmNetworkMonitor
                 if (powerCycles != value)
                 {
                     powerCycles = value;
-                    RaisePropertyChanged("PowerCycles");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -321,7 +360,7 @@ namespace RdmNetworkMonitor
                 if (lampStrikes != value)
                 {
                     lampStrikes = value;
-                    RaisePropertyChanged("LampStrikes");
+                    RaisePropertyChanged();
                 }
             }
         }
@@ -409,19 +448,25 @@ namespace RdmNetworkMonitor
                 foreach (var socket in sockets)
                     socket.SendRdm(replyPacket, Address, Id);
             }
-                
+
+            SupportedParameters.GetReply parameterReply = e.Packet as SupportedParameters.GetReply;
+            if (parameterReply != null)
+            {
+                RequestDetails(parameterReply);
+                RequestLabel(parameterReply);
+                RequestConfiguration(parameterReply);
+                RequestHistory(parameterReply);
+                RequestPersonality(parameterReply);
+            }
 
             DeviceInfo.GetReply info = e.Packet as DeviceInfo.GetReply;
             if (info != null)
             {
                 DeviceInformation = info;
 
-                RequestDetails();
-                RequestLabel();
-                RequestConfiguration();
-                RequestHistory();
-                RequestPersonality();
-                RequestParameters();
+                DmxPersonalityDescription.Get packet = new DmxPersonalityDescription.Get();
+                packet.PersonalityIndex = DeviceInformation.DmxPersonality;
+                SendRdm(packet);
 
                 if (!SubDeviceUId.IsSubDevice(Id))
                 {
@@ -435,7 +480,7 @@ namespace RdmNetworkMonitor
                             subDeviceBroker.Interogate();
                         }
                     }
-                    
+
                     RaisePropertyChanged("SubDevices");
                 }
             }
@@ -560,13 +605,34 @@ namespace RdmNetworkMonitor
             return null;
         }
 
+        [RdmMessage(RdmCommands.GetResponse, RdmParameters.DmxPersonality)]
+        private RdmPacket ProcessPersonality(RdmPacket packet)
+        {
+            DmxPersonality.GetReply response = packet as DmxPersonality.GetReply;
+            if (response != null)
+            {
+                SelectedMode = (int) response.CurrentPersonalityIndex;
+                AvailableModes = (int)response.PersonalityCount;
+
+                return new DmxPersonalityDescription.Get()
+                {
+                    PersonalityIndex = response.CurrentPersonalityIndex
+                };
+            }
+
+            return null;
+        }
+
         [RdmMessage(RdmCommands.GetResponse, RdmParameters.DmxPersonalityDescription)]
         private RdmPacket ProcessPersonalityDescription(RdmPacket packet)
         {
             DmxPersonalityDescription.GetReply response = packet as DmxPersonalityDescription.GetReply;
             if (response != null)
             {
-                Mode = response.Description;
+                if(response.PersonalityIndex == SelectedMode)
+                {
+                    Mode = response.Description;
+                }
             }
 
             return null;
@@ -620,13 +686,21 @@ namespace RdmNetworkMonitor
             SupportedParameters.GetReply response = packet as SupportedParameters.GetReply;
             if (response != null)
             {
-                foreach (RdmParameters pid in response.ParameterIds.Where(item => item.IsManufacturerPID()))
+                if(response.HasParameter( RdmParameters.ParameterDescription))
                 {
-                    ParameterDescription.Get descriptionPacket = new ParameterDescription.Get();
-                    descriptionPacket.ParameterId = pid;
-                    foreach (var socket in sockets)
-                        socket.SendRdm(descriptionPacket, Address, Id);
+                    foreach (RdmParameters pid in response.ParameterIds.Where(item => item.IsManufacturerPID()))
+                    {
+                        ParameterDescription.Get descriptionPacket = new ParameterDescription.Get();
+                        descriptionPacket.ParameterId = pid;
+                        foreach (var socket in sockets)
+                            socket.SendRdm(descriptionPacket, Address, Id);
+                    }
                 }
+                else
+                {
+                    parameters = response.ParameterIds.Select(item => new ParameterInformation(item)).ToDictionary(item => item.ParameterId);
+                }
+
             }
 
             return null;
@@ -661,9 +735,7 @@ namespace RdmNetworkMonitor
         public void Interogate()
         {
             RequestParameters();
-
-            DeviceInfo.Get getInfo = new DeviceInfo.Get();
-            SendRdm(getInfo);
+            RequestDeviceInformation();
 
             //Only for RDMNet Endpoint Zero devices.
             if (Address.Universe == 0)
@@ -674,68 +746,115 @@ namespace RdmNetworkMonitor
             }
         }
 
-        public void RequestDetails()
+        public void RequestDeviceInformation()
         {
-            ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
-            SendRdm(manufacturer);
+            DeviceInfo.Get getInfo = new DeviceInfo.Get();
+            SendRdm(getInfo);
+        }
 
-            DeviceModelDescription.Get model = new DeviceModelDescription.Get();
-            SendRdm(model);
+        public void RequestDetails(SupportedParameters.GetReply supportedParameters)
+        {
+            if(supportedParameters.HasParameter(RdmParameters.ManufacturerLabel))
+            {
+                ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
+                SendRdm(manufacturer);
+            }
+
+            if (supportedParameters.HasParameter(RdmParameters.DeviceModelDescription))
+            {
+                DeviceModelDescription.Get model = new DeviceModelDescription.Get();
+                SendRdm(model);
+            }
 
             DmxStartAddress.Get dmxAddress = new DmxStartAddress.Get();
             SendRdm(dmxAddress);
         }
 
-        public void RequestLabel()
+        public void RequestLabel(SupportedParameters.GetReply supportedParameters)
         {
-            DeviceLabel.Get label = new DeviceLabel.Get();
-            SendRdm(label);
+            if (supportedParameters.HasParameter(RdmParameters.DeviceLabel))
+            {
+                DeviceLabel.Get label = new DeviceLabel.Get();
+                SendRdm(label);
+            }
         }
 
-        public void RequestDmxInformation()
+        public void RequestDmxInformation(SupportedParameters.GetReply supportedParameters)
         {
-            ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
-            SendRdm(manufacturer);
+            if (supportedParameters.HasParameter(RdmParameters.ManufacturerLabel))
+            {
+                ManufacturerLabel.Get manufacturer = new ManufacturerLabel.Get();
+                SendRdm(manufacturer);
+            }
 
-            DeviceModelDescription.Get model = new DeviceModelDescription.Get();
-            SendRdm(model);
+            if (supportedParameters.HasParameter(RdmParameters.DeviceModelDescription))
+            {
+                DeviceModelDescription.Get model = new DeviceModelDescription.Get();
+                SendRdm(model);
+            }
         }
 
-        public void RequestConfiguration()
+        public void RequestConfiguration(SupportedParameters.GetReply supportedParameters)
         {
-            PanInvert.Get pan = new PanInvert.Get();
-            SendRdm(pan);
+            if (supportedParameters.HasParameter(RdmParameters.PanInvert))
+            {
+                PanInvert.Get pan = new PanInvert.Get();
+                SendRdm(pan);
+            }
 
-            TiltInvert.Get tilt = new TiltInvert.Get();
-            SendRdm(tilt);
+            if (supportedParameters.HasParameter(RdmParameters.TiltInvert))
+            {
+                TiltInvert.Get tilt = new TiltInvert.Get();
+                SendRdm(tilt);
+            }
 
-            PanTiltSwap.Get swap = new PanTiltSwap.Get();
-            SendRdm(swap);
+            if (supportedParameters.HasParameter(RdmParameters.PanTiltSwap))
+            {
+                PanTiltSwap.Get swap = new PanTiltSwap.Get();
+                SendRdm(swap);
+            }
         }
 
-        public void RequestHistory()
+        public void RequestHistory(SupportedParameters.GetReply supportedParameters)
         {
-            DeviceHours.Get hours = new DeviceHours.Get();
-            SendRdm(hours);
+            if (supportedParameters.HasParameter(RdmParameters.DeviceHours))
+            {
+                DeviceHours.Get hours = new DeviceHours.Get();
+                SendRdm(hours);
+            }
 
-            DevicePowerCycles.Get cycles = new DevicePowerCycles.Get();
-            SendRdm(cycles);
+            if (supportedParameters.HasParameter(RdmParameters.DevicePowerCycles))
+            {
+                DevicePowerCycles.Get cycles = new DevicePowerCycles.Get();
+                SendRdm(cycles);
+            }
 
-            LampHours.Get lampHours = new LampHours.Get();
-            SendRdm(lampHours);
+            if (supportedParameters.HasParameter(RdmParameters.LampHours))
+            {
+                LampHours.Get lampHours = new LampHours.Get();
+                SendRdm(lampHours);
+            }
 
-            LampStrikes.Get lampStrikes = new LampStrikes.Get();
-            SendRdm(lampStrikes);
+            if (supportedParameters.HasParameter(RdmParameters.LampStrikes))
+            {
+                LampStrikes.Get lampStrikes = new LampStrikes.Get();
+                SendRdm(lampStrikes);
+            }
         }
 
-        public void RequestPersonality()
+        public void RequestPersonality(SupportedParameters.GetReply supportedParameters)
         {
-            DmxPersonalityDescription.Get packet = new DmxPersonalityDescription.Get();
-            packet.PersonalityIndex = DeviceInformation.DmxPersonality;
-            SendRdm(packet);
-           
-            SlotInfo.Get slotPacket = new SlotInfo.Get();
-            SendRdm(slotPacket);
+            if (supportedParameters.HasParameter(RdmParameters.DmxPersonality))
+            {
+                DmxPersonality.Get packet = new DmxPersonality.Get();
+                SendRdm(packet);
+            }
+
+            if (supportedParameters.HasParameter(RdmParameters.SlotInfo))
+            {
+                SlotInfo.Get slotPacket = new SlotInfo.Get();
+                SendRdm(slotPacket);
+            }
         }
 
         public void RequestParameters()
@@ -751,7 +870,7 @@ namespace RdmNetworkMonitor
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged(string propertyName)
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
             if(PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
