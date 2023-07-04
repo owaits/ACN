@@ -144,12 +144,12 @@ namespace LXProtocols.Acn.Packets.sAcn
                 set { totalPages = value; }
             }
 
-            private List<int> universes = new List<int>();
+            private HashSet<int> universes = new HashSet<int>();
 
             /// <summary>
             /// Gets or sets a list of sACN universes.
             /// </summary>
-            public List<int> Universes
+            public HashSet<int> Universes
             {
                 get { return universes; }
                 set { universes = value; }
