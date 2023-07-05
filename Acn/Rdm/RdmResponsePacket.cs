@@ -10,6 +10,8 @@ namespace LXProtocols.Acn.Rdm
     {
         public RdmResponsePacket(RdmCommands command, RdmParameters parameterId):base(command, parameterId)
         {
+            //Set the default response type to Ack, this is done here due to the header being shared between port ID and response type.
+            ResponseType = RdmResponseTypes.Ack;
         }
 
         [Browsable(false)]

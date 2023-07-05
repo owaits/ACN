@@ -73,7 +73,7 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
             }
         }
 
-        public class SetReply : RdmRequestPacket
+        public class SetReply : RdmResponsePacket
         {
             public SetReply()
                 : base(RdmCommands.SetResponse, RdmParameters.EndpointIdentify)

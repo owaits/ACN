@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29306.81
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.33808.371
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8F840668-B7F4-4822-9DFF-9E3C2B53BADC}"
 EndProject
@@ -72,7 +72,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LXProtocols.PosiStageNet", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LXProtocols.PosiStageNet.Test", "Tests\LXProtocols.PosiStageNet.Test\LXProtocols.PosiStageNet.Test.csproj", "{A096DF11-AA69-44EB-817C-25AA84C40C6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LXProtocols.Core", "LXProtocols.Core\LXProtocols.Core.csproj", "{14B9E1CE-11F6-416A-90D6-3FB85B9F9960}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LXProtocols.Core", "LXProtocols.Core\LXProtocols.Core.csproj", "{14B9E1CE-11F6-416A-90D6-3FB85B9F9960}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{DB3FF7B8-E361-4A49-AC45-737E2E4E521D}"
 	ProjectSection(SolutionItems) = preProject
@@ -166,6 +166,7 @@ Global
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBCEF261-9283-43E9-9CC8-5D618C54DADA}.Release|Any CPU.Build.0 = Release|Any CPU

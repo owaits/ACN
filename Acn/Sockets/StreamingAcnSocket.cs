@@ -303,7 +303,9 @@ namespace LXProtocols.Acn.Sockets
                 packet.Framing.SourceName = SourceName;
                 packet.UniverseDiscovery.Page = index;
                 packet.UniverseDiscovery.TotalPages = (byte) chunkedUniverses.Count();
-                packet.UniverseDiscovery.Universes.AddRange(chunk);
+
+                foreach(var universe in chunk)
+                    packet.UniverseDiscovery.Universes.Add(universe);
 
                 SendPacket(packet, GetUniverseEndPoint(DiscoveryUniverse));
 

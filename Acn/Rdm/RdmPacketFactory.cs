@@ -505,6 +505,17 @@ namespace LXProtocols.Acn.Rdm
             return null;
         }
 
+        /// <summary>
+        /// Determines whether the header is a response packet and if that response indicates an error.
+        /// </summary>
+        /// <remarks>
+        /// Any response type other than Ack or AckOverflow are deemed an error response. An overflow is not considered an error since
+        /// sending the message again could result in a positive response.
+        /// </remarks>
+        /// <param name="header">The header of the packet to test.</param>
+        /// <returns>
+        ///   <c>true</c> if [is error response] [the specified header]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsErrorResponse(RdmHeader header)
         {
             if (!IsResponse(header))
@@ -520,9 +531,16 @@ namespace LXProtocols.Acn.Rdm
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the header is for a request or response packet. Uses the header command to determine the type.
+        /// </summary>
+        /// <param name="header">The header of the packet to test.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified header is response; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsResponse(RdmHeader header)
         {
-            return header.Command == RdmCommands.GetResponse || header.Command != RdmCommands.SetResponse;
+            return header.Command == RdmCommands.GetResponse || header.Command == RdmCommands.SetResponse || header.Command == RdmCommands.DiscoveryResponse;
         }
 
         public static RdmPacket BuildErrorResponse(RdmHeader header)

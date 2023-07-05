@@ -48,6 +48,7 @@
     <Compile Include="ACNBinaryWriterTests.cs" />
     <Compile Include="NtpDataTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RdmPacketFactoryTests.cs" />
     <Compile Include="SlpServiceAgentTest.cs" />
     <Compile Include="SlpUserAgentTest.cs" />
   </ItemGroup>
