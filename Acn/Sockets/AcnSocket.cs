@@ -117,8 +117,12 @@ namespace LXProtocols.Acn.Sockets
             //    for the socket with this ioctl call.
             try
             {
-            byte[] byteTrue = new byte[4] {0,0,0, 1};
-            IOControl(SIO_UDP_CONNRESET, byteTrue, null);
+                byte[] byteTrue = new byte[4] {0,0,0, 1};
+                IOControl(SIO_UDP_CONNRESET, byteTrue, null);
+            }
+            catch (PlatformNotSupportedException)
+            {
+                Trace.WriteLine("Unable to set SIO_UDP_CONNRESET, maybe not supported.");
             }
             catch (SocketException)
             {

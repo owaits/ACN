@@ -75,6 +75,8 @@ namespace GlitchDetector
                 recieveData.SetDmx(dmxPacket.Dmx.Data);
             }
         }
+
+
         Timer labelingTimer;
         DateTime startTime;
 
@@ -103,6 +105,7 @@ namespace GlitchDetector
         }
 
         byte? lastValue = null;
+        int duplicateFrameCount = 0;
         Stopwatch timer = new Stopwatch();
 
         void universe_DmxDataChanged(object sender, EventArgs e)
@@ -126,11 +129,17 @@ namespace GlitchDetector
                 {
                     var time = timer.Elapsed;
                     timer.Restart();
+                    
                     if (time.TotalMilliseconds > Threshold)
                     {
                         errorCount++;
-                        WriteTrace("{3} Took {0} for {1} -> {2}", time.TotalMilliseconds, oldValue, lastValue, DateTime.UtcNow);
+                        WriteTrace("{3} Took {0} for {1} -> {2}, {4} Repeat(s)", time.TotalMilliseconds, oldValue, lastValue, DateTime.UtcNow, duplicateFrameCount);
                     }
+                    duplicateFrameCount = 0;
+                }
+                else
+                {
+                    duplicateFrameCount++;
                 }
             }
         }
