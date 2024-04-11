@@ -44,15 +44,22 @@ namespace LXProtocols.Acn.Helpers
         /// Initializes a new instance of the <see cref="SlpDeviceManager"/> class.
         /// You should subscribe clients to the <see cref="UnhandledException"/> event after construction.
         /// </summary>
-        public SlpDeviceManager()
+        /// <param name="enableLoopbackAgent">Whether or not to open an agent on the loopback adapter allowing discovery on the local device.</param>
+        public SlpDeviceManager(bool enableLoopbackAgent = true)
         {
             FetchAttributes = true;
+            EnableLoopbackAgent = enableLoopbackAgent;
 #if !(MONOANDROID || XAMARIN_IOS)
             NetworkChange.NetworkAddressChanged += new NetworkAddressChangedEventHandler(NetworkChange_NetworkAddressChanged);
 #endif
             pollTimer = new System.Threading.Timer(new System.Threading.TimerCallback(pollTimerTick), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             CreateAgents();
         }
+
+        /// <summary>
+        /// Whether or not to open an agent on the loopback adapter allowing discovery on the local device.
+        /// </summary>
+        public bool EnableLoopbackAgent { get; private set; }
 
         /// <summary>
         /// Called when the network IP changes or a network is connected.
@@ -399,7 +406,7 @@ namespace LXProtocols.Acn.Helpers
                         }
 
                         // Now create a new agent for each adaptor
-                        foreach (var localAddress in GetAllIpAddresses())
+                        foreach (var localAddress in GetAllIpAddresses(EnableLoopbackAgent))
                         {
                             SlpUserAgent agent = new SlpUserAgent();
                             agent.NetworkAdapter = localAddress;
@@ -416,8 +423,9 @@ namespace LXProtocols.Acn.Helpers
         /// <summary>
         /// Gets all the available IP addresses.
         /// </summary>
+        /// <param name="includeLoopback">Whether loopback addresses are included.</param>
         /// <returns>An Enumerable of IP addresses</returns>
-        private static IEnumerable<System.Net.IPAddress> GetAllIpAddresses()
+        private static IEnumerable<System.Net.IPAddress> GetAllIpAddresses(bool includeLoopback = true)
         {
 #if MONOANDROID
             return Java.Net.NetworkInterface.NetworkInterfaces.
@@ -428,7 +436,7 @@ namespace LXProtocols.Acn.Helpers
 #else
             return NetworkInterface.GetAllNetworkInterfaces()
 				// On IOS all the interface status are marked a Unknown
-					.Where(i => i.OperationalStatus == OperationalStatus.Up || i.OperationalStatus == OperationalStatus.Unknown)
+					.Where(i => (i.OperationalStatus == OperationalStatus.Up || i.OperationalStatus == OperationalStatus.Unknown) && (includeLoopback || !i.NetworkInterfaceType.HasFlag(NetworkInterfaceType.Loopback)))
                                         .SelectMany(i => i.GetIPProperties().UnicastAddresses)
                                         .Where(a => a.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                                         .Select(a => a.Address);
