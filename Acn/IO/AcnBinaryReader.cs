@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
+using LXProtocols.Acn.Rdm;
 
 namespace LXProtocols.Acn.IO
 {
@@ -27,6 +28,15 @@ namespace LXProtocols.Acn.IO
         {
             byte[] data = ReadBytes(size);
             return UTF8Encoding.UTF8.GetString(data).TrimEnd((char)0);
+        }
+
+        /// <summary>
+        /// Reads an RDM UID from the stream.
+        /// </summary>
+        /// <returns>The UID read from the stream.</returns>
+        public UId ReadUId()
+        {
+            return new UId((ushort)(int)ReadOctet2(), (uint)ReadOctet4());
         }
     }
 }

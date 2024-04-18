@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
+using LXProtocols.Acn.Rdm;
 
 namespace LXProtocols.Acn.IO
 {
@@ -51,6 +52,16 @@ namespace LXProtocols.Acn.IO
 
             Write(UTF8Encoding.UTF8.GetBytes(value));
             Write(new byte[(length - value.Length)]);
+        }
+
+        /// <summary>
+        /// Writes a UID to the stream.
+        /// </summary>
+        /// <param name="value">The UID to write to the stream.</param>
+        public void Write(UId value)
+        {
+            WriteOctet((short)value.ManufacturerId);
+            WriteOctet((int)value.DeviceId);
         }
     }
 }
