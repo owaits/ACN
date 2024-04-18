@@ -6,12 +6,17 @@ using LXProtocols.Acn.IO;
 using System.IO;
 using LXProtocols.Acn.Rdm;
 
-namespace LXProtocols.Acn.Packets.RdmNet
+namespace LXProtocols.Acn.Packets.RdmNet.RPT
 {
-    public class RdmNetPdu:AcnPdu
+    public enum RdmNetCommandProtocolId
     {
-        public RdmNetPdu()
-            : base((int)DmxStartCodes.RDM,1)
+        RdmData = 1
+    }
+
+    public class RdmNetCommandPdu:AcnPdu
+    {
+        public RdmNetCommandPdu(RdmNetCommandProtocolId protocolId)
+            : base((int)protocolId, 1)
         {
         }
 

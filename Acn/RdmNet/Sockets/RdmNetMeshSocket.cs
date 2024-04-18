@@ -1,4 +1,6 @@
-﻿using LXProtocols.Acn.Rdm;
+﻿using LXProtocols.Acn.Packets.RdmNet;
+using LXProtocols.Acn.Packets.RdmNet.Broker;
+using LXProtocols.Acn.Rdm;
 using LXProtocols.Acn.Sockets;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,9 @@ namespace LXProtocols.Acn.RdmNet.Sockets
     public class RdmNetMeshSocket:RdmNetSocket
     {
         private TcpListener connectionListener = null;
+
+        public event EventHandler<NewRdmNetDeviceEventArgs> DeviceFound;
+        public event EventHandler<NewRdmNetDeviceEventArgs> ControllerFound;
 
         #region Setup and Initialisation
 
@@ -52,17 +57,44 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         
         #region Device Management
 
-        private Dictionary<RdmEndPoint, HealthCheckedTcpSocket> devices = new Dictionary<RdmEndPoint, HealthCheckedTcpSocket>(new RdmEndpointComparer());
+        private Dictionary<RdmEndPoint, HealthCheckedTcpSocket> brokers = new Dictionary<RdmEndPoint, HealthCheckedTcpSocket>(new RdmEndpointComparer());
 
-        public void AddKnownDevice(RdmEndPoint endpoint)
+        public void AddBroker(RdmEndPoint endpoint)
         {
-            if(!devices.ContainsKey(endpoint))
+            if(!brokers.ContainsKey(endpoint))
             {
-                HealthCheckedTcpSocket device = HealthCheckedTcpSocket.Connect(endpoint,SenderId);
-                device.UnhandledException += device_UnhandledException;
-                device.NewRdmPacket += device_NewRdmPacket;
-                devices.Add(endpoint,device);
+                HealthCheckedTcpSocket broker = HealthCheckedTcpSocket.Connect(endpoint,SenderId);
+                //RdmNetBrokerSocket broker = RdmNetBrokerSocket.Connect(endpoint, SenderId);
+                broker.UnhandledException += device_UnhandledException;
+                broker.NewRdmPacket += device_NewRdmPacket;
+                broker.DeviceFound += Broker_DeviceFound;
+                broker.ControllerFound += Broker_ControllerFound;
+                brokers.Add(endpoint, broker);
+
+                broker.SendPacket(new RdmNetBrokerConnectPacket()
+                {
+                    ClientScope = "default",
+                    E133Version = 1,
+                    SearchDomain = "",
+                    ConnectionFlags = BrokerConnectionFlags.IncrementalUpdates,
+                    Client = new RdmNetRPTClientEntryPdu()
+                    {
+                        ClientId = SenderId,
+                        ClientUId = RdmSourceId,
+                        ClientType = RPTClientType.Controller
+                    }
+                });
             }
+        }
+
+        private void Broker_ControllerFound(object sender, NewRdmNetDeviceEventArgs e)
+        {
+            ControllerFound(sender, e);
+        }
+
+        private void Broker_DeviceFound(object sender, NewRdmNetDeviceEventArgs e)
+        {
+            DeviceFound(sender, e);
         }
 
         void device_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -90,11 +122,11 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         {
             if(disposing)
             {
-                foreach(var socket in devices.Values)
+                foreach(var socket in brokers.Values)
                 {
                     socket.Dispose();
                 }
-                devices.Clear();
+                brokers.Clear();
             }
             base.Dispose(disposing);
         }

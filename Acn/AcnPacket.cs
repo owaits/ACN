@@ -115,14 +115,14 @@ namespace LXProtocols.Acn
         {
             packet.Root.WriteData(data,false);
             packet.WriteData(data);
-            packet.Root.WriteLength(data);
+            packet.Root.WriteLength(data,false);
         }
 
         public static void WriteTcpPacket(AcnPacket packet, AcnBinaryWriter data)
         {
             packet.Root.WriteData(data, true);
             packet.WriteData(data);
-            packet.Root.WriteLength(data);
+            packet.Root.WriteLength(data, true);
         }
 
         #endregion

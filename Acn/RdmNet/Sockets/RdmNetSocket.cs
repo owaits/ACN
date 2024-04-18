@@ -22,19 +22,21 @@
 // THE SOFTWARE.
 //______________________________________________________________________________________________________________
 #endregion
-   
+
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LXProtocols.Acn.Rdm;
-using LXProtocols.Acn.Packets.sAcn;
 using LXProtocols.Acn.IO;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using LXProtocols.Acn.Sockets;
+using LXProtocols.Acn.Packets.RdmNet.Broker;
+using LXProtocols.Acn.Packets.RdmNet;
+using LXProtocols.Acn.Packets.RdmNet.RPT;
 
 namespace LXProtocols.Acn.RdmNet.Sockets
 {
@@ -114,10 +116,12 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             rdmWriter.WriteNetwork((short)RdmPacket.CalculateChecksum(rdmData.GetBuffer()) + (byte)DmxStartCodes.RDM);
 
             //Create sACN Packet
-            RdmNetPacket dmxPacket = new RdmNetPacket();
-            dmxPacket.Framing.SourceName = SourceName;
-            dmxPacket.Framing.EndpointID = (short) targetAddress.Universe;
-            dmxPacket.RdmNet.RdmData = rdmData.GetBuffer();
+            RdmNetRptRequestPacket dmxPacket = new RdmNetRptRequestPacket();
+            dmxPacket.Rpt.SourceId = sourceId;
+            dmxPacket.Rpt.SourceEndpointId = 0;
+            dmxPacket.Rpt.DestinationId = targetId;
+            dmxPacket.Rpt.DestinationEndpointId = (short) targetAddress.Universe;
+            dmxPacket.Request.RdmData = rdmData.GetBuffer();
 
             SendPacket(dmxPacket, targetAddress);
 
@@ -137,7 +141,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         /// </summary>
         IEnumerable<int> IProtocolFilter.ProtocolId
         {
-            get { return new []{(int) ProtocolIds.RdmNet}; }
+            get { return new []{(int) ProtocolIds.RdmPacketTransfer }; }
         }
 
         /// <summary>
@@ -151,17 +155,25 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         /// </remarks>
         void IProtocolFilter.ProcessPacket(IPEndPoint source, AcnRootLayer header, AcnBinaryReader data)
         {
-            RdmNetPacket newPacket = AcnPacket.ReadPacket(header,data) as RdmNetPacket;
-            if (newPacket != null)
+            AcnPacket newPacket = AcnPacket.ReadPacket(header,data);
+
+            switch(newPacket)
             {
-                RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(newPacket.RdmNet.RdmData));
+                case RdmNetRptRequestPacket rdmNetPacket:                
+                    RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(rdmNetPacket.Request.RdmData));
 
-                //Skip Start Code and sub-start code
-                dmxReader.BaseStream.Seek(1, SeekOrigin.Begin);
+                    //Skip Start Code and sub-start code
+                    dmxReader.BaseStream.Seek(1, SeekOrigin.Begin);
 
-                RdmPacket rdmPacket = RdmPacket.ReadPacket(dmxReader);
-                RaiseNewRdmPacket(new RdmEndPoint(source,newPacket.Framing.EndpointID), rdmPacket);
+                    RdmPacket rdmPacket = RdmPacket.ReadPacket(dmxReader);
+                    RaiseNewRdmPacket(new RdmEndPoint(source, rdmNetPacket.Rpt.SourceEndpointId), rdmPacket);
+                    break;
             }
+        }
+
+        protected virtual void ProcessBrokerPacket(RdmNetBrokerPacket brokerPacket)
+        {
+
         }
 
         #endregion

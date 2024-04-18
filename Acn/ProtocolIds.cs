@@ -23,9 +23,9 @@ namespace LXProtocols.Acn
         sACN = 0x4,
 
         /// <summary>
-        /// RDM data carried via streaming ACN.
+        /// RPT transports RDM messages over IP and supports a multi-controller environment.
         /// </summary>
-        RdmNet = 0x05,
+        RdmPacketTransfer = 0x05,
 
         /// <summary>
         /// Null packet used in RDMNet for Heartbeat.
@@ -35,6 +35,25 @@ namespace LXProtocols.Acn
         /// <summary>
         /// The streaming ACN extensions such as discovery and synchronization.
         /// </summary>
-        sACNExtended = 0x08
+        sACNExtended = 0x08,
+
+        /// <summary>
+        /// RDMNet Broker Messages
+        /// </summary>
+        Broker = 0x09,
+
+        /// <summary>
+        /// Simple device discovery and configuration.
+        /// </summary>
+        LLRP = 0x0A,
+
+        /// <summary>
+        /// EPT allows non-RDM data to be transmitted using a Broker.
+        /// </summary>
+        /// <remarks>
+        /// which addresses Components solely by their CID, and allows manufacturer-defined data to be
+        /// transmitted between Components free from the message format and behavioral restrictions of RDM.
+        /// </remarks
+        ExtensiblePacketTransfer = 0x0B
     }
 }

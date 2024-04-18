@@ -56,6 +56,7 @@ namespace RdmSnoop.Transports
                 rdmNetSocket = new RdmNetMeshSocket(UId.NewUId(0xFF), Guid.NewGuid(), "RDM Snoop");
                 rdmNetSocket.UnhandledException += rdmNetSocket_UnhandledException;
                 rdmNetSocket.NewRdmPacket += acnSocket_NewRdmPacket;
+                rdmNetSocket.DeviceFound += RdmNetSocket_DeviceFound;
                 rdmNetSocket.Open(new IPEndPoint(LocalAdapter,0));
             }
 
@@ -70,8 +71,13 @@ namespace RdmSnoop.Transports
 #if mDNS_Discovery
             dnsSD = new ServiceBrowser();
             dnsSD.ServiceAdded += dnsSD_ServiceAdded;
-            dnsSD.Browse("_rdmNet._udp", "local");
+            dnsSD.Browse("_rdmNet._tcp", "local");
             #endif
+        }
+
+        private void RdmNetSocket_DeviceFound(object sender, NewRdmNetDeviceEventArgs e)
+        {
+            DiscoverEndpoints(e.DeviceEndpoint);
         }
 
 #if mDNS_Discovery
@@ -82,10 +88,9 @@ namespace RdmSnoop.Transports
                 IResolvableService s = (IResolvableService)e.Service;
                 foreach (IPAddress address in s.HostEntry.AddressList)
                 {
-
-                    RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(address, RdmNetSocket.RdmNetPort), 0) { Id = UId.ParseUrl(s.TxtRecord["id"].ValueString) };
+                    RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(address, 8888), 0) { Id = UId.ParseUrl(s.TxtRecord["CID"].ValueString) };
                     ControlEndpoints.Add(controlEndpoint);
-                    rdmNetSocket.AddKnownDevice(controlEndpoint);
+                    rdmNetSocket.AddBroker(controlEndpoint);
                     DiscoverEndpoints(controlEndpoint);
                 }
             };
@@ -119,7 +124,7 @@ namespace RdmSnoop.Transports
                 {
                     RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(e.Address.Address, RdmNetSocket.RdmNetPort),0) { Id = UId.ParseUrl(url.Url) };
                     ControlEndpoints.Add(controlEndpoint);
-                    rdmNetSocket.AddKnownDevice(controlEndpoint);
+                    rdmNetSocket.AddBroker(controlEndpoint);
                     DiscoverEndpoints(controlEndpoint);
                 }
             }

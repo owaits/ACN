@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using LXProtocols.Acn.IO;
 
 namespace LXProtocols.Acn
 {
     [Flags]
-    public enum PduFlags
+    public enum PduFlags : byte
     {
         Length = 8,
         Vector = 4,
         Header = 2,
         Data = 1,
-        All = 7
+        All = 7,
+        Extended = 0xF
     }
 
     /// <summary>
@@ -66,10 +68,11 @@ namespace LXProtocols.Acn
                 {
                     length = value;
 
-                    if (length > 4096)
-                        Flags |= PduFlags.Length;
-                    else
-                        Flags &= ~PduFlags.Length;
+                    //TODO: need to figure out what to do this in RDMNet.
+                    //if (length > 4096)
+                    //    Flags |= PduFlags.Length;
+                    //else
+                    //    Flags &= ~PduFlags.Length;
                 }
             }
         }
@@ -97,13 +100,23 @@ namespace LXProtocols.Acn
         {
             //Read PDU Header
             Length = data.ReadOctet2();
-            Flags = (PduFlags)((Length & 0xF000) >> 12);
+            var flags = (PduFlags)((Length & 0xF000) >> 12);
             Length &= 0xFFF;
+
+            //TODO: look at ACN protocol on how top deal with this.
+            if(flags.HasFlag(PduFlags.Extended))
+            {
+                Length = ((Length << 8) + data.ReadByte());
+            }
+            Flags = flags;
 
             switch (vectorLength)
             {
                 case 1:
                     Vector = data.ReadByte();
+                    break;
+                case 2:
+                    Vector = data.ReadOctet2();
                     break;
                 case 4:
                     Vector = data.ReadOctet4();
@@ -130,13 +143,17 @@ namespace LXProtocols.Acn
             //Save length and skip
             //We save the stream position of the length so we can come back later and write it.
             lengthPosition = data.BaseStream.Position;
-            data.BaseStream.Seek(2, System.IO.SeekOrigin.Current);          
-                       
+
+            data.BaseStream.Seek((Flags == PduFlags.Extended ? 3 : 2), System.IO.SeekOrigin.Current);   
+      
             //Write the PDU Vector.
             switch (vectorLength)
             {
                 case 1:
                     data.Write((byte) Vector);
+                    break;
+                case 2:
+                    data.WriteOctet((short)Vector);
                     break;
                 case 4:
                     data.WriteOctet(Vector);
@@ -155,11 +172,22 @@ namespace LXProtocols.Acn
         {
             //Return to Length and update
             long endPosition = data.BaseStream.Position;
+
+            var flags = Flags;
             Length = (int) (endPosition - lengthPosition);
 
             //Write PDU length.
             data.BaseStream.Seek(lengthPosition, System.IO.SeekOrigin.Begin);
-            data.WriteOctet((short)((Length & 0x0FFF) + ((int)Flags << 12)));
+
+            if(flags.HasFlag(PduFlags.Length))
+            {
+                data.WriteOctet((short)(((short)Flags << 12) + ((Length >> 8) & 0xFFF)));
+                data.Write((byte)Length);
+            }
+            else
+            {
+                data.WriteOctet((short)((Length & 0x0FFF) + ((int)Flags << 12)));
+            }
 
             //Return to original stream position at end of PDU.
             data.BaseStream.Seek(endPosition, System.IO.SeekOrigin.Begin);

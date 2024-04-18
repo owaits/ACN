@@ -5,6 +5,8 @@ using System.Text;
 using LXProtocols.Acn.Rdm.Packets.Net;
 using LXProtocols.Acn.Packets.sAcn;
 using LXProtocols.Acn.IO;
+using LXProtocols.Acn.Packets.RdmNet.Broker;
+using LXProtocols.Acn.Packets.RdmNet.RPT;
 
 namespace LXProtocols.Acn
 {
@@ -16,10 +18,25 @@ namespace LXProtocols.Acn
             e131ExtendedBuilder.RegisterPacketType((int) E131Extended.Synchronization,new AcnPacket.Builder<StreamingAcnSynchronizationPacket>());
             e131ExtendedBuilder.RegisterPacketType((int) E131Extended.Discovery,new AcnPacket.Builder<StreamingAcnDiscoveryPacket>());
 
+            AcnPduFactory e133BrokerBuilder = new AcnPduFactory(2);
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.Connect, new AcnPacket.Builder<RdmNetBrokerConnectPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ConnectReply, new AcnPacket.Builder<RdmNetBrokerConnectReplyPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.FetchClientList, new AcnPacket.Builder<RdmNetBrokerFetchClientListPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ConnectedClientList, new AcnPacket.Builder<RdmNetBrokerConnectedClientListPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.Disconnect, new AcnPacket.Builder<RdmNetBrokerDisconnectPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.NULL, new AcnPacket.Builder<RdmNetBrokerNullPacket>());
+
+            AcnPduFactory e133RptBuilder = new AcnPduFactory(2);
+            e133RptBuilder.RegisterPacketType((int)RdmNetRptProtocolIds.Request, new AcnPacket.Builder<RdmNetRptRequestPacket>());
+            e133RptBuilder.RegisterPacketType((int)RdmNetRptProtocolIds.Status, new AcnPacket.Builder<RdmNetRptStatusPacket>());
+            e133RptBuilder.RegisterPacketType((int)RdmNetRptProtocolIds.Notification, new AcnPacket.Builder<RdmNetRptNotificationPacket>());
+
             //Port List
             factory.RegisterPacketType((int)ProtocolIds.sACN, new AcnPacket.Builder<StreamingAcnDmxPacket>());
             factory.RegisterPacketType((int)ProtocolIds.sACNExtended, e131ExtendedBuilder);
-            factory.RegisterPacketType((int)ProtocolIds.RdmNet, new AcnPacket.Builder<RdmNetPacket>());
+            factory.RegisterPacketType((int)ProtocolIds.RdmPacketTransfer, new AcnPacket.Builder<RdmNetRptRequestPacket>());
+            factory.RegisterPacketType((int)ProtocolIds.Broker, e133BrokerBuilder);
+            factory.RegisterPacketType((int)ProtocolIds.RdmPacketTransfer, e133RptBuilder);
         }
 
         protected struct PacketKey
@@ -81,6 +98,13 @@ namespace LXProtocols.Acn
 
     public class AcnPduFactory : AcnPacketFactory, IPacketBuilder
     {
+        private int protocolVectorLength = 4;
+
+        public AcnPduFactory(int protocolVectorLength = 4)
+        {
+            this.protocolVectorLength = protocolVectorLength;
+        }
+
         /// <summary>
         /// This is a dummy PDU header used to read the PDU header to determine the PDU type.
         /// </summary>
@@ -93,9 +117,10 @@ namespace LXProtocols.Acn
             /// <summary>
             /// Initializes a new instance of the <see cref="PduHeader"/> class.
             /// </summary>
-            public PduHeader()
-                : base(0)
+            public PduHeader(int vectorLength)
+                : base(0, vectorLength)
             {
+                
             }
 
             /// <summary>
@@ -125,7 +150,7 @@ namespace LXProtocols.Acn
         {
             long startPosition = reader.BaseStream.Position;
 
-            PduHeader pduHeader = new PduHeader();
+            PduHeader pduHeader = new PduHeader(protocolVectorLength);
             pduHeader.ReadPdu(reader);
 
             IPacketBuilder builder;

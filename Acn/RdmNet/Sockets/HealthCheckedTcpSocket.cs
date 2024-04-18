@@ -11,6 +11,7 @@ using System.Net;
 using LXProtocols.Acn.Rdm;
 using LXProtocols.Acn.Packets.sAcn;
 using LXProtocols.Acn.Packets.RdmNet;
+using LXProtocols.Acn.Packets.RdmNet.Broker;
 
 namespace LXProtocols.Acn.RdmNet.Sockets
 {
@@ -18,7 +19,10 @@ namespace LXProtocols.Acn.RdmNet.Sockets
     {
         private Socket socket = null;
         private Timer heartbeatTimer = null;
-        private HeartbeatProtocolFilter heartbeatFilter = null;
+        private BrokerProtocolFilter heartbeatFilter = null;
+
+        public event EventHandler<NewRdmNetDeviceEventArgs> DeviceFound;
+        public event EventHandler<NewRdmNetDeviceEventArgs> ControllerFound;
 
         public HealthCheckedTcpSocket(Socket socket, UId rdmId, Guid senderId, string sourceName)
             : base(rdmId,senderId,sourceName)
@@ -26,7 +30,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             this.socket = socket;
 
             heartbeatTimer = new Timer(new TimerCallback(Heartbeat));
-            heartbeatFilter = new HeartbeatProtocolFilter(this);
+            heartbeatFilter = new BrokerProtocolFilter(this);
 
             NewRdmPacket += HealthCheckedTcpSocket_NewRdmPacket;
 
@@ -145,7 +149,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         {
             try
             {
-                RdmNetHeartbeat heartbeatPacket = new RdmNetHeartbeat();
+                RdmNetBrokerNullPacket heartbeatPacket = new RdmNetBrokerNullPacket();
                 SendPacket(heartbeatPacket);
             }
             catch (SocketException)
@@ -157,7 +161,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
 
         void HealthCheckedTcpSocket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
         {
-            LastContact = DateTime.Now;
+            //LastContact = DateTime.Now;
         }
 
         #endregion
@@ -173,12 +177,31 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             AcnBinaryWriter writer = new AcnBinaryWriter(data);
 
             AcnPacket.WriteTcpPacket(packet, writer);
-            socket.Send(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None);         
+            socket.Send(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None);
+
+            LastContact = DateTime.Now;
+        }
+
+        protected void ProcessClientList(List<RdmNetClientEntryPdu> clientList)
+        {
+            foreach (var client in clientList)
+            {
+                switch (client)
+                {
+                    case RdmNetRPTClientEntryPdu rptClient:
+                        if (rptClient.ClientType == RPTClientType.Device)
+                            DeviceFound(this, new NewRdmNetDeviceEventArgs()
+                            {
+                                DeviceEndpoint = new RdmEndPoint(IPAddress.Any) { Id = rptClient.ClientUId }
+                            });
+                        break;
+                }
+            }
         }
 
         #endregion
 
-        private class HeartbeatProtocolFilter: IProtocolFilter
+        private class BrokerProtocolFilter: IProtocolFilter
         {
             private HealthCheckedTcpSocket parent;
 
@@ -186,7 +209,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             /// Initializes a new instance of the <see cref="HeartbeatProtocolFilter"/> class.
             /// </summary>
             /// <param name="parent">The parent.</param>
-            public HeartbeatProtocolFilter(HealthCheckedTcpSocket parent)
+            public BrokerProtocolFilter(HealthCheckedTcpSocket parent)
             {
                 this.parent = parent;
             }
@@ -196,7 +219,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             /// </summary>
             IEnumerable<int> IProtocolFilter.ProtocolId
             {
-                get { return new [] { (int) ProtocolIds.Null }; }
+                get { return new [] { (int) ProtocolIds.Broker }; }
             }
 
             /// <summary>
@@ -211,6 +234,24 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             void IProtocolFilter.ProcessPacket(IPEndPoint source, AcnRootLayer header, AcnBinaryReader data)
             {
                 parent.LastContact = DateTime.Now;
+
+                AcnPacket newPacket = AcnPacket.ReadPacket(header, data);
+
+                switch (newPacket)
+                {
+                    case RdmNetBrokerConnectReplyPacket brokerConnectReply:
+                        if (brokerConnectReply.ConnectionCode == BrokerConnectionCode.OK)
+                        {
+                            parent.SendPacket(new RdmNetBrokerFetchClientListPacket());
+                        }
+                        break;
+                    case RdmNetBrokerConnectedClientListPacket clientList:
+                        parent.ProcessClientList(clientList.Clients);
+                        break;
+                    case RdmNetBrokerPacket brokerPacket:
+                        Console.WriteLine(brokerPacket.Broker.Vector);
+                        break;
+                }
             }
         }
 

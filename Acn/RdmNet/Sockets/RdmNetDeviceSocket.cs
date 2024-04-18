@@ -1,5 +1,4 @@
-﻿using LXProtocols.Acn.Packets.sAcn;
-using LXProtocols.Acn.Rdm;
+﻿using LXProtocols.Acn.Rdm;
 using LXProtocols.Acn.Sockets;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Net;
+using LXProtocols.Acn.Packets.RdmNet.RPT;
 
 namespace LXProtocols.Acn.RdmNet.Sockets
 {
@@ -150,10 +150,10 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             rdmWriter.WriteNetwork((short)RdmPacket.CalculateChecksum(rdmData.GetBuffer()));
 
             //Create sACN Packet
-            RdmNetPacket dmxPacket = new RdmNetPacket();
-            dmxPacket.Framing.SourceName = SourceName;
-            dmxPacket.Framing.EndpointID = (short)0;
-            dmxPacket.RdmNet.RdmData = rdmData.GetBuffer();
+            RdmNetRptRequestPacket dmxPacket = new RdmNetRptRequestPacket();
+            dmxPacket.Rpt.SourceId = RdmSourceId;
+            dmxPacket.Rpt.DestinationId = packet.Header.SourceId;
+            dmxPacket.Request.RdmData = rdmData.GetBuffer();
 
             AliveTcpSocket.SendPacket(dmxPacket);
 

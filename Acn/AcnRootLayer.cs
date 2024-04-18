@@ -22,7 +22,7 @@ namespace LXProtocols.Acn
             this.packetId = packetId;
             PreambleSize = 16;
             PostambleSize = 0;
-            Flags = 0x7;
+            Flags = PduFlags.All;
         }
 
         #region Packet Contents
@@ -40,7 +40,7 @@ namespace LXProtocols.Acn
             get { return packetId; } 
         }
 
-        public byte Flags { get; set; }
+        public PduFlags Flags { get; set; }
 
         public int Length { get; set; }
 
@@ -70,8 +70,15 @@ namespace LXProtocols.Acn
 
             //Read PDU Header
             Length = data.ReadOctet2();
-            Flags = (byte)((Length & 0xF000) >> 12);
+            Flags = (PduFlags)((Length & 0xF000) >> 12);
             Length &= 0xFFF;
+
+            //Read the extended length if indicated by the flags.
+            if(Flags.HasFlag(PduFlags.Length))
+            {
+                Length = (Length << 8) + (int)data.ReadByte();
+            }
+            
             ProtocolId = data.ReadOctet4();
 
             //Read CID            
@@ -99,12 +106,21 @@ namespace LXProtocols.Acn
             //Save the position of the length so we can come back and fill it in.
             lengthPosition = data.BaseStream.Position;
 
-            data.WriteOctet((short) ((Flags << 12) + Length));
+            if(Flags.HasFlag(PduFlags.Length))
+            {
+                data.WriteOctet((short)(((short)Flags << 12) + ((Length >>8) & 0xFFF)));
+                data.Write((byte) Length);
+            }
+            else
+            {
+                data.WriteOctet((short) (((short)Flags << 12) + Length));
+            }
+            
             data.WriteOctet(ProtocolId);
             data.Write(SenderId.ToByteArray());
         }
 
-        public void WriteLength(AcnBinaryWriter data)
+        public void WriteLength(AcnBinaryWriter data, bool tcpTransport)
         {
             if (lengthPosition == 0)
                 throw new InvalidOperationException("You must write the root layer data first before calling WriteLength.");
@@ -114,8 +130,25 @@ namespace LXProtocols.Acn
 
             //Write the updated length to the packet data.
             long savedPosition = data.BaseStream.Position;
+
+            if(tcpTransport)
+            {
+                data.BaseStream.Seek(lengthPosition - 4, System.IO.SeekOrigin.Begin);
+                data.WriteOctet((int)Length);
+            }
+
             data.BaseStream.Seek(lengthPosition, System.IO.SeekOrigin.Begin);
-            data.WriteOctet((short)((Flags << 12) + Length));
+
+            if (Flags.HasFlag(PduFlags.Length))
+            {
+                data.WriteOctet((short)(((short)Flags << 12) + ((Length >> 8) & 0xFFF)));
+                data.Write((byte)Length);
+            }
+            else
+            {
+                data.WriteOctet((short)(((short)Flags << 12) + Length));
+            }
+
             data.BaseStream.Seek(savedPosition, System.IO.SeekOrigin.Begin);
         }
 
