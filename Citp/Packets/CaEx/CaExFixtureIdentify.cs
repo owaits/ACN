@@ -81,7 +81,7 @@ namespace LXProtocols.Citp.Packets.CaEx
             {
                 CaptureToFixtureLink link = new CaptureToFixtureLink()
                 {
-                    CaptureInstanceId = new Guid(data.ReadBytes(15)).FromNetwork(),
+                    CaptureInstanceId = new Guid(data.ReadData(15)).FromNetwork(),
                     FixtureId = (int) data.ReadUInt32()
                 };
 

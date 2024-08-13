@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -54,7 +53,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlitchDetector", "Samples\G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProDJTapViewer", "Samples\ProDJTap\ProDJTapViewer.csproj", "{29091ED8-BAB1-43CD-8532-D0BE3B26DB55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citp.Test", "Citp.Test\Citp.Test.csproj", "{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LXProtocols.Citp.Test", "Citp.Test\LXProtocols.Citp.Test.csproj", "{6E5D3909-C17E-4CF4-861C-DE0AAD90EF98}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcnDataMatrix", "Samples\AcnDataMatrix\AcnDataMatrix.csproj", "{5A5C7B02-55EB-4B09-8434-19BED38386C1}"
 EndProject

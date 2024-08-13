@@ -56,7 +56,7 @@ namespace LXProtocols.TCNet.Packets
             TotalPackets = data.ReadNetwork32();
             PacketNumber = data.ReadNetwork32();
             DataClusterSize = data.ReadNetwork32();
-            WaveformData = data.ReadBytes(dataSize);
+            WaveformData = data.ReadData(dataSize);
         }
 
         /// <summary>
