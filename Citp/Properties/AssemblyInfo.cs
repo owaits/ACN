@@ -10,4 +10,4 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("79e1b4da-8b3c-4fbf-8a04-d479c27116fc")]
 
-[assembly: InternalsVisibleToAttribute("LXProtocols.Citp.Text")]
+[assembly: InternalsVisibleToAttribute("LXProtocols.Citp.Test")]
