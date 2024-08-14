@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GlitchDetector": {
+      "commandName": "Project",
+      "commandLineArgs": "-universe:3 -channel:512 -threshold:70"
+    }
+  }
+}

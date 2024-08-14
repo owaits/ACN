@@ -702,6 +702,10 @@ namespace LXProtocols.Citp.Test
             msexVersion = CitpMsexVersions.Msex11Version;
             receivedPacket = CitpPacketTester.SendAndReceiveMsexVersionedPacket(sentPacket, msexVersion) as CitpMsexElementLibraryThumbnail;
             AssertCitpMsexElementLibraryThumbnail(sentPacket, receivedPacket, msexVersion);
+
+            //Test that when the packet is fragmented it still reads the data correctly.
+            receivedPacket = CitpPacketTester.SendAndReceiveMsexVersionedPacket(sentPacket, msexVersion, 43) as CitpMsexElementLibraryThumbnail;
+            AssertCitpMsexElementLibraryThumbnail(sentPacket, receivedPacket, msexVersion);
         }
 
         /// <summary>

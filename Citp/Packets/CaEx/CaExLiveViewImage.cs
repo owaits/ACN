@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,11 @@ namespace LXProtocols.Citp.Packets.CaEx
             base.ReadData(data);
             Format = (LiveViewImageFormat) data.ReadByte();
             uint dataSize = data.ReadUInt32();
-            Data = data.ReadBytes((int) dataSize);
+            Data = data.ReadData((int) dataSize);
+
+            //If we where not able to read enough data to fill the image data then throw EndOfStream so we can wait for more data.
+            if (Data.Length != dataSize)
+                throw new EndOfStreamException();
         }
 
         public override void WriteData(CitpBinaryWriter data)

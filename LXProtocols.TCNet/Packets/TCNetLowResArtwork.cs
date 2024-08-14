@@ -54,7 +54,7 @@ namespace LXProtocols.TCNet.Packets
             TotalPackets = data.ReadNetwork32();
             PacketNumber = data.ReadNetwork32();
             DataClusterSize = data.ReadNetwork32();
-            FileData = data.ReadBytes(dataSize);
+            FileData = data.ReadData(dataSize);
         }
 
         /// <summary>

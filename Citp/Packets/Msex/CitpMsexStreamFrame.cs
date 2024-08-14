@@ -56,7 +56,7 @@ namespace LXProtocols.Citp.Packets.Msex
             FrameHeight = data.ReadUInt16();
 
             int bufferSize = data.ReadUInt16();
-            FrameBuffer = data.ReadBytes(bufferSize);
+            FrameBuffer = data.ReadData(bufferSize);
         }
 
         public override void WriteData(CitpBinaryWriter data)
