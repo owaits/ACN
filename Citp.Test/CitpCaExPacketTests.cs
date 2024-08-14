@@ -114,9 +114,14 @@ namespace LXProtocols.Citp.Test
             CaExLiveViewImage sentPacket = new CaExLiveViewImage();
             sentPacket.Format = LiveViewImageFormat.JPEG;
             sentPacket.Data = new byte[]{26,66,77,89,66};            
-            CaExLiveViewImage received = CitpPacketTester.SendAndReceiveCaExPacket(sentPacket) as CaExLiveViewImage;
-            Assert.AreEqual(sentPacket.Format, received.Format, "Format is not equal.");
-            Assert.IsTrue(sentPacket.Data.SequenceEqual(received.Data), "Data is not equal.");           
+            CaExLiveViewImage received1 = CitpPacketTester.SendAndReceiveCaExPacket(sentPacket) as CaExLiveViewImage;
+            Assert.AreEqual(sentPacket.Format, received1.Format, "Format is not equal.");
+            Assert.IsTrue(sentPacket.Data.SequenceEqual(received1.Data), "Data is not equal.");
+
+            //Test that a fragmented image packet can also be read correctly.
+            CaExLiveViewImage received2 = CitpPacketTester.SendAndReceiveCaExPacket(sentPacket,31) as CaExLiveViewImage;
+            Assert.AreEqual(sentPacket.Format, received2.Format, "Format is not equal.");
+            Assert.IsTrue(sentPacket.Data.SequenceEqual(received2.Data), "Data is not equal.");
         }
 
         #endregion

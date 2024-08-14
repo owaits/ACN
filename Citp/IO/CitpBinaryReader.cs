@@ -15,6 +15,24 @@ namespace LXProtocols.Citp.IO
             : base(input)
         { }
 
+        /// <summary>
+        /// Reads the requested amount of data from the stream and enforces the correct amount of data was read.
+        /// </summary>
+        /// <param name="dataSize">The amount of data to read from the stream.</param>
+        /// <returns>The data read from the stream with the specified size.</returns>
+        /// <exception cref="System.IO.EndOfStreamException">If there is not enough data in the stream we throw EndOfStream to allow waiting for further data.</exception>
+        public byte[] ReadData(int dataSize)
+        {
+            //Read the requested data from the stream
+            var data = ReadBytes(dataSize);
+
+            //If we where not able to read enough data throw EndOfStreamException so we can wait for more data.
+            if (data.Length != dataSize)
+                throw new EndOfStreamException();
+
+            return data;
+        }
+
         public string ReadCookie()
         {
             return Encoding.UTF8.GetString(ReadBytes(4));
@@ -67,7 +85,7 @@ namespace LXProtocols.Citp.IO
         /// <returns>The GUID that has been read.</returns>
         public Guid ReadGuid()
         {
-            return new Guid(ReadBytes(15)).FromNetwork();
+            return new Guid(ReadData(15)).FromNetwork();
         }
 
         public static ImageFormat ConvertFormatCookie(string formatCookie)

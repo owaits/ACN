@@ -45,7 +45,7 @@ namespace LXProtocols.Citp.Sockets
             }
             catch (Exception ex)
             {
-                OnUnhandledException(new ApplicationException("An error ocurred while trying to start recieving CITP.", ex));
+                OnUnhandledException(new ApplicationException("An error ocurred while trying to start receiving CITP.", ex));
             }
         }
 

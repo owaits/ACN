@@ -63,7 +63,7 @@ namespace LXProtocols.TCNet.IO
         /// <returns></returns>
         public string ReadNetworkString(int length)
         {
-            return Encoding.ASCII.GetString(ReadBytes(length));
+            return Encoding.ASCII.GetString(ReadData(length));
         }
 
         /// <summary>
@@ -74,6 +74,24 @@ namespace LXProtocols.TCNet.IO
         {
             uint milliseconds = ReadNetwork32();
             return TimeSpan.FromMilliseconds(milliseconds);
+        }
+
+        /// <summary>
+        /// Reads the requested amount of data from the stream and enforces the correct amount of data was read.
+        /// </summary>
+        /// <param name="dataSize">The amount of data to read from the stream.</param>
+        /// <returns>The data read from the stream with the specified size.</returns>
+        /// <exception cref="System.IO.EndOfStreamException">If there is not enough data in the stream we throw EndOfStream to allow waiting for further data.</exception>
+        public byte[] ReadData(int dataSize)
+        {
+            //Read the requested data from the stream
+            var data = ReadBytes(dataSize);
+
+            //If we where not able to read enough data throw EndOfStreamException so we can wait for more data.
+            if (data.Length != dataSize)
+                throw new EndOfStreamException();
+
+            return data;
         }
     }
 }
