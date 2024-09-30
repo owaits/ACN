@@ -173,7 +173,24 @@ namespace LXProtocols.Acn.Slp.Sockets
 
             SlpPacket.WritePacket(packet, writer);
 
-            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, target, null, null);
+            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, target, new AsyncCallback(OnSend), null);
+        }
+
+        /// <summary>
+        /// Called when SendTo completes and handles any errors that may have ocurred.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        private void OnSend(IAsyncResult state)
+        {
+            try
+            {
+                //Throws an exception if the send was not successful or returns the bytes sent.
+                int bytesSent = EndSendTo(state);
+            }
+            catch (Exception ex)
+            {
+                OnUnhandledException(ex);
+            }
         }
 
         protected override void Dispose(bool disposing)
