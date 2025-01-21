@@ -184,7 +184,7 @@ namespace LXProtocols.Citp.Packets.CaEx
                 };
 
                 int linkDataSize = data.ReadUInt16();
-                link.Data = data.ReadBytes(linkDataSize);
+                link.Data = data.ReadData(linkDataSize);
                 links.Add(link);
             }
 

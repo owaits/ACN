@@ -42,7 +42,7 @@ namespace LXProtocols.Citp.Packets.SDmx
             UniverseIndex = data.ReadByte();
             FirstChannel = data.ReadUInt16();
             int channelCount = data.ReadUInt16();
-            ChannelLevels = data.ReadBytes(channelCount);
+            ChannelLevels = data.ReadData(channelCount);
         }
 
         public override void WriteData(CitpBinaryWriter data)

@@ -70,7 +70,7 @@ namespace LXProtocols.Citp.Packets.Msex
             ThumbnailHeight = data.ReadUInt16();
 
             int bufferSize = data.ReadUInt16();
-            ThumbnailBuffer = data.ReadBytes(bufferSize);
+            ThumbnailBuffer = data.ReadData(bufferSize);
         }
 
         public override void WriteData(CitpBinaryWriter data)

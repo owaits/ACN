@@ -83,8 +83,8 @@ namespace LXProtocols.Citp.Packets.FInf
                 LiveStatus status = new LiveStatus()
                 {
                     FixtureIdentifier = data.ReadUInt16(),
-                    FlagMask = data.ReadBytes(FlagSize),
-                    Flags = data.ReadBytes(FlagSize)
+                    FlagMask = data.ReadData(FlagSize),
+                    Flags = data.ReadData(FlagSize)
                 };
 
                 LiveStatus.Add(status);

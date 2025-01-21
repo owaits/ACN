@@ -110,8 +110,8 @@ namespace LXProtocols.Citp.Packets.Msex
 
             if (MsexVersion >= CitpMsexVersions.Msex12Version)
             {
-                AffectedElements = new BitArray(data.ReadBytes(32));
-                AffectedLibraries = new BitArray(data.ReadBytes(32));
+                AffectedElements = new BitArray(data.ReadData(32));
+                AffectedLibraries = new BitArray(data.ReadData(32));
             }
         }
 
