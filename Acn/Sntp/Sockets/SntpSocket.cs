@@ -129,7 +129,12 @@ namespace LXProtocols.Acn.Sntp.Sockets
         /// <param name="localEndPoint">The local end point.</param>
         public void Open(IPEndPoint localEndPoint)
         {
+            //Allow the use of IPv4 mapped addresses.
+            SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
+
+            //Allow other applications to reuse the same port.
             SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+
             Bind(localEndPoint);
             PortOpen = true;
 

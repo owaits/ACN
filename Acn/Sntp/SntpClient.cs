@@ -181,18 +181,22 @@ namespace LXProtocols.Acn.Sntp
             {
                 // Resolve server address
                 var hostaddresses = Dns.GetHostAddresses(TimeServer);
-                IPEndPoint EPhost = new IPEndPoint(hostaddresses.First(a => a.AddressFamily == AddressFamily.InterNetwork), Port);
+                IPEndPoint EPhost = new IPEndPoint(hostaddresses.First(a => a.AddressFamily == AddressFamily.InterNetwork || a.AddressFamily == AddressFamily.InterNetworkV6), Port);
                 NtpData recieveData;
                 List<NtpData> replies;
 
                 //Connect the time server
-                using (UdpClient timeSocket = new UdpClient())
+                using (UdpClient timeSocket = new UdpClient(EPhost.AddressFamily))
                 {
                     // Don't block for ages
                     timeSocket.Client.SendTimeout = 2000;
                     timeSocket.Client.ReceiveTimeout = 2000;
+
                     // Allow connection back to local
                     //timeSocket.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+
+                    //Allow IPv4 addresses mapped as IPv6.
+                    timeSocket.Client.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
 
                     timeSocket.Connect(EPhost);
 
