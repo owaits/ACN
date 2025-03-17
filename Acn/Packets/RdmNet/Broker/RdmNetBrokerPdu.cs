@@ -20,7 +20,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.Broker
         ClientRemove = 9,
         ClientEntryChange = 10,
         RequestDynamicUIDS = 11,
-        AassignedDynamicUIDS = 12,
+        AssignedDynamicUIDS = 12,
         FetchDynamicUIDList = 13,
         Disconnect = 14,
         NULL = 15

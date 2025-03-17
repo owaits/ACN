@@ -143,7 +143,7 @@ namespace LXProtocols.Acn.Rdm
 
             //BindingControlFields
             RegisterPacketType(RdmCommands.Get, RdmParameters.BindingControlFields, typeof(BindingControlFields.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BindingControlFields, typeof(BindingControlFields.Reply));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BindingControlFields, typeof(BindingControlFields.GetReply));
 
             //BackgroundQueuedStatusPolicy
             RegisterPacketType(RdmCommands.Get, RdmParameters.BackgroundQueuedStatusPolicy, typeof(BackgroundQueuedStatusPolicy.Get));

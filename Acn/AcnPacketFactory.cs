@@ -21,7 +21,16 @@ namespace LXProtocols.Acn
             AcnPduFactory e133BrokerBuilder = new AcnPduFactory(2);
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.Connect, new AcnPacket.Builder<RdmNetBrokerConnectPacket>());
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ConnectReply, new AcnPacket.Builder<RdmNetBrokerConnectReplyPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ClientEntryUpdate, new AcnPacket.Builder<RdmNetBrokerClientEntryUpdatePacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.RedirectV4, new AcnPacket.Builder<RdmNetBrokerRedirectV4Packet>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.RedirectV4, new AcnPacket.Builder<RdmNetBrokerRedirectV6Packet>());
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.FetchClientList, new AcnPacket.Builder<RdmNetBrokerFetchClientListPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ClientAdd, new AcnPacket.Builder<RdmNetBrokerClientAddPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ClientRemove, new AcnPacket.Builder<RdmNetBrokerClientRemovePacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ClientEntryChange, new AcnPacket.Builder<RdmNetBrokerClientEntryChangePacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.RequestDynamicUIDS, new AcnPacket.Builder<RdmNetBrokerRequestDynamicUIDsPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.AssignedDynamicUIDS, new AcnPacket.Builder<RdmNetBrokerAssignedDynamicUIDsPacket>());
+            e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.FetchDynamicUIDList, new AcnPacket.Builder<RdmNetBrokerFetchDynamicUIDListPacket>());
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.ConnectedClientList, new AcnPacket.Builder<RdmNetBrokerConnectedClientListPacket>());
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.Disconnect, new AcnPacket.Builder<RdmNetBrokerDisconnectPacket>());
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.NULL, new AcnPacket.Builder<RdmNetBrokerNullPacket>());
