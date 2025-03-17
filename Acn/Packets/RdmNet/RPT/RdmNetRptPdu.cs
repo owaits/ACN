@@ -18,8 +18,9 @@ namespace LXProtocols.Acn.Packets.RdmNet.RPT
     public class RdmNetRptPdu : AcnPdu
     {
         public RdmNetRptPdu(RdmNetRptProtocolIds protocolId)
-            : base((int)protocolId)
+            : base((int)protocolId, 4)
         {
+            Flags = PduFlags.Extended;
         }
 
         #region PDU Contents

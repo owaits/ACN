@@ -62,19 +62,7 @@ namespace LXProtocols.Acn
         public int Length 
         {
             get { return length; }
-            set
-            {
-                if (length != value)
-                {
-                    length = value;
-
-                    //TODO: need to figure out what to do this in RDMNet.
-                    //if (length > 4096)
-                    //    Flags |= PduFlags.Length;
-                    //else
-                    //    Flags &= ~PduFlags.Length;
-                }
-            }
+            set { length = value; }
         }
 
         private int vector = 0;
@@ -85,7 +73,7 @@ namespace LXProtocols.Acn
         public int Vector
         {
             get { return vector; }
-            private set { vector = value; }
+            protected set { vector = value; }
         }
 
         #endregion

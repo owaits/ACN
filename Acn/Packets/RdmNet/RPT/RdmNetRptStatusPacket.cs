@@ -14,7 +14,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.RPT
         {
         }
 
-        public RdmNetRptStatusPacket(RdmNetStatusProtocolId status)
+        public RdmNetRptStatusPacket(RdmNetStatusCodes status)
             : base(ProtocolIds.RdmPacketTransfer)
         {
             this.status = new RdmNetStatusPdu(status);
@@ -29,7 +29,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.RPT
             get { return rpt; }
         }
 
-        private RdmNetStatusPdu status = new RdmNetStatusPdu(RdmNetStatusProtocolId.None);
+        private RdmNetStatusPdu status = new RdmNetStatusPdu(RdmNetStatusCodes.None);
 
         public RdmNetStatusPdu Status
         {

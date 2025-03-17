@@ -25,11 +25,11 @@ namespace Acn.Test
             Assert.IsFalse(RdmPacketFactory.IsResponse(new DiscoveryMute.Request().Header));
             Assert.IsTrue(RdmPacketFactory.IsResponse(new DiscoveryMute.Reply().Header));
 
-            Assert.IsFalse(RdmPacketFactory.IsResponse(new EndpointIdentify.Get().Header));
-            Assert.IsTrue(RdmPacketFactory.IsResponse(new EndpointIdentify.GetReply().Header));
+            Assert.IsFalse(RdmPacketFactory.IsResponse(new IdentifyEndpoint.Get().Header));
+            Assert.IsTrue(RdmPacketFactory.IsResponse(new IdentifyEndpoint.GetReply().Header));
 
-            Assert.IsFalse(RdmPacketFactory.IsResponse(new EndpointIdentify.Set().Header));
-            Assert.IsTrue(RdmPacketFactory.IsResponse(new EndpointIdentify.SetReply().Header));
+            Assert.IsFalse(RdmPacketFactory.IsResponse(new IdentifyEndpoint.Set().Header));
+            Assert.IsTrue(RdmPacketFactory.IsResponse(new IdentifyEndpoint.SetReply().Header));
         }
 
         /// <summary>
@@ -38,14 +38,14 @@ namespace Acn.Test
         [TestMethod]
         public void IsErrorResponseTest()
         {
-            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new EndpointIdentify.Get().Header));
-            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new EndpointIdentify.GetReply().Header));
-            Assert.IsTrue(RdmPacketFactory.IsErrorResponse(new EndpointIdentify.GetReply() { ResponseType = RdmResponseTypes.NackReason }.Header));
+            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new IdentifyEndpoint.Get().Header));
+            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new IdentifyEndpoint.GetReply().Header));
+            Assert.IsTrue(RdmPacketFactory.IsErrorResponse(new IdentifyEndpoint.GetReply() { ResponseType = RdmResponseTypes.NackReason }.Header));
             
             
-            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new EndpointIdentify.Set().Header));
-            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new EndpointIdentify.SetReply().Header));
-            Assert.IsTrue(RdmPacketFactory.IsErrorResponse(new EndpointIdentify.SetReply() { ResponseType = RdmResponseTypes.NackReason }.Header));
+            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new IdentifyEndpoint.Set().Header));
+            Assert.IsFalse(RdmPacketFactory.IsErrorResponse(new IdentifyEndpoint.SetReply().Header));
+            Assert.IsTrue(RdmPacketFactory.IsErrorResponse(new IdentifyEndpoint.SetReply() { ResponseType = RdmResponseTypes.NackReason }.Header));
         }
 
     }

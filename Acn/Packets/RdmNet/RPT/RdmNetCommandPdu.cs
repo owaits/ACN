@@ -8,16 +8,12 @@ using LXProtocols.Acn.Rdm;
 
 namespace LXProtocols.Acn.Packets.RdmNet.RPT
 {
-    public enum RdmNetCommandProtocolId
-    {
-        RdmData = 1
-    }
-
     public class RdmNetCommandPdu:AcnPdu
     {
-        public RdmNetCommandPdu(RdmNetCommandProtocolId protocolId)
-            : base((int)protocolId, 1)
+        public RdmNetCommandPdu(DmxStartCodes startCode)
+            : base((int)startCode, 1)
         {
+            Flags = PduFlags.Extended;
         }
 
         #region PDU Contents
@@ -36,7 +32,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.RPT
 
         protected override void ReadData(AcnBinaryReader data)
         {
-            RdmData = data.ReadBytes(Length - 3);
+            RdmData = data.ReadBytes(Length - 4);
         }
 
         protected override void WriteData(AcnBinaryWriter data)

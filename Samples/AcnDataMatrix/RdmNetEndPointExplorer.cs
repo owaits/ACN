@@ -253,7 +253,7 @@ namespace AcnDataMatrix
             EndpointList.Reply reply = packet as EndpointList.Reply;
             if (reply != null)
             {
-                foreach (int endpointId in reply.EndpointIDs)
+                foreach (int endpointId in reply.PhysicalEndpointIDs)
                 {
                     RdmNetEndPoint target = new RdmNetEndPoint(endpoint, endpointId) { Id = packet.Header.SourceId };
                     RegisterEndpoint(target);

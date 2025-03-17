@@ -44,33 +44,44 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
                 set { listChangeNumber = value; }
             }
 
-            List<short> endpointIDs = new List<short>();
+            public List<short> PhysicalEndpointIDs { get; private set; } = new List<short>();
 
-            public List<short> EndpointIDs 
-            {
-                get { return endpointIDs; }
-                set { endpointIDs = value; }
-            }
+            public List<short> VirtualEndpointIDs { get; protected set; } = new List<short>();
 
             protected override void ReadData(RdmBinaryReader data)
             {
                 ListChangeNumber = data.ReadNetwork32();
 
-                List<short> endpoints = new List<short>();
-                for (int n = 0; n < ((Header.ParameterDataLength-4)/2); n++)
+                List<short> physicalEndpoints = new List<short>();
+                List<short> virtualEndpoints = new List<short>();
+                for (int n = 0; n < ((Header.ParameterDataLength-4)/3); n++)
                 {
-                    endpoints.Add(data.ReadNetwork16());
+                    short endpointId = data.ReadNetwork16();
+                    bool physicalEndpoint = (data.ReadByte() != 0);
+
+                    if (physicalEndpoint)
+                        physicalEndpoints.Add(endpointId);
+                    else
+                        virtualEndpoints.Add(endpointId);
                 }
 
-                EndpointIDs = endpoints;
+                VirtualEndpointIDs = virtualEndpoints;
+                PhysicalEndpointIDs = physicalEndpoints;
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
                 data.WriteNetwork(ListChangeNumber);
-                foreach (short endpointId in EndpointIDs)
+                foreach (short endpointId in VirtualEndpointIDs)
                 {
                     data.WriteNetwork(endpointId);
+                    data.Write((byte)0);
+                }
+
+                foreach (short endpointId in PhysicalEndpointIDs)
+                {
+                    data.WriteNetwork(endpointId);
+                    data.Write((byte)1);
                 }
             }
         }

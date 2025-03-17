@@ -182,6 +182,12 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             LastContact = DateTime.Now;
         }
 
+        public override void SendPacket(AcnPacket packet, IPEndPoint destination)
+        {
+            //Override the UDP send and redirect to the TCP socket.
+            SendPacket(packet);
+        }
+
         protected void ProcessClientList(List<RdmNetClientEntryPdu> clientList)
         {
             foreach (var client in clientList)
@@ -192,7 +198,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
                         if (rptClient.ClientType == RPTClientType.Device)
                             DeviceFound(this, new NewRdmNetDeviceEventArgs()
                             {
-                                DeviceEndpoint = new RdmEndPoint(IPAddress.Any) { Id = rptClient.ClientUId }
+                                DeviceEndpoint = new RdmEndPoint(IPAddress.Any) { Id = rptClient.ClientUId, BrokerId = RdmSourceId, GatewayId = rptClient.ClientUId }
                             });
                         break;
                 }
@@ -251,6 +257,8 @@ namespace LXProtocols.Acn.RdmNet.Sockets
                     case RdmNetBrokerPacket brokerPacket:
                         Console.WriteLine(brokerPacket.Broker.Vector);
                         break;
+                    default:
+                        throw new InvalidPacketException($"Unknown packet: {newPacket}");
                 }
             }
         }

@@ -57,19 +57,18 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         
         #region Device Management
 
-        private Dictionary<RdmEndPoint, HealthCheckedTcpSocket> brokers = new Dictionary<RdmEndPoint, HealthCheckedTcpSocket>(new RdmEndpointComparer());
+        private Dictionary<UId, HealthCheckedTcpSocket> brokers = new Dictionary<UId, HealthCheckedTcpSocket>();
 
         public void AddBroker(RdmEndPoint endpoint)
         {
-            if(!brokers.ContainsKey(endpoint))
+            if(!brokers.ContainsKey(endpoint.Id))
             {
                 HealthCheckedTcpSocket broker = HealthCheckedTcpSocket.Connect(endpoint,SenderId);
-                //RdmNetBrokerSocket broker = RdmNetBrokerSocket.Connect(endpoint, SenderId);
                 broker.UnhandledException += device_UnhandledException;
                 broker.NewRdmPacket += device_NewRdmPacket;
                 broker.DeviceFound += Broker_DeviceFound;
                 broker.ControllerFound += Broker_ControllerFound;
-                brokers.Add(endpoint, broker);
+                brokers.Add(endpoint.Id, broker);
 
                 broker.SendPacket(new RdmNetBrokerConnectPacket()
                 {
@@ -111,6 +110,15 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         {
             RaiseNewRdmPacket((RdmEndPoint) e.Source, e.Packet);
         }
+
+        public override void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
+        {
+            if(brokers.TryGetValue(targetAddress.BrokerId, out HealthCheckedTcpSocket broker))
+                broker.SendRdm(packet, targetAddress, targetId, sourceId);
+            else
+                base.SendRdm(packet, targetAddress, targetId, sourceId);
+        }
+
 
         #endregion
 

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace LXProtocols.Acn.Rdm.Packets.Net
 {
-    public class EndpointIdentify
+    public class IdentifyEndpoint
     {
         public class Get:RdmRequestPacket
         {
-            public Get():base(RdmCommands.Get,RdmParameters.EndpointIdentify)
+            public Get():base(RdmCommands.Get,RdmParameters.IdentifyEndpoint)
             {
             }
 
@@ -29,7 +29,7 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
         public class GetReply : RdmResponsePacket
         {
             public GetReply()
-                : base(RdmCommands.GetResponse, RdmParameters.EndpointIdentify)
+                : base(RdmCommands.GetResponse, RdmParameters.IdentifyEndpoint)
             {
             }
 
@@ -52,7 +52,7 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
 
         public class Set : RdmRequestPacket
         {
-            public Set():base(RdmCommands.Set,RdmParameters.EndpointIdentify)
+            public Set():base(RdmCommands.Set,RdmParameters.IdentifyEndpoint)
             {
             }
 
@@ -76,7 +76,7 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
         public class SetReply : RdmResponsePacket
         {
             public SetReply()
-                : base(RdmCommands.SetResponse, RdmParameters.EndpointIdentify)
+                : base(RdmCommands.SetResponse, RdmParameters.IdentifyEndpoint)
             {
             }
 

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace LXProtocols.Acn.Rdm.Packets.Net
 {
-    public class RdmTrafficEnable
+    public class RDMTrafficEnable
     {
         public class Get : RdmRequestPacket
         {
-            public Get():base(RdmCommands.Get,RdmParameters.RdmTrafficEnable)
+            public Get():base(RdmCommands.Get,RdmParameters.RDMTrafficEnable)
             {
             }
 
@@ -28,7 +28,7 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
 
         public class GetReply : RdmResponsePacket
         {
-            public GetReply():base(RdmCommands.GetResponse,RdmParameters.RdmTrafficEnable)
+            public GetReply():base(RdmCommands.GetResponse,RdmParameters.RDMTrafficEnable)
             {
             }
 
@@ -51,7 +51,7 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
 
         public class Set : RdmRequestPacket
         {
-            public Set():base(RdmCommands.Set,RdmParameters.RdmTrafficEnable)
+            public Set():base(RdmCommands.Set,RdmParameters.RDMTrafficEnable)
             {
             }
 
@@ -74,7 +74,7 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
 
         public class SetReply : RdmResponsePacket
         {
-            public SetReply():base(RdmCommands.SetResponse,RdmParameters.RdmTrafficEnable)
+            public SetReply():base(RdmCommands.SetResponse,RdmParameters.RDMTrafficEnable)
             {
             }
 

@@ -37,6 +37,7 @@ using LXProtocols.Acn.Sockets;
 using LXProtocols.Acn.Packets.RdmNet.Broker;
 using LXProtocols.Acn.Packets.RdmNet;
 using LXProtocols.Acn.Packets.RdmNet.RPT;
+using System.Diagnostics;
 
 namespace LXProtocols.Acn.RdmNet.Sockets
 {
@@ -46,6 +47,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
 
         public event EventHandler<NewPacketEventArgs<RdmPacket>> NewRdmPacket;
         public event EventHandler<NewPacketEventArgs<RdmPacket>> RdmPacketSent;
+        public event EventHandler<NewPacketEventArgs<RdmNetRptStatusPacket>> StatusPacket;
 
         public RdmNetSocket(UId rdmId, Guid sourceId, string sourceName)
             : base(sourceId)
@@ -84,12 +86,18 @@ namespace LXProtocols.Acn.RdmNet.Sockets
                 NewRdmPacket(this, new NewPacketEventArgs<RdmPacket>(source, packet));
         }
 
+        protected void RaiseStatusPacket(RdmEndPoint source, RdmNetRptStatusPacket packet)
+        {
+            if (StatusPacket != null)
+                NewRdmPacket(this, new NewPacketEventArgs<RdmPacket>(source, packet));
+        }
+
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
         {
             SendRdm(packet, targetAddress, targetId, RdmSourceId);
         }
 
-        public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
+        public virtual void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId, UId sourceId)
         {
             if (BlockRDM)
                 return; 
@@ -113,13 +121,17 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             RdmPacket.WritePacket(packet,rdmWriter);
 
             //Write the checksum
-            rdmWriter.WriteNetwork((short)RdmPacket.CalculateChecksum(rdmData.GetBuffer()) + (byte)DmxStartCodes.RDM);
+            ushort checksum = (ushort)(RdmPacket.CalculateChecksum(rdmData.GetBuffer()) + (int)DmxStartCodes.RDM);
+            rdmWriter.WriteNetwork(checksum);
+
+            //Flush the writer to ensure the buffer is up to date.
+            rdmWriter.Flush();
 
             //Create sACN Packet
             RdmNetRptRequestPacket dmxPacket = new RdmNetRptRequestPacket();
             dmxPacket.Rpt.SourceId = sourceId;
             dmxPacket.Rpt.SourceEndpointId = 0;
-            dmxPacket.Rpt.DestinationId = targetId;
+            dmxPacket.Rpt.DestinationId = targetAddress.GatewayId;
             dmxPacket.Rpt.DestinationEndpointId = (short) targetAddress.Universe;
             dmxPacket.Request.RdmData = rdmData.GetBuffer();
 
@@ -159,15 +171,34 @@ namespace LXProtocols.Acn.RdmNet.Sockets
 
             switch(newPacket)
             {
-                case RdmNetRptRequestPacket rdmNetPacket:                
-                    RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(rdmNetPacket.Request.RdmData));
+                case RdmNetRptRequestPacket rdmNetPacket:
+                    {
+                        RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(rdmNetPacket.Request.RdmData));
 
-                    //Skip Start Code and sub-start code
-                    dmxReader.BaseStream.Seek(1, SeekOrigin.Begin);
+                        //Skip Start Code and sub-start code
+                        dmxReader.BaseStream.Seek(1, SeekOrigin.Begin);
 
-                    RdmPacket rdmPacket = RdmPacket.ReadPacket(dmxReader);
-                    RaiseNewRdmPacket(new RdmEndPoint(source, rdmNetPacket.Rpt.SourceEndpointId), rdmPacket);
+                        RdmPacket rdmPacket = RdmPacket.ReadPacket(dmxReader);
+                        RaiseNewRdmPacket(new RdmEndPoint(source, rdmNetPacket.Rpt.SourceEndpointId) { BrokerId = RdmSourceId, GatewayId = rdmNetPacket.Rpt.SourceId }, rdmPacket);
+                    }
                     break;
+                case RdmNetRptStatusPacket statusPacket:
+                    RaiseStatusPacket(new RdmEndPoint(source, statusPacket.Rpt.SourceEndpointId) { BrokerId = RdmSourceId, GatewayId = statusPacket.Rpt.SourceId }, statusPacket);
+                    break;
+                case RdmNetRptNotificationPacket notificationPacket:
+                    foreach(var rdmPacketData in notificationPacket.Data)
+                    { 
+                        RdmBinaryReader dmxReader = new RdmBinaryReader(new MemoryStream(rdmPacketData.RdmData));
+
+                        //Skip Start Code and sub-start code
+                        dmxReader.BaseStream.Seek(1, SeekOrigin.Begin);
+
+                        RdmPacket rdmPacket = RdmPacket.ReadPacket(dmxReader);
+                        RaiseNewRdmPacket(new RdmEndPoint(source, notificationPacket.Rpt.SourceEndpointId) { BrokerId = RdmSourceId, GatewayId = notificationPacket.Rpt.SourceId}, rdmPacket);                       
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException($"Unknown RPT Packet: {newPacket?.ToString()}");
             }
         }
 

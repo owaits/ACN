@@ -26,7 +26,7 @@ namespace LXProtocols.Acn
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.Disconnect, new AcnPacket.Builder<RdmNetBrokerDisconnectPacket>());
             e133BrokerBuilder.RegisterPacketType((int)RdmNetBrokerProtocolIds.NULL, new AcnPacket.Builder<RdmNetBrokerNullPacket>());
 
-            AcnPduFactory e133RptBuilder = new AcnPduFactory(2);
+            AcnPduFactory e133RptBuilder = new AcnPduFactory(4);
             e133RptBuilder.RegisterPacketType((int)RdmNetRptProtocolIds.Request, new AcnPacket.Builder<RdmNetRptRequestPacket>());
             e133RptBuilder.RegisterPacketType((int)RdmNetRptProtocolIds.Status, new AcnPacket.Builder<RdmNetRptStatusPacket>());
             e133RptBuilder.RegisterPacketType((int)RdmNetRptProtocolIds.Notification, new AcnPacket.Builder<RdmNetRptNotificationPacket>());

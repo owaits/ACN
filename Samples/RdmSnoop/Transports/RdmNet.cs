@@ -14,6 +14,8 @@ using LXProtocols.Acn.RdmNet.Sockets;
 using LXProtocols.Acn.Rdm.Packets.Net;
 using LXProtocols.Acn.Rdm.Broker;
 using System.Diagnostics;
+using LXProtocols.Acn.Rdm.Packets.Product;
+
 
 #if mDNS_Discovery
 using Mono.Zeroconf;
@@ -91,7 +93,6 @@ namespace RdmSnoop.Transports
                     RdmEndPoint controlEndpoint = new RdmEndPoint(new IPEndPoint(address, 8888), 0) { Id = UId.ParseUrl(s.TxtRecord["CID"].ValueString) };
                     ControlEndpoints.Add(controlEndpoint);
                     rdmNetSocket.AddBroker(controlEndpoint);
-                    DiscoverEndpoints(controlEndpoint);
                 }
             };
             args.Service.Resolve();
@@ -105,14 +106,16 @@ namespace RdmSnoop.Transports
 
         void acnSocket_NewRdmPacket(object sender, NewPacketEventArgs<RdmPacket> e)
         {
+            if (e.Packet is DeviceLabel.Get)
+                ProcessDeviceLabel(e.Source, e.Packet);
             if (e.Packet is EndpointList.Reply)
                 ProcessEndpointList(e.Source, e.Packet);
             if (e.Packet is EndpointListChange.Reply)
                 ProcessEndpointListChange(e.Source, e.Packet);
 
-            if (e.Packet is EndpointDevices.Reply)
+            if (e.Packet is EndpointResponders.Reply)
                 ProcessDeviceList(e.Source, e.Packet);           
-            if (e.Packet is EndpointDeviceListChange.Reply)
+            if (e.Packet is EndpointResponderListChange.Reply)
                 ProcessDeviceListChange(e.Source, e.Packet);
         }
 
@@ -234,17 +237,29 @@ namespace RdmSnoop.Transports
 
         #region RDM Message Handlers
 
+        private void ProcessDeviceLabel(IPEndPoint endpoint, RdmPacket packet)
+        {
+            DeviceLabel.Get request = packet as DeviceLabel.Get;
+            if (request != null)
+            {
+                DeviceLabel.GetReply reply = new DeviceLabel.GetReply();
+                reply.Label = "RDM Snoop";
+                foreach (var socket in Sockets)
+                    socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
+            }
+        }
+
         private void ProcessEndpointList(IPEndPoint endpoint, RdmPacket packet)
         {
             EndpointList.Reply reply = packet as EndpointList.Reply;
             if (reply != null)
             {
-                foreach(int endpointId in reply.EndpointIDs)
+                foreach(int endpointId in reply.PhysicalEndpointIDs)
                 {
                     RdmEndPoint target = new RdmEndPoint(endpoint, endpointId) { Id = packet.Header.SourceId };
                     DiscoveredEndpoints.Add(target);
 
-                    EndpointDevices.Get request = new EndpointDevices.Get();
+                    EndpointResponders.Get request = new EndpointResponders.Get();
                     request.EndpointID = (short) endpointId;
 
                     foreach(var socket in Sockets)
@@ -264,7 +279,7 @@ namespace RdmSnoop.Transports
 
         private void ProcessDeviceList(IPEndPoint endpoint, RdmPacket packet)
         {
-            EndpointDevices.Reply reply = packet as EndpointDevices.Reply;
+            EndpointResponders.Reply reply = packet as EndpointResponders.Reply;
             if (reply != null)
             {
                 RdmEndPoint source = new RdmEndPoint(endpoint, reply.EndpointID);
@@ -277,12 +292,12 @@ namespace RdmSnoop.Transports
 
         private void ProcessDeviceListChange(IPEndPoint endpoint, RdmPacket packet)
         {
-            EndpointDeviceListChange.Reply reply = packet as EndpointDeviceListChange.Reply;
+            EndpointResponderListChange.Reply reply = packet as EndpointResponderListChange.Reply;
             if (reply != null)
             {
                 RdmEndPoint source = new RdmEndPoint(endpoint, reply.EndpointID);
 
-                EndpointDevices.Get request = new EndpointDevices.Get();
+                EndpointResponders.Get request = new EndpointResponders.Get();
                 request.EndpointID = reply.EndpointID;
                 foreach(var socket in Sockets)
                     socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);

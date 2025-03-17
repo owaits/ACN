@@ -18,7 +18,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.Broker
             broker = new RdmNetBrokerPdu(brokerProtocolId);
 
             //All RDM net packets have flags set to F. This results in a 3 byte Flags and Header.
-            Root.Flags = 0xF;
+            Root.Flags = PduFlags.Extended;
         }
 
 

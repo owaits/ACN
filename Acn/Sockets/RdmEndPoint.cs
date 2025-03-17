@@ -22,11 +22,23 @@ namespace LXProtocols.Acn.Sockets
         public RdmEndPoint(IPEndPoint ipEndPoint)
             : this(ipEndPoint.Address, ipEndPoint.Port, 0)
         {
+            RdmEndPoint rdmNetEndpoint = ipEndPoint as RdmEndPoint;
+            if (rdmNetEndpoint != null)
+            {
+                BrokerId = rdmNetEndpoint.BrokerId;
+                GatewayId = rdmNetEndpoint.GatewayId;
+            }
         }
 
         public RdmEndPoint(IPEndPoint ipEndPoint, int universe)
             : this(ipEndPoint.Address,ipEndPoint.Port,universe)
         {
+            RdmEndPoint rdmNetEndpoint = ipEndPoint as RdmEndPoint;
+            if(rdmNetEndpoint != null)
+            {
+                BrokerId = rdmNetEndpoint.BrokerId;
+                GatewayId = rdmNetEndpoint.GatewayId;
+            }            
         }
 
         public RdmEndPoint(IPAddress ipAddress,int port, int universe):base(ipAddress,port)
@@ -50,6 +62,8 @@ namespace LXProtocols.Acn.Sockets
             get { return id; }
             set { id = value; }
         }
+
+        public UId BrokerId { get; set; } = null;
 
         private UId gatewayId = UId.Empty;
 

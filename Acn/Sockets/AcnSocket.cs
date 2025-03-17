@@ -247,7 +247,7 @@ namespace LXProtocols.Acn.Sockets
             SendPacket(packet, new IPEndPoint(destination, Port));
         }
 
-        public void SendPacket(AcnPacket packet, IPEndPoint destination)
+        public virtual void SendPacket(AcnPacket packet, IPEndPoint destination)
         {
             //Set the senders CID.
             packet.Root.SenderId = SenderId;

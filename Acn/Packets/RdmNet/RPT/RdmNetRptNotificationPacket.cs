@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using LXProtocols.Acn.IO;
 using LXProtocols.Acn.Packets.RdmNet;
+using LXProtocols.Acn.Rdm;
 
 namespace LXProtocols.Acn.Packets.RdmNet.RPT
 {
@@ -30,12 +31,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.RPT
             get { return message; }
         }
 
-        private RdmNetCommandPdu data = new RdmNetCommandPdu(RdmNetCommandProtocolId.RdmData);
-
-        public RdmNetCommandPdu Data
-        {
-            get { return data; }
-        }
+        public List<RdmNetCommandPdu> Data { get; protected set; } = new List<RdmNetCommandPdu>();
 
         #endregion
 
@@ -45,15 +41,27 @@ namespace LXProtocols.Acn.Packets.RdmNet.RPT
         {
             Rpt.ReadPdu(data);
             Message.ReadPdu(data);
-            Data.ReadPdu(data);
+
+            int commandPosition = 0;
+            while(commandPosition < (Message.Length - 7))
+            {
+                RdmNetCommandPdu command = new RdmNetCommandPdu(DmxStartCodes.RDM);
+                command.ReadPdu(data);
+                Data.Add(command);
+
+                commandPosition += command.Length;
+            }
         }
 
         protected override void WriteData(AcnBinaryWriter data)
         {
             Rpt.WritePdu(data);
             Message.WritePdu(data);
-            Data.WritePdu(data);
-            Data.WriteLength(data);
+            foreach(var command in Data)
+            {
+                command.WritePdu(data);
+                command.WriteLength(data);
+            }
             Message.WriteLength(data);
             Rpt.WriteLength(data);
         }

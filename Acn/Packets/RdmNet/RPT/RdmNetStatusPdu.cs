@@ -8,7 +8,7 @@ using LXProtocols.Acn.Rdm;
 
 namespace LXProtocols.Acn.Packets.RdmNet.RPT
 {
-    public enum RdmNetStatusProtocolId
+    public enum RdmNetStatusCodes
     {
         None = 0,
         UnknownRPTUID = 1,
@@ -24,12 +24,22 @@ namespace LXProtocols.Acn.Packets.RdmNet.RPT
 
     public class RdmNetStatusPdu:AcnPdu
     {
-        public RdmNetStatusPdu(RdmNetStatusProtocolId protocolId)
+        public RdmNetStatusPdu(RdmNetStatusCodes protocolId)
             : base((int)protocolId, 2)
         {
+            Flags = PduFlags.Extended;
         }
 
         #region PDU Contents
+
+        /// <summary>
+        /// Gets or sets the status code or error code defined by <see cref="RdmNetStatusCodes"/>
+        /// </summary>
+        public RdmNetStatusCodes StatusCode 
+        {
+            get { return (RdmNetStatusCodes) Vector; }
+            set { Vector = (int)value; }
+        }
 
         public string Status { get; set; }
 

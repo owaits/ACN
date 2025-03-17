@@ -82,10 +82,10 @@ namespace LXProtocols.Acn.Rdm
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointListChange, typeof(EndpointListChange.Reply));
 
             //EndpointIdentify
-            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.GetReply));
-            RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.Set));
-            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointIdentify, typeof(EndpointIdentify.SetReply));
+            RegisterPacketType(RdmCommands.Get, RdmParameters.IdentifyEndpoint, typeof(IdentifyEndpoint.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.IdentifyEndpoint, typeof(IdentifyEndpoint.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.IdentifyEndpoint, typeof(IdentifyEndpoint.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.IdentifyEndpoint, typeof(IdentifyEndpoint.SetReply));
 
             //EndpointToUniverse
             RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.Get));
@@ -94,10 +94,10 @@ namespace LXProtocols.Acn.Rdm
             RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.SetReply));
             
             //RdmTrafficEnable
-            RegisterPacketType(RdmCommands.Get, RdmParameters.RdmTrafficEnable, typeof(RdmTrafficEnable.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.RdmTrafficEnable, typeof(BackgroundDiscovery.GetReply));
-            RegisterPacketType(RdmCommands.Set, RdmParameters.RdmTrafficEnable, typeof(RdmTrafficEnable.Set));
-            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.RdmTrafficEnable, typeof(RdmTrafficEnable.SetReply));
+            RegisterPacketType(RdmCommands.Get, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.RDMTrafficEnable, typeof(BackgroundDiscovery.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.SetReply));
 
             //EndpointMode
             RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointMode, typeof(EndpointMode.Get));
@@ -134,12 +134,12 @@ namespace LXProtocols.Acn.Rdm
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointTimingDescription, typeof(EndpointTimingDescription.GetReply));
 
             //EndpointDeviceListChange
-            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointDeviceListChange, typeof(EndpointDeviceListChange.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointDeviceListChange, typeof(EndpointDeviceListChange.Reply));
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointResponderListChange, typeof(EndpointResponderListChange.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointResponderListChange, typeof(EndpointResponderListChange.Reply));
 
             //Endpoint Devices
-            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointDevices, typeof(EndpointDevices.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointDevices, typeof(EndpointDevices.Reply));
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointResponders, typeof(EndpointResponders.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointResponders, typeof(EndpointResponders.Reply));
 
             //BindingControlFields
             //TcpCommsStatus
