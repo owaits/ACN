@@ -44,9 +44,9 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
                 set { listChangeNumber = value; }
             }
 
-            public List<short> PhysicalEndpointIDs { get; private set; } = new List<short>();
+            public List<short> PhysicalEndpointIDs { get; set; }
 
-            public List<short> VirtualEndpointIDs { get; protected set; } = new List<short>();
+            public List<short> VirtualEndpointIDs { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
@@ -71,17 +71,27 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
 
             protected override void WriteData(RdmBinaryWriter data)
             {
+                //Write the list change number used to keep track of the list version.
                 data.WriteNetwork(ListChangeNumber);
-                foreach (short endpointId in VirtualEndpointIDs)
+
+                //Write out the virtual endpoints.
+                if (VirtualEndpointIDs != null)
                 {
-                    data.WriteNetwork(endpointId);
-                    data.Write((byte)0);
+                    foreach (short endpointId in VirtualEndpointIDs)
+                    {
+                        data.WriteNetwork(endpointId);
+                        data.Write((byte)0);
+                    }
                 }
 
-                foreach (short endpointId in PhysicalEndpointIDs)
+                //Write out the physical endpoints.
+                if (PhysicalEndpointIDs != null)
                 {
-                    data.WriteNetwork(endpointId);
-                    data.Write((byte)1);
+                    foreach (short endpointId in PhysicalEndpointIDs)
+                    {
+                        data.WriteNetwork(endpointId);
+                        data.Write((byte)1);
+                    }
                 }
             }
         }

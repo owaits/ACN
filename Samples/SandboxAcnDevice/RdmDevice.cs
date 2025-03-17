@@ -31,7 +31,7 @@ namespace SandboxAcnDevice
         {
             //Port List Reply
             EndpointList.Reply portListReply = new EndpointList.Reply();
-            portListReply.EndpointIDs = new List<short>() { 1, 2, 3, 4 };
+            portListReply.PhysicalEndpointIDs = new List<short>() { 1, 2, 3, 4 };
             broker.RegisterResponse(RdmParameters.EndpointList, portListReply);
 
         }

@@ -89,7 +89,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
         protected void RaiseStatusPacket(RdmEndPoint source, RdmNetRptStatusPacket packet)
         {
             if (StatusPacket != null)
-                NewRdmPacket(this, new NewPacketEventArgs<RdmPacket>(source, packet));
+                StatusPacket(this, new NewPacketEventArgs<RdmNetRptStatusPacket>(source, packet));
         }
 
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
