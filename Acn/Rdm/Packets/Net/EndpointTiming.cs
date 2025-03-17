@@ -86,12 +86,16 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
             {
             }
 
+            public short EndpointID { get; set; }
+
             protected override void ReadData(RdmBinaryReader data)
             {
+                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
+                data.WriteNetwork(EndpointID);
             }
         }
     }

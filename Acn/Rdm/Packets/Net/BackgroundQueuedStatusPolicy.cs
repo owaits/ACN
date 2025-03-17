@@ -5,6 +5,14 @@ using System.Text;
 
 namespace LXProtocols.Acn.Rdm.Packets.Net
 {
+    public enum BackgroundQueuedPolicy : byte
+    {
+        StatusNone = 0,
+        StatusAdvisory = 1,
+        StatusWarning = 2,
+        StatusError = 3
+    }
+
     public class BackgroundQueuedStatusPolicy
     {
         public class Get : RdmRequestPacket
@@ -14,16 +22,12 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
             {
             }
 
-            public short EndpointID { get; set; }
-
             protected override void ReadData(RdmBinaryReader data)
             {
-                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(EndpointID);
             }
         }
 
@@ -34,23 +38,19 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
             {
             }
 
-            public short EndpointID { get; set; }
-
-            public byte CurrentPolicyID { get; set; }
+            public BackgroundQueuedPolicy CurrentPolicy { get; set; }
 
             public byte PolicyCount { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                EndpointID = data.ReadNetwork16();
-                CurrentPolicyID = data.ReadByte();
+                CurrentPolicy = (BackgroundQueuedPolicy)data.ReadByte();
                 PolicyCount = data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(EndpointID);
-                data.Write(CurrentPolicyID);
+                data.Write((byte)CurrentPolicy);
                 data.Write(PolicyCount);
             }
         }
@@ -62,20 +62,16 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
             {
             }
 
-            public short EndpointID { get; set; }
-
-            public byte CurrentPolicyID { get; set; }
+            public BackgroundQueuedPolicy CurrentPolicy { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                EndpointID = data.ReadNetwork16();
-                CurrentPolicyID = data.ReadByte();
+                CurrentPolicy = (BackgroundQueuedPolicy)data.ReadByte();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.WriteNetwork(EndpointID);
-                data.Write(CurrentPolicyID);
+                data.Write((byte)CurrentPolicy);
             }
         }
 

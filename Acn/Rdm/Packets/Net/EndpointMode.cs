@@ -9,8 +9,17 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
     {
         public enum EndpointModes
         {
+            /// <summary>
+            /// Endpoint is disabled for all traffic.
+            /// </summary>
             Disabled = 0x0,
+            /// <summary>
+            /// Endpoint is configured as an Input, accepting DMX512 communication.
+            /// </summary>
             Input = 0x1,
+            /// <summary>
+            /// Endpoint is configured as an Output generating DMX512 communication.
+            /// </summary>
             Output = 0x2
         }
 
@@ -89,14 +98,16 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
             {
             }
 
+            public short EndpointID { get; set; }
+
             protected override void ReadData(RdmBinaryReader data)
             {
-                //Parameter Data Empty
+                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                //Parameter Data Empty
+                data.WriteNetwork(EndpointID);
             }
         }
     }

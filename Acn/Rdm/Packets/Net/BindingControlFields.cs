@@ -5,6 +5,10 @@ using System.Text;
 
 namespace LXProtocols.Acn.Rdm.Packets.Net
 {
+    /// <summary>
+    /// This parameter allows a Controller to retrieve the Binding UID and Control Field information that
+    /// is sent as part of the Discovery Mute(DISC_MUTE) message.
+    /// </summary>
     public class BindingControlFields
     {
         public class Get : RdmRequestPacket
@@ -14,15 +18,19 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
             {
             }
 
+            public short EndpointID { get; set; }
+
             public UId Id { get; set; }
 
             protected override void ReadData(RdmBinaryReader data)
             {
+                EndpointID = data.ReadNetwork16();
                 Id = data.ReadUId();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
+                data.Write(EndpointID);
                 data.Write(Id);
             }
         }
@@ -44,16 +52,16 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
 
             protected override void ReadData(RdmBinaryReader data)
             {
-                Id = data.ReadUId();
                 EndpointID = data.ReadNetwork16();
+                Id = data.ReadUId();                
                 ControlFields = data.ReadNetwork16();
                 BindingId = data.ReadUId();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                data.Write(Id);
                 data.Write(EndpointID);
+                data.Write(Id);                
                 data.Write(ControlFields);
                 data.Write(BindingId);
             }

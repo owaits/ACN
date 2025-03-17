@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace LXProtocols.Acn.Rdm.Packets.Net
@@ -95,15 +96,17 @@ namespace LXProtocols.Acn.Rdm.Packets.Net
                 : base(RdmCommands.SetResponse, RdmParameters.DiscoveryState)
             {
             }
-            
+
+            public short EndpointID { get; set; }
+
             protected override void ReadData(RdmBinaryReader data)
             {
-                //Parameter Data Empty
+                EndpointID = data.ReadNetwork16();
             }
 
             protected override void WriteData(RdmBinaryWriter data)
             {
-                //Parameter Data Empty
+                data.WriteNetwork(EndpointID);
             }
         }
     }

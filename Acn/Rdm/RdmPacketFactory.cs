@@ -93,12 +93,6 @@ namespace LXProtocols.Acn.Rdm
             RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.Set));
             RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointToUniverse, typeof(EndpointToUniverse.SetReply));
             
-            //RdmTrafficEnable
-            RegisterPacketType(RdmCommands.Get, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.RDMTrafficEnable, typeof(BackgroundDiscovery.GetReply));
-            RegisterPacketType(RdmCommands.Set, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.Set));
-            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.SetReply));
-
             //EndpointMode
             RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointMode, typeof(EndpointMode.Get));
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointMode, typeof(EndpointMode.GetReply));
@@ -110,6 +104,12 @@ namespace LXProtocols.Acn.Rdm
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointLabel, typeof(EndpointLabel.GetReply));
             RegisterPacketType(RdmCommands.Set, RdmParameters.EndpointLabel, typeof(EndpointLabel.Set));
             RegisterPacketType(RdmCommands.SetResponse, RdmParameters.EndpointLabel, typeof(EndpointLabel.SetReply));
+
+            //RdmTrafficEnable
+            RegisterPacketType(RdmCommands.Get, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.RDMTrafficEnable, typeof(BackgroundDiscovery.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.RDMTrafficEnable, typeof(RDMTrafficEnable.SetReply));
 
             //DiscoveryState
             RegisterPacketType(RdmCommands.Get, RdmParameters.DiscoveryState, typeof(DiscoveryState.Get));
@@ -133,21 +133,27 @@ namespace LXProtocols.Acn.Rdm
             RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointTimingDescription, typeof(EndpointTimingDescription.Get));
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointTimingDescription, typeof(EndpointTimingDescription.GetReply));
 
-            //EndpointDeviceListChange
-            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointResponderListChange, typeof(EndpointResponderListChange.Get));
-            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointResponderListChange, typeof(EndpointResponderListChange.Reply));
-
-            //Endpoint Devices
+            //Endpoint Responders
             RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointResponders, typeof(EndpointResponders.Get));
             RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointResponders, typeof(EndpointResponders.Reply));
 
+            //EndpointResponderListChange
+            RegisterPacketType(RdmCommands.Get, RdmParameters.EndpointResponderListChange, typeof(EndpointResponderListChange.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.EndpointResponderListChange, typeof(EndpointResponderListChange.Reply));
+
             //BindingControlFields
-            //TcpCommsStatus
+            RegisterPacketType(RdmCommands.Get, RdmParameters.BindingControlFields, typeof(BindingControlFields.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BindingControlFields, typeof(BindingControlFields.Reply));
+
             //BackgroundQueuedStatusPolicy
+            RegisterPacketType(RdmCommands.Get, RdmParameters.BackgroundQueuedStatusPolicy, typeof(BackgroundQueuedStatusPolicy.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BackgroundQueuedStatusPolicy, typeof(BackgroundQueuedStatusPolicy.GetReply));
+            RegisterPacketType(RdmCommands.Set, RdmParameters.BackgroundQueuedStatusPolicy, typeof(BackgroundQueuedStatusPolicy.Set));
+            RegisterPacketType(RdmCommands.SetResponse, RdmParameters.BackgroundQueuedStatusPolicy, typeof(BackgroundQueuedStatusPolicy.SetReply));
+
             //BackgroundQueuedStatusPolicyDescription
-            //BackgroundStatusType
-            //QueuedStatusEndpointCollection
-            //QueuedStatusUIDCollection
+            RegisterPacketType(RdmCommands.Get, RdmParameters.BackgroundQueuedStatusPolicyDescription, typeof(BackgroundQueuedStatusPolicyDescription.Get));
+            RegisterPacketType(RdmCommands.GetResponse, RdmParameters.BackgroundQueuedStatusPolicyDescription, typeof(BackgroundQueuedStatusPolicyDescription.GetReply));
         }
 
         private static void RegisterProductMessages()
