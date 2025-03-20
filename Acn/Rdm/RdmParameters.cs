@@ -90,6 +90,22 @@ namespace LXProtocols.Acn.Rdm
         LockState = 0x0641,
         LockStateDescription = 0x0642,
 
+        //---- Internet Protocol Configuration ----
+        ListInterfaces = 0x0700,
+        InterfaceLabel = 0x0701,
+        InterfaceHardwareAddressType1 = 0x0702,
+        IPV4DHCPMode = 0x0703,
+        IPV4ZeroconfMode = 0x0704,
+        IPV4CurrentAddress = 0x0705,
+        IPV4StaticAddress = 0x0706,
+        InterfaceRenewDHCP = 0x0707,
+        InterfaceReleaseDHCP = 0x0708,
+        InterfaceApplyConfiguration = 0x0709,
+        IPV4DefaultRoute = 0x070A,
+        DNSIPV4NameServer = 0x070B,
+        DNSHostName = 0x070C,
+        DNSDomainName = 0x070D,
+
         //---- Control ----
         IdentifyDevice = 0x1000,
         ResetDevice = 0x1001,
