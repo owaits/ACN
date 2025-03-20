@@ -17,6 +17,30 @@ namespace LXProtocols.Acn.Rdm.Packets.Management
         BufferFull = 0x7,
         PacketSizeUnsupported = 0x8,
         SubDeviceOutOfRange = 0x9,
-        ProxyBufferFull = 0xA
+        ProxyBufferFull = 0xA,
+        /// <summary>
+        /// The specified action is not supported.
+        /// </summary>
+        ActionNotSupported = 0x000B,
+        /// <summary>
+        /// The Component is not participating in the given Scope.
+        /// </summary>
+        UnknownScope = 0x000F,
+        /// <summary>
+        /// The Static Config Type provided is invalid.
+        /// </summary>
+        InvalidStaticConfigType = 0x0010,
+        /// <summary>
+        /// The IPv4 Address provided is invalid.
+        /// </summary>
+        InvalidIPV4Address = 0x0011,
+        /// <summary>
+        /// The IPv6 Address provided is invalid.
+        /// </summary>
+        InvalidIPV6Address = 0x0012,
+        /// <summary>
+        /// The transport layer port provided is invalid.
+        /// </summary>
+        InvalidPort = 0x0013
     }
 }

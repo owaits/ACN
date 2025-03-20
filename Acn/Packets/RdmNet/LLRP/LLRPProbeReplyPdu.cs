@@ -19,7 +19,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.LLRP
     public class LLRPProbeReplyPdu : AcnPdu
     {
         public LLRPProbeReplyPdu()
-           : base((int)1, 4)
+           : base((int)1, 1)
         {
             Flags = PduFlags.Extended;
         }

@@ -11,16 +11,16 @@ namespace LXProtocols.Acn.Packets.RdmNet.LLRP
     public class LLRPProbeRequestPdu : AcnPdu
     {
         public LLRPProbeRequestPdu()
-           : base((int)1, 4)
+           : base((int)1, 1)
         {
             Flags = PduFlags.Extended;
         }
 
         #region PDU Contents
 
-        public UId LowerIdBound { get; set; }
+        public UId LowerIdBound { get; set; } = UId.MinValue;
 
-        public UId UpperIdBound { get; set; }
+        public UId UpperIdBound { get; set; } = UId.MaxValue;
 
         public short Filter { get; set; }
 

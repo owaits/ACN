@@ -14,7 +14,7 @@ namespace LXProtocols.Acn.Packets.RdmNet.LLRP
     public class LLRPCommandPdu : AcnPdu
     {
         public LLRPCommandPdu()
-           : base((int)1, 4)
+           : base((int)1, 1)
         {
             Flags = PduFlags.Extended;
         }

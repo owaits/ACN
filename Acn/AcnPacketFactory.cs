@@ -7,6 +7,7 @@ using LXProtocols.Acn.Packets.sAcn;
 using LXProtocols.Acn.IO;
 using LXProtocols.Acn.Packets.RdmNet.Broker;
 using LXProtocols.Acn.Packets.RdmNet.RPT;
+using LXProtocols.Acn.Packets.RdmNet.LLRP;
 
 namespace LXProtocols.Acn
 {
@@ -14,6 +15,11 @@ namespace LXProtocols.Acn
     {
         static AcnPacketFactory()
         {
+            AcnPduFactory e133LLRPBuilder = new AcnPduFactory(4);
+            e133LLRPBuilder.RegisterPacketType((int)LLRPProtocolIds.ProbeRequest, new AcnPacket.Builder<LLRPProbeRequestPacket>());
+            e133LLRPBuilder.RegisterPacketType((int)LLRPProtocolIds.ProbeReply, new AcnPacket.Builder<LLRPProbeReplyPacket>());
+            e133LLRPBuilder.RegisterPacketType((int)LLRPProtocolIds.RDMCommand, new AcnPacket.Builder<LLRPCommandPacket>());
+
             AcnPduFactory e131ExtendedBuilder = new AcnPduFactory();
             e131ExtendedBuilder.RegisterPacketType((int) E131Extended.Synchronization,new AcnPacket.Builder<StreamingAcnSynchronizationPacket>());
             e131ExtendedBuilder.RegisterPacketType((int) E131Extended.Discovery,new AcnPacket.Builder<StreamingAcnDiscoveryPacket>());
@@ -46,6 +52,7 @@ namespace LXProtocols.Acn
             factory.RegisterPacketType((int)ProtocolIds.RdmPacketTransfer, new AcnPacket.Builder<RdmNetRptRequestPacket>());
             factory.RegisterPacketType((int)ProtocolIds.Broker, e133BrokerBuilder);
             factory.RegisterPacketType((int)ProtocolIds.RdmPacketTransfer, e133RptBuilder);
+            factory.RegisterPacketType((int)ProtocolIds.LLRP, e133LLRPBuilder);
         }
 
         protected struct PacketKey

@@ -106,6 +106,12 @@ namespace LXProtocols.Acn.Rdm
         DNSHostName = 0x070C,
         DNSDomainName = 0x070D,
 
+        //---- Management ----
+        ComponentScope = 0x0800,
+        SearchDomain = 0x0801,
+        TCPCommsStatus = 0x0802,
+        BrokerStatus = 0x0803,
+
         //---- Control ----
         IdentifyDevice = 0x1000,
         ResetDevice = 0x1001,
