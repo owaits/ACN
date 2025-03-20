@@ -63,5 +63,14 @@ namespace LXProtocols.Acn.IO
             WriteOctet((short)value.ManufacturerId);
             WriteOctet((int)value.DeviceId);
         }
+
+        /// <summary>
+        /// Writes the specified unique ID as a CID.
+        /// </summary>
+        /// <param name="cid">The cid to write to the stream..</param>
+        public void Write(Guid cid)
+        {
+            Write(cid.ToByteArray());
+        }
     }
 }

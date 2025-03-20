@@ -48,7 +48,4 @@
   <ItemGroup>
     <None Include="AcnProjectKey.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Packets\RdmNet\LLRP\" />
-  </ItemGroup>
 </Project>

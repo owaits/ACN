@@ -38,5 +38,14 @@ namespace LXProtocols.Acn.IO
         {
             return new UId((ushort)(int)ReadOctet2(), (uint)ReadOctet4());
         }
+
+        /// <summary>
+        /// Reads the 16Bit CID into a GUID object.
+        /// </summary>
+        /// <returns>THe unique ID as a Guid.</returns>
+        public Guid ReadCID()
+        {
+            return new Guid(ReadBytes(16));
+        }
     }
 }
