@@ -342,7 +342,8 @@ namespace StreamingAcn.RdmNet
             EndpointList.Reply reply = packet as EndpointList.Reply;
             if (reply != null)
             {
-                foreach (int endpointId in reply.PhysicalEndpointIDs)
+                IEnumerable<short> allEndpointIds = reply.PhysicalEndpointIDs.Concat(reply.VirtualEndpointIDs);
+                foreach (int endpointId in allEndpointIds)
                 {
                     RdmNetEndPoint target = new RdmNetEndPoint(endpoint, endpointId) { Id = packet.Header.SourceId };
                     RegisterEndpoint(target);

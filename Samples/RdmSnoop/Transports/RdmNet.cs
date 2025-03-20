@@ -79,6 +79,10 @@ namespace RdmSnoop.Transports
 
         private void RdmNetSocket_DeviceFound(object sender, NewRdmNetDeviceEventArgs e)
         {
+            //Add the RDMNet device so we can talk to the root device.
+            NewDeviceFound(this, new DeviceFoundEventArgs(e.DeviceEndpoint.GatewayId, e.DeviceEndpoint));
+            
+            //Find all the endpoints on this device.
             DiscoverEndpoints(e.DeviceEndpoint);
         }
 
@@ -254,15 +258,16 @@ namespace RdmSnoop.Transports
             EndpointList.Reply reply = packet as EndpointList.Reply;
             if (reply != null)
             {
-                foreach(int endpointId in reply.PhysicalEndpointIDs)
+                IEnumerable<short> allEndpointIds = reply.PhysicalEndpointIDs.Concat(reply.VirtualEndpointIDs);
+                foreach (int endpointId in allEndpointIds)
                 {
                     RdmEndPoint target = new RdmEndPoint(endpoint, endpointId) { Id = packet.Header.SourceId };
                     DiscoveredEndpoints.Add(target);
 
                     EndpointResponders.Get request = new EndpointResponders.Get();
-                    request.EndpointID = (short) endpointId;
+                    request.EndpointID = (short)endpointId;
 
-                    foreach(var socket in Sockets)
+                    foreach (var socket in Sockets)
                         socket.SendRdm(request, new RdmEndPoint(endpoint, 0), packet.Header.SourceId);
                 }
             }

@@ -345,7 +345,7 @@ namespace LXProtocols.Acn.Sockets
                         if(transaction != null)
                             transactionQueue.Remove(transaction.Id);
 
-                        if (transactionQueue.Count == 0)
+                        if (transactionQueue.Count == 0 && retryTimer != null)
                             retryTimer.Change(Timeout.Infinite, Timeout.Infinite);
                     }
                 }

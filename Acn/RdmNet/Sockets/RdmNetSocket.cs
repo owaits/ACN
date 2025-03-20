@@ -133,7 +133,7 @@ namespace LXProtocols.Acn.RdmNet.Sockets
             dmxPacket.Rpt.SourceEndpointId = 0;
             dmxPacket.Rpt.DestinationId = targetAddress.GatewayId;
             dmxPacket.Rpt.DestinationEndpointId = (short) targetAddress.Universe;
-            dmxPacket.Request.RdmData = rdmData.GetBuffer();
+            dmxPacket.Request.RdmData = rdmData.ToArray();
 
             SendPacket(dmxPacket, targetAddress);
 
