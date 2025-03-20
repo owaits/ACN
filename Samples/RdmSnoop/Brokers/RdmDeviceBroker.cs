@@ -413,6 +413,13 @@ namespace RdmNetworkMonitor
                 socket.SendRdm(reset, Address, Id);
         }
 
+        public void FactoryDefaults()
+        {
+            FactoryDefaults.Set reset = new FactoryDefaults.Set();
+            foreach (var socket in sockets)
+                socket.SendRdm(reset, Address, Id);
+        }
+
         public void SelfTest()
         {
             PerformSelfTest.Set test = new PerformSelfTest.Set();

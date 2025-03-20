@@ -40,6 +40,9 @@
             this.rdmDiscoverSelect = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton4 = new System.Windows.Forms.ToolStripDropDownButton();
             this.autoInterogateSelect = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.autoRefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoRefreshSelect = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.rdmDevices = new System.Windows.Forms.TreeView();
             this.deviceInformation = new System.Windows.Forms.PropertyGrid();
@@ -70,9 +73,7 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.transactionsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.failedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.autoRefreshSelect = new System.Windows.Forms.ToolStripComboBox();
-            this.autoRefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.factoryResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -202,6 +203,31 @@
             this.autoInterogateSelect.Text = "Auto Interogate";
             this.autoInterogateSelect.Click += new System.EventHandler(this.autoInterogateSelect_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(178, 6);
+            // 
+            // autoRefreshToolStripMenuItem
+            // 
+            this.autoRefreshToolStripMenuItem.Name = "autoRefreshToolStripMenuItem";
+            this.autoRefreshToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.autoRefreshToolStripMenuItem.Text = "Auto Refresh";
+            // 
+            // autoRefreshSelect
+            // 
+            this.autoRefreshSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.autoRefreshSelect.Items.AddRange(new object[] {
+            "Off",
+            "1 Minute",
+            "5 Minutes",
+            "10 Minutes",
+            "20 Minutes",
+            "1 Hour"});
+            this.autoRefreshSelect.Name = "autoRefreshSelect";
+            this.autoRefreshSelect.Size = new System.Drawing.Size(121, 23);
+            this.autoRefreshSelect.SelectedIndexChanged += new System.EventHandler(this.autoRefreshSelect_SelectedIndexChanged);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -315,7 +341,8 @@
             // 
             this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resetTool,
-            this.selfTestTool});
+            this.selfTestTool,
+            this.factoryResetToolStripMenuItem});
             this.toolStripDropDownButton2.Image = global::RdmSnoop.Properties.Resources.Gear;
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
@@ -326,14 +353,14 @@
             // resetTool
             // 
             this.resetTool.Name = "resetTool";
-            this.resetTool.Size = new System.Drawing.Size(118, 22);
+            this.resetTool.Size = new System.Drawing.Size(180, 22);
             this.resetTool.Text = "Reset";
             this.resetTool.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // selfTestTool
             // 
             this.selfTestTool.Name = "selfTestTool";
-            this.selfTestTool.Size = new System.Drawing.Size(118, 22);
+            this.selfTestTool.Size = new System.Drawing.Size(180, 22);
             this.selfTestTool.Text = "Self Test";
             this.selfTestTool.Click += new System.EventHandler(this.selfTestTool_Click);
             // 
@@ -410,6 +437,7 @@
             // packetView
             // 
             this.packetView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.packetView.HideSelection = false;
             this.packetView.Location = new System.Drawing.Point(0, 0);
             this.packetView.MultiSelect = false;
             this.packetView.Name = "packetView";
@@ -485,30 +513,12 @@
             this.failedLabel.Size = new System.Drawing.Size(50, 17);
             this.failedLabel.Text = "Failed: 0";
             // 
-            // autoRefreshSelect
+            // factoryResetToolStripMenuItem
             // 
-            this.autoRefreshSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.autoRefreshSelect.Items.AddRange(new object[] {
-            "Off",
-            "1 Minute",
-            "5 Minutes",
-            "10 Minutes",
-            "20 Minutes",
-            "1 Hour"});
-            this.autoRefreshSelect.Name = "autoRefreshSelect";
-            this.autoRefreshSelect.Size = new System.Drawing.Size(121, 23);
-            this.autoRefreshSelect.SelectedIndexChanged += new System.EventHandler(this.autoRefreshSelect_SelectedIndexChanged);
-            // 
-            // autoRefreshToolStripMenuItem
-            // 
-            this.autoRefreshToolStripMenuItem.Name = "autoRefreshToolStripMenuItem";
-            this.autoRefreshToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.autoRefreshToolStripMenuItem.Text = "Auto Refresh";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(178, 6);
+            this.factoryResetToolStripMenuItem.Name = "factoryResetToolStripMenuItem";
+            this.factoryResetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.factoryResetToolStripMenuItem.Text = "Factory Defaults";
+            this.factoryResetToolStripMenuItem.Click += new System.EventHandler(this.factoryResetToolStripMenuItem_Click);
             // 
             // SnoopMain
             // 
@@ -589,7 +599,7 @@
         private System.Windows.Forms.ToolStripComboBox autoRefreshSelect;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem autoRefreshToolStripMenuItem;
-
+        private System.Windows.Forms.ToolStripMenuItem factoryResetToolStripMenuItem;
     }
 }
 

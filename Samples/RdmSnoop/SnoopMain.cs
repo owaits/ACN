@@ -648,6 +648,9 @@ namespace RdmSnoop
             }   
         }
 
-
+        private void factoryResetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SelectedDevice.FactoryDefaults();
+        }
     }
 }
