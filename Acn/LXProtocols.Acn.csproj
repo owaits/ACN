@@ -48,4 +48,7 @@
   <ItemGroup>
     <None Include="AcnProjectKey.snk" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Buffers" Version="4.3.0" />
+  </ItemGroup>
 </Project>
