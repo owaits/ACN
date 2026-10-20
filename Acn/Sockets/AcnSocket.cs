@@ -9,10 +9,11 @@ using LXProtocols.Acn.IO;
 using LXProtocols.Acn.Packets.sAcn;
 using System.Diagnostics;
 using System.Threading;
+using System.Buffers;
 
 namespace LXProtocols.Acn.Sockets
 {
-    public class AcnSocket:Socket
+    public class AcnSocket : Socket
     {
         /// <summary>
         /// Winsock ioctl code which will disable ICMP errors from being propagated to a UDP socket.
@@ -22,6 +23,14 @@ namespace LXProtocols.Acn.Sockets
         public const int SIO_UDP_CONNRESET = -1744830452;
 
         public event UnhandledExceptionEventHandler UnhandledException;
+
+        private static readonly ArrayPool<byte> BufferPool = ArrayPool<byte>.Shared;
+
+        private sealed class SendState
+        {
+            public Socket Socket;
+            public byte[] Buffer;
+        }
 
         #region Setup and Initialisation
 
@@ -74,7 +83,7 @@ namespace LXProtocols.Acn.Sockets
 
         public void RegisterProtocolFilter(IProtocolFilter filter)
         {
-            foreach(int protocol in filter.ProtocolId)
+            foreach (int protocol in filter.ProtocolId)
                 filters.Add(protocol, filter);
         }
 
@@ -117,7 +126,7 @@ namespace LXProtocols.Acn.Sockets
             //    for the socket with this ioctl call.
             try
             {
-                byte[] byteTrue = new byte[4] {0,0,0, 1};
+                byte[] byteTrue = new byte[4] { 0, 0, 0, 1 };
                 IOControl(SIO_UDP_CONNRESET, byteTrue, null);
             }
             catch (PlatformNotSupportedException)
@@ -133,12 +142,12 @@ namespace LXProtocols.Acn.Sockets
             Bind(localEndPoint);
 
             //Multi-cast socket settings
-            MulticastLoopback = true;            
+            MulticastLoopback = true;
             SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 1);        //Only join local LAN group.
 
             PortOpen = true;
 
-            StartRecieve(this,null);
+            StartRecieve(this, null);
         }
 
         public void StartRecieve(Socket socket, MemoryStream buffer)
@@ -204,7 +213,7 @@ namespace LXProtocols.Acn.Sockets
                 finally
                 {
                     //Attempt to recieve another packet.
-                    if(PortOpen)
+                    if (PortOpen)
                         StartRecieve(recieveState.Item1, recieveState.Item2);
                 }
             }
@@ -232,12 +241,12 @@ namespace LXProtocols.Acn.Sockets
             AcnRootLayer rootLayer = GetRootLayer();
             rootLayer.ReadData(data, TcpTraffic);
 
-            if(AllowSenderLoopback || rootLayer.SenderId != SenderId)
+            if (AllowSenderLoopback || rootLayer.SenderId != SenderId)
             {
                 IProtocolFilter filter;
                 if (filters.TryGetValue(rootLayer.ProtocolId, out filter))
                 {
-                    filter.ProcessPacket(source,rootLayer, data);
+                    filter.ProcessPacket(source, rootLayer, data);
                 }
             }
         }
@@ -252,18 +261,54 @@ namespace LXProtocols.Acn.Sockets
             //Set the senders CID.
             packet.Root.SenderId = SenderId;
 
-            MemoryStream data = new MemoryStream();
-            AcnBinaryWriter writer = new AcnBinaryWriter(data);
+            // Rent a buffer that is big enough for our packet
+            byte[] buffer = BufferPool.Rent(1024);
+            try
+            {
+                int length;
+                using (MemoryStream stream = new MemoryStream(buffer, 0, buffer.Length, true, true))
+                using (AcnBinaryWriter writer = new AcnBinaryWriter(stream))
+                {
+                    AcnPacket.WritePacket(packet, writer);
+                    length = (int)stream.Position;
+                }
 
-            AcnPacket.WritePacket(packet, writer);
+                SendState state = new SendState
+                {
+                    Socket = this,
+                    Buffer = buffer
+                };
 
-            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, destination, null, null);
+                BeginSendTo(buffer, 0, length, SocketFlags.None, destination, SendCompleted, state);
+            }
+            catch (Exception ex)
+            {
+                BufferPool.Return(buffer);
+                RaiseUnhandledException(ex);
+            }
+        }
+
+        private void SendCompleted(IAsyncResult ar)
+        {
+            SendState state = (SendState)ar.AsyncState;
+            try
+            {
+                state.Socket.EndSendTo(ar);
+            }
+            catch (Exception ex)
+            {
+                RaiseUnhandledException(ex);
+            }
+            finally
+            {
+                BufferPool.Return(state.Buffer);
+            }
         }
 
         protected void RaiseUnhandledException(Exception ex)
         {
             if (UnhandledException == null)
-                throw new ApplicationException("Exception is unhandled by user code. Please subscribe to the UnhandledException event.",ex);
+                throw new ApplicationException("Exception is unhandled by user code. Please subscribe to the UnhandledException event.", ex);
             UnhandledException(this, new UnhandledExceptionEventArgs((object)ex, false));
         }
 
