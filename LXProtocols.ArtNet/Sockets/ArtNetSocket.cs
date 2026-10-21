@@ -9,6 +9,7 @@ using LXProtocols.Acn.Packets.sAcn;
 using LXProtocols.Acn.Sockets;
 using LXProtocols.ArtNet.Packets;
 using LXProtocols.ArtNet.IO;
+using LXProtocols.Acn;
 
 namespace LXProtocols.ArtNet.Sockets
 {
@@ -174,12 +175,40 @@ namespace LXProtocols.ArtNet.Sockets
 
         public void Send(ArtNetPacket packet)
         {
-            SendTo(packet.ToArray(), new IPEndPoint(BroadcastAddress,Port));
+            byte[] buffer = null;
+            try
+            {
+                using (var stream = ArrayPoolHelper.CreateMemoryStream(1024, out buffer))
+                using (var writer = new ArtNetBinaryWriter(stream))
+                {
+                    packet.WriteData(writer);
+                    SendTo(buffer, new IPEndPoint(BroadcastAddress, Port));
+                }
+            }
+            finally
+            {
+                if (buffer != null)
+                    ArrayPoolHelper.BufferPool.Return(buffer);
+            }
         }
 
         public void Send(ArtNetPacket packet, RdmEndPoint address)
         {
-            SendTo(packet.ToArray(), new IPEndPoint(address.IpAddress, Port));
+            byte[] buffer = null;
+            try
+            {
+                using (var stream = ArrayPoolHelper.CreateMemoryStream(1024, out buffer))
+                using (var writer = new ArtNetBinaryWriter(stream))
+                {
+                    packet.WriteData(writer);
+                    SendTo(buffer, new IPEndPoint(address.IpAddress, Port));
+                }
+            }
+            finally
+            {
+                if (buffer != null)
+                    ArrayPoolHelper.BufferPool.Return(buffer);
+            }
         }
 
         public void SendRdm(RdmPacket packet, RdmEndPoint targetAddress, UId targetId)
