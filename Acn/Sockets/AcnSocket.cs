@@ -252,12 +252,50 @@ namespace LXProtocols.Acn.Sockets
             //Set the senders CID.
             packet.Root.SenderId = SenderId;
 
-            MemoryStream data = new MemoryStream();
-            AcnBinaryWriter writer = new AcnBinaryWriter(data);
+            // Rent a buffer that is big enough for our packet
+            byte[] buffer = null;
+            try
+            {
+                int length;
+                using (MemoryStream stream = ArrayPoolHelper.CreateMemoryStream(1024, out buffer))
+                using (AcnBinaryWriter writer = new AcnBinaryWriter(stream))
+                {
+                    AcnPacket.WritePacket(packet, writer);
+                    length = (int)stream.Position;
 
-            AcnPacket.WritePacket(packet, writer);
+                    SendState state = new SendState
+                    {
+                        Socket = this,
+                        Buffer = buffer
+                    };
 
-            BeginSendTo(data.GetBuffer(), 0, (int)data.Length, SocketFlags.None, destination, null, null);
+                    BeginSendTo(buffer, 0, length, SocketFlags.None, destination, SendCompleted, state);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (buffer != null)
+                    ArrayPoolHelper.BufferPool.Return(buffer);
+
+                RaiseUnhandledException(ex);
+            }
+        }
+
+        private void SendCompleted(IAsyncResult ar)
+        {
+            SendState state = (SendState)ar.AsyncState;
+            try
+            {
+                state.Socket.EndSendTo(ar);
+            }
+            catch (Exception ex)
+            {
+                RaiseUnhandledException(ex);
+            }
+            finally
+            {
+                ArrayPoolHelper.BufferPool.Return(state.Buffer);
+            }
         }
 
         protected void RaiseUnhandledException(Exception ex)
