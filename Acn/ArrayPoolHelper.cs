@@ -3,6 +3,9 @@ using System.IO;
 
 namespace LXProtocols.Acn
 {
+    /// <summary>
+    /// A helper class to make getting and using rendted <c>byte[]</c>s easier.
+    /// </summary>
     public static class ArrayPoolHelper
     {
         /// <summary>
